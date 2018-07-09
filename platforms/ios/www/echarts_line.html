@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+
+<script src="mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			.chart {
+				height: 400px;
+				width:600px;
+				margin: 0px;
+				padding: 0px;
+				margin-left:-50px;
+			}
+			h5 {
+				margin-top: 30px;
+				font-weight: bold;
+			}
+			h5:first-child {
+				margin-top: 15px;
+			}
+		</style>
+		
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav head_color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+			<h1 class="mui-title">案卷统计</h1>
+		</header>
+		<div class="container-fluid">
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll top_head">
+		
+	
+			<div class="mui-content-padded">
+			
+				<h5>本周统计</h5>
+				<div class="chart" id="barChart"></div>
+				<h5>产品统计</h5>
+				<div class="chart" id="typeChart"></div>
+				<h5>饼状统计</h5>
+				<div class="chart" id="pieChart"></div>
+			</div>
+			<div style="height:200px;line-height:200px;color:#f4f4f4">eCharts</div>
+		</div>
+		</div></div>
+		<script src="mui/libs/echarts-all.js"></script>
+		<script>
+		var date_line;
+		var date_pie;
+		$(function() {
+			
+			//初始化mui
+			mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+			/*初始化滚动条*/
+			mui('.mui-scroll-wrapper').scroll({
+		        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+		    });
+			//返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-action-back ', function(e) {
+		  		this.click();
+		  		return false;
+		  	});
+			$("#barChart").attr("style", "width:"+(document.documentElement.clientWidth+70)+"px;height:"+document.documentElement.clientHeight*0.75+"px;");
+			$("#typeChart").attr("style", "width:"+(document.documentElement.clientWidth+50)+"px;height:"+document.documentElement.clientHeight/2+"px;margin-left:-30px;");
+			$("#pieChart").attr("style", "width:"+(document.documentElement.clientWidth+50)+"px;height:"+document.documentElement.clientHeight/2+"px;margin-left:-10px;");
+			  
+			// 基于准备好的dom，初始化echarts实例
+	        var myChart = echarts.init(document.getElementById('barChart'));
+	        var typeChart = echarts.init(document.getElementById('typeChart'));
+	        var pieChart = echarts.init(document.getElementById('pieChart'));
+	        // 指定图表的配置项和数据
+	        var option = {
+	            title: {
+	                text: '统计'
+	            },
+	            tooltip : {
+			        trigger: 'axis',
+			        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+			            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+			        }
+			    },
+			    
+				legend: {
+					
+					data: ['签单量','批过量','放款量']
+				},
+			    grid: {
+			        left: '3%',
+			        right: '4%',
+			        bottom: '3%',
+			        containLabel: true
+			    },
+				toolbox: {
+					show: true,
+					feature: {
+						magicType: {
+							show: true,
+							type: ['line', 'bar']
+						},
+						restore: {
+							show: true
+						},
+						mark: {
+							show: false
+						},
+						dataView: {
+							show: false,
+							readOnly: false
+						},
+						
+						saveAsImage: {
+							show: true
+						}
+					}
+				},
+				calculable: false,
+				xAxis : [
+				         {
+				             type : 'category',
+				             data : ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+				             axisTick: {
+				                 alignWithLabel: true
+				             }
+				         }
+				     ],
+				yAxis: [{
+					type: 'value',
+					splitArea: {
+						show: true
+					},
+					 axisTick: {
+			                alignWithLabel: true
+			            }
+				}],
+	            series:  [{
+	   				 name: '签单量',
+						type: 'bar',
+						data: [20, 49, 70, 23, 25, 76, 13],
+						itemStyle:{ 
+	                        normal:{ 
+	                            label:{ 
+	                               show: true, 
+	                               formatter: '签单量 : {c}' 
+	                            }, 
+	                            labelLine :{show:true}
+	                        } 
+	                    }
+					}, {
+						name: '批过量',
+						type: 'bar',
+						data: [21, 29, 27,32, 125, 6, 39],
+						itemStyle:{ 
+	                        normal:{ 
+	                            label:{ 
+	                               show: true, 
+	                               formatter: '批过量: {c}' 
+	                            }, 
+	                            labelLine :{show:true}
+	                        } 
+	                    }
+					}, {
+						name: '放款量',
+						type: 'bar',
+						data: [30, 39, 10, 79, 52,16, 113],
+						itemStyle:{ 
+	                        normal:{ 
+	                            label:{ 
+	                               show: true, 
+	                               formatter: '放款量 : {c}' 
+	                            }, 
+	                            labelLine :{show:true}
+	                        } 
+	                    }
+					}]
+	           
+	        };
+
+	        // 使用刚指定的配置项和数据显示图表。
+	        myChart.setOption(option);
+	       	typeChart.setOption(option_type);
+	       	pieChart.setOption(option_pie);
+		});
+
+		var option_type = {
+			    title: {
+			        text: ''
+			    },
+			    tooltip: {
+			        trigger: 'axis',
+			        axisPointer: {
+			            type: 'shadow'
+			        }
+			    },
+			    legend: {
+			        data: ['签单量','批过量','放款量']
+			    },
+			    grid: {
+			        left: '3%',
+			        right: '4%',
+			        bottom: '3%',
+			        containLabel: true
+			    },
+			    xAxis: {
+			        type: 'value',
+			        boundaryGap: [0, 0.01]
+			    },
+			    yAxis: {
+			        type: 'category',
+			        splitLine: {show:false},
+			        data: ['按揭贷','房低贷','资金贷','信用贷']
+			    },
+			    series: [{
+	   				 name: '签单量',
+						type: 'bar',
+						data: [50, 30, 5, 14],
+						itemStyle:{ 
+	                        normal:{ 
+	                            label:{ 
+	                               show: true, 
+	                               formatter: '签单量 : {c}' 
+	                            }, 
+	                            labelLine :{show:true}
+	                        } 
+	                    }
+					}, {
+						name: '批过量',
+						type: 'bar',
+						data: [150, 3, 15, 24],
+						itemStyle:{ 
+	                        normal:{ 
+	                            label:{ 
+	                               show: true, 
+	                               formatter: '批过量: {c}' 
+	                            }, 
+	                            labelLine :{show:true}
+	                        } 
+	                    }
+					}, {
+						name: '放款量',
+						type: 'bar',
+						data: [60, 56, 35, 4],
+						itemStyle:{ 
+	                        normal:{ 
+	                            label:{ 
+	                               show: true, 
+	                               formatter: '放款量 : {c}' 
+	                            }, 
+	                            labelLine :{show:true}
+	                        } 
+	                    }
+					}],
+					
+			};
+		var option_pie = {
+			    tooltip: {
+			        trigger: 'item',
+			        formatter: "{a} <br/>{b}: {c} ({d}%)"
+			    },
+			    legend: {
+			        orient: 'vertical',
+			        x: 'left',
+			        data:['按揭贷','房低贷','资金贷','信用贷']
+			    },
+			    series: [
+			        {
+			            name:'产品统计',
+			            type:'pie',
+			            radius: ['50%', '70%'],
+			            avoidLabelOverlap: false,
+			            label: {
+			                normal: {
+			                    show: false,
+			                    position: 'center'
+			                },
+			                emphasis: {
+			                    show: true,
+			                    textStyle: {
+			                        fontSize: '30',
+			                        fontWeight: 'bold'
+			                    }
+			                }
+			            },
+			            labelLine: {
+			                normal: {
+			                    show: false
+			                }
+			            },
+			            data:[
+			                {value:335, name:'按揭贷'},
+			                {value:310, name:'房低贷'},
+			                {value:234, name:'资金贷'},
+			                {value:135, name:'信用贷'}
+			            ],itemStyle:{ 
+	                        normal:{ 
+	                            label:{ 
+	                               show: true, 
+	                               formatter: '{b}: {c} ' 
+	                            }, 
+	                            labelLine :{show:true}
+	                        } 
+	                    }
+			        }
+			    ]
+			};
+		</script>
+	</body>
+
+</html>

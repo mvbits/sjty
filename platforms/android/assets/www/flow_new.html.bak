@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title></title>
+		<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+		<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+		
+	
+		
+		<!-- select 样式  -->
+
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.easydropdown.js"></script>
+		<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+		<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-size: 14px;
+  text-align: center;
+}
+
+.inliner {
+  height: 100%;
+}
+
+.inliner,
+.inliner + .inlined {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.inlined {
+  width:100%;
+  overflow-x:scroll;
+  dispaly:inline;
+  white-space:nowrap;
+  margin-top:10px;
+}
+
+.progress-meter {
+  margin: 20px auto 40px;
+  padding: 40px;
+}
+
+.progress-meter {
+  counter-reset: point;
+}
+.progress-meter .progress-point:before {
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+  -webkit-border-radius: 24px;
+  -moz-border-radius: 24px;
+  -ms-border-radius: 24px;
+  -o-border-radius: 24px;
+  border-radius: 24px;
+  -webkit-box-shadow: 0 0 0 2px white;
+  -moz-box-shadow: 0 0 0 2px white;
+  box-shadow: 0 0 0 2px white;
+  content: "\2713";
+  display: block;
+  width: 24px;
+  height:24px;
+  margin: 0 auto 12px;
+  border: 4px solid 	#aaaaaa;
+  text-align: center;
+  background-color: white;
+  color: white;
+}
+.progress-meter .track {
+  position: relative;
+  height: 4px;
+  width:200%;
+  background: #dddddd;
+}
+.progress-meter .progress {
+  -webkit-transition: width 1s;
+  -moz-transition: width 1s;
+  -o-transition: width 1s;
+  transition: width 1s;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 4px;
+  background: 	#8E8E8E;
+}
+.progress-meter .progress-points {
+  position: relative;
+  margin: -14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progress-meter .progress-point {
+  -webkit-transition: color 1s;
+  -moz-transition: color 1s;
+  -o-transition: color 1s;
+  transition: color 1s;
+  position: absolute;
+  display: block;
+  width: 100px;
+  margin-left: -50px;
+  text-align: center;
+  cursor: pointer;
+  color: #999;
+}
+.progress-meter .progress-point.completed, .progress-meter .progress-point.active {
+  color: #00BB00;
+}
+.progress-meter .progress-point.completed:before {
+  border-color: #00BB00;
+  background-color: #00BB00;
+}
+.progress-meter .progress-point.active:before {
+  -webkit-transition-delay: 1s;
+  -moz-transition-delay: 1s;
+  -o-transition-delay: 1s;
+  transition-delay: 1s;
+  border-radius: 32px;
+   margin-top: -12px;
+   width: 32px;
+  height:32px;
+  border-color: #A23400;
+}
+.progress-meter .progress-point .label:before {
+  counter-increment: point;
+  content: counter(point) ". ";
+  /* Display the counter */
+}
+
+.controls {
+  text-align: center;
+  font-size: 12px;
+}
+
+.trigger {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 6px 8px;
+  border: none;
+  font: 14px inherit;
+  text-shadow: 0px 1px 1px rgba(251, 251, 251, 0.75);
+  color: #626262;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bbbbbb), color-stop(100%, #959595));
+  background-image: -webkit-linear-gradient(#bbbbbb, #959595);
+  background-image: -moz-linear-gradient(#bbbbbb, #959595);
+  background-image: -o-linear-gradient(#bbbbbb, #959595);
+  background-image: linear-gradient(#bbbbbb, #959595);
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  var $point_arr, $points, $progress, $trigger, activate, active, max, tracker, val;
+
+  $trigger = $('.trigger').first();
+
+  $points = $('.progress-points').first();
+
+  $point_arr = $('[data-point]');
+
+  $progress = $('.progress').first();
+
+  val = parseInt($points.data('current')) - 1;
+
+  max = $point_arr.length - 1;
+
+  tracker = active = 0;
+
+  activate = function(index) {
+    if (index !== active) {
+      active = index;
+      $point_arr.removeClass('completed active');
+      $point_arr.slice(0, index).addClass('completed');
+      $point_arr.eq(active).addClass('active');
+     if( index > 0 ){
+		//			document.getElementById('inlined').scrollLeft = document.getElementById('step'+index).offsetLeft - 120;
+			//		alert(document.getElementById('step'+index).offsetLeft);
+				}
+		//	alert(document.getElementById('inlined').scrollLeft);
+		//	alert(screen.width);
+      return $progress.css('width', (index / max * 200) + "%"); 
+ //    return $progress.css('width', (index / 11) * 3360);
+    }
+  };
+
+  $points.on('click', 'li', function(event) {
+    var _index;
+    _index = $point_arr.index(this);
+    tracker = _index === 0 ? 1 : _index === val ? 0 : tracker;
+    return activate(_index);
+  });
+
+  $trigger.on('click', function() {
+    return activate(tracker++ % 2 === 0 ? 0 : val);
+  });
+
+  setTimeout((function() {
+    return activate(val);
+  }), 1000);
+
+});
+
+</script>
+
+			
+	</head>
+	<body style="background:#0066CC;overflow:auto;">
+<div class="inliner"></div>
+<div class="inlined" id="inlined">
+  <div class="progress-meter">
+    <div class="track"><!--控制初始化白条的属性-->
+      <span class="progress"></span>
+    </div>
+    <ol class="progress-points" data-current="4">
+      <li class="progress-point" data-point="1" style="left: 0%" id="step0">
+        <span class="label" style="color:#000000">需求</span>
+      </li>
+      <li class="progress-point" data-point="2" style="left: 20%" id="step1">
+        <span class="label" style="color:#000000">设计</span>
+      </li>
+      <li class="progress-point" data-point="3" style="left: 40%" id="step2">
+        <span class="label" style="color:#000000">开发</span>
+      </li>
+      <li class="progress-point" data-point="4" style="left: 60%" id="step3">
+        <span class="label" style="color:#000000">test</span></li>
+      <li class="progress-point" data-point="5" style="left: 80%" id="step4">
+        <span class="label" style="color:#000000">发布</span>
+      </li>
+      <li class="progress-point" data-point="6" style="left: 100%" id="step5">
+        <span class="label" style="color:#000000">发布</span>
+      </li>
+      <li class="progress-point" data-point="7" style="left: 120%" id="step6">
+        <span class="label" style="color:#000000">发布</span>
+      </li>
+      <li class="progress-point" data-point="8" style="left:140%" id="step7">
+        <span class="label" style="color:#000000">发布</span>
+      </li>
+      <li class="progress-point" data-point="9" style="left:160%" id="step8">
+        <span class="label" style="color:#000000">发布</span>
+      </li>
+      <li class="progress-point" data-point="10" style="left:180%" id="step9">
+        <span class="label" style="color:#000000">发布</span>
+      </li>
+            <li class="progress-point" data-point="11" style="left:200%" id="step10">
+        <span class="label" style="color:#000000">发布</span>
+      </li>
+    </ol>
+  </div>
+</div>
+	</body>
+</html>

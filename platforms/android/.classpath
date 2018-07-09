@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="libs/com.gznt.dev.jar"/>
+	<classpathentry kind="lib" path="libs/com.gznt.pub.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/sjty/platforms/android/libs/android-async-http-1.4.5.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/sjty/platforms/android/libs/jcore-android_v1.1.3.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/sjty/platforms/android/libs/jpush-android_v3.0.6.jar"/>
+	<classpathentry kind="lib" path="libs/libammsdk.jar"/>
+	<classpathentry kind="lib" path="libs/wechat-sdk-android-with-mta-1.0.2.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

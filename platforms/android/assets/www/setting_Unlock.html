@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+
+           
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #f3f3f3;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+.mui-locker {
+				margin: 35px auto;
+				display: block;
+			}
+</style> 
+
+</head>
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", initial);
+function initial() {
+	
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+
+	
+};
+</script>
+<body style="background:#f4f4f4;">
+
+	<header class="mui-bar mui-bar-nav head_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title">设置锁屏图案</h1>
+	</header>
+	
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="mui-content-padded" style="margin-top:25px;">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">
+						使用手势解锁
+						<div id="lockState" class="mui-switch">
+							<div class="mui-switch-handle"></div>
+						</div>
+					</li>
+				</ul>
+				<div class="mui-locker" data-locker-width='320' data-locker-height='320' data-locker-options='{"ringColor":"rgba(221,221,221,1)","fillColor":"#ffffff","pointColor":"rgba(0,136,204,1)","lineColor":"rgba(0,136,204,1)"}'>
+				</div>
+				<p id="info" style="text-align:center">请输入手势</p>
+			</div>
+			
+			
+		</div>
+	
+</body>
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/mui.locker.js"></script>
+<script type="text/javascript">
+
+
+(function($, doc) {
+	$.init();
+	$.ready(function() {
+		//var settings = get_settings();
+		var lockStateButton = doc.getElementById("lockState");
+		var locker = doc.querySelector('.mui-locker');
+		
+	//	lockStateButton.classList[settings.gestures ? 'add' : 'remove']('mui-active')
+	//	locker.style.display = settings.gestures ? 'block' : 'none';
+	
+		lockStateButton.addEventListener('toggle', function(event) {
+			var isActive = event.detail.isActive;
+		//	alert(isActive);
+			if (!isActive) {
+				top.Settings.loginMode = 'pass';
+			}else{
+				top.Settings.loginMode = 'lock';
+			}
+			top.writelog("loginmode="+settings.loginMode);
+		}, false);
+		
+		var info = doc.querySelector('#info');
+		var record = [];
+		locker.addEventListener('done', function(event) {
+			var rs = event.detail;
+			top.writelog("rs.points="+JSON.stringify(rs.points));
+			if (rs.points.length < 4) {
+				//mui.toast('设定的手势太简单了');
+				info.style.color = '#f50';  
+				info.innerText = '设定的手势太简单了'; 
+				record = [];
+				rs.sender.clear();
+				return;
+			}
+			
+			record.push(rs.points.join(''));
+			if (record.length >= 2) {
+				if (record[0] == record[1]) {
+				//	mui.toast('解锁手势设定成功，以后用户只需使用手势解锁而无需输入密码登录。');
+					info.style.color = '#f50';  
+					info.innerText = '解锁手势设定成功，以后用户只需使用手势解锁而无需输入密码登录。'; 
+					top.Settings.gestures = record[0];
+					//settings.autoLogin = true;
+					set_settings(top.Settings);
+					
+					setTimeout(function() {
+						
+						back_history();
+					}, 200);
+				} else {
+				//	mui.toast('两次手势不一致,请重新设定');
+					info.style.color = '#f50';  
+					info.innerText = '两次手势不一致,请重新设定'; 
+				}
+				rs.sender.clear();
+				record = [];
+			} else {
+				//mui.toast('请确认手势设定');
+				info.style.color = '#f50';  
+				info.innerText = '请确认手势设定';
+				rs.sender.clear();
+			}
+		}, false);
+	});
+}(mui, document));
+</script>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+
+           
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #f3f3f3;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+.mui-slider-item{
+	padding:10px;
+	
+}
+.mui-slider-item img{
+	border-radius: 5px;
+	height:50vw;
+}
+.icon {
+	/* 通过设置 font-size 来改变图标大小 */
+	width: 1.5em; height: 1.5em;
+	/* 图标和文字相邻时，垂直对齐 */
+	vertical-align: -0.25em;
+	/* 通过设置 color 来改变 SVG 的颜色/fill */
+	fill: currentColor;
+	/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+	   normalize.css 中也包含这行 */
+	overflow: hidden;
+}
+.mui-grid-view li{
+	margin-top:-5px;
+	height:45px;
+	color:#8e8e8e;
+}
+.mui-media img{
+	width:40px;
+	height:40px;
+}
+.check-active{
+	background:#8e8e8e;
+}
+
+.mui-radio p{
+	padding-top:5px;
+	font-size:10px;
+	color:#007aff;
+}
+</style> 
+
+</head>
+
+<body style="background:#f4f4f4;">
+	<header class="mui-bar head_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title">我的权益</h1>
+	</header>
+
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll" style="margin-top:75px;background:#fafafa;">
+			<div class="mui-content-padded" style="margin-top: 5px;">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>姓名</label>
+						<input type="text" placeholder="次数" id="username" readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>区域</label>
+						<input type="text" placeholder="次数" id="area" readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>级别</label>
+						<input type="text" placeholder="次数" id="partner_level" readonly="readonly">
+					</div>	
+		
+				
+				</form>
+			</div>
+			<div class="mui-content-padded" style="margin-top: 25px;">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>加入时间</label>
+						<input type="text" placeholder="次数" id="add_time" readonly="readonly">
+					</div>	
+					<div class="mui-input-row">
+						<label>到期时间</label>
+						<input type="text" placeholder="到期时间" id="end_time" readonly="readonly">
+					</div>
+				</form>
+			</div>
+			<div class="mui-content-padded" style="margin-top: 25px;">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>抵扣余额</label>
+						<input type="text" placeholder="次数" id="discount" readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>金融培训</label>
+						<input type="text" placeholder="次数" id="finance_train" readonly="readonly">
+					</div>	
+					<div class="mui-input-row">
+						<label>经纪人培训</label>
+						<input type="text" placeholder="次数" id="trainee_broker" readonly="readonly">
+					</div>		
+					<div class="mui-input-row">
+						<label>分红比例</label>
+						<input type="text" placeholder="按比例分红" id="receive_dividents" readonly="readonly">
+					</div>			
+				</form>
+			</div>
+
+			<div class="mui-content-padded" style="margin-top: 5px;" onclick="top.call_server()">
+
+				<form class="mui-input-group">						
+					<div class="mui-input-row">
+						<label>联系商户</label>						
+						<a href="#account" class="mui-navigate-right"></a>							
+					</div>
+	
+				</form>
+			</div>
+
+			<div class="div_footer">————  世纪源金融服务  ————</div>
+		</div>
+
+
+		</div>
+
+	
+</body>
+<script type="text/javascript">
+var level = 1;
+var area = ["远郊",
+            "中心城区"];
+var partner_level = ["您还不是合伙人",
+                     "金牌合伙人",
+                     "白金合伙人",
+                     "钻石合伙人"];
+$(function() {
+	
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+	//合伙人相关信息
+	
+	var vip_info = JSON.parse(localStorage.getItem("vip_info"));
+
+    //解包
+    for(var key in vip_info){
+        if(vip_info[key]==''){
+        continue;
+        }
+        //选择项，需要根据代码做转换
+        if(key  == 'area'){
+          	$("#"+key).val(area[vip_info[key]]);
+        }else if(key  == 'partner_level'){
+        	$("#"+key).val(partner_level[vip_info[key]]);
+        }else{       
+            $("#"+key).val(vip_info[key]);
+        }
+    
+    }
+    
+	//根据合伙人级别展示不同信息
+	if(vip_info.partnerLevel == '0'){
+		$("#vip_level").val("您还不是合伙人");
+		$("#discount").val('充值享受更多优惠');
+	
+	}else{
+		if(vip_info.partnerLevel == '1'){
+			$("#vip_level").val("金牌合伙人");			
+			//$("#head-img").attr("src", "img/level1.png");
+		}else if(vip_info.partnerLevel == '2'){
+			$("#vip_level").val("白金合伙人");			
+			//$("#head-img").attr("src", "img/level2.png");
+		}if(vip_info.partnerLevel == '3'){
+			$("#vip_level").val("钻石合伙人");			
+			//$("#head-img").attr("src", "img/level3.png");
+		}
+		
+		$("#discount").val(vip_info.discount+'抵扣次数');	
+	}
+	$("#finance_train").val(vip_info.finance_train+'次');
+	$("#trainee_broker").val(vip_info.trainee_broker+'次');
+	$("#username").val(localStorage.getItem("username"));
+	
+	$("input").attr("style", "text-align:right;");
+	
+});
+
+
+</script>
+</html>

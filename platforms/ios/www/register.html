@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title></title>
+                <link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+                    <link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+                        <link rel="stylesheet" href="mui/css/mui.min.css">
+                            <!--App自定义的css-->
+                            <link rel="stylesheet" href="mui/css/app.css" />
+                           
+                            
+                            <script src="mui/js/mui.min.js"></script>
+                            <script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+                            <script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.js"></script>
+                            <script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+                            <script type="text/javascript" src="js/jquery.md5.js"></script>
+                            <script type="text/javascript" src="js/index.js"></script>
+                            
+                            <style type="text/css">
+                                html, body {
+                                    position: relative;
+                                    height: 100%;
+                                }
+                            
+                            body {
+                                background: #fff;
+                                font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+                                font-size: 14px;
+                                color: #000;
+                                margin: 0;
+                                padding: 0;
+                                overflow: auto;
+                            }
+                            
+                            .contentNav p {
+                                padding-top: 10px;
+                                text-align: center;
+                                font-size: 18px;
+                                color: #000000;
+                            }
+                            .mui-input-row label {
+                                font-weight:normal;
+                            }
+                            .mui-input-row input {
+                                color: #8e8e8e;
+                            }
+                            </style>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", initial);
+                                function initial() {
+                                    top.check_hide();
+                                    mui.init({
+                                             swipeBack:true //启用右滑关闭功能
+                                             });
+                                             mui('.mui-scroll-wrapper').scroll({
+                                                                               deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+                                                                               });
+                                                                               //返回键 tap事件监听
+                                                                               mui(document.body).on('tap', '.mui-action-back ', function(e) {
+                                                                                                     this.click();
+                                                                                                     return false;
+                                                                                                     });
+                                }
+                            
+                            //获取手机验证码
+                            function sjyzm(){
+                                var userid = $("#telno").val();
+                                //验证手机号格式
+                                if (!PhoneNoCheck(userid)) {
+                                    return;
+                                }
+                                new invokeSettime("#button_code");
+                                
+                                $("#button_code").attr("disabled", true);
+                                var data = {
+                                    userid : userid
+                                }
+                      
+                                $.ajax({
+                                       type : "post",
+                                       url: "http://www.sjyjr.net/app/6003",
+                                       data : data,
+                                       datatype : "json",
+                                       success : function(msg) {
+                                       top.alertInfo('获取验证码成功，请查收短信');
+                                      // yzms.setAttribute("style", "background-color: #C4C400;");
+                                       },
+                                       error:function(msg){
+                                       top.alertInfo('注册失败');
+                                       }
+                                       });
+                                         
+                                         
+                                              
+                            }
+                            
+                            var countdown=60;
+                            /*获取验证码按钮倒计时*/
+                            function invokeSettime(obj){
+                                countdown=60;
+                                settime(obj);
+                                function settime(obj) {
+                                    if (countdown == 0) {
+                                        $(obj).attr("disabled",false);
+                                        $(obj).text("获取验证码");
+                                        countdown = 60;
+                                        return;
+                                    } else {
+                                        $(obj).attr("disabled",true);
+                                        $(obj).text("(" + countdown + ") s 重新发送");
+                                        countdown--;
+                                    }
+                                    setTimeout(function() {
+                                               settime(obj) }
+                                               ,1000)
+                                }
+                            }
+                            
+                            
+                            //修改密码
+                            function register(){
+                                
+  
+                                var telno = $("#telno").val();//手机号
+                                var idcode = $("#idcode").val();//验证码
+                                
+                                var username = $("#username").val();//姓名
+                                var idno = $("#idno").val();//新密码
+                                var password = $("#password").val();//再次输入密码
+                                var password2 = $("#password2").val();//再次输入密码
+                                var areano = $("#areano").val();//再次输入密码
+                                
+                                top.writelog("1----");
+                                if (telno == '') {
+                                    top.alertInfo('申请人手机号不能为空', '', '温馨提示', '确认');
+                                    return;
+                                }
+                                if (idcode == '') {
+                                    top.alertInfo('验证码不能为空', '', '温馨提示', '确认');
+                                    return;
+                                }
+                                 top.writelog("2----");
+                                if (username == '') {
+                                    top.alertInfo('申请人姓名不能为空', '', '温馨提示', '确认');
+                                    return;
+                                }
+                                if (idno == '') {
+                                    top.alertInfo('证件号不能为空', '', '温馨提示', '确认');
+                                    return;
+                                }
+                                 top.writelog("3----");
+                                if (password == '') {
+                                    top.alertInfo('密码不能为空', '', '温馨提示', '确认');
+                                    return;
+                                }
+                                if (password2 == '') {
+                                    top.alertInfo('请再次输入密码', '', '温馨提示', '确认');
+                                    return;
+                                }
+                                 top.writelog("4----");
+                                if (password != password2) {
+                                    top.alertInfo('两次密码输入的不一致', '', '温馨提示', '确认');
+                                    return;
+                                }
+                                if (areano == '') {
+                                    top.alertInfo('请输入区域编码', '', '温馨提示', '确认');
+                                    return;
+                                }
+                                 top.writelog("5----");
+                                //验证手机号格式
+                                if (!PhoneNoCheck(telno)) {
+                                    return;
+                                }
+                                
+                                //判断身份证号是否合法
+                                var sfzh=isCardID(idno);
+                                if (sfzh) {
+                                    top.alertInfo(sfzh);
+                                    return;
+                                }
+                                var data={};
+                                data.userid = telno;
+                                data.yzm = idcode;
+                                data.username = username;
+                                data.cerdno = idno;
+                                data.password = $.md5(password);
+                                
+                                
+                                $.ajax({
+                                       type : "post",
+                                       url: "http://www.sjyjr.net/app/6002",
+                                       data : data,
+                                       datatype : "json",
+                                       success : jugelog,
+                                       error:function(msg){
+                                       
+                                       IosAlert.alert('注册失败');
+                                       }
+                                       });
+                       
+                                top.writelog("7----");
+                                top.http_comm("app8001", data, function(msg) {
+                                              top.writelog("recv 8001:" + msg);
+                                              var json = eval("(" + msg + ")");
+                                              if (json.data.retcode == "0000") {
+                                              top.alertInfo('注册成功');
+                                              localStorage.setItem("userid", telno);
+                                              localStorage.setItem("passwd", password);
+                                              back_history();
+                                          //    top.setUserinfo();
+                                              } else {//登录失败
+                                              top.alertInfo('注册失败:'+json.data.retinfo);
+                                              }
+                                              });
+                            }
+                            
+                            function re(){
+                                var acount = localStorage.getItem("acount");
+                                if(acount == '1'){
+                                    parent.hideFrame('smask');
+                                }else{
+                                    hideFrame('smask');
+                                }
+                                top.checklogin();
+                            }
+                            </script>
+    </head>
+    <body>
+        <header class="mui-bar mui-bar-nav head_color">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"
+                onclick="re();"></a>
+            <h1 class="mui-title">注册帐号</h1>
+        </header>
+        <div class="container-fluid">
+            <div class="mui-content mui-scroll-wrapper">
+                <div class="mui-scroll-wrapper">
+                    <div class="mui-scroll top_head">
+                        <!--内容开始 -->
+                        
+                        <form class="mui-input-group">
+                            <div class="mui-input-row">
+                                <label>手机号</label> <input type="text" id="telno"
+                                placeholder="请输入您的手机号码" maxlength=11 />
+                            </div>
+                        </form>
+                        <div class="contentNav2"></div>
+                        <div
+                            style="margin-top: 10px; text-align: center; margin-bottom: 10px;">
+                            <button type="button" class="mui-btn  mui-btn-primary"
+                                style="width: 65%" onclick = "sjyzm();" id="button_code">获取验证码</button>
+                        </div>
+                        <div class="contentNav2"></div>
+                        <form class="mui-input-group">
+                            <div class="mui-input-row">
+                                <label>验证码</label> <input type="text" id="idcode"
+                                placeholder="请输入短信验证码" />
+                            </div>
+                        </form>
+                        <div class="contentNav2"></div>
+                        <form class="mui-input-group">
+                            <div class="mui-input-row">
+                                <label>真实姓名</label> <input type="text" id="username"
+                                placeholder="请输入您的真实姓名" />
+                            </div>
+                            <div class="mui-input-row">
+                                <label>证件号</label> <input type="text" id="idno"
+                                placeholder="请输入您的有效证件"
+                                onKeyUp="value=value.replace(/[\W]/g,'');"
+                                onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" maxlength=18 />
+                            </div>
+                        </form>
+           
+                        <div class="contentNav2"></div>
+                        <form class="mui-input-group">
+                            <div class="mui-input-row">
+                                <label>密码</label> <input type="password" id="password"
+                                class="mui-input-password" placeholder="密码不得低于6位" />
+                            </div>
+                            <div class="mui-input-row">
+                                <label>确认密码</label> <input type="password" id="password2"
+                                class="mui-input-password" placeholder="密码不得低于6位" />
+                            </div>
+                        </form>
+                        <div
+                            style="margin-top: 10px; text-align: center; margin-bottom: 300px;"
+                            onclick="register();">
+                            <button type="button" class="mui-btn  mui-btn-primary"
+                                style="width: 65%">注册</button>
+                        </div>
+                        <div class="contentNav4"></div>
+                        <!--内容结束-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    
+</html>
+

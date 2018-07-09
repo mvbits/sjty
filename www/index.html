@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script type="text/javascript" src="js/jquery.md5.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+	</head>
+	<style>
+	/*--正在加载--*/
+	.showframe{
+				width: 100%;
+				height: 100%;
+				border: none;
+				display: none;
+			}
+
+
+
+body { 
+margin: 0; 
+padding: 0; 
+background-attachment: fixed; /* prevent screen flash in IE6 */ 
+} 
+div,ul{margin: 0;padding: 0;} 
+
+
+    
+    .div_process{
+       
+        z-index:9999;background-color:#FFF0F5; width:100%; height:50px; position: fixed;  top:300px;text-align:center;
+        
+    }
+    
+    .div_back{
+        
+        z-index:9998;background-color:rgba(255,00,255,0.1);width:100%;height:100%;position: fixed;top:0px;
+    }
+    .div_login{
+        
+        z-index:9998;background-image:Url('img/bj2.png');background-size:100% 100%;overflow:hidden;width:100%;height:100%;position: fixed;top:0px;
+    }
+    .upload_process_bar{
+        width:100%;
+        border:#ccc 1px solid;
+        height:10px;
+        padding:1px;
+        background:#fff;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+        border-radius:10px;
+        display:none;
+    }
+    .upload_current_process{
+        height:10px;
+        width:0%;
+        background:#00FF00;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+        border-radius:10px;      
+    }
+
+    nav ul li {
+        width: 25%;
+        float: left;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
+        background-color:#f4f4f4;
+        
+    }
+    .inp_text_new {
+        border: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
+        outline:none;
+        /* line-height: 35px !important; */
+        height:40px !important;
+        color: #f3f3f3 !important;
+        width: 65%  !important;
+        font-size: 0.8em;
+        margin-top: 3px;
+        margin-left:10px;
+        height:95%;
+        vertical-bottom:0;
+    }
+    
+    #footer{
+        
+        text-align: center;
+        bottom: 5px;
+        position: absolute;
+        width: 100%;
+    }
+    #footer a{
+    	height:20px;
+    	line-height:15px;
+    	font-size:14px;
+        color:#555;
+    }
+.login_active{
+	background: #3fb9ff;
+	font-size: 18px;
+	outline: none;
+	color: white;
+	background: -webkit-linear-gradient(#3fb9ff, #099be7, #229de3);
+	background: -o-linear-gradient(#3fb9ff, #099be7, #229de3);
+	background: -moz-linear-gradient(#3fb9ff, #099be7, #229de3);
+	background: linear-gradient(#3fb9ff, #099be7, #229de3);
+	border-radius: 10px;
+}
+.login{
+	background-color:rgba(51,51,51,0.3);
+}
+.red_div{
+	float:right;
+	height:60px;
+	padding-top:10px;	
+	line-height:40px;
+	width:60px;
+	font-size:14px;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	border-radius:120px;
+	box-shadow: 0 0 3px #222;
+	background: #8e8e8e;
+	color: #333;
+}
+.mui-locker {
+				margin: 35px auto;
+				display: block;
+			}
+    </style>
+    
+    <script type="text/javascript">
+	var cpjs_data;
+	var wdjrxq_data;
+	var didian="";//所在地区
+	var uu_id;
+	var bottomNav_H,top_H=50;
+	var win_H=document.documentElement.clientHeight;
+	var title="世纪源金融";
+	var overlay_type; //1-银行网点 2-自助设备 3-助农取款
+	var intervalid;
+	var citycode;
+	var spacing;
+	var wdh;
+    var Obj;
+	var top2;
+	var top3;
+	var top4;
+    var screenWidth;
+    var screenHeight;
+	var tx_flag=0;
+    var imageCount = 0;
+    var errCount = 0;
+    var DEBUG=true;
+   	var items = [];
+	var pagearr=[];
+
+    var level = 0;
+    var userid;
+    var password;
+    var bills_json = {};//账单临时存放点
+    var sessionid;
+    var Settings={};
+    var flag_mode = 0;
+    var comm_url = "139.224.70.151:8888";//for test
+	//var comm_url = "139.224.70.151:9999";//for produce
+    var imgpath="http://"+comm_url+"/static/";
+    var productPath = "http://"+comm_url+"/static/product/";
+    var productClassPath = "http://"+comm_url+"/static/productClass/";
+	document.addEventListener("DOMContentLoaded", initial);
+	function initial() {
+		
+		/*是否登录 0-未登录 1-已登录*/
+
+
+		localStorage.setItem("acount", "0");
+		localStorage.setItem("count_w", "0");
+      
+		 $("#login_div").attr("style", "margin-top:"+window.screen.availHeight*0.4+"px;");
+	
+
+		localStorage.setItem("pagenum",'0');
+		localStorage.setItem("pageimgnum",'0');
+        screenWidth = window.screen.availWidth;
+        screenHeight = window.screen.availHeight;
+		localStorage.setItem("host_show", "1");
+		localStorage.setItem("camera_flag", "0");
+		localStorage.setItem("cpjs_flag", "0");
+		localStorage.setItem("dbtx_flag", "0");
+		localStorage.setItem("mflag2", "0");
+		localStorage.setItem("mflag3", "0");
+		localStorage.setItem("mflag4", "0");
+		localStorage.setItem("count_wd", "0");
+		localStorage.setItem("account_c", "0");
+        localStorage.setItem("info_flag","1");
+
+		Settings = get_settings();
+		
+		if(isEmptyObject(Settings)){//不存在settings;
+			var obj = {};
+			obj.loginState = false;//登陆状态
+			obj.autoLogin = false;//是否自动登陆
+			obj.loginMode = 'pass';//'pass'-用户密码 'lock'-手势
+			obj.gestures = {}; //手势密码
+			obj.userId = ''; //用户名
+			obj.passWd = '';//密码
+			Settings = obj;
+			set_settings(Settings);
+		}else{
+
+			//登陆方式判断
+	        if(Settings.loginMode == 'pass'){
+	        	flag_mode = 0;
+	        	$(".mui-pull-right").removeClass('icon-jianpan');
+	        	$(".mui-pull-right").addClass('icon-shoushi');
+	    		
+	        }else{
+	        	flag_mode = 1;
+	        	$(".mui-pull-right").removeClass('icon-shoushi');
+	    		$(".mui-pull-right").addClass('icon-jianpan');
+	        }
+	        if(Settings.autoLogin){
+	        	$("input[type=checkbox]").attr("checked", "checked");
+	        	//账号密码自动填充
+		        if(!isEmpty(Settings.userId)){
+		        	$("#userid").val(Settings.userId);	        	
+		        	$("#mm").val(Settings.passWd);
+		        	
+		        	if(Settings.autoLogin){
+		        		
+		        		login();
+		        	}
+		        }
+	        }
+	        
+		}
+
+    }
+
+	function isEmptyObject(e) {  
+	    var t;  
+	    for (t in e)  
+	        return !1;  
+	    return !0  
+	} 
+
+    function call_phone(phoneno){
+       // NTContacts.call(null,null,phoneno);
+       CallPhone.show(phoneno);
+    }
+    function call_server(){
+        // NTContacts.call(null,null,phoneno);
+        CallPhone.show("联系方式:82282029");
+    }
+    function start_process(){
+        //MyProcess.start();
+        NTUI.beginLoaded();
+        
+        setTimeout(NTUI.onLoaded(), 3000);
+        
+    }
+    
+    function stop_process(){
+        NTUI.onLoaded();
+        //MyProcess.stop();
+    }
+
+    function dbaj_fresh(){
+        
+        mainFrame2.window.initPage();
+    }
+
+
+    
+
+    //alert
+    function alertInfo(message){
+    	navigator.notification.alert(message, null, "世纪源金融", "确定");
+
+    }
+    //confirm
+    function confirmInfo(message, resultCallback){
+    	navigator.notification.confirm(message, resultCallback, "世纪源金融", ["确定","取消"]);
+    }
+    
+
+
+    function onDeviceReady() {
+    	 
+        pictureSource = navigator.camera.PictureSourceType;
+ 
+        destinationType = navigator.camera.DestinationType;
+ 
+    }
+    function onPhotoURISuccess(imageURI) {
+    	 
+    	 
+        var largeImage = document.getElementById('largeImage');
+ 
+ 
+        largeImage.style.display = 'block';
+ 
+
+        largeImage.src = imageURI;
+        
+ 
+    }
+    function capturePhotoOcr(resultCallback) {
+        
+        // Take picture using device camera and retrieve image as base64-encoded string
+        
+        navigator.camera.getPicture(function(msg){
+                                 //   getOcr(msg,resultCallback);
+                                  //  writelog("imgurl=["+msg+"]");
+                                    var data={
+                                    'key':'dad0a4c6e5f5997b8ec3a98893cfcedf',
+                                    'image':msg,
+                                    'side':'front'
+                                    }
+                                    //获取OCRAPI
+                                    $.ajax({
+                                           type : "post",
+                                           timeout: 10000,
+                                           url: "http://apis.juhe.cn/idimage/verify",
+                                           data : data,
+                                           datatype : "json",
+                                           success : function(msg){
+                                           
+                                           writelog("ocr recv:"+JSON.stringify(msg));
+                                           
+                                           },
+                                           error:function(msg){
+                                           writelog("orc fail="+msg);
+                                           writelog("ocr fail:"+msg.reason+"errcode:"+msg.error_code);
+                                           
+                                           }
+                                           });
+                                    }, onFail, {
+                                    
+                                    quality : 50,
+                                    
+                                    //destinationType : navigator.camera.DestinationType.FILE_URI,//这里要用FILE_URI，才会返回文件的URI地址
+                                    
+                                    destinationType : Camera.DestinationType.DATA_URL,
+                                    
+                                    sourceType : Camera.PictureSourceType.CAMERA,
+                                    
+                                    allowEdit : false,
+                                    
+                                    encodingType : Camera.EncodingType.PNG,
+                                    
+                                    popoverOptions : CameraPopoverOptions,
+                                    
+                                    saveToPhotoAlbum : false
+                                    
+                                    });
+                                    
+    }
+
+    function getOcr(imgurl, resultCallback){
+        writelog("imgurl="+imgurl);
+        var data={
+            key:'dad0a4c6e5f5997b8ec3a98893cfcedf',
+            image:imgurl,
+            side:'front'
+        }
+        //获取OCRAPI
+        $.ajax({
+               type : "post",
+               timeout: 10000,
+               url: "http://apis.juhe.cn/idimage/verify",
+               data : data,
+               datatype : "json",
+               success : function(msg){
+            
+               writelog("ocr recv:"+JSON.stringify(msg));
+           
+               },
+               error:function(msg){
+               
+               writelog("ocr fail:"+JSON.stringify(msg));
+               
+               }
+               });
+    
+    }
+ 
+    function capturePhoto(resultCallback) {
+ 
+        // Take picture using device camera and retrieve image as base64-encoded string
+ 
+        navigator.camera.getPicture(resultCallback, onFail, {
+ 
+            quality : 50,
+ 
+            destinationType : navigator.camera.DestinationType.FILE_URI,//这里要用FILE_URI，才会返回文件的URI地址
+ 
+            //destinationType : Camera.DestinationType.DATA_URL,
+ 
+            sourceType : Camera.PictureSourceType.CAMERA,
+ 
+            allowEdit : true,
+ 
+            encodingType : Camera.EncodingType.JPEG,
+ 
+            popoverOptions : CameraPopoverOptions,
+ 
+            saveToPhotoAlbum : true
+ 
+        });
+ 
+    }
+ 
+
+
+    function capturePhotoEdit(resultCallback) {
+ 
+        // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
+ 
+        navigator.camera.getPicture(resultCallback, onFail, {
+ 
+            quality : 50,
+ 
+            allowEdit : true,
+ 
+            destinationType : destinationType.DATA_URL,
+          //	destinationType : navigator.camera.DestinationType.FILE_URI,
+ 
+            saveToPhotoAlbum : true
+ 
+        });
+ 
+    }
+  
+ 
+    function getPhoto() {
+    	 
+        // Retrieve image file location from specified source
+ 
+        navigator.camera.getPicture(pz_tu, onFail, {
+ 
+            quality : 50,
+ 
+            destinationType : destinationType.FILE_URI,//这里要用FILE_URI，才会返回文件的URI地址
+ 
+            sourceType : pictureSource.PHOTOLIBRARY
+ 
+        });
+ 
+    }
+ 
+    function onFail(message) {
+ 
+       // alert('Failed because: ' + message);
+ 
+    }
+
+
+    function getPictures(resultCallback){
+    	ImagePicker.show(resultCallback,function(msg){
+			alertInfo("error"+msg);
+	     });
+	     
+}
+
+function process_show(){
+    var mycount = imageCount;
+    mycount++;
+   $(".div_back").attr("style", "display:black");
+    $("p").html("第【"+mycount+"】图片上传中,请等待片刻....");
+    
+}
+function process_dismiss(){
+    
+    $(".div_back").attr("style", "display:none");
+    
+}
+    function uploadPhoto(imageURI) {
+       
+        var options = new FileUploadOptions();
+        
+        
+        options.fileKey = "fileAddPic";//用于设置参数，对应form表单里控件的name属性，这是关键，废了一天时间，完全是因为这里，这里的参数名字，和表单提交的form对应
+ 
+ 
+        options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+       //options.fileName = imageURI;
+        //把图片路径先放入对应变量，方便后面显示
+        var num = localStorage.getItem("imgnum");
+   	 	
+        options.mimeType = "image/jpeg";
+ 
+        //options.mimeType = "multipart/form-data";//这两个参数修改了，后台就跟普通表单页面post上传一样 enctype="multipart/form-data"
+ 
+        //这里的uri根据自己的需求设定，是一个接收上传图片的地址
+ 		var fileno = localStorage.getItem("fileno");
+ 		
+ 		var imagename = options.fileName;
+ 		localStorage.setItem("imglocalurl_"+num, imageURI);       
+   	 	
+ 		var uri = encodeURI("http://"+comm_url+"/app/6033?fileno="+fileno); 
+      //  var uri = encodeURI("http://139.224.70.151:9999/app/6033?fileno="+fileno); 
+        //    var uri = encodeURI("http://www.sjyjr.net/app/6033?fileno="+fileno); 
+        options.chunkedMode = false;
+        
+        process_show();
+        ft = new FileTransfer();
+        ft.onprogress = showUploadingProgress;
+      
+        ft.upload(imageURI, uri, win, fail, options);
+        
+   
+    }
+
+// 显示上传进度
+function showUploadingProgress( progressEvt){
+  //  alert("showUploadingProgress="+progressEvt.lengthComputable);
+    if( progressEvt.lengthComputable ){
+        //已经上传
+        var loaded=progressEvt.loaded;
+        //文件总长度
+        var total=progressEvt.total;
+        //计算百分比，用于显示进度条
+        var percent=parseInt((loaded/total)*100);
+        
+        console.log("percent = " + percent);
+        loaded=(loaded/1024/1024).toFixed(2);
+        total=(total/1024/1024).toFixed(2);
+        $('#process_info').html("已上传:"+loaded+'M/'+"(共)"+total+'M');
+        $('.upload_current_process').css({'width':percent+'%'});
+     //  $("process").val(percent);
+     //   $("p").html("第【"+mycount+"】图片上传中,请等待片刻....");
+        
+    }
+}
+
+    function win(r) {
+process_dismiss();
+
+        var response = r.response;
+ 
+ 	var message = eval("(" + r.response + ")");
+
+ 		//把图片路径先放入对应变量，方便后面显示
+        var num = localStorage.getItem("imgnum");
+      
+       var filename = localStorage.getItem("imgfilename_"+num);
+       if( filename && filename!='undefined' ){
+           filename = filename + '|' + message.msg;
+       }else{
+           filename = message.msg;
+       }
+ 	
+        localStorage.setItem("imgfilename_"+num, filename);
+ 
+ 
+        //以下是三个默认的返回参数
+ 
+        console.log("Code = " + r.responseCode);
+ 
+        console.log("Response = " + r.response);
+ 
+        console.log("Sent = " + r.bytesSent);
+ 
+        imageCount++;
+        //把图片路径先放入对应变量，方便后面显示
+        var num = localStorage.getItem("imgnum");
+ 
+        var filename = localStorage.getItem("img_tmp_"+num);
+ 
+        var images = filename.split('|');
+        //检查图片是否传完
+        if( imageCount < images.length){
+            uploadPhoto(images[imageCount]);
+        }else{
+            localStorage.removeItem("img_tmp_"+num);
+            var filename = localStorage.getItem("upload_fail_file");
+            if(filename){
+                localStorage.setItem("img_tmp_"+num, filename);
+            }
+            alertInfo("图片上传成功，一共上传["+images.length+"]张图片");
+            
+            back_history();
+        }
+        
+        
+ 
+    }
+
+    function fail(error) {
+    //	 stop_process();
+    //	NTUICtrl.onLoaded();//图片上传完成后关闭进度圈
+    process_dismiss();
+    var filename1 = localStorage.getItem("img_tmp_"+num);
+    
+    var images = filename1.split('|');
+        var filename = localStorage.getItem("upload_fail_file");
+        if( filename && filename!='undefined' ){
+            filename = filename + '|' + images[imageCount];
+        }else{
+            filename = images[imageCount];
+        }
+        localStorage.setItem("upload_fail_file", filename);
+        console.log("upload error source " + error.source);
+ 
+        console.log("upload error target " + error.target);
+        //检查图片是否传完
+        var num = localStorage.getItem("imgnum");
+        errCount++;
+        imageCount++;
+        if( imageCount < images.length){
+            uploadPhoto(images[imageCount]);
+        }else{
+            localStorage.removeItem("img_tmp_"+num);
+            var filename2 = localStorage.getItem("upload_fail_file");
+            if(filename2){
+                localStorage.setItem("img_tmp_"+num, filename);
+            }
+            alertInfo("图片上传成功，一共上传["+images.length+"]张图片，失败["+errCount+"]张");
+            
+            back_history();
+        }
+        
+    }
+  //  window.resolveLocalFileSystemURI(imageURI, onResolveSuccess, onError);
+    
+    function onResolveSuccess(fileEntry){
+         
+         alertInfo(fileEntry.fullPath);
+     }
+     function onError(error) { 
+
+         toLog("error code: "+ error.code);
+
+     };
+ 
+	//获取位置
+    function getmylocation_n(fun){
+        
+        NTLocation.getLocation(
+                               function(msg){
+                               
+                               mainFrame1.window.cxdw(msg);
+                               
+                               },function(){});
+                               
+    }
+
+
+
+    function refresh_dbaj(){
+        mainFrame2.window.initPage();
+    }
+    
+    function refreshByLogin(){
+    	 mainFrame1.window.initPage();
+         mainFrame4.window.initPage();
+         mainFrame2.window.initPage();
+    }
+    //判断对象是否为空
+    function isEmpty(obj) {
+        
+        if(!obj || obj == 0 || obj == '' || obj.toLowerCase() == 'null' || obj.toLowerCase() == 'undefined') {
+            return true;
+        }
+        
+        if(Array.prototype.isPrototypeOf(obj) && obj.length == 0) {
+            　　　return true;
+        }
+        /*
+        if(Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length == 0) {
+            
+            　return true;
+        }
+         */
+        return false;
+    }
+    //判断对象是否为空,非0
+    function isEmpty_n(obj) {
+        
+        if(!obj || obj == '' || obj.toLowerCase() == 'null' || obj.toLowerCase() == 'undefined') {
+            return true;
+        }
+        
+        if(Array.prototype.isPrototypeOf(obj) && obj.length == 0) {
+            　　　return true;
+        }
+        /*
+        if(Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length == 0) {
+            
+            　return true;
+        }
+         */
+        return false;
+    }
+    //Jpush 插件
+    function Jpush_init(phoneno){
+        writelog("index jpush init:"+phoneno);
+        JPushPlugin.setAlias(phoneno);
+    }
+    
+    function check_connect_stat(){
+/*         $.ajax({
+               type : "post",
+               timeout: 5000,
+               url: "http://www.sjyjr.net/app/6055",
+               data : {},
+               datatype : "json",
+               success : function(msg){
+               writelog("6055 recv:"+msg);
+               var json = eval("("+msg+")");
+               
+               if(json.stat == 1){
+	               
+	               Settings.loginState = false;
+	            
+	       			set_settings(Settings);//更新登陆状态
+	            	
+	       			refreshByLogin();
+               }
+               },
+               error:function(msg){
+               		stop_process();
+               	  	top.alertInfo("网络超时，请检查网络状态，稍后再试");
+	                Settings.loginState = false;		            
+	      			set_settings(Settings);//更新登陆状态
+	   		
+	      			refreshByLogin();
+               }
+               }); */
+               var data = {};
+        http_comm("6055", data,function(msg){
+            
+            var json = eval("("+msg+")");
+            
+            if(json.stat == 1){
+            
+            Settings.loginState = false;
+            
+            set_settings(Settings);//更新登陆状态
+            
+            refreshByLogin();
+            }
+            });
+
+    }
+    function exitApp(){
+    	top.Settings.loginState = false;
+		set_settings(top.Settings);
+		
+    }
+    function  setUserinfo(){
+        $("#userid").val(localStorage.getItem("userid"));
+        // $("#pwd").val(localStorage.getItem("passwd"));
+        //localStorage.setItem("passwd", $.md5(password));
+    }
+</script>
+	<body>
+	 
+		<div class="container-fluid" >
+			<div class="row" style="height:100%">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+					<div component-role="swich_page" class="bottom" >
+						<iframe name="mainFrame1" id="mainFrame1"  src="menu.html" class="showframe" style="display: block;">
+						</iframe>
+                        
+						<iframe name="mainFrame2" id="mainFrame2" src="dbaj_new.html" class="showframe">
+						</iframe>
+                        
+						<iframe name="mainFrame3" id="mainFrame3" src="list.html" class="showframe">
+						</iframe>						 
+						<iframe name="mainFrame4" id="mainFrame4" src="setting.html" class="showframe">
+						</iframe>
+						 	
+					</div>
+				</div>
+			</div>
+			
+		
+		
+        <nav class="mui-bar mui-bar-tab">
+            <ul>
+                <li>
+                    <a ind="1"   class="mui-tab-item mui-active" >
+                        <span class="mui-icon mui-icon-home"></span>
+                        <span class="mui-tab-label">首页</span>
+                    </a>
+                </li>
+                <li>
+                    <a ind="2"  class="mui-tab-item" >
+                        <span class="mui-icon mui-icon-email"><span class="mui-badge" style="display:none"></span></span>
+                        <span class="mui-tab-label">我的待办</span>
+                    </a>
+                </li>
+                <li>
+                    <a ind="3" class="mui-tab-item">
+                        <span class="mui-icon mui-icon-contact"></span>
+                        <span class="mui-tab-label">贷款产品</span>
+                    </a>
+                </li>
+                <li>	
+                    <a ind="4" class="mui-tab-item">
+                        <span class="mui-icon mui-icon-gear"></span>
+                        <span class="mui-tab-label">个人设置</span>
+                    </a>
+                </li>
+                
+            </ul>		
+        </nav>
+        
+        
+    </div>
+
+<div class='div_back' style="display:none;">
+    <div class='div_process'>
+        <p style="width:100%"></p>
+        <div class="upload_process_bar">
+            <div class="upload_current_process"></div>
+        </div>
+        <div id="process_info"></div>
+    </div>
+</div>
+
+
+
+
+<div class="div_login" style="display:none">
+<header class="mui-bar mui-bar-nav head_tmp_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="login_hide()" ></a>
+		<h1 class="mui-title"></h1>
+		
+	</header>
+		<div class="mui-content mui-scroll-wrapper" style="background-color:rgba(36,57,73,0.2);">
+	    	<div class="mui-scroll top_head">
+				<div style="display:black;margin-top:30%;padding-top:20px;" id="pass_mode" >
+
+				       
+				            <ul>
+				                <li style="line-height:40px;height:40px;border-bottom: 1px solid #ffffff;width:60%;margin-left:20%;">
+				                    <div >
+				                        <div class="user_div"></div>
+				                        <input type="text"  placeholder="用户号/手机号" class="inp_text_new" style="font-size:0.8em;margin-left:20px;margin-right:10px;margin-top:5px;color:#f4f4f4" id="userid"/>
+				                    </div>
+				                </li>
+				                <li style="line-height:40px;height:40px;border-bottom: 1px solid #ffffff;width:60%;margin-left:20%;">
+				                    <div>
+				                        <div class="pass_div"></div>
+				                        <input type="password" placeholder="请输入密码" class="inp_text_new" style="font-size:0.8em;margin-left:20px;margin-right:10px;margin-top:5px;color:#5b5b5b" id="mm"/>
+				                    </div>
+				                </li>
+				            </ul>
+				        
+				        
+				        
+				
+				        <div style="margin-top:10px;text-align:center;margin-bottom: 10px;">
+							<button class="login" style="width:60%;margin-top:10px;" onclick="login();"><font style="font-size:1em;color: #fafafa;font-weight:bold">登录</font></button>
+							<!-- <button class="login" style="width:60%;margin-top:10px;" onclick="zhuce();">注册</button> -->
+						</div>
+				        <div class="col-xs-6 text-center" style="margin-top:8px;">
+				            <span style="font-size:14px;color: #333;font-weight:bold" onclick="wjmm()">忘记密码</span>
+				            
+				        </div>
+				        <div class="col-xs-6 text-center" style="margin-top:8px;">
+				            
+				            <input type="checkbox" value="">
+				            <span style="font-size:14px;color: #333;font-weight:bold">自动登陆</span>
+				        </div>
+				   
+				</div>
+			</div>
+			<div id="footer">        
+		        <a>Version 1.3.7</a><br>
+		        <a>© 2018-2020 世纪源金融服务有限公司  All rights reserved.</a>
+		    </div>
+		</div>
+		
+	</div>
+
+<script type="text/javascript">
+
+function change_mode(){
+	
+	if(flag_mode == 0){ //密码转九宫格
+		if(isEmpty(Settings.userId) || isEmpty(Settings.passWd)){
+			alertInfo("未获取到登陆相关信息，若是第一次登陆，请使用账号密码方式");
+			return;
+		}
+		$("#pass_mode").hide();
+		$("#lock_mode").show();
+		$(".mui-pull-right").removeClass('icon-shoushi');
+		$(".mui-pull-right").addClass('icon-jianpan');
+		flag_mode = 1;
+	}else{
+		$("#pass_mode").show();
+		$("#lock_mode").hide();
+		$(".mui-pull-right").addClass('icon-shoushi');
+		$(".mui-pull-right").removeClass('icon-jianpan');
+		flag_mode = 0;
+	}
+}
+    function hidden_red(){
+        $(".mui-badge").hide();
+    }
+    function writelog(str){
+        if(DEBUG){
+            console.log(str);
+        }
+        
+    }
+
+//截屏并微信分享
+function sceenshotAndShare(){
+    Screenshot.URI(function(msg, res){
+                   
+                   //  writelog("res:"+JSON.stringify(res));
+                   /*判断设备是否安装了微信,share方法里集成了该API
+                    CDVWeChat.isInstalled(function(){
+                    writelog("wechat is Installed");
+                    },function(){
+                    writelog("wechat is not Installed");
+                    
+                    });
+                    */
+                   var scene = 1;
+                   
+                   
+                   var messageOption = {
+                   data:res.URI,
+                   type:4
+                   }
+                   CDVWeChat.share(messageOption,
+                                   scene,
+                                   function(msg){
+                                   
+                                   writelog("sucess:"+msg);
+                                   },function(error){
+                                   writelog("error"+error);
+                                   })
+                   
+                   
+                   });
+                   return;
+}
+
+function openInApp(){
+	window.open('http://www.baidu.com', '_blank', 'location=yes,toolbar=yes,toolbarposition=top,closebuttoncaption=关闭', function(msg){
+		alert("this is callbackid = "+msg);
+	});
+}
+var mm_md5;
+    function login(){
+//     	sceenshotAndShare();
+//     	return;
+
+   		userid = $("#userid").val();
+        password = $("#mm").val();
+    	
+        mm_md5 = $.md5(password);
+        if( userid == '' || password == ''){
+            alertInfo('用户号或密码不能为空');
+        }
+        NTParameter.addValue(null, null, "userid", userid);
+        NTParameter.addValue(null, null, "password", password);
+       
+        
+        var data = {};
+        data.userid = $("#userid").val();
+        
+
+        localStorage.setItem("password", password);
+        data.password =  mm_md5;
+
+        
+        http_comm("6001", data,jugelog);
+    }
+function jugelog(msg){
+    
+    stop_process();
+    
+    var json=eval("("+msg+")");
+    
+    writelog("6001:recv= "+msg);
+   
+    if( json.stat == '0') //登陆成功
+    {
+        var userid = json.data.userId;
+        var flag = json.data.customerFlag;
+        localStorage.setItem("userid", userid);
+        localStorage.setItem("loginid", $("#userid").val());
+        $(".div_login").hide();
+        localStorage.setItem("login_flag", '1');
+        if( flag === '0' ) //外部手机号客户
+        {
+            localStorage.setItem("level", 0);
+            localStorage.setItem("username", json.data.accountName);
+            localStorage.setItem("accountTel", json.data.accountTel);
+            localStorage.setItem("orgnName", "贷款客户");
+            localStorage.setItem("pos_name", "贷款客户");
+            
+        }else{
+           
+            localStorage.setItem("login_info", msg);
+            localStorage.setItem("username", json.data.accountName);
+            localStorage.setItem("customerFlag", json.data.customerFlag);
+            localStorage.setItem("accountOrgn", json.data.accountOrgn);
+            localStorage.setItem("accountType", json.data.accountType);
+            localStorage.setItem("orgnName", json.data.orgnName);
+            localStorage.setItem("accountTel", json.data.accountTel);
+            
+            localStorage.setItem("orgnType", json.data.orgnType);
+            localStorage.setItem("accountPosition", json.data.accountPosition);
+           
+            var pos = json.data.accountPosition; //0-管理层 1-普通员工
+            var hzjg_type = json.data.orgnType; //0-总公司 1-分公司 2-合作机构 3-门店
+            var type = json.data.accountType; //1-领导 2-员工
+            
+   			
+            localStorage.setItem("pos_name", json.data.postName);
+            var level;
+            
+            if(hzjg_type == '0' || hzjg_type =='1') //总公司
+            {
+                if(pos == 'A' || pos == 'B' || pos == 'J' || pos == 'CP' || pos == 'D')//只有签单员和驻行员能创建案卷
+                level = 3;
+              //  else if(pos == 'N' || pos == 'E' || pos == 'L') 财务也要参与流程
+                else if(pos == 'N'  || pos == 'L')
+                level = 1;
+                else
+                level = 2;
+            }else if(hzjg_type=='2' || hzjg_type=='3'){
+                
+                if(pos == 'X1')
+                level = 4;
+                else
+                level = 5;
+            }else {
+                level == 0;
+            }
+            
+            localStorage.setItem("level",level);
+            var undo = json.data.undo;
+            var pm;
+            var mes = '';
+            
+            if( json.data.undo > 0){
+               // mes = '您有 ' + json.data.undo+ ' 条待处理事件;';
+               $(".mui-badge").html(json.data.undo);
+               $(".mui-badge").show();
+            }else{
+                $(".mui-badge").hide();
+            }
+            
+            /*业绩排名*/
+            if(json.data.rank1.length > 0 ){ //个人排名
+                for(var i = 0; i < json.data.rank1.length; i++){
+                    
+                    localStorage.setItem("gr_pm_"+json.data.rank1[i].rank_type2, json.data.rank1[i].rank_no);
+                }
+                if(pos == 'A' || pos == 'B' || pos == 'F'){
+                    pm = json.data.rank1[0].rank_no;
+                    if(pm > 0){
+                        mes += "您本周面签量排名 "+ pm+"位";
+                    }
+                }
+            }
+            if(json.data.rank2.length > 0 ){ //分公司排名
+                for(var i = 0; i < json.data.rank2.length; i++){
+                    
+                    localStorage.setItem("fgs_pm_"+json.data.rank2[i].rank_type, json.data.rank2[i].rank_no);
+                }
+                if(pos != 'A' && pos != 'B' && pos != 'F'){
+                    pm = json.data.rank2[0].rank_no;
+                    if(pm > 0){
+                        mes += "分公司面签量排名 "+ pm+"位";
+                    }
+                }
+            }
+            
+            if(mes!='' ){
+                alertInfo(mes);
+            }
+        }
+        
+    
+        top.writelog("checked="+$("input[type=checkbox]").prop("checked"));
+        //IOS 要用$("input[type=checkbox]").attr("checked") 获取
+        if($("input[type=checkbox]").prop("checked")){
+        	
+        	Settings.autoLogin = true;
+        }else{
+        	Settings.autoLogin = false;
+        }
+        Settings.loginState = true;
+        Settings.userId = userid.toLowerCase(); //用户名
+        Settings.passWd = password.toLowerCase();//密码
+		Settings.mm_md5 = mm_md5;//加密过的密码
+		set_settings(Settings);//更新登陆状态
+        mainFrame1.window.initPage();
+        mainFrame4.window.initPage();
+        mainFrame3.window.initPage();
+        mainFrame2.window.initPage();
+     //   mainFrame3.window.initPage();
+        NTParameter.addValue(null, null, "userid", userid);
+        //刷新页面
+        Jpush_init(userid.toLowerCase());
+    }else{
+        alertInfo("登录失败:"+json.msg);
+    }
+}
+
+function zhuce(){
+    
+    login_hide();
+    parent.showNewFrame("register.html", "smask");
+}
+
+function wjmm(){
+   
+    login_hide();
+    parent.showNewFrame("forgetpass.html", "smask");
+}
+
+function login_show(){
+	top.writelog("login="+Settings.loginMode);
+	if(!isEmpty(Settings.userId)){
+    	$("#userid").val(Settings.userId);	        	
+    	$("#mm").val(Settings.passWd);
+    	
+    }
+	 $(".div_login").show();  
+}
+
+function div_login_show(){
+	$(".div_login").show();
+}
+function login_hide(){
+    $(".div_login").hide();
+}
+
+//签退交易
+function logout(callback){
+	var data = {};
+    data.userid = localStorage.getItem("userid");
+    //获取 税费计算参数
+    /*
+    $.ajax({
+           type : "post",
+           timeout: 5000,
+           url: "http://www.sjyjr.net/app/6099",
+           data : data,
+           datatype : "json",
+           success : function(msg){
+           		top.writelog("6099 recv:"+JSON.stringify(msg));
+           		var json = eval("("+msg+")");
+           		callback();
+           },
+           error:function(msg){
+           		top.check_connect_stat();
+           }
+           });
+    */
+    http_comm("6099", data, function(msg){
+        top.writelog("6099 recv:"+JSON.stringify(msg));
+        var json = eval("("+msg+")");
+        //callback();
+        })
+}
+//统一通信接口
+function http_comm(trancode, data, succCallback){
+    start_process();
+  
+    writelog(trancode+" send: "+JSON.stringify(data));
+    
+    $.ajax({
+        type : "post",
+        timeout: 10000,
+        //   url: "http://www.sjyjr.net/app/"+trancode,        
+      //  url: "http://139.224.70.151:9999/app/"+trancode,
+        url: "http://"+comm_url+"/app/"+trancode,
+        data : data,
+        datatype : "application/json",
+        success : function(msg){
+        	stop_process();
+        	
+            if(msg == null){
+                alertInfo("服务器处理异常");
+                return;
+            }
+            if(isJson(msg)){
+                //writelog(trancode+" json recv: "+JSON.stringify(msg));
+             //   alert(trancode+" json recv: "+JSON.stringify(msg));
+                  if(msg.stat == '1'){//登陆超时
+                          alertInfo("通讯失败："+msg.msg +",请登陆");
+                           Settings.loginState = false;
+                           set_settings(top.Settings);
+                          login_show();
+                          return;
+                  }
+                  msg = JSON.stringify(msg);
+              
+              }
+            writelog(trancode+" recv: "+JSON.stringify(msg));
+           
+
+            var msg = msg.replace(/null/g, '\'\'');
+            succCallback(msg);
+            },
+        error:function(msg){
+			stop_process();
+			writelog(trancode+" error recv: "+JSON.stringify(msg));
+			alertInfo('通信失败，请重新登陆');
+			Settings.loginState = false;
+			set_settings(top.Settings);
+			login_show();
+        }
+        });
+
+
+}
+
+//统一通信接口
+function http_comm_wx(trancode, data, succCallback){
+    start_process();
+    
+    writelog(trancode+" send: "+JSON.stringify(data));
+    $.ajax({
+           type : "post",
+           timeout: 10000,
+           //    url: "http://www.sjyjr.net/"+trancode,
+           url: "http://"+comm_url+"/"+trancode,
+           //url: "http://139.224.70.151:9999/"+trancode,
+           data : data,
+           datatype : "application/json",
+           success : function(msg){
+           stop_process();
+           if(msg == null){
+           alertInfo("服务器处理异常");
+           return;
+           }
+           if(isJson(msg)){
+               writelog(trancode+" json recv: "+JSON.stringify(msg));
+                 if(msg.stat == '1'){//登陆超时
+                         alertInfo("通讯失败："+msg.msg +",请登陆");
+                          Settings.loginState = false;
+                          set_settings(top.Settings);
+                         login_show();
+                         return;
+                 }
+                 msg = JSON.stringify(msg);
+             
+             }
+           
+           writelog(trancode+" recv: "+JSON.stringify(msg));
+           var msg = msg.replace(/null/g, '\'\'');
+
+           succCallback(msg);
+           },
+           error:function(msg){
+	           stop_process();
+	           writelog(trancode+" error recv: "+JSON.stringify(msg));
+	           alertInfo('通信失败，请重新登陆');
+	           Settings.loginState = false;
+	           set_settings(top.Settings);
+	          login_show();
+           }
+           });
+           
+           
+}
+function isJson(obj){
+    var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
+    return isjson;
+}
+function pay_of_wechat(){
+	writelog("pay_of_wechat");
+	Wechat.isInstalled(function(){
+		writelog("sucess");
+	    var params = {
+  	          mch_id: '10000100', // merchant id
+  	          prepay_id: 'wx201411101639507cbf6ffd8b0779950874', // prepay id returned from server
+  	          nonce: '1add1a30ac87aa2db72f57a2375d8fec', // nonce string returned from server
+  	          timestamp: '1439531364', // timestamp
+  	          sign: '0CB01533B8C1EF103065174F50BCA001', // signed string
+  	     };
+	    Wechat.auth("snsapi_userinfo", function () { alert("Success"); }, function (error) { alert(error); });
+		//Wechat.auth(function () { alert("Success"); });
+	},function(){
+		writelog("Wechat check installed, error")
+	});
+	
+	
+}
+    </script>
+    </body>
+    
+</html>

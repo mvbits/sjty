@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+
+<script src="mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+
+.mui-active{
+	 background: red;
+}
+</style>
+</head>
+<script type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", initial);
+function initial() {
+    thisURL = document.URL;
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+	
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+    var data = {};
+
+  	data.userid = localStorage.getItem("userid");
+
+ //   top.http_comm("6007", data, showmessage);
+  	mui(document.body).on('tap', '.mui-collapse-content div', function(e) {
+  		this.click();
+  		return false;
+  	});
+   
+}
+
+
+function go_yh(fileno){
+    showNewFrame('flow_timeline.html?fileno='+fileno,'smask');
+}
+    
+    
+    
+</script>
+    
+<body>
+	<header class="mui-bar mui-bar-nav head_color">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+        <a  class="mui-action-menu mui-icon mui-icon-bars mui-pull-right"  ><font style="font-size:13px"></font></a>
+        <h1 class="mui-title" style="font-weight:bold;">车抵贷</h1>
+    </header> 
+    <div class="mui-content mui-scroll-wrapper">       		
+	    <div class="mui-scroll" style="margin-top:25px;background-color:#ffffff">	   	 
+			<!-- 案卷编号-申贷机构 -->
+	    	<div class="mui-content-padded">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>案卷编号</label>
+						<input type="text" placeholder="1970-01-01" id="fileno" readonly="readonly">
+					</div>
+					<div class="mui-input-row" onclick="show_banks()">
+						<label>申贷银行</label>
+						<input type="text" placeholder="选择申贷机构" id="bank" readonly="readonly">
+						<a  class="mui-navigate-right"></a>							
+					</div>					
+				</form>
+			</div>
+			
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#"><font style="font-weight:bold">借款人信息</font></a>
+					<div class="mui-collapse-content">
+						<form class="mui-input-group">
+							<div class="mui-input-row">
+								<label>联系方式</label>
+								<input type="text" placeholder="联系方式" id="tel_no" >
+							</div>
+							<div class="mui-input-row">
+								<label>联系方式</label>
+								<input type="text" placeholder="联系方式" id="tel_no">
+							</div>
+							<div class="mui-input-row">
+								<label>联系方式</label>
+								<input type="text" placeholder="联系方式" id="tel_no">
+							</div>
+							<div class="mui-input-row">
+								<label>联系方式</label>
+								<input type="text" placeholder="联系方式" id="tel_no">
+							</div>
+						</form>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#"><font style="font-weight:bold">贷款信息</font></a>
+					<div class="mui-collapse-content">
+						<form class="mui-input-group">
+							<div class="mui-input-row">
+								<label>联系方式</label>
+								<input type="text" placeholder="联系方式" id="tel_no" >
+							</div>
+							<div class="mui-input-row">
+								<label>联系方式</label>
+								<input type="text" placeholder="联系方式" id="tel_no">
+							</div>
+							<div class="mui-input-row">
+								<label>联系方式</label>
+								<input type="text" placeholder="联系方式" id="tel_no">
+							</div>
+							<div class="mui-input-row">
+								<label>联系方式</label>
+								<input type="text" placeholder="联系方式" id="tel_no">
+							</div>
+						</form>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#"><font style="font-weight:bold">房屋信息</font></a>
+					<div class="mui-collapse-content">
+						<div class="mui-input-row">
+							<label>联系方式</label>
+							<input type="text" placeholder="联系方式" id="tel_no" >
+						</div>
+						<div class="mui-input-row">
+							<label>联系方式</label>
+							<input type="text" placeholder="联系方式" id="tel_no">
+						</div>
+						<div class="mui-input-row">
+							<label>联系方式</label>
+							<input type="text" placeholder="联系方式" id="tel_no">
+						</div>
+						<div class="mui-input-row">
+							<label>联系方式</label>
+							<input type="text" placeholder="联系方式" id="tel_no">
+						</div>
+					</div>
+				</li>
+			</ul>
+			
+			
+	    </div>
+	</div>
+</body>
+</html>

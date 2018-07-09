@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+
+           
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #f3f3f3;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+.mui-slider-item{
+	padding:10px;
+	
+}
+.mui-slider-item img{
+	border-radius: 5px;
+	height:50vw;
+}
+.icon {
+	/* 通过设置 font-size 来改变图标大小 */
+	width: 1.5em; height: 1.5em;
+	/* 图标和文字相邻时，垂直对齐 */
+	vertical-align: -0.35em;
+	/* 通过设置 color 来改变 SVG 的颜色/fill */
+	fill: currentColor;
+	/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+	   normalize.css 中也包含这行 */
+	overflow: hidden;
+}
+.mui-grid-view li{
+	margin-top:-5px;
+	height:45px;
+	color:#8e8e8e;
+}
+.mui-media img{
+	width:40px;
+	height:40px;
+}
+.mui-media-body p{
+	font-size:10px;
+}
+.head_color{
+	background: -webkit-linear-gradient(left, #fff, #fff);
+	background: -o-linear-gradient(right, #fff, #fff);
+	background: -moz-linear-gradient(right, #fff, #fff);
+	background: linear-gradient(to right, #fff, #fff);
+	height:70px;
+	padding-top:25px;
+
+}
+.mui-col-xs-3{
+	text-align:center;
+	border-left:1px solid #d0d0d0;
+	
+}
+.mui-col-xs-3:first-child{
+	text-align:center;
+	border-left:0px solid #d0d0d0;
+}
+.my-active{
+	 background: red;
+}
+</style> 
+
+</head>
+
+<body style="background:#f4f4f4;">
+	<header class="mui-bar head_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();"  style="color:#007aff"></a>
+		<h1 class="mui-title"><font style="color:black;">消费账单</font></h1>
+	</header>
+
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll top_head">
+
+			
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">类型   <font style="font-size:12px;color:#6e6e6e" id="my_select"> - 默认全部</font></a>
+						<div class="mui-collapse-content" style="background:#f4f4f4;">
+							<div style="padding:10px;padding-left:20px;border-bottom:1px solid #d0d0d0;" onClick="query_contents('4')">
+								<svg class="icon" aria-hidden="true">
+				                        <use xlink:href="#icon-jiugongge"></use>
+				                    </svg>
+				                    	全部
+							</div>
+							<div class="mui-row" style="padding:10px;">
+							
+								<div class="mui-col-xs-3"  onClick="query_contents('0')">
+									<svg class="icon" aria-hidden="true">
+				                        <use xlink:href="#icon-icon_zijintongjibiao"></use>
+				                    </svg>
+				                    	担保费
+									
+								</div>
+								<div class="mui-col-xs-3" onClick="query_contents('1')">
+									<svg class="icon" aria-hidden="true">
+				                        <use xlink:href="#icon-yanshi-bangong"></use>
+				                    </svg>
+				                    	培训
+									
+								</div>
+								<div class="mui-col-xs-3" onClick="query_contents('2')">
+									<svg class="icon" aria-hidden="true">
+				                        <use xlink:href="#icon-xianjinhongbao"></use>
+				                    </svg>
+				                    	分红
+									
+								</div>
+								<div class="mui-col-xs-3 " onClick="query_contents('3')" >
+									<svg class="icon" aria-hidden="true">
+				                        <use xlink:href="#icon--cunqianguan"></use>
+				                    </svg>
+				                    	充值
+									
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			
+
+			
+			<ul class="mui-table-view" id="bills" style="margin-top:10px;">
+
+
+				
+			</ul>
+			<div class="div_footer">————  世纪源金融服务  ————</div>
+		</div>
+
+
+		</div>
+	
+	
+</body>
+<script type="text/javascript">
+var flags = '4'; //0-担保费 ,1-培训费, 2-分红, 3-充值, 4-all
+$(function() {
+	
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+  	mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell ', function(e) {
+  		this.click();
+  		return false;
+  	});
+  	mui(document.body).on('tap', '.mui-collapse-content div', function(e) {
+  		this.click();
+  		return false;
+  	});
+ 	mui(document.body).on('tap', '.mui-collapse', function(e) {
+		if($(".mui-collapse").hasClass('mui-active')){
+			$(".mui-collapse").removeClass('mui-active');
+			
+		}else{
+			$(".mui-collapse").addClass('mui-active')
+		}
+		
+  		return false;
+  	});
+  
+  var thisURL = document.URL;
+  var getenv = thisURL.split("?")[1];
+  flags = getenv.split("=")[1];
+  $("#my_select").html(selects[flags]);
+  var data = {};
+  data.flag = flags;
+ 	data.userid = localStorage.getItem("userid");
+    data.username = localStorage.getItem("username");
+    data.orgid = localStorage.getItem("accountOrgn");
+    top.http_comm("7003", data, show_bills);
+	
+});
+var flag_list = ["担保费",
+                 "培训消费",
+                 "分红",
+                 "充值"];
+var img_list = ["img/bill0.png",
+                "img/bill1.png",
+                "img/bill2.png",
+                "img/bill3.png"];
+function show_bills(msg){
+	var json = eval("("+msg+")");
+	var tmp_html = '';
+	
+	$("#bills").html('');
+	
+	top.bills_json = {};
+	//按日期降序
+	json.data.sort(function(b,a){
+        return Date.parse(a.trans_time) - Date.parse(b.trans_time);
+        });
+	for(var i = 0; i < json.data.length; i++){
+		var tmp_img = img_list[json.data[i].flag];
+		//var tmp_url = 'showNewFrame("member_bill.html?rid='+json.data[i].rid+'", "smask");';
+		
+		var tmp_time = '交易时间：'+json.data[i].trans_time;
+		var flag_s = flag_list[json.data[i].flag];
+		
+		top.bills_json[json.data[i].rid] = json.data[i];
+		tmp_html += '<li class="mui-table-view-cell mui-media" onclick="showNewFrame(\'member_bill.html?rid='+json.data[i].rid+'\',\'smask\')">'
+					+'<a href="javascript:;"><img class="mui-media-object mui-pull-left" src="'+tmp_img+'">'						
+					+'<div class="mui-media-body">'+flag_s+'<span style="float:right;font-size:14px;font-weight:bold">'+(json.data[i].trans_amount*1.00).toFixed(2)+'</span>'
+					+'<p class="mui-ellipsis">'+tmp_time+'</p></div></a></li>'
+			
+	}
+	
+	$("#bills").html(tmp_html);
+}
+var selects = [" - 默认全部",
+               " - 担保费记录",
+               " - 培训记录",
+               " - 分红记录",
+               " - 充值记录"]
+
+function query_contents(flag){
+	//alert("flag="+flag);
+	flags = flag;
+	var that = $(this);
+	//$(".mui-col-xs-3").removeClass("my-active")
+	$("#my_select").html(selects[flag]);
+	$(".mui-collapse").removeClass('mui-active');
+	
+	var data = {};
+ 	data.flag = flag;
+ 	data.userid = localStorage.getItem("userid");
+    data.username = localStorage.getItem("username");
+    data.orgid = localStorage.getItem("accountOrgn");
+    top.http_comm("7003", data, show_bills);
+}
+</script>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>产品介绍</title>
+	<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+	<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+	<link href="css/common.css" rel="stylesheet">
+	<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+	<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+	<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.md5.js" type="text/javascript" charset="utf-8"></script>
+	<style>
+		.btn:hover, .btn:focus, .btn.focus{color:#fff;}
+	</style>
+</head>
+<script type="text/javascript">
+var  cp_flag;
+function initial() {
+	thisURL = document.URL;  
+	localStorage.setItem("thisURL", thisURL);
+	
+  //	generateMenu();
+  top.top3 = $(".top_title");
+
+}
+function changetitle()
+{
+	$(".top_title").html("湖北金融服务网格化信息网"+window.parent.didian);
+}
+</script>
+
+<body style=" border-color: white;background-color: #ffffff;overflow:auto">
+	<!-- 顶部固定，不能滚动 -->
+	<div class="topNavWrapper" >
+		<div class="topNav">
+			<div component-role="m11_top" class="top">				
+				<div class="back_ic" style="margin-top:-4px;" onClick="back_history();">	</div>
+				<span class="top_title">湖北金融服务网格化信息网</span>
+			</div>
+		</div>
+	</div>
+	
+ 	<div class="container-fluid">
+	 	<!-- <div style="width: 100%;margin-right:-2px;border-color: white;background-color: #ffffff;"> -->
+			<div class="form_div_cp " style="margin-top:18px;"> 
+			<ul>
+				<li onclick="go_cp('1');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+						<tr>
+						    <th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/jjk.png" style="margin-bottom:0px;"  alt="" name="cpzs" width="60"  id="cpzs" /></div></th>
+						    <th width="70%" height="30" scope="col"><span style="font-size: 17px">借记卡</span><span style="font-size: 17px"></span></th>
+						    <th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;vertical-align:50%;">借记卡</span></td>
+					  	</tr>
+					</table>
+				</li>
+				<li onclick="go_cp('2');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+						    <th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/lmk.png" style="margin-bottom:10px;"  alt="" name="cpzs" width="60"  id="cpzs" /></div></th>
+						    <th width="70%" height="30" scope="col"><span style="font-size:17px;absolute,bottom:0px;">联名卡</span></th>
+						    <th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">联名卡</span></td>
+					  	</tr>
+					</table>
+				</li>
+				<li onclick="go_cp('3');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/VIP.png" style="margin-bottom:10px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30" scope="col"><span style="font-size:17px;absolute,bottom:0px;">VIP卡</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">VIP卡</span></td>
+					 	</tr>
+					</table>
+                    
+				</li>
+                				<li onclick="go_cp('4');" style="margin-left:10px;margin-right:10px;height:70px;border-bottom: 1px solid #d0d0d0;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/xyk.png" style="margin-bottom:10px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30" scope="col"><span style="font-size:17px;absolute,bottom:0px;">信用卡</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">信用卡</span></td>
+					 	</tr>
+					</table>
+                    
+				</li>
+			</ul>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script>
+function go_cp(flag){
+	cp_flag = flag;
+	if(flag == 1) 
+		localStorage.setItem("cp_dq", "借记卡");
+	else if( flag == 2)
+		localStorage.setItem("cp_dq", "联名卡");
+	else if( flag == 3)
+		localStorage.setItem("cp_dq", "vip卡");
+	else if( flag == 4)
+		localStorage.setItem("cp_dq", "信用卡");
+	
+	cp_flag = localStorage.getItem("cp_flag");
+	cp_dq = localStorage.getItem("cp_dq");
+	var  data={
+		"cpdl":cp_flag,
+		"cpdq":cp_dq
+	};
+	$.ajax({
+		type : "post",
+		url: "http://"+IP+":"+PORT+"/JRWG/jrcp/countByCPDL",
+		data : data,
+		datatype : "json",
+		success : function(msg) {
+			/* alert(msg);
+			alert(JSON.stringify(msg));
+			msg =  eval("("+msg+")"); */
+			var count = msg.data;
+			if(count > 0){
+				showNewFrame("cpjs_new.html", "smask");
+			}else{
+				top.alertInfo('暂时没有此类相关产品介绍','','温馨提示','确认');
+			}
+		},
+		error:function(msg){
+			top.alertInfo('请求失败','','温馨提示','确认');
+		}
+	}); 
+}
+</script>
+</div>
+
+<div style="text-align:center;clear:both;">
+<script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
+<script src="/follow.js" type="text/javascript"></script>
+</div>
+</body>
+</html>

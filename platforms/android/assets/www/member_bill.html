@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+
+           
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #f3f3f3;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+.mui-slider-item{
+	padding:10px;
+	
+}
+.mui-slider-item img{
+	border-radius: 5px;
+	height:50vw;
+}
+.icon {
+	/* 通过设置 font-size 来改变图标大小 */
+	width: 1.5em; height: 1.5em;
+	/* 图标和文字相邻时，垂直对齐 */
+	vertical-align: -0.25em;
+	/* 通过设置 color 来改变 SVG 的颜色/fill */
+	fill: currentColor;
+	/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+	   normalize.css 中也包含这行 */
+	overflow: hidden;
+}
+.mui-grid-view li{
+	margin-top:-5px;
+	height:45px;
+	color:#8e8e8e;
+}
+.mui-media img{
+	width:40px;
+	height:40px;
+}
+.check-active{
+	background:#8e8e8e;
+}
+
+.mui-radio p{
+	padding-top:5px;
+	font-size:10px;
+	color:#007aff;
+}
+</style> 
+
+</head>
+
+<body >
+	<header class="mui-bar head_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title">账单详情</h1>
+	</header>
+
+	<div class="mui-content mui-scroll-wrapper" style="background:#fafafa">
+        <div class="mui-scroll" style="margin-top:75px;padding-top:40px;">
+			<div style="text-align:center;line-height:40px;">
+				<img src="img/logo.png" width="30px;"></img><font style="">世纪源金融</font>
+				<h2 id="amt">消费一颗钻石</h2>
+				<p><font style="font-size:12px;">交易成功</font></p>
+			</div>
+		
+
+			<div class="mui-content-padded" style="margin-top: 40px;">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label>创建时间</label>
+						<input type="text" placeholder="1970-01-01" id="trans_time" readonly="readonly">
+					</div>
+					<div class="mui-input-row">
+						<label>订单号</label>
+						<input type="text" placeholder="订单号" id="rid" readonly="readonly">
+					</div>	
+					<div class="mui-input-row" onclick="show_more()" style="display:none" id="fileno_div">
+						<label>案卷编号</label>
+						<input type="text" placeholder="查看   " id="fileno" readonly="readonly">
+						<a  class="mui-navigate-right">19700101010101</a>							
+					</div>					
+				</form>
+			</div>
+			<div class="mui-content-padded" style="margin-top: 25px;" >
+				
+				<form class="mui-input-group" onclick="top.call_server()">						
+					<div class="mui-input-row">
+						<label>联系商户</label>						
+						<a  class="mui-navigate-right"></a>							
+					</div>
+					<div class="mui-input-row">
+						<label>对订单有疑问</label>						
+						<a class="mui-navigate-right"></a>							
+					</div>
+				</form>
+			</div>
+
+			<div class="div_footer">————  世纪源金融服务  ————</div>
+		</div>
+
+
+		</div>
+
+	
+</body>
+<script type="text/javascript">
+var level = 1;
+$(function() {
+	
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+	
+	mui(document.body).on('tap', '.mui-input-group div', function(e) {
+  		this.click();
+  		return false;
+  	});
+	mui('.mui-input-group').on('change', 'input', function() {
+		//	var value = this.checked?"true":"false";
+		//	this.previousElementSibling.innerText = "checked："+value;
+			var num = this.value;
+			if( this.checked ){
+				$(".mui-radio").removeClass("check-active");
+			//	console.log("this.parent="+this.parentNode);
+				level = num;
+				//this.parentNode.className = this.parentNode.className == '' ? "check-active" : this.parentNode.className + ' ' + "check-active";
+				//alert("checked:"+num);
+				//this.previousElementSibling.innerHTML = label_list[this.value];
+				
+			}else{
+				//alert("not checked:"+num);
+				//this.previousElementSibling.innerHTML = label_list[this.value];
+			
+			}
+	
+		});
+	var thisURL = document.URL;
+	var getenv = thisURL.split('?')[1];
+	var rid = getenv.split('=')[1];
+	
+	var data = top.bills_json[rid];
+	$("#amt").html("交易金额："+data.trans_amount+"元");
+	$("#rid").val(data.rid);
+	$("#trans_time").val(data.trans_time);
+	
+	if(!top.isEmpty(data.file_no)){
+		$("#fileno_div").show();
+		$("#fileno").val(data.file_no);
+	}
+	$("input").attr("style", "text-align:right;");
+	
+});
+
+function show_more(){
+	showNewFrame('flow_timeline.html?fileno='+$("#fileno").val(),'smask');
+}
+
+</script>
+</html>

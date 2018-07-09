@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+                <link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+                    
+                    <link rel="stylesheet" type="text/css" href="css/aui/aui.css" />
+           
+                    
+                    
+                    
+                    <link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+                      
+                     
+                                <link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+                                    <link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+                                        <link href="css/common.css" rel="stylesheet">
+                                        <link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<script src="mui/js/mui.min.js"></script>
+                                            <script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+                                            <script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+
+                                             <script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+                                            <script src="js/jquery.min.js"></script>
+                                            <script src="js/jquery.raty.js"></script>
+                                            <script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+                                            <style type="text/css">
+                                    
+                                          
+                                            .rgt_x {
+                                                
+                                               
+                                                float: right;
+                                               
+                                
+                                                font-size: 16px;
+                                                text-align: left;
+                                                color:#70E1FF
+                                            }
+                                            </style>
+                                            <script>
+                            
+                                            var thisURL;
+                                            var change_id = 1;
+                                            var  score_1=0;
+                                            var score_2=0;
+                                            var  score_3=0;
+                                            var score_4=0;
+                                            var fileno;
+                                            $(function() {	
+                                        
+                                              
+	                                  			fileno = localStorage.getItem("pj_no");
+	                                  			top.writelog("fileno="+fileno);
+                                                $('#star1').raty({
+                                                                 hints:['1','2','3','4','5'],
+                                                                 path:"img",
+	                                                             size:24,
+                                                                 click:function(score, evt){
+                                                                 score_1=score;
+                                                                 }});
+                                                                 $('#star2').raty({
+                                                                                  hints:['1','2','3','4','5'],
+                                                                                  path:"img",
+                                                                                  size:24,
+                                                                                  click:function(score, evt){
+                                                                                  score_2=score;
+                                                                                  }});
+                                                                 $('#star3').raty({
+                                                                     hints:['1','2','3','4','5'],
+                                                                     path:"img",
+                                                                     size:24,
+                                                                     click:function(score, evt){
+                                                                     score_3=score;
+                                                                     }});
+                                                                 $('#star4').raty({
+                                                                     hints:['1','2','3','4','5'],
+                                                                     path:"img",
+                                                                     size:24,
+                                                                     click:function(score, evt){
+                                                                     score_4=score;
+                                                                     }});
+                                            });
+
+                                            
+                                            function scroll_auto(){				
+                                        		if($("body").css("overflow") == "auto"){
+                                        			$("body").attr("style", "overflow:scroll");
+                                        		}else{
+                                        			$("body").attr("style", "overflow:auto");
+                                        		}
+                                        	}
+                                            function pj_upload(){
+                                                var data = {};
+                                                data.pjr_userid = localStorage.getItem("userid");
+                                                data.fileno = localStorage.getItem("pj_no");
+                                                data.myd1 = score_1;
+                                                data.myd2 = score_2;
+                                                data.myd3 = score_3;
+                                                data.myd4 = score_4;
+                                                if(score_1==0||score_2==0||score_3==0||score_4==0){
+                                                	top.alertInfo("提交前，请您先对我们的服务打个分.. ~_~ ！");
+                                                	return;
+                                                }
+                                                data.note = $("textarea").val();
+                                                /*
+                                               top.writelog("6024 send:"+JSON.stringify(data));
+                                               
+                                                $.ajax({
+                                                       type : "post",
+                                                       url: "http://www.sjyjr.net/app/6024;",
+                                                       timeout: 5000,
+                                                       data : data,
+                                                       datatype : "json",
+                                                       success :  function(msg){
+                                                       
+                                                       top.alertInfo("感谢您对我们工作的支持，期待为您提供更贴心的服务.. ~_~ ！");
+                                                       parent.query();
+                                                       back_history();
+                                                      
+                                                       },
+                                                       error:function(msg){
+                                                       
+                                                       top.alertInfo('通信失败');
+                                                       }
+                                                       });
+                                                       
+                                                       */
+                                                       top.http_comm("6024", data, function(msg){
+                                                                     
+                                                                     top.alertInfo("感谢您对我们工作的支持，期待为您提供更贴心的服务.. ~_~ ！");
+                                                                     parent.query();
+                                                                     back_history();
+                                                                     
+                                                                     });
+                                                       
+                                            }
+                              
+                                            
+                                                </script>
+                                            </head>
+    <body   style="background-color: #ffffff;overflow:auto;" >
+        
+ 
+
+        
+        <!-- 顶部固定，不能滚动 -->
+        <div class="topNavWrapper" >
+            <div class="topNav">
+                <div component-role="m11_top" class="top">
+                    <div class="back_ic" onClick="back_history();parent.scroll_auto();"></div>
+                    <span class="top_title">案卷评价</span>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="container-fluid">
+            <div class="mui-content mui-scroll-wrapper" >
+	    		<div class="mui-scroll top_head">  
+                <div class="form_div_ph">
+                	<ul>
+	                    <li style="height:45px;line-height:45px;border:0px;;border-bottom: 1px solid #d0d0d0;">
+	                        <div  class="aui-col-xs-8" style="text-indent:20px;font-weight:bold;">案卷服务评价</div><div class="aui-col-xs-4" style="font-size:10px;text-align:right;color:#708090;">满意请给5星哦&nbsp&nbsp</div>
+	                    </li>
+	                    
+	                    
+	                    <li style="height:35px;line-height:35px;border:0px;">
+	                        <div class="aui-col-xs-4"  style="text-indent:20px;color:#6d6d6d;font-weight:bold;">专业度</div><div class="aui-col-xs-8" id="star3"></div>
+	                    </li>
+	                 <li style="height:35px;line-height:35px;border:0px;">
+	                        <div class="aui-col-xs-4"  style="text-indent:20px;color:#6d6d6d;font-weight:bold;">责任心</div><div class="aui-col-xs-8" id="star4"></div>
+	                    </li>
+	                    <li style="height:35px;line-height:35px;border:0px;">
+	                        <div class="aui-col-xs-4"  style="text-indent:20px;color:#6d6d6d;font-weight:bold;">服务态度</div><div class="aui-col-xs-8" id="star1"></div>
+	                    </li>
+	                    <li style="height:35px;line-height:35px;border:0px;border-bottom: 1px solid #d0d0d0">
+	                        <div class="aui-col-xs-4"  style="text-indent:20px;color:#6d6d6d;font-weight:bold;">办事效率</div><div class="aui-col-xs-8" id="star2"></div>
+	                    </li>
+	                    <div style="background-color: #f4f4f4;font-size: 15px;text-align: left;margin-left: 15px;margin-right: 15px;margin-top:10px;">
+	                        <textarea style="width:100%;color:#5b5b5b;border:0px;background:#f4f4f4" rows="4" id="jbrly" placeholder="动动您尊贵的手指,为我们的服务做个评价吧!您的感受牵动'我'的心..  ~_~!"></textarea>
+	                    </div>
+	                
+                    </ul>
+                </div>
+	            <div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+	                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="pj_upload()">案卷评价</button>
+	            </div>
+
+
+			</div>
+			</div>
+        </div>
+    </body>
+    
+</html>

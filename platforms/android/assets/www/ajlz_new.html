@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">           
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>               
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/lib/jQueryMobile/jquery.mobile-1.4.3.css" />
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">                    
+<link rel="stylesheet" href="css/common.css">
+<link href="css/index.css" rel="stylesheet">                
+<link href="dev/css/mobiscroll.android-ics-2.5.2.css" rel="stylesheet" type="text/css" />
+<link href="dev/css/mobiscroll.core-2.5.2.css" rel="stylesheet" type="text/css" />
+<link href="dev/css/mobiscroll.animation-2.5.2.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="css/frozen.css">
+<link rel="stylesheet" href="css/demo.css">
+<link rel="stylesheet" href="mui/css/app.css">                               
+<script src="mui/js/mui.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script src="js/mobiscroll.custom-2.5.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="dev/js/mobiscroll.core-2.5.2.js" type="text/javascript"></script>
+<script src="dev/js/mobiscroll.core-2.5.2-zh.js" type="text/javascript"></script>
+<script src="dev/js/mobiscroll.datetime-2.5.1.js" type="text/javascript"></script>
+<script src="dev/js/mobiscroll.datetime-2.5.1-zh.js" type="text/javascript"></script>
+<script src="dev/js/mobiscroll.android-ics-2.5.2.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+                                
+                                <style>
+                                    html, body {
+                                        position: relative;
+                                        height: 100%;
+                                    }
+                                body {
+                                    background: #fff;
+                                    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+                                    font-size: 14px;
+                                    color:#000;
+                                    margin: 0;
+                                    padding: 0;
+                                    overflow:auto;
+                                    
+                                }
+                                    .btn:hover, .btn:focus, .btn.focus{color:#fff;}
+                                    .inp_label{
+                                        width: 200px;
+                                        line-height: 45px;
+                                        color: #000000;
+                                        font-size: 17px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: 15px;
+                                    }
+                                .rgt {
+                                    width: 10px;
+                                    height: 18px;
+                                    float: right;
+                                    margin-right: 20px;
+                                    margin-top: 12px;
+                                    background-size: 100% 100%;
+                                    background-image: url("img/right.png");
+                                }
+                                .inp_label_s{
+                                    width: 120px;
+                                    line-height: 45px;
+                                    color: #000000;
+                                    font-size: 17px;
+                                    text-align: left;
+                                    float: left;
+                                    margin-left: 15px;
+                                }
+                                .inp_text {
+                                    border: 0 !important;
+                                    background: none !important;
+                                    box-shadow: none !important;
+                                    line-height: 35px !important;
+                                    color: #5b5b5b !important;
+                                    width: 80px !important;
+                                    font-size: 15px;
+                                }
+                                .rgt_c {
+                                    width: 40px;
+                                    height: 36px;
+                                    float: right;
+                                    margin-right: 10px;
+                                    margin-top: 6px;
+                                    background-size: 100% 100%;
+                                    background-image: url("img/pz.png");
+                                }
+                                .Max_msg{
+                                    float:right;
+                                }
+                                </style>
+                                
+                                <script type="text/javascript">
+                                    
+                                    var cpzl;
+                                    var lzgc ; //流转动作
+                                    var zps = 0; //每个动作需要上传的图片数
+                                    //	var mustsc = 0; //每个动作对应是否必须上传图片 0-非必输 1-必输
+                                    var ms1,ms2,ms3,ms4; //每个动作图片描述文字
+                                    var myTitle;
+                                    var syjbr; //上一经办人
+                                    var fileno;
+                                    var flowname;
+                                    var flow;
+                                    var number;
+                                    var loantype;
+                                    var hk_flag = 0;
+                                    var pic;
+                                    var pics;
+                                    var isend=0;
+                                    var carema_title;
+                                    var next_data;
+                                    var next_num = 9999;
+                                    var pg_flag = 0;
+                                    //初始化插件内容
+                                    var opt_datatime = {
+                                        preset: 'date', //日期格式 date（日期）|datetime（日期加时间）
+                                        theme: 'android-ics light', //皮肤样式
+                                        display: 'modal', //显示方式
+                                        mode: 'clickpick', //日期选择模式
+                                        dateFormat: 'yyyymmdd', // 日期格式
+                                        timeWheels:'HHii', //时间格式24小时
+                                        timeFormat:'HH:ii', //时间格式24小时
+                                        setText: '确定', //确认按钮名称
+                                        cancelText: '取消',//取消按钮名籍我
+                                        dateOrder: 'yyyymmdd', //面板中日期排列格式
+                                        dayText: '日', monthText: '月', yearText: '年', //面板中年月日文字
+                                        yearText: '年', monthText: '月',  dayText: '日',  //面板中年月日文字
+                                        endYear:2020, //结束年份
+                                        showNow:true,
+                                        nowText:'今天',
+                                        hourText:'小时',
+                                        minuteText:'分'
+                                    }
+                                var bank_flag = 0;
+                                    document.addEventListener("DOMContentLoaded", initial);
+                                    function initial() {
+                                        var thisURL = document.URL;
+                                        localStorage.setItem("thisURL", thisURL);
+                               
+                                        var getenv = thisURL.split('?')[1];
+                                        var buf = getenv.split('&');
+                                        fileno = buf[0].split('=')[1];
+                                        localStorage.setItem("fileno", fileno);
+                                        flow = buf[1].split('=')[1];
+                                        
+                                        $("#fileno").val(fileno);
+                                        localStorage.setItem("acount", 1);
+                                        $("#hk_sj").mobiscroll(opt_datatime);
+                                        localStorage.setItem("info_flag","0");
+                                        //根据产品种类和流转过程初始化页面
+                                        initPage();
+                                     
+                                        
+                                        
+                                        if( cpzl == "8001"){
+                                            $("#sd_li").attr("style", "display:none");
+                                            $("#gjjdk_li").attr("style", "display:block");
+                                            
+                                        } else if ( cpzl == "8003"){
+                                            $("#sd_li").attr("style", "display:block");
+                                            $("#gjjdk_li").attr("style", "display:block");
+                                          
+                                        } else {
+                                            $("#sd_li").attr("style", "display:block");
+                                           
+                                            $("#gjjdk_li").attr("style", "display:none");
+                                        }
+                                        mui.init({
+                                			swipeBack:false //启用右滑关闭功能
+                                		});
+                                		mui('.mui-scroll-wrapper').scroll({
+                                            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+                                            });
+                                		//返回键 tap事件监听
+                                        mui(document.body).on('tap', '.mui-action-back', function(e) {
+                                                              this.click();
+                                                              return false;
+                                                              });
+                                      //返回键 tap事件监听
+                                        mui(document.body).on('tap', '.mui-action-menu', function(e) {
+                                                              this.click();
+                                                              return false;
+                                                              });
+                                	
+                                        $('input[type=number]').bind('input propertychange', function() {
+                                                                     this.value=this.value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'');
+                                                                     });
+                                        $("#search_key").attr("placeholder","按名称搜索");
+                                		$('#search_key').bind('input propertychange', auto_complete);
+                                    }
+                                
+                                function initPage(){
+                                    
+                                    var data = {};
+                                    data.fileno = fileno;
+                                    
+                      
+                                           top.http_comm("6011", data, function(msg){
+                                                         top.writelog("6011 recv:"+JSON.stringify(msg));
+                                                         var json = eval("("+msg+")");
+                                                         
+                                                         if( json.stat == 0){
+                                                         showinfo(msg);
+                                                         }else{
+                                                         
+                                                         top.alertInfo('通信失败');
+                                                         }
+                                                         });
+                                }
+                                function showinfo(msg){
+                                   
+                                  
+                                    
+                                    var json = eval("("+msg+")");
+                                    /*初始化上一经办人信息*/
+                                    $("#syjbr").val(json.data.lastname);
+                                    $("#lxfs").val(json.data.lastphone);
+                                    
+                                    /*标题*/
+                                    flowname = json.data.thisFlow.flowname;
+                                    flow = json.data.thisFlow.flow;
+                                    number = json.data.number;
+                                    
+                                    required = json.data.thisFlow.required;
+                                    cpzl = json.data.thisFlow.loantype;
+                                     isend = json.data.thisFlow.isEnd;
+                                    if( cpzl.match("8001")){
+                                        $("#sd_li").attr("style", "display:none");
+                                        $("#gjjdk_li").attr("style", "display:block");
+                                        
+                                    } else if ( cpzl.match("8003")){
+                                        $("#sd_li").attr("style", "display:block");
+                                        $("#gjjdk_li").attr("style", "display:block");
+                                        
+                                    } else {
+                                        $("#sd_li").attr("style", "display:block");
+                                        
+                                        $("#gjjdk_li").attr("style", "display:none");
+                                    }
+                                    $(".top_title").val(flowname);
+                                    /*如果是第到行这步，需要录入评估总价和评估图片 20170814*/
+                                    if(flow == 2 && (cpzl.match("8001") || cpzl.match("8002") || cpzl.match("8003") || cpzl.match("8004"))){
+                                    	$("#ul_pg").attr("style", "display:black");
+                                    	pg_flag = 1;
+                                    }
+                                    if( isend == '2' ) //终审这步需要输入贷款实际发放金额和期限
+                                    {
+                                        $("#ul_dk").attr("style", "display:black");
+                                    }
+                                    
+                                    
+                                    /*初始化页面展示内容*/
+                                    pic = json.data.thisFlow.pic;
+                                    
+                                    if(flowname == "还款计划"){ //还款计划不再需要图片
+                                        $("#ul_hkjh").attr("style", "display:black");
+                                        hk_flag = 1;
+                                        pic = 0; //还款计划不需要录入图片
+                                    }
+                                    var picdec = json.data.thisFlow.picdec;
+                                    pics = picdec.split('|');
+                                    if(document.getElementById('content') )
+                                    document.getElementById('pshow').removeChild(document.getElementById('content'));
+                                    var div_host = document.getElementById("pshow");
+                                    var div_content = document.createElement("div");
+                                    div_content.setAttribute("class", "content");
+                                    div_content.setAttribute("id", "content");
+                                    
+                                    //拍照模块显示标题和提示内容
+                                    
+                                    localStorage.setItem("title_name", flowname);
+                                    localStorage.setItem("lz_message", picdec+"等相关图片上传");
+                                    for(var i = 0; i < pic; i++){
+                                        var ul = document.createElement("ul");
+                                        var li = document.createElement("li");
+                                        var num = fileno+'_'+flow+"_"+i;
+                                        li.setAttribute("onclick", "uploadimg('"+num+"','"+pics[i]+"','lz_label_"+i+"')");
+                                        
+                                        var div_label = document.createElement("div");
+                                        div_label.setAttribute("class", "inp_label");
+                                        div_label.setAttribute("id", "lz_label_"+i);
+                                        div_label.setAttribute("style", "color:#007aff;font-size:18px;font-weight: bold;")
+                                        div_label.innerHTML = flowname+"相关图片上传";
+                                        
+                                        var div_rgt = document.createElement("div");
+                                        div_rgt.setAttribute("class", "rgt_c");
+                                        div_rgt.setAttribute("style", "color:#FFA500;");
+                                        li.appendChild(div_label);
+                                        li.appendChild(div_rgt);
+                                        ul.appendChild(li);
+                                        
+                                        div_content.appendChild(ul);
+                                    }
+                                    
+                                    div_host.appendChild(div_content);
+                                    
+                                   
+                                    
+                                    if(json.data.thisFlow.isEnd == '1') //最后一步了
+                                    {
+                                        $("#div_lzr").hide();
+                                        $("#is_finish").text("案卷完成");
+                                        $("#ajht").show();
+                                        $("#ajzj").hide();
+                                    }else {
+                                    	
+                                        next_data = json.data.nextList;
+                                        var next_html = '';
+	               		                 $("#context").html('');
+	               		                 for (var i = 0; i < next_data.length; i++) {
+	               		                 	next_html += '<li onclick="set_next('+i+')" class="mui-table-view-cell"><a class="mui-navigate-right">'+next_data[i].account_name+'</a></li>';
+	               		                 }
+	               		                 $("#context").html(next_html);
+	               		                 
+	               		                 
+                                        var data1 = {};
+                     	               data1.fileno = fileno;
+                     	               data1.bankid = '';
+                               
+                                        top.http_comm("6045", data1, function(msg){
+                                                      
+                                                      var json = eval("("+msg+")");
+                                                      $("#nextFlowName").val(json.data.nextFlowName);
+                                                      });
+                                    }
+                           
+                                }
+                                function change_color(){
+                                   
+                                    
+                                    var str_label = localStorage.getItem("lz_label_now");
+                                    
+                                    $("#"+str_label).attr("style", "color:#036803");
+                                }
+                                function addOption(msg){
+                                    //根据id查找对象，
+                                    var myjson=eval("("+msg+")");
+                                    var json = myjson.responsedata;
+                                    var obj=document.getElementById('xylzr');
+                                    $("#syjbr").val(json.lastname);
+                                    $("#lxfs").val(json.lastphone);
+                                    
+                                    for (var i = 0; i < json.nexttrustees.length; i++) {
+                                        obj.options[i]=new Option(json.nexttrustees[i],i);
+                                    }
+                                    
+                                    obj.options[0].selected = true;
+                                }
+                                
+                                function removeAll(){
+                                    var obj=document.getElementById('xylzr');
+                                    obj.options.length=0;
+                                }
+                                
+                                //提交
+                                function lz_submit(){
+                                    
+                                    var data = {};
+                                    data.fileno = fileno;
+                                  
+                                    data.beiz = $("#jbrly").val();
+                                    data.flowname = flowname;
+        
+                                    if(pg_flag == 1) //需要录入评估信息
+                                    {
+                                    	data.fc_pgzj = $("#fc_pgzj").val();
+                                        if(top.isEmpty($("#fc_pgzj").val())){
+                                            top.alertInfo("评估总价不能为空");
+                                            return ;
+                                        }
+                                    }
+                                    if( isend == '2' ) //终审这步需要输入贷款实际发放金额和期限
+                                    {
+                                        data.dk_je = ($("#dk_je").val() * 10000).toFixed(2);
+                                        data.dk_gjj_je = ($("#dk_gjj_je").val() * 10000).toFixed(2);
+                                        data.dk_qx = $("#dk_qx").val();
+                                        if( cpzl.match("8001")){
+                                            if( $("#dk_gjj_je").val()==''){
+                                                top.alertInfo("公积金贷款金额不能为空");
+                                                return;
+                                            }
+                                            data.dk_je = 0.0;
+                                            
+                                        } else if ( cpzl.match("8003") || cpzl.match("8001") ){
+                                            if( $("#dk_je").val()==''){
+                                                top.alertInfo("商业贷款金额不能为空");
+                                                return;
+                                            }
+                                            if( $("#dk_gjj_je").val()==''){
+                                                top.alertInfo("公积金贷款金额不能为空");
+                                                return;
+                                            }
+                                            
+                                        } else {
+                                            if( $("#dk_je").val()==''){
+                                                top.alertInfo("商业贷款金额不能为空");
+                                                return;
+                                            }
+                                            data.dk_gjj_je = 0.0;
+                                        }
+                                        if( $("#dk_qx").val()==''){
+                                            top.alertInfo("贷款期限不能为空");
+                                            return;
+                                        }
+                                    }
+                                    if(hk_flag == 1){
+                                        data.dk_lv = $("#dk_lv").val();
+                                        data.hk_sq = $("#hk_sq").val();
+                                        data.hk_aj = $("#hk_aj").val();
+                                        data.hk_sj = $("#hk_sj").val();
+                                        
+                                        if($("#dk_lv").val()==''||$("#hk_sq").val()==''||$("#hk_aj").val()==''||$("#hk_sj").val()==''){
+                                            top.alertInfo("还款计划内容请填写完整");
+                                            return;
+                                        }
+                                    }
+                                    //isend=1是最后一步
+                                    if(isend != '1'){
+                           
+                                        if(next_num == 9999){
+                                    		 top.alertInfo("请指定下一经办人");
+                                           return;
+                                    	}
+                                    	data.trustees = next_data[next_num].account_id;
+                                    }
+                                    
+                                    
+                                    
+                                    //$("#syjbr").val();
+                                    var err_img = "缺少";
+                                    var img_req = 0;
+                                   
+                                    //判断是否有图片，是否必输
+                                    if ( required == '1' || pic > 0 ) //图片必输  图片名称规则 fileno_flow_i
+                                    {
+                                        for(var i = 0; i < pic; i++){
+                                            var imgurl = localStorage.getItem("imgfilename_"+fileno+'_'+flow+"_"+i);
+                                           
+                                            if( imgurl ){
+                                                if( i == 0 ){
+                                                    data.img_url = imgurl;
+                                                    data.img_des = pics[0];
+                                                } else {
+                                                    data.img_url += ','+imgurl;
+                                                    data.img_des += '|'+pics[i];
+                                                }
+                                            } else {
+                                                img_req++;
+                                                if( i == (pic - 1)){
+                                                    err_img += pics[i] ;
+                                                }else {
+                                                    err_img += pics[i] + ',';
+                                                }
+                                                
+                                            }
+                                        }
+                                    }
+                                    //还款计划不需要上传图片
+                                    if(hk_flag == 0){
+                                    	if( img_req > 0){
+                                            err_img += " 图片,请补充完整后再提交";
+                                            top.alertInfo(err_img);	
+                                            return 0;
+                                        }
+                                    }
+                                    
+                                    
+                                    data.isend = isend;
+                                
+                                           top.http_comm("6012", data, function(msg){
+                                                         top.writelog("6012 recv:"+msg);
+                                                         var json=eval("("+msg+")");
+                                                         
+                                                         if( json.stat == '0') //登陆成功
+                                                         {
+                                                         top.alertInfo("流转成功");
+                                                         /*这个时候是不是要返回上层页面啊*/
+                                                         
+                                                         parent.hideFrame('srfade');
+                                                         top.refresh_dbaj();
+                                                         
+                                                         
+                                                         
+                                                         } else {
+                                                         top.alertInfo('流转失败');
+                                                         }
+                                                         
+                                                         
+                                                         });
+                                           
+                                }
+                                
+                                function ht_submit(){
+                                    
+                                    var btnArray = ['否', '是'];
+                                    mui.confirm('案卷正在流转，是否确认回退？', '世纪源金融', btnArray, function(e) {
+                                                if (e.index == 1) {
+                                                    var data = {};
+                                                    data.fileno = fileno;
+                                                    data.number = number;
+                                                    data.note = $("#jbrly").val();
+                                                
+                                                    if( data.note.length < 1 || data.note=="undefined"){
+                                                    data.note = "这家伙很懒,什么留言都没有";
+                                                
+                                                    }
+                                                    data.flow = flow;
+                                                
+                                                    top.http_comm("6028", data, function(msg){
+                                                              
+                                                              var json=eval("("+msg+")");
+                                                              
+                                                              if( json.stat == '0') //登陆成功
+                                                              {
+                                                              top.alertInfo("回退成功");
+                                                              /*这个时候是不是要返回上层页面啊*/
+                                                              
+                                                              parent.hideFrame('srfade');
+                                                              top.refresh_dbaj();
+                                                              
+                                                              } else {
+                                                              
+                                                              top.alertInfo('回退失败');
+                                                              }
+                                                              
+                                                              
+                                                              });
+                                                } else {
+                                                return;
+                                                }
+                                                });
+               
+                                        
+                                    
+                                }
+                                function jbrl_xz(){
+                                    var obj=document.getElementById('xylzr'); 
+                                    var m=obj.options[obj.selectedIndex].value;
+                                    
+                                    
+                                    syjbr = obj.options[obj.selectedIndex].text;
+                                    
+                                    
+                                }
+                                function uploadimg(mynum, picname, str_label){
+                                    
+                            
+                                    localStorage.setItem("imgnum", mynum);
+                                    localStorage.setItem("lz_label_now", str_label);
+                                    
+                                    showNewFrame('flow_new_0831.html?type=0','smask');
+                               
+                                    
+                                }
+                                function page_add(){
+                                    var pagenum = localStorage.getItem("pagenum");
+                                    pagenum++;
+                                    
+                                    localStorage.setItem("pagenum", pagenum);
+                                }
+                                function page_back(){
+                                    
+                                    var pagenum = localStorage.getItem("pagenum");
+                                    pagenum--;
+                                    
+                                    localStorage.setItem("pagenum", pagenum);
+                                    history.go(-1);
+                                }
+                                function zj_submit(){
+                                    var btnArray = ['否', '是'];
+                                    mui.confirm('终结后案卷将作废，确认终结?？', '世纪源金融', btnArray, function(e) {
+                                                if (e.index == 1) {
+                                                    var data = {};
+                                                    data.fileno = fileno;
+                                                    data.flag = 1;
+                                                    data.flowname= flowname;
+                                                    data.note = $("#jbrly").val();
+                                                    if( data.note.length < 1 ){
+                                                    top.alertInfo('案卷终结时经办人留言不能为空');
+                                                    return ;
+                                                    }
+                                                
+                                                    top.http_comm("6013", data, function(msg){
+                                                              
+                                                              var json=eval("("+msg+")");
+                                                              
+                                                              if( json.stat == '0') //登陆成功
+                                                              {
+                                                              top.alertInfo("流转终结成功");
+                                                              
+                                                              parent.hideFrame('srfade');
+                                                              top.refresh_dbaj();
+                                                              
+                                                              } else {
+                                                              top.alertInfo('流转终结失败');
+                                                              }
+                                                              
+                                                              
+                                                              });
+                                                } else {
+                                                return;
+                                                }
+                                                });
+                                                
+                            
+                                }
+                                function myphone(lxfs){
+                                    
+                                    top.call_phone("联系方式:"+$("#"+lxfs).val());
+                                }
+                                
+                                function find_info(){
+                                    //showNewFrame('flow_new.html?fileno='+fileno,'smask');
+                                	showNewFrame('flow_timeline.html?fileno='+fileno,'smask');
+                                }
+                                
+                                //多行文本输入框剩余字数计算
+                                function checkMaxInput(obj, maxLen) {
+                                    if (obj == null || obj == undefined || obj == "") {
+                                        return;
+                                    }
+                                    if (maxLen == null || maxLen == undefined || maxLen == "") {
+                                        maxLen = 100;
+                                    }
+                                    
+                                    var strResult;
+                                    var $obj = $(obj);
+                                    var newid = $obj.attr("id") + 'msg';
+                                    
+                                    if (obj.value.length > maxLen) { //如果输入的字数超过了限制
+                                        obj.value = obj.value.substring(0, maxLen); //就去掉多余的字
+                                        strResult = '<span id="' + newid + '" class=\'Max_msg\' >剩(' + (maxLen - obj.value.length) + ')字</span>'; //计算并显示剩余字数
+                                    }
+                                    else {
+                                        strResult = '<span id="' + newid + '" class=\'Max_msg\' >剩(' + (maxLen - obj.value.length) + ')字</span>'; //计算并显示剩余字数
+                                    }
+                                    
+                                    var $msg = $("#" + newid);
+                                    if ($msg.length == 0) {
+                                        $obj.after(strResult);
+                                    }
+                                    else {
+                                        $msg.html(strResult);
+                                    }
+                                }
+                                
+                                
+                                function save_submit(){
+                                    var btnArray = ['否', '是'];
+                                    mui.confirm('是否先只保存备注信息?', '世纪源金融', btnArray, function(e) {
+                                                if (e.index == 1) {
+                                                    var data = {};
+                                                    data.fileno = fileno;
+                                                    data.jbrname = localStorage.getItem("username");
+                                                    data.jbrid = localStorage.getItem("userid");
+                                                    data.flowno = flow;
+                                                    data.flowname = flowname;
+                                                    data.beiz = $("#jbrly").val();
+                                                    if( data.beiz.length < 1 ){
+                                                    top.alertInfo('经办人留言不能为空');
+                                                    return ;
+                                                    }
+                                                
+                                                    top.http_comm("6058", data, function(msg){
+                                                              
+                                                              var json=eval("("+msg+")");
+                                                              
+                                                              if( json.stat == '0') //登陆成功
+                                                              {
+                                                              top.alertInfo("保存成功");
+                                                              /*这个时候是不是要返回上层页面啊*/
+                                                              /*这个时候还要想放刷新下上层页面*/
+                                                              parent.hideFrame('srfade');
+                                                              top.refresh_dbaj();
+                                                              
+                                                              } else {
+                                                              top.alertInfo('保存备注失败');
+                                                              }
+                                                              
+                                                              
+                                                              });
+                                                } else {
+                                                return;
+                                                }
+                                                });
+                                                
+                                                
+                       
+                                	
+   
+                                }
+                                </script>  
+                                
+                                </head>
+    <body  style="background-color: #ffffff;">
+
+         <header class="mui-bar mui-bar-nav head_color">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+            <a  class="mui-action-menu mui-icon mui-icon-bars mui-pull-right"  onclick="find_info();"><font style="font-size:13px"></font></a>
+            <h1 class="mui-title" style="font-weight:bold;">案卷流转</h1>
+        </header> 
+        <div class="container-fluid">
+        	<div class="mui-content mui-scroll-wrapper">       		
+	       		 <div class="mui-scroll  top_head" >
+                     <div style="margin-top:1px;">
+                        <form class="mui-input-group">
+                            <div class="mui-input-row" onclick="find_info()">
+                                <label>案卷编号</label><input  type="text" placeholder="案卷编号"
+                                id="fileno" />
+                            </div>
+                            <div class="mui-input-row" >
+                                <label>上一经办人</label> <input type="text" readonly id="syjbr" />
+                            </div>
+                            <div class="mui-input-row" onclick="myphone('lxfs')">
+                                <label>联系方式</label> <input type="text" style="color:#5b5b5b;text-decoration:underline;" readonly id="lxfs" />
+                            </div>
+                        </form>
+                        <form class="mui-input-group" id="ul_dk" style="display:none">
+                            <div class="mui-input-row" id="sd_li">
+                                <label>商贷金额</label><input style="width:45%;float:left;" type="number" placeholder="请输入商贷金额"
+                                id="dk_je" maxlength="11"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">万</span>
+                            </div>
+                            <div class="mui-input-row" id="gjjdk_li">
+                                <label>公贷金额</label><input style="width:45%;float:left;" type="number" placeholder="请输入公贷金额"
+                                id="dk_gjj_je" maxlength="11"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">万</span>
+                            </div>
+                            <div class="mui-input-row" id="gjjdk_li">
+                                <label>还款期限</label><input style="width:45%;float:left;" type="number" placeholder="请输入还款期限"
+                                id="dk_qx" maxlength="11"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">月</span>
+                            </div>
+                        </form>
+                        <form class="mui-input-group" id="ul_hkjh" style="display:none">
+                            <div class="mui-input-row">
+                                <label>贷款利率</label><input style="width:45%;float:left;" type="number" placeholder="请输入贷款利率"
+                                id="dk_lv" maxlength="11"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">%</span>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>首期还款</label><input style="width:45%;float:left;" type="number" placeholder="请输入首期还款金额"
+                                id="hk_sq" maxlength="11"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>每期金额</label><input style="width:45%;float:left;" type="number" placeholder="请输入每期还款金额"
+                                id="hk_aj" maxlength="11"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+                            </div>
+                            <div class="mui-input-row">
+                                <label>还款时间</label> <input type="text"  id="hk_sj" placeholder="点击选择还款时间"/>
+                            </div>
+                        </form>
+                        <form class="mui-input-group" id="ul_pg" style="display:none">
+                            <div class="mui-input-row">
+                                <label>评估总价</label><input style="width:45%;float:left;" type="number" placeholder="请输入评估总价"
+                                id="fc_pgzj" maxlength="11"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">万</span>
+                            </div>
+                       
+                        </form>
+                       
+
+            </div>
+            
+            <div id="pshow" class="form_div"></div>
+            
+            
+            
+            <!-- 经办人留言信息 -->
+            <div class="mui-content-padded" style="margin: 5px;">
+                <form class="mui-input-group" >
+                    <div class="mui-input-row" style="height:105px;">
+                        <textarea id="jbrly" rows="4" placeholder="注意事项（500字以内）" maxlength='500' onkeydown="checkMaxInput(this,500)"
+                            onkeyup="checkMaxInput(this,500)" onfocus="checkMaxInput(this,500)" onblur="checkMaxInput(this,500);resetMaxmsg()"></textarea>
+                    </div>
+                </form>
+            </div>
+            <!-- 下一流转人 -->
+            <form class="mui-input-group" id="div_lzr" style="margin-top:10px;">
+                <div class="mui-input-row">
+                    <label>下一流程</label>
+                    <input type="text" id="nextFlowName" readonly />
+                </div>
+                <div class="mui-input-row">
+                    <label>流转到</label>
+                    <input type="text" id="xylzr" onclick="change_next();" placeholder="点击选择下一流转人" readonly/>
+                </div>
+            </form>
+           
+         	<div style="margin-top:10px;text-align:center;margin-bottom: 10px;">
+                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="save_submit()">保存备注</button>
+            </div>
+            <div style="margin-top:10px;text-align:center;margin-bottom: 10px;" id="ajlz">
+                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="lz_submit()" id="is_finish">案卷流转</button>
+            </div>
+            <div style="margin-top:10px;text-align:center;margin-bottom: 10px;" id="ajht">
+                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="ht_submit()">案卷回退</button>
+            </div>
+            <div style="margin-top:10px;text-align:center;margin-bottom: 300px;" id="ajzj">
+                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="zj_submit()">案卷终结</button>
+            </div>
+            
+        </div>
+            <div style="color:#fff;height:100px;line-height:100px;text-align:center;">--到底了--</div>
+	</div>
+	</div>
+	
+        
+		<div class="div_fullscreen" style="display:none">
+        	<div class="mui-content mui-scroll-wrapper">       		
+	       		 <div class="mui-scroll" >
+		            <div style="margin-top:25px;padding:10px;" >	
+						<input type="search" class="mui-input-clear"   id="search_key" placeholder="按关键字搜索问题" style="width:85%;float:left;">
+						<div style="width:15%;float:right;padding-left:5px;"><button type="button" class="mui-btn  mui-btn-primary" onclick="hide_all()">取消</button></div>
+					</div>
+				
+					<ul class="mui-table-view" style="margin-top:45px;" id="context">
+
+					</ul>
+		        </div>
+	        </div>
+	  
+        </div>
+       <script src="js/frozen.js"></script>
+	      <script type="text/javascript">
+	            	
+
+	            	function auto_complete(){
+	            		
+	            		 var key = $("#search_key").val();
+	  	                 var next_html = '';
+	  	                // $("#context").val('');
+	  	                 top.writelog("key="+key);
+	  	                 if(key.length == 0){
+	  	                	 for(var i = 0; i < next_data.length; i++) {
+		  	                	
+		  	                		next_html += '<li onclick="set_next('+i+')" class="mui-table-view-cell" ><a class="mui-navigate-right">'+next_data[i].account_name+'</a></li>';
+		  	                 }
+	  	                 }else{
+	  	                	 for(var i = 0; i < next_data.length; i++) {
+		  	                	 if(next_data[i].account_name.match(key)){
+		  	                		 top.writelog("i="+i);
+		  	                		next_html += '<li onclick="set_next('+i+')" class="mui-table-view-cell"><a class="mui-navigate-right">'+next_data[i].account_name+'</a></li>';
+
+		  	                	 }
+		  	                 	
+		  	                 }
+	  	                 }
+	  	                
+	  	                 
+	  	                $("#context").html(next_html);
+	  	              //	top.writelog("next_html="+document.getElementById('context').innerHTML);
+	  	                $("#context").show();
+	  	               	//	document.getElementById('context').innerHTML = next_html;
+	            	}
+	            	function set_next(num){
+	            		top.writelog("set_next: num="+num+"account_name="+next_data[num].account_name);
+	            		next_num = num;
+	            		$("#xylzr").val(next_data[num].account_name);
+	            	//	$('.ui-searchbar-wrap').removeClass('focus');
+	                    $(".div_fullscreen").hide();
+	            	}
+	            	function change_next(){
+	            		$(".div_fullscreen").show();
+	   				 //	$('.ui-searchbar-wrap').addClass('focus');
+	                    $('#search_key').focus();
+	            	}
+	 
+	            
+	                function hide_all(){
+	                //	$('.ui-searchbar-wrap').removeClass('focus');
+	                    $(".div_fullscreen").hide();
+	                    $('#search_key').blur();
+	                   
+	                }
+	            </script>
+    </body>
+</html>

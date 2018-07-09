@@ -1,0 +1,260 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/aui/aui.css" />
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<script src="mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
+body {
+    background: #fff;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+
+</style>
+</head>
+    <script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+      
+
+        mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		//返回键 tap事件监听
+		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+	  		this.click();
+                              return false;
+	  	});
+        $("#qssj").on("input propertychange",function(){
+            
+            if($(this).val().length>0){
+            	
+            $(this).addClass("full");
+            }
+            else{
+            $(this).removeClass("full");
+            }
+     
+       });
+		$("#jzsj").on("input propertychange",function(){
+       
+          if($(this).val().length>0){
+          $(this).addClass("full");
+          }
+          else{
+          $(this).removeClass("full");
+          }
+          
+        });
+     
+        initPage();
+    }
+    
+    /*单笔查询*/
+    function initPage() {
+        
+        $("#p1").attr("style", "display:block");
+        
+    
+        
+        
+        var data = {};
+        data.userid = localStorage.getItem("userid");
+       
+        data.accountPosition = localStorage.getItem("accountPosition");
+       
+        data.begindate = $("#qssj").val();
+        data.enddate = $("#jzsj").val();
+        /*
+        top.start_process();
+        $.ajax({
+               type : "post",
+               timeout: 5000,
+               url: "http://"+IP+":"+PORT+"/app/6037",
+               data : data,
+               datatype : "json",
+               success : showmessage,
+               error:function(msg){
+            	   top.stop_process();
+               top.alertInfo('登录失败');
+               }
+               });
+        */
+        top.http_comm("6037", data, showmessage);
+               
+    }
+    
+    
+    
+    
+    function showmessage(msg){
+    	top.writelog(msg);
+    	top.stop_process();
+        var json=eval("("+msg+")");
+        var hkjh_info='';
+  
+		if(json.data.length == 0){
+			var msg;
+			if($("#time_flag").val() == 0){
+				msg = "本周没有相关案卷的财务信息";
+			}else if($("#time_flag").val() == 1){
+				msg = "本月没有相关案卷的财务信息";
+			}else if($("#time_flag").val() == 2){
+				msg = "本年没有相关案卷的财务信息";
+			}else{
+				msg = "该时段没有相关案卷的财务信息";
+			}
+			
+			hkjh_info = '<div style="text-align:center"><p>'+msg+'</p></div>';
+			$("#hkjh_info").html(hkjh_info);
+			return;
+		}
+        for(var i = 0; i < json.data.length; i++){
+            
+            var info={};
+            info.fileno=json.data[i].fileno;
+            info.jkr_xm=json.data[i].jkr_xm;
+            info.bank_name = json.data[i].bankname;
+            info.typeName = json.data[i].typeName;
+            if(json.data[i].loantype == "8001"){
+                info.loan_amt = json.data[i].dk_gjj_je;
+            }else if(json.data[i].loantype == "8003"){
+                info.loan_amt = json.data[i].dk_gjj_je + json.data[i].dk_gjj_je;
+            }else{
+                info.loan_amt = json.data[i].dk_je;
+            }
+            
+            info.hk_sj = json.data[i].hk_sj;
+            info.hk_aj = json.data[i].hk_aj;
+            info.dk_qx = json.data[i].dk_qx;
+            info.dk_lv = json.data[i].dk_lv;
+            info.img_url = json.data[i].hk_img;
+            var url = cpzl_image[json.data[i].loantype];
+            
+            hkjh_info += '<li class="aui-list-view-cell aui-img" onclick="goto_map(\''+json.data[i].fileno+'\');">'
+                            +'<img class="aui-img-object aui-pull-left" src="'+url+'">'
+                            +'<div class="aui-img-body">'
+                            +'<p class="aui-ellipsis-1 list_font">'+json.data[i].jkr_xm+'<span style="float:right;font-size:12px;color:#808080">还款时间:'+json.data[i].hk_sj+'</span></p>'
+                            +'<p class="aui-ellipsis-1 list_font"><span id="title" >贷款金额：'+info.loan_amt+'(万)</span><span style="float:right">月供：'+json.data[i].hk_aj+'(元)</span></p>'
+                            +'<p class="aui-ellipsis-1 list_font"><span id="address">贷款银行：'+json.data[i].bankname+'</span></p></div></li>';
+            
+            
+            
+            
+
+            localStorage.setItem("hkjh_"+json.data[i].fileno,JSON.stringify(info));
+        }
+        
+        $("#hkjh_info").html(hkjh_info);
+        $("#cx_div").attr("style", "margin-bottom:20px;");
+    }
+    
+    function time_flag(){
+  
+        if($("#time_flag").val() == 3){
+            $("#time_div").show();
+            $(".radmenu").attr("style", "display: flex !important;")
+        }else{
+            $("#time_div").hide();
+            $(".radmenu").attr("style", "none;")
+            var data = {};
+            data.userid = localStorage.getItem("userid");
+            data.flag = $("#time_flag").val();
+            localStorage.setItem("ph_flag", data.flag);
+            data.accountPosition = localStorage.getItem("accountPosition");
+            /*
+            top.start_process();
+            $.ajax({
+                   type : "post",
+                   timeout: 5000,
+                   url: "http://"+IP+":"+PORT+"/app/6037",
+                   data : data,
+                   datatype : "json",
+                   success : showmessage,
+                   error:function(msg){
+                   
+                   alertInfo('登录失败');
+                   }
+                   });
+            */
+            top.http_comm("6037", data, showmessage);
+        }
+    }
+    function goto_map(fileno){
+        localStorage.setItem("hkjh_fileno", fileno);
+        showNewFrame("aj_hkjh_gr.html?id="+fileno, "smask");
+        
+    }
+        </script>
+    
+    <body>
+        
+        
+   	<header class="mui-bar mui-bar-nav head_color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+			<h1 class="mui-title">还款计划</h1>
+		</header>
+
+        <div class="container-fluid" >
+            <div class="mui-content mui-scroll-wrapper" >
+	    		<div class="mui-scroll top_head">             
+	                <div class="mui-content-padded" style="margin: 5px;">
+						<form class="mui-input-group">
+							<div class="mui-input-row">
+								<label>客户名称</label>
+								<input type="text" placeholder="输入客户名称（全称）" id="jkr_xm">
+							</div>
+			
+						</form>
+						<form class="mui-input-group">
+							<div class="mui-input-row">
+								<label>开始时间</label>
+								<input type="date" placeholder="请选择起始日期" id="qssj" style="height:41px;overflow: hidden;">
+							</div>
+						 
+							<div class="mui-input-row" >
+								<label>结束时间</label>
+								<input type="date" placeholder="请选择结束日期" id="jzsj" style="height:41px;overflow: hidden;">
+							</div>	
+						</form>					
+                   </div>
+	                <div style="margin-top:10px;text-align:center;margin-bottom: 600px; " onclick="initPage();" id="cx_div">
+						<button type="button" class="mui-btn  mui-btn-primary" style="width:90%">查询</button>
+					</div>
+
+		            <div class="aui-content" style="margin-bottom:300px;">
+		                <ul class="aui-list-view demo-box" style="margin-bottom: 0;" id="hkjh_info">
+		                    
+		                </ul>
+		               
+		            </div>
+		
+		       </div>
+        
+        	</div>
+        </div>
+    </body>
+</html>

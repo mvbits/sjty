@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/lib/jQueryMobile/jquery.mobile-1.4.3.css" />
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script src="js/lib/jQuery/jquery.mobile-1.4.3.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+.title1{
+	text-shadow: none !important;
+	color: white;
+	line-height: 40px;
+	text-align: center;
+	height: 40px;
+	width: 100%;
+	background-color: #129bf0;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-align-items: center;
+	align-items: center;
+}
+body { 
+margin: 0; 
+padding: 0; 
+background-attachment: fixed; /* prevent screen flash in IE6 */ 
+} 
+div,ul{margin: 0;padding: 0;} 
+.topNavWrapper { 
+width: 100%; 
+text-align: left; 
+height: 31px; 
+margin: 0px auto; 
+z-index:100; 
+_position: relative ; 
+_top:0px; 
+} 
+.topNav { 
+width: 100%; 
+float: left; 
+display: block; 
+z-index: 100; 
+overflow: visible; 
+position: fixed; 
+top: 0px; /* position fixed for IE6 */ 
+_position: absolute; 
+_top: expression(documentElement.scrollTop + "px"); 
+background-repeat: no-repeat; 
+background-position: right; 
+height: 31px; 
+line-height: 31px; 
+color:#fff; 
+background-color:#444; 
+text-align:center; 
+} 
+</style> 
+
+</head>
+
+<body style="background:#f4f4f4;overflow:auto;">
+<div class="container-fluid">
+<div class="topNavWrapper" >
+	<div class="topNav">
+		<div component-role="m11_top" class="top">
+			<div class="back_ic" style="margin-top:-4px;" onClick="back_history();">	</div>	
+			<span class="top_title">关于APP</span>
+		</div>
+	</div>
+</div>
+
+<div class="mui-card" style="margin-top:50px;">
+				
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p id="sj">最近更新：2018年06月07 版本号:1.3.8 测试版</p>
+						<p style="color: #333;" id="js">为提高员工工作效率，规范操作流程而开发的一款专业办公软件</p>
+						<p id="nr">新增了【装修贷】、【车抵贷】两个产品，产品种类显示有误的问题</p>
+						
+					</div>
+				</div>
+			 	
+				<div style="text-align:center"><img src="http://www.sjyjr.net/static/qrcode.png"></div>
+			</div>
+</div>
+</body>
+<script type="text/javascript">
+
+var thisURL;
+var count = 3;
+document.addEventListener("DOMContentLoaded", initial);
+function initial() {
+	
+	thisURL = document.URL; 
+
+	
+}
+
+</script>
+</html>
+

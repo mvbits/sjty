@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="css/lib/jQueryMobile/jquery.mobile-1.4.3.css" />
+		<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link href="dev/css/mobiscroll.android-ics-2.5.2.css" rel="stylesheet" type="text/css" />
+<link href="dev/css/mobiscroll.core-2.5.2.css" rel="stylesheet" type="text/css" />
+<link href="dev/css/mobiscroll.animation-2.5.2.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script src="js/lib/jQuery/jquery.mobile-1.4.3.js" type="text/javascript" charset="utf-8"></script>	
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script src="js/mobiscroll.custom-2.5.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="dev/js/mobiscroll.core-2.5.2.js" type="text/javascript"></script>
+<script src="dev/js/mobiscroll.core-2.5.2-zh.js" type="text/javascript"></script>
+<script src="dev/js/mobiscroll.datetime-2.5.1.js" type="text/javascript"></script>
+<script src="dev/js/mobiscroll.datetime-2.5.1-zh.js" type="text/javascript"></script>
+<script src="dev/js/mobiscroll.android-ics-2.5.2.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+	
+<style type="text/css">
+.btn:hover, .btn:focus, .btn.focus{color:#fff;}
+			.inp_label{
+	width: 200px;
+	line-height: 45px;
+	color: #000000;
+	font-size: 17px;
+	text-align: left;
+	float: left;
+	margin-left: 15px;
+}
+			.inp_label_s{
+	width: 100px;
+	line-height: 45px;
+	color: #000000;
+	font-size: 17px;
+	text-align: left;
+	float: left;
+	margin-left: 15px;
+}
+.inp_label_x{
+	width: 200px;
+	line-height: 45px;
+	color: #5B5B5B;
+	font-size: 17px;
+	text-align: left;
+	float: left;
+	margin-left: 15px;
+}
+	
+.inp_show_text {
+	width: 60px;
+	line-height: 45px;
+	color: #8e8e8e;
+	font-size: 15px;
+	text-align: left;
+	float: left;
+	margin-left: 15px;
+}
+.inq_label1{
+	width: 160px;
+	line-height: 45px;
+	color: #000000;
+	font-size: 17px;
+	text-align: left;
+	float: left;
+	margin-left: 15px;
+}
+
+.inp_text {
+	border: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+	line-height: 35px !important;
+	color: #5b5b5b !important;
+	width: 160px !important;	
+	font-size: 15px;
+	readonly:readonly;
+}
+
+.inp_text_d {
+	border: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+	line-height: 35px !important;
+	color: #5b5b5b !important;
+	width: 200px !important;	
+	font-size: 15px;
+}
+.inp_text_s {
+	border: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+	line-height: 45px !important;
+	color: #5b5b5b !important;
+	width: 60% !important;
+	font-size: 12px;
+	vertical-align::50%;
+	white-space: pre-wrap;
+}
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.rgt {
+	width: 10px;
+	height: 18px;
+	float: right;
+	margin-right: 20px;
+	margin-top: 12px;
+	background-size: 100% 100%;
+	background-image: url("img/right.png");
+}
+.rgt_s {
+	
+	height: 18px;
+	float: right;
+	width: 60px;
+	line-height: 45px;
+	color: #000000;
+	font-size: 17px;
+	text-align: left;
+}
+.yes {
+	width: 25px;
+	height: 18px;
+	float: right;
+	margin-right: 20px;
+	margin-top: 12px;
+	background-size: 100% 100%;
+	background-image: url("img/sanxia/yes.png");
+}
+
+.content {
+	width: 100%;
+		overflow: auto;
+}
+.huixian {color: #CCCCCC}
+
+.bot_btn_m{
+	text-shadow: none !important;
+	width: 80%;
+	text-align: center;
+	height:45px;
+	line-height: 45px;
+	color: #ffffff;
+	font-size: 20px;
+	margin: 10px auto;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	background-color: #cc0033;
+}
+
+.span_1{
+	width: 33%;
+	display: inline-block;
+	height: 45px;
+	text-align: left;
+	line-height: 45px;
+}
+.space_1{
+	
+	}
+.wc{
+	margin-left:70px;
+	font-size: 20px;
+	}
+	.infos{
+
+	}
+	
+.flow_steps ul span { float:left; height:23px; padding:0 40px 0 30px; line-height:23px; text-align:center; background:url(img/barbg.png) no-repeat 100% 0 #E4E4E4; font-weight:bold;} 
+.flow_steps ul span.done { background-position:100% -46px; background-color:#FFEDA2;} 
+.flow_steps ul span.current_prev { background-position:100% -23px; background-color:#FFEDA2;} 
+.flow_steps ul span.current { color:#fff; background-color:#990D1B;} 
+.flow_steps ul span.last { background-image:none;} 
+
+</style>
+</head>
+
+<script>
+var img_map=[
+	"img_mf_sfz",
+	"img_mf_hkb",
+	"img_mf_hyzm",
+	"img_mf_zxbg",
+	"img_jkr_sfz",
+	"img_jkr_hkb",
+	"img_jkr_hyzm",
+	"img_jkr_srzm",
+	"img_jkr_qtzc",
+	"img_gtjkr_sfz",
+	"img_gtjkr_hkb",
+	"img_gtjkr_hyzm",
+	"img_gtjkr_srzm",
+	"img_gtjkr_qtzc",
+	"jy_fcz",
+	"ymf_dkzm",
+	"ymf_dkye",
+	"fc_cqz",
+	"fc_tdz",
+	"fc_bdcz",
+	"fc_pgbg"
+];
+
+var carema_title=["产权人身份证",
+                  "产权人户口本",
+                  "产权人婚姻证明",
+                  "产权人征信报告",
+                  "借款人身份证",
+                  "借款人户口本",
+                  "借款人婚姻证明",
+                  "借款人收入证明",
+                  "借款人其他资产证明",
+                  "共同借款人身份证",
+                  "共同借款人户口本",
+                  "共同借款人婚姻证明",
+                  "共同借款人收入证明",
+                  "共同借款人其他资产",
+                  "房产买卖合同",
+                  "原贷款的借款合同",
+                  "存量贷款余额证明",
+                  "房产产权证",
+                  "房产土地证",
+                  "房产不动产证",
+                  "房产评估报告"
+                  ];
+var cpzl_map = {
+	"8001":"公积金按揭贷款",
+"8002":"商贷按揭贷款",
+"8003":"组合按揭贷款",
+"8004":"房抵贷",
+"8005":"安居贷",
+"8006":"大树金融",
+"8007":"友金所",
+"8008":"平安新一贷",
+"8009":"赎楼贷",
+"8010":"尾款贷"
+};
+var cpzl;
+var userno;
+var fileno;
+var img = {};
+var flag;
+document.addEventListener("DOMContentLoaded", initial);
+function initial() {
+	thisURL = document.URL; 
+	
+ 	var  getenv = thisURL.split('?')[1];
+ 	
+ 	fileno = getenv.split('=')[1];
+	
+	localStorage.setItem("pagenum", "0");
+	$(".top_title").html(top.title);
+	//initPage();
+	cpzl_xz("8001");
+	var cpzlname = cpzl_map["8001"];
+	
+	$("#cpzl").html(cpzlname);
+
+	$(".inp_text").attr("readonly", "readonly");
+	showinfo();
+	
+}
+
+
+function cpzl_xz(cpzl){
+
+	$("#cpxq").attr("style", "display:block");
+	
+	
+	$("li.infos").attr("style", "display:black");
+	if( cpzl == "8001" || cpzl == "8002" || cpzl == "8003" || cpzl == "8004"){
+		$("#li_03").attr("style", "display:none");
+		$("#li_04").attr("style", "display:none");
+	} else if (cpzl == "8005") {
+		$("#li_01").attr("style", "display:none");
+		$("#li_04").attr("style", "display:none");
+		
+	} else if (cpzl == "8006" || cpzl == "8007" || cpzl == "8008" ) {
+		$("#li_01").attr("style", "display:none");
+		$("#li_03").attr("style", "display:none");
+		$("#li_04").attr("style", "display:none");
+	} else if (cpzl == "8010") {
+		$("#li_04").attr("style", "display:none");
+	}
+	
+	if( cpzl == "8005"){
+		$("#li_fkfs").attr("style", "display:none");
+		$("#li_dkje").attr("style", "display:block");
+	} else if(cpzl == "8009" || cpzl == "8010") {
+		$("#li_dkje").attr("style", "display:none");
+		$("#li_fkfs").attr("style", "display:block");
+	}
+	//和后台通讯，获取贷款编号
+	fileno = "test123";
+	localStorage.setItem("fileno", fileno);
+	$("#cpbh").html(fileno);
+}
+
+function initPage(){
+	
+	var data = {};
+	var count = 0;
+	data.fileno = fileno;
+	//根据案卷号查案卷详情，显示流转按钮
+	var data = {};
+	data.fileno = fileno;
+	top.start_process();
+	$.ajax({
+			type : "post",
+			url: "http://"+IP+":"+PORT+"/app/6016",
+			timeout: 15000,
+			data : data,
+			datatype : "json",
+			success :function(msg){
+				top.stop_process();	
+				showinfo(msg);
+			},
+			error:function(msg){
+				top.stop_process();
+				top.alertInfo('通信失败','','温馨提示','确认');
+			}
+		});
+}
+
+function showinfo(msg){
+	
+	var json=eval("("+msg+")");
+	var data = json.data;
+	
+	if(document.getElementById('content') )
+		document.getElementById('myp').removeChild(document.getElementById('content'));
+	var div_host = document.getElementById("myp");
+	var div_content = document.createElement("div");
+	div_content.setAttribute("class", "flow_steps");
+	div_content.setAttribute("id", "content");
+	
+	var ul = document.createElement("ul");
+	
+	for(var i = 0; i < data.length; i++){	
+		var span = document.createElement("span");
+		
+		span.setAttribute("id", "step"+i);
+		span.innerHTML = data[i].flowname;
+		
+		if(i == (data.length - 1)){
+			span.setAttribute("class", "current");
+			//span.setAttribute("style", "color:#F00");
+		} else if ( i == (data.length - 2 )){ 
+			span.setAttribute("class", "current_prev");
+		} else {
+			span.setAttribute("class", "done");
+		}
+		
+		
+		ul.appendChild(span);
+		
+	}
+	
+	
+	div_content.appendChild(ul);
+	div_host.appendChild(div_content);
+	/*案卷流程处理*/
+	$("#jbr_now").html("张三");
+	$("#lxfs_now").html("1111111111");
+	$("#time_now").html("3天");
+	return 0;
+	
+	//当前流转动作所需的信息
+//	localStorage.setItem("loanflow_"+fileno, json.data.loanflow);
+	var info = json.data.filejour;
+	
+	$("#lxfs").html(info.lxfs);
+	$("#sclc").html(info.json.data.loanflow.loanflowname);
+	$("#trustees").html(info.trustees);
+	
+	cpzl_xz("8001");
+	var cpzlname = cpzl_map["8001"];
+	$("#cpzl").val(cpzlname);
+	
+
+	$("#mf_xm").val(data.mf_xm);
+	$("#mf_sfzh").val(data.mf_sfzh);
+	$("#mf_lxfs1").val(data.mf_lxfs1);
+	$("#mf_xlfs2").val(data.mf_xlfs2);
+	
+	
+	/*产权人配偶信息*/
+	$("#mf_haspo").val(data.mf_haspo);
+	if( data.mf_haspo == 1){
+		$("#mf_po").attr("style", "display:black");
+		$("#mf_po").attr("disabled", "disabled");
+		$("#mfpo_xm").val(data.mfpo_xm);
+		$("#mfpo_sfzh").val(data.mfpo_sfzh);
+		$("#mfpo_lxfs1").val(data.mfpo_lxfs1);
+		$("#mfpo_lxfs2").val(data.mfpo_lxfs2);
+	}
+	
+	/*产权人代理人信息*/
+	$("#mf_hasdlr").val(data.mf_hasdlr);
+	if( data.mf_hasdlr == 1){
+		$("#mf_dlr").attr("style", "display:black");
+		$("#mf_dlr").attr("disabled", "disabled");
+		$("#mfdlr_xm").val(data.mfdlr_xm);
+		$("#mfdlr_sfzh").val(data.mfdlr_sfzh);
+		$("#mfdlr_lxfs").val(data.mfdlr_lxfs);
+	}	
+	
+	$("#jkr_xm").val(data.jkr_xm);
+	$("#jkr_sfzh").val(data.jkr_sfzh);
+	$("#jkr_lxfs1").val(data.jkr_lxfs1);
+	$("#jkr_xlfs2").val(data.jkr_xlfs2);
+	
+	/*借款人配偶信息*/
+	$("#jkr_haspo").val(data.jkr_haspo);
+	if( data.jkr_haspo == 1){		
+		$("#jkr_po").attr("style", "display:black");
+		$("#jkr_po").attr("disabled", "disabled");
+		$("#jkrpo_xm").val(data.jkrpo_xm);
+		$("#jkrpo_sfzh").val(data.jkrpo_sfzh);
+		$("#jkrpo_lxfs1").val(data.jkrpo_lxfs1);
+		$("#jkrpo_lxfs2").val(data.jkrpo_lxfs2);
+	}
+		
+	/*共同借款人信息*/
+	$("#jkr_hasgtjkr").val(data.jkr_hasgtjkr);
+	if( data.jkr_hasgtjkr == 1 ){
+		$("#jkr_gtjkr").attr("style", "display:black");
+		$("#jkr_gtjkr").attr("disabled", "disabled");
+		$("#gtjkr_xm").val(data.gtjkr_xm);
+		$("#gtjkr_sfzh").val(data.gtjkr_sfzh);
+		$("#gtjkr_lxfs1").val(data.gtjkr_lxfs1);
+		$("#gtjkr_xlfs2").val(data.gtjkr_xlfs2);
+		
+		/*共同借款人配偶xinxi*/
+		$("#gtjkr_haspo").val(data.gtjkr_haspo);
+		if( data.gtjkr_haspo == 1 ){
+			$("#gtjkr_po").attr("style", "display:black");
+			$("#gtjkr_po").attr("disabled", "disabled");
+			$("#gtjkrpo_xm").val(data.gtjkrpo_xm);
+			$("#gtjkrpo_sfzh").val(data.gtjkrpo_sfzh);
+			$("#gtjkrpo_lxfs1").val(data.gtjkrpo_lxfs1);
+			$("#gtjkrpo_lxfs2").val(data.gtjkrpo_lxfs2);
+		}
+
+	}
+	
+	/*借款人代理人信息*/
+	$("#jkr_hasdlr").val(data.jkr_hasdlr);
+	if( data.jkr_hasdlr == 1) {
+		$("#jkr_dlr").attr("style", "display:black");
+		$("#jkr_dlr").attr("disabled", "disabled");
+		$("#jkr_dlr_xm").val(data.jkr_dlr_xm);
+		$("#jkr_dlr_sfzh").val(data.jkr_dlr_sfzh);
+		$("#jkr_dlr_lxfs").val(data.jkr_dlr_lxfs);
+	}
+	
+	$("#dk_pz").val(data.dk_pz);
+	$("#dk_je").val(data.dk_je);
+	$("#dk_qx").val(data.dk_qx);
+	$("#dk_hkfs").val(data.dk_hkfs);
+	$("#dk_jg").val(data.dk_jg);
+	$("#dk_qdsj").val(data.dk_qdsj);
+	$("#fc_dz").val(data.fc_dz);
+	$("#fc_mj").val(data.fc_mj);
+	$("#fc_lc").val(data.fc_lc);
+	$("#fc_ghyt").val(data.fc_ghyt);
+	$("#fc_tdxz").val(data.fc_tdxz);
+	$("#fc_bdcj").val(data.fc_bdcj);
+	$("#fc_pgzj").val(data.fc_pgzj);
+	$("#fc_pggs").val(data.fc_pggs);
+	$("#fc_flag").val(data.fc_flag);
+	
+	$("#jy_je").val(data.jy_je);
+	$("#jy_dkje").val(data.jy_dkje);
+	$("#jy_zffs").val(data.jy_zffs);
+	
+	$("#hzjg_mc").val(data.hzjg_mc);
+	$("#hzjg_lb").val(data.hzjg_lb);
+	$("#hzjg_lblxfs").val(data.hzjg_lblxfs);
+	$("#hzjg_jtmd").val(data.hzjg_jtmd);
+	$("#hzjg_djr").val(data.hzjg_djr);
+	$("#hzjg_djrlxfs").val(data.hzjg_djrlxfs);
+	$("#yjgs_fgs").val(data.yjgs_fgs);
+	$("#yjgs_xsjl").val(data.yjgs_xsjl);
+	$("#yjgs_xsjllxfs").val(data.yjgs_xsjllxfs);
+	$("#cwys_pgf").val(data.cwys_pgf);
+	$("#cwys_dbf").val(data.cwys_dbf);
+	$("#cwys_fwf").val(data.cwys_fwf);
+	$("#cwys_zlf").val(data.cwys_zlf);
+	$("#cwys_qtfy").val(data.cwys_qtfy);
+	$("#cwyf_pgf").val(data.cwyf_pgf);
+	$("#cwyf_dydjf").val(data.cwyf_dydjf);
+	$("#cwyf_qtfy").val(data.cwyf_qtfy);
+	$("#beiz").val(data.beiz);
+	
+	//alert("案卷提交成功");
+	
+
+	
+	for(var i = 0; i < 21; i++){	
+		var str_label = img_map[i];
+		localStorage.setItem("img_"+fileno+"_"+i, data[str_label]);
+	}
+	
+	//处理未输入的标签，变为红色
+	for(var key in data){
+		var str_inp = $("#"+key).val();
+		if( str_inp == ""){
+			$("#"+key+"_label").attr("style", "color:#F00");
+			count++;
+		} else {
+			$("#"+key+"_label").attr("style", "color:#000000");
+			
+		}
+	}
+	
+	
+	
+}
+
+
+
+function mf_haspo(){
+	var flag;
+	flag = $("#mf_haspo").val();
+	if( flag == '1')
+		$("#mf_po").attr("style", "display:black");
+	else
+		$("#mf_po").attr("style", "display:none");
+}
+function mf_hasdlr(){
+	var flag;
+	flag = $("#mf_hasdlr").val();
+	if( flag == '1')
+		$("#mf_dlr").attr("style", "display:black");
+	else
+		$("#mf_dlr").attr("style", "display:none");
+}
+function jkr_haspo(){
+	var flag;
+	flag = $("#jkr_haspo").val();
+	if( flag == '1')
+		$("#jkr_po").attr("style", "display:black");
+	else
+		$("#jkr_po").attr("style", "display:none");
+}
+function jkr_hasgtjkr(){
+	var flag;
+	flag = $("#jkr_hasgtjkr").val();
+	if( flag == '1')
+		$("#jkr_gtjkr").attr("style", "display:black");
+	else
+		$("#jkr_gtjkr").attr("style", "display:none");
+}
+function gtjkr_haspo(){
+	var flag;
+	flag = $("#gtjkr_haspo").val();
+	if( flag == '1')
+		$("#gtjkr_po").attr("style", "display:black");
+	else
+		$("#gtjkr_po").attr("style", "display:none");
+}
+function jkr_hasdlr(){
+	var flag;
+	flag = $("#jkr_hasdlr").val();
+	if( flag == '1')
+		$("#jkr_dlr").attr("style", "display:black");
+	else
+		$("#jkr_dlr").attr("style", "display:none");
+}
+
+function uploadimg(num){
+	//top.getCarema("123.png");
+	//alert("woqu");
+	jQuery.mobile.changePage('#pcamera', {transition : 'slide'});
+	$("#camera_title").html(carema_title[num]);
+	page_add();
+//	showimg(num);
+	localStorage.setItem("imgnum", num);
+}
+function page_add(){
+	var pagenum = localStorage.getItem("pagenum");
+	pagenum++;
+
+	localStorage.setItem("pagenum", pagenum);
+}
+function page_back(){
+	//jQuery.mobile.changePage('#p1', {transition : 'slide'});
+	//localStorage.setItem("pagenum", "0");
+	var pagenum = localStorage.getItem("pagenum");
+	pagenum--;
+
+	localStorage.setItem("pagenum", pagenum);
+	history.go(-1);
+}
+</script>
+<body>
+
+	<div data-role="page" id="p1">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="back_history();"></div>
+					<span class="top_title">世纪天源</span>
+				</div>
+			</div>
+		</div>
+	
+			
+		<div class="row">
+					<div class="col-xs-12">
+						<div align="center" border="0" style="height: 30px;margin-top: 30px;">
+							<span style="font-size: 20px; color: #000; margin-top: 5px;">案卷详情</span>
+						</div>
+					</div>
+				</div>	
+		<div class="form_div" style="margin-top:5px;">
+			<ul>															
+				<li style="height:48px;">
+					<div class="inp_label_s" style="line-height:48px;">产品种类</div>
+					<span id="cpzl" class="inp_label" style="color:#5b5b5b"></span>			
+				</li>								
+			</ul>
+		</div>						
+		<div id="myp" style="width:100%;margin-top:5px;margin-bottom:5px;overflow-x:scroll;dispaly:inline;white-space:nowrap;" >
+			
+				</div>		
+		<div class="form_div" id="div_aj" >
+				<table class="table_class_new">
+					<li>
+						<span class="inp_label_wdjrxq">当前经办人</span><span class="inp_show_text_new1" id="jbr_now"></span>
+					</li>
+					<li>
+						<span class="inp_label_wdjrxq">联系方式</span><span class="inp_show_text_new1" id="lxfs_now"></span>
+					</li>
+					<li>
+						<span class="inp_label_wdjrxq">已用时</span><span class="inp_show_text_new1" id="time_now"></span>
+					</li>
+				</table>
+		</div>
+			
+		<div style="margin-top:10px;"></div>
+		<div id="cpxq" class="form_div" style="display:none;margin-top:14px;">
+				
+				<li>
+					<div class="inp_label_s">档案编号</div><span id="cpbh" class="inp_label" style="color:#5b5b5b"></span>
+				</li>
+		
+				<ul>
+					<li onClick="jQuery.mobile.changePage('#p2', {transition : 'slide'});page_add();" class="infos" id="li_01">
+						<div class="inp_label" style="width:180px;"id="cpxq_02">产权人信息</div>
+						<div class="rgt"></div>
+					</li>
+					<li onClick="jQuery.mobile.changePage('#p3', {transition : 'slide'});page_add();" class="infos" id="li_02">
+						<div class="inp_label" id="cpxq_03">借款人信息</div>
+						<div class="rgt"></div>
+					</li>
+					<li onClick="jQuery.mobile.changePage('#p4', {transition : 'slide'});page_add();" class="infos" id="li_03">
+						<div class="inp_label" id="cpxq_04">交易信息</div>
+						<div class="rgt"></div>
+					</li>
+					<li onClick="jQuery.mobile.changePage('#p5', {transition : 'slide'});page_add();" class="infos" id="li_04">
+						<div class="inp_label" style="width:140px;" id="cpxq_05">卖方原贷款信息</div>
+						<div class="rgt"></div>
+					</li>
+				</ul>
+				<ul>
+					<li onClick="jQuery.mobile.changePage('#p6', {transition : 'slide'});page_add();" class="infos" id="li_05">
+						<div class="inp_label" id="cpxq_06">贷款信息</div>
+						<div class="rgt"></div>
+					</li>
+					<li onClick="jQuery.mobile.changePage('#p7', {transition : 'slide'});page_add();" class="infos" id="li_06">
+						<div class="inp_label" id="cpxq_07">房屋信息</div>
+						<div class="rgt"></div>
+					</li>
+				</ul>
+					<li onClick="jQuery.mobile.changePage('#p8', {transition : 'slide'});page_add();" class="infos" id="li_07">
+						<div class="inp_label">合作机构</div>
+						<div class="rgt"></div>
+					</li>
+					<li onClick="jQuery.mobile.changePage('#p9', {transition : 'slide'});page_add();" class="infos" id="li_08">
+						<div class="inp_label">业绩归属</div>
+						<div class="rgt"></div>
+					</li>
+					<li onClick="jQuery.mobile.changePage('#pa', {transition : 'slide'});page_add();" class="infos" id="li_09">
+						<div class="inp_label">财务收付</div>
+						<div class="rgt"></div>
+					</li>
+				</ul>
+				<ul>
+					<li onClick="jQuery.mobile.changePage('#pb', {transition : 'slide'});page_add();" class="infos" id="li_10">
+						<div class="inp_label">其他信息</div>
+						<div class="rgt"></div>
+					</li>
+				</ul>
+				<div class="bot_btn_m" onClick="submit_flag();" id="ajtj" >案卷保存</div>
+
+
+		</div>
+	
+	</div>
+	<!-- 卖方信息  -->
+	<div data-role="page" id="p2">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">产权人信息</span>
+				</div>
+			</div>
+		</div>
+		<div  >
+			<!-- 产权人信息 -->
+			<div class="form_div" style="margin-top:20px;">
+				<li>
+					<div><span id="p21_label" class="inp_label_x" >产权人信息</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="mf_xm_label">姓名</div> <input id="mf_xm" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="mf_sfzh_label">证件号码</div> <input id="mf_sfzh" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+					
+					<li>
+						<div class="inp_label_s" id="mf_lxfs1_label">电话(固定)</div> <input type="text"
+						class="inp_text"  id="mf_lxfs1" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="mf_xlfs2_label">电话(移动)</div> <input type="text"  
+						class="inp_text"  id="mf_xlfs2" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+				</ul>
+			</div>
+			<div class="form_div" style="margin-top: 25px;">
+				<li>
+					<div><span id="p22_label" class="inp_label_x">产权人图片上传</span></div>
+				</li>
+				<ul>
+				<li onClick="uploadimg(0);">
+						<div class="inp_label" id="img_mf_sfz_label">产权人身份证</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(1);">
+						<div class="inp_label" id="img_mf_hkb_label">产权人户口本</div>
+					<div class="rgt"></div></li>			
+				<li onClick="uploadimg(2);" >
+						<div class="inp_label" id="img_mf_hyzm_label">产权人婚姻证明</div>
+					<div class="rgt"></div></li>	
+				<li onClick="uploadimg(3);">
+						<div class="inp_label" id="img_mf_zxbg_label">产权人征信报告</div>
+					<div class="rgt"></div></li>
+				</ul>
+			</div>
+			<div class="form_div">
+				<ul>															
+					<li style="height:58px;">
+						<div class="inp_label_new" style="line-height:58px;">
+							婚姻状态
+						</div>
+						<select id='mf_haspo' class="dropdown"  onchange="mf_haspo()"  >
+							<option value='0'>请选择婚姻状态</option>
+							<option value='0'>未婚</option>
+							<option value='1'>已婚</option>	
+							<option value='2'>离异</option>
+							<option value='3'>丧偶</option>																			
+						</select>
+					</li>								
+				</ul>
+			</div>
+			<!-- 配偶信息 -->
+			<div class="form_div" id="mf_po" style="display:none">
+				
+				<li>
+					<div><span id="p22_label" class="inp_label_x">产权人配偶信息</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="mfpo_xm_label">姓名</div> <input id="mfpo_xm" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="mfpo_sfzh_label">证件号码</div> <input id="mfpo_sfzh" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>					
+					<li>
+						<div class="inp_label_s" id="mfpo_lxfs1_label">电话(固定)</div> <input type="text"
+						class="inp_text"  id="mfpo_lxfs1" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="mfpo_lxfs2_label">电话(移动)</div> <input type="text"  
+						class="inp_text"  id="mfpo_lxfs2" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+				</ul>
+			</div>
+			<div class="form_div">
+				<ul>															
+					<li style="height:58px;">
+						<div class="inp_label_new" style="line-height:58px;">
+							是否有代理人
+						</div>
+						<select id='mf_hasdlr' class="dropdown"  onchange="mf_hasdlr()" >
+							<option value='0'>请选择</option>
+							<option value='1'>有</option>
+							<option value='0'>没有</option>																			
+						</select>
+					</li>								
+				</ul>
+			</div>
+			<!-- 代理人信息 -->
+			<div class="form_div" id="mf_dlr" style="display:none">
+				
+				<li>
+					<div><span id="p22_label" class="inp_label_x">代理人信息</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="mfdlr_xm_label">姓名</div> <input id="mfdlr_xm" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="mfdlr_sfzh_label">证件号码</div> <input id="mfdlr_sfzh" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>					
+					<li>
+						<div class="inp_label_s" id="mfdlr_lxfs_label">联系方式</div> <input type="text"
+						class="inp_text"  id="mfdlr_lxfs" data-role="none"  >
+					</li>
+				</ul>
+			</div>
+		
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<!-- 买方信息  -->
+	<div data-role="page" id="p3">
+	<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">借款人信息</span>
+				</div>
+			</div>
+		</div>
+		<div>			
+			<div class="form_div" style="margin-top:20px;">
+				<li>
+					<div><span id="p21_label" class="inp_label_x">借款人信息</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="jkr_xm_label" >姓名</div> <input id="jkr_xm" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="jkr_sfzh_label">证件号码</div> <input id="jkr_sfzh" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+					
+					<li>
+						<div class="inp_label_s" id="jkr_lxfs1_label">电话(固定)</div> <input type="text"
+						class="inp_text"  id="jkr_lxfs1" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="jkr_xlfs2_label">电话(移动)</div> <input type="text"  
+						class="inp_text"  id="jkr_xlfs2" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+
+				</ul>
+			</div>
+			<!-- 借款人图片信息信息 -->
+			<div class="form_div">
+				
+				<li>
+					<div><span id="p22_label" class="inp_label_x">借款人图片上传</span></div>
+				</li>
+				<ul>
+				<li onClick="uploadimg(4);">
+						<div class="inp_label" id="img_jkr_sfz_label">借款人身份证</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(5);">
+						<div class="inp_label" id="img_jkr_hkb_label">借款人户口本</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(6);">
+						<div class="inp_label" id="img_jkr_hyzm_label">借款人婚姻证明</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(7);">
+						<div class="inp_label" id="img_jkr_srzm_label">借款人收入证明</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(8);">
+						<div class="inp_label" id="img_jkr_qtzc_label">借款人其他资产证明</div>
+					<div class="rgt"></div></li>
+				</ul>
+			</div>
+			<div class="form_div">
+				<ul>															
+					<li style="height:58px;">
+						<div class="inp_label_new" style="line-height:58px;">
+							婚姻状况
+						</div>
+						<select id='jkr_haspo' class="dropdown"  onchange="jkr_haspo()" >
+							<option value='0'>请选择</option>
+							<option value='0'>未婚</option>
+							<option value='1'>已婚</option>	
+							<option value='2'>离异</option>
+							<option value='3'>丧偶</option>																			
+						</select>
+					</li>								
+				</ul>
+			</div>
+			<!-- 配偶信息 -->
+			<div class="form_div" id="jkr_po" style="display:none">
+				
+				<li>
+					<div><span id="p22_label" class="inp_label_x">借款人配偶信息</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="jkrpo_xm_label">姓名</div> <input id="jkrpo_xm" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="jkrpo_sfzh_label">证件号码</div> <input id="jkrpo_sfzh" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>					
+					<li>
+						<div class="inp_label_s" id="jkrpo_lxfs1_label">电话(固定)</div> <input type="text"
+						class="inp_text"  id="jkrpo_lxfs1" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="jkrpo_lxfs2_label">电话(移动)</div> <input type="text"  
+						class="inp_text"  id="jkrpo_lxfs2" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+				</ul>
+			</div>
+			<div class="form_div">
+				<ul>															
+					<li style="height:58px;">
+						<div class="inp_label_new" style="line-height:58px;">
+							共同借款人
+						</div>
+						<select id='jkr_hasgtjkr' class="dropdown"  onchange="jkr_hasgtjkr()"  >
+							<option value='0'>请选择</option>
+							<option value='0'>没有</option>
+							<option value='1'>有</option>																			
+						</select>
+					</li>								
+				</ul>
+			</div>
+			<!-- 共同借款人信息 -->
+			<div class="form_div" id="jkr_gtjkr" style="display:none">
+				<li>
+					<div><span id="p21_label" class="inp_label_x">共同借款人信息</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="gtjkr_xm_label">姓名</div> <input id="gtjkr_xm" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li> 
+						<div class="inp_label_s" id="gtjkr_sfzh_label">证件号码</div> <input id="gtjkr_sfzh" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+					
+					<li>
+						<div class="inp_label_s" id="gtjkr_lxfs1_label">电话(固定)</div> <input type="text"
+						class="inp_text"  id="gtjkr_lxfs1" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="gtjkr_xlfs2_label">电话(移动)</div> <input type="text"  
+						class="inp_text"  id="gtjkr_xlfs2" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+				</ul>			
+			<!-- 共同借款人图片信息信息 -->				
+				<li>
+					<div><span id="p22_label" class="inp_label_x">共同借款人图片上传</span></div>
+				</li>
+				<ul>
+				<li onClick="uploadimg(9);">
+						<div class="inp_label" id="img_gtjkr_sfz_label">共同借款人身份证</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(10);">
+						<div class="inp_label" id="img_gtjkr_hkb_label">共同借款人户口本</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(11);">
+						<div class="inp_label" id="img_gtjkr_hyzm_label">共同借款人婚姻证明</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(12);">
+						<div class="inp_label" id="img_gtjkr_srzm_label">共同借款人收入证明</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(13);">
+						<div class="inp_label" id="img_gtjkr_qtzc_label">共同借款人其他资产</div>
+					<div class="rgt"></div></li>
+				</ul>
+				<ul>															
+					<li style="height:58px;">
+						<div class="inp_label_new" style="line-height:58px;">
+							婚姻状况
+						</div>
+						<select id='gtjkr_haspo' class="dropdown"  onchange="gtjkr_haspo()" >
+							<option value='0'>请选择</option>
+							<option value='0'>未婚</option>
+							<option value='1'>已婚</option>	
+							<option value='2'>离异</option>
+							<option value='3'>丧偶</option>																			
+						</select>
+					</li>								
+				</ul>
+			
+			<!-- 配偶信息 -->
+			<div class="form_div" id="gtjkr_po" style="display:none">
+				
+				<li>
+					<div><span id="p22_label" class="inp_label_x">共同借款人配偶信息</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="gtjkrpo_xm_label">姓名</div> <input id="gtjkrpo_xm" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="gtjkrpo_sfzh_label">证件号码</div> <input id="gtjkrpo_sfzh" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>					
+					<li>
+						<div class="inp_label_s" id="gtjkrpo_lxfs1_label">电话(固定)</div> <input type="text"
+						class="inp_text"  id="gtjkrpo_lxfs1" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="gtjkrpo_lxfs2_label">电话(移动)</div> <input type="text"  
+						class="inp_text"  id="gtjkrpo_lxfs2" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+				</ul>						
+			</div>
+			</div>
+			<div class="form_div">
+				<ul>															
+					<li style="height:58px;">
+						<div class="inp_label_new" style="line-height:58px;">
+							是否有代理人
+						</div>
+						<select id='jkr_hasdlr' class="dropdown"  onchange="jkr_hasdlr()" >
+							<option value='0'>请选择</option>
+							<option value='1'>有</option>
+							<option value='0'>没有</option>																			
+						</select>
+					</li>								
+				</ul>
+			</div>
+			<!-- 代理人信息 -->
+			<div class="form_div" id="jkr_dlr" style="display:none">
+				
+				<li>
+					<div><span id="p22_label" class="inp_label_x">代理人信息</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="jkr_dlr_xm_label">姓名</div> <input id="jkr_dlr_xm" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="jkr_dlr_sfzh_label">证件号码</div> <input id="jkr_dlr_sfzh" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>					
+					<li>
+						<div class="inp_label_s" id="jkr_dlr_lxfs_label">联系方式</div> <input type="text"
+						class="inp_text"  id="jkr_dlr_lxfs" data-role="none"  >
+					</li>
+				</ul>
+			</div>
+			
+						
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<!-- 交易信息  -->
+	<div data-role="page" id="p4">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">交易信息</span>
+				</div>
+			</div>
+		</div>
+		<div>			
+			<div class="form_div" style="margin-top:20px;">		
+				<ul>
+					<li>
+						<div class="inp_label_s"  id="jy_je_label">成交总价</div> <input id="jy_je" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="jy_dkje_label">按揭贷款金额</div> <input id="jy_dkje" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+					<li>
+						<div class="inp_label_s" id="jy_zffs_label">付款方式</div> <input id="jy_zffs" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+				</ul>
+			</div>		
+			<div class="form_div" style="margin-top: 25px;">
+				<ul>
+				<li onClick="uploadimg(14);">
+						<div class="inp_label" id="jy_fcz_label">房产买卖合同上传</div>
+					<div class="rgt"></div></li>
+				</ul>
+			</div>
+				
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<!-- 卖方原贷款信息  -->
+	<div data-role="page" id="p5">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">卖方原贷款信息</span>
+				</div>
+			</div>
+		</div>
+		<div>			
+					
+			<div class="form_div" style="margin-top: 25px;">
+				<ul>
+				<li onClick="uploadimg(15);">
+						<div class="inp_label" id="ymf_dkzm_label">原贷款的借款合同上传</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(16);">
+						<div class="inp_label" id="ymf_dkye_label">存量贷款余额证明上传</div>
+					<div class="rgt"></div></li>
+				</ul>
+			</div>
+						
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<!-- 贷款信息  -->
+	<div data-role="page" id="p6">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">贷款信息</span>
+				</div>
+			</div>
+		</div>
+		<div>						
+			<div class="form_div" style="margin-top: 25px;">
+			
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="dk_je_label">贷款金额</div> <input id="dk_je" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="dk_qx_label">贷款期限</div> <input id="dk_qx" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+					
+					<li>
+						<div class="inp_label_s" id="dk_hkfs_label">还款方式</div> <input type="text"  
+						class="inp_text"  id="dk_hkfs" data-role="none">
+					</li>
+					<li>
+						<div class="inp_label_s" id="dk_jg_label">贷款机构</div> <input type="text"  
+						class="inp_text"  id="dk_jg" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+					<li>
+						<div class="inp_label_s" id="dk_qdsj_label">签单时间</div> <input type="text"  
+						class="inp_text"  id="dk_qdsj" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+				</ul>
+			</div>					
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<!-- 房屋信息  -->
+	<div data-role="page" id="p7">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">房屋信息</span>
+				</div>
+			</div>
+		</div>
+		<div>						
+			<div class="form_div" style="margin-top: 25px;">
+				
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="fc_dz_label">房产地址</div> <input id="fc_dz" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="fc_mj_label">房产面积</div> <input id="fc_mj" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+					
+					<li>
+						<div class="inp_label_s" id="fc_lc_label">楼层</div> <input type="text"
+						class="inp_text"  id="fc_lc" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="fc_ghyt_label">规划用途</div> <input type="text"  
+						class="inp_text"  id="fc_ghyt" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+					<li>
+						<div class="inp_label_s" id="fc_tdxz_label">土地性质</div> <input type="text"  
+						class="inp_text"  id="fc_tdxz" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+					<li>
+						<div class="inp_label_s" id="fc_bdcj_label">所属不动产局</div> <input type="text"  
+						class="inp_text"  id="fc_bdcj" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+				</ul>
+			</div>
+
+			
+			<div class="form_div">		
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="fc_pgzj_label">评估总价</div> <input id="fc_pgzj" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="fc_pggs_label">评估公司</div> <input id="fc_pggs" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>					
+				</ul>
+			</div>
+			<div class="form_div">
+				<ul>															
+					<li style="height:58px;">
+						<div class="inp_label_new" style="line-height:58px;">
+							证件类型
+						</div>
+						<select id='fc_flag' class="dropdown"  onchange="fc_flag()"   >
+							<option value=''>请选择</option>
+							<option value='1'>房产两证</option>
+							<option value='2'>不动产证</option>																			
+						</select>
+					</li>								
+				</ul>
+			</div>
+			<div class="form_div" style="margin-top: 25px;" id="fc_flag1">
+				<ul>
+				<li onClick="uploadimg(17);">
+						<div class="inp_label" id="fc_cqz_label">房产产权证上传</div>
+					<div class="rgt"></div></li>
+				<li onClick="uploadimg(18);">
+						<div class="inp_label" id="fc_tdz_label">房产土地证上传</div>
+					<div class="rgt"></div></li>
+				</ul>
+			</div>
+			<div class="form_div" style="margin-top: 25px;" id="fc_flag2">
+				<ul>
+				<li onClick="uploadimg(19);">
+						<div class="inp_label" id="fc_bdcz_label">房产不动产证上传</div>
+					<div class="rgt"></div></li>
+				</ul>
+			</div>
+			<div class="form_div" style="margin-top: 25px;" >
+				<ul>
+				<li onClick="uploadimg(20);">
+						<div class="inp_label" id="fc_pgbg_label">房产评估报告上传</div>
+					<div class="rgt"></div></li>
+				</ul>
+			</div>		
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<!-- 合作机构  -->
+	<div data-role="page" id="p8">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">合作机构</span>
+				</div>
+			</div>
+		</div>
+		<div>						
+			<div class="form_div" style="margin-top: 25px;">
+				
+				<ul>
+					<li>
+						<div class="inp_label_s"  id="hzjg_mc_label">合作机构</div> <input id="hzjg_mc" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="hzjg_lb_label">老板姓名</div> <input id="hzjg_lb" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+					
+					<li>
+						<div class="inp_label_s" id="hzjg_lblxfs_label">联系电话</div> <input type="text"  
+						class="inp_text"  id="hzjg_lblxfs" data-role="none">
+					</li>
+					<li>
+						<div class="inp_label_s" id="hzjg_jtmd_label">具体门店</div> <input type="text"  
+						class="inp_text"  id="hzjg_jtmd" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+					<li>
+						<div class="inp_label_s" id="hzjg_djr_label">对接人姓名</div> <input type="text"  
+						class="inp_text"  id="hzjg_djr" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+					<li>
+						<div class="inp_label_s" id="hzjg_djrlxfs_label">联系电话</div> <input type="text"  
+						class="inp_text"  id="hzjg_djrlxfs" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+				</ul>
+			</div>						
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<!-- 业绩归属  -->
+	<div data-role="page" id="p9">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">业绩归属</span>
+				</div>
+			</div>
+		</div>
+		<div>						
+			<div class="form_div" style="margin-top: 25px;">
+			
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="yjgs_fgs_label">所属分公司</div> <input id="yjgs_fgs" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="yjgs_xsjl_label">销售经理</div> <input id="yjgs_xsjl" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+					
+					<li>
+						<div class="inp_label_s" id="yjgs_xsjllxfs_label">联系方式</div> <input type="text"  
+						class="inp_text"  id="yjgs_xsjllxfs" data-role="none">
+					</li>
+					
+				</ul>
+			</div>
+
+			
+						
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<!-- 财务收付  -->
+	<div data-role="page" id="pa">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">财务收付</span>
+				</div>
+			</div>
+		</div>
+		<div>						
+			<div class="form_div" style="margin-top: 25px;">
+				<li>
+					<div><span id="pa1_label" class="inp_label_x">应收</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="cwys_pgf_label">评估费</div> <input id="cwys_pgf" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="cwys_dbf_label">担保费</div> <input id="cwys_dbf" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>
+					
+					<li>
+						<div class="inp_label_s" id="cwys_fwf_label">服务费</div> <input type="text"
+						class="inp_text"  id="cwys_fwf" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="cwys_zlf_label">资料费</div> <input type="text"  
+						class="inp_text"  id="cwys_zlf" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+					<li>
+						<div class="inp_label_s" id="cwys_qtfy_label">其他费用</div> <input type="text"  
+						class="inp_text"  id="cwys_qtfy" data-role="none"  maxlength="10" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+					</li>
+				</ul>
+			</div>
+
+			<!-- 应付 -->
+			<div class="form_div">
+				
+				<li>
+					<div><span id="p22_label" class="inp_label_x">应付</span></div>
+				</li>
+				<ul>
+					<li>
+						<div class="inp_label_s" width="140px" id="cwyf_pgf_label">评估费</div> <input id="cwyf_pgf" type="text"
+						class="inp_text" data-role="none"  >
+					</li>
+					<li>
+						<div class="inp_label_s" id="cwyf_dydjf_label">抵押登记费</div> <input id="cwyf_dydjf" type="text"  
+						class="inp_text" data-role="none" maxlength="20" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"></input>
+					</li>					
+					<li>
+						<div class="inp_label_s" id="cwyf_qtfy_label">其他费用</div> <input type="text"
+						class="inp_text"  id="cwyf_qtfy" data-role="none"  >
+					</li>
+				
+				</ul>
+			</div>
+					
+						
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<!-- 其他信息  -->
+	<div data-role="page" id="pb">
+		<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title">其他信息 </span>
+				</div>
+			</div>
+		</div>
+		<div>						
+			
+			<!-- 其他信息 -->
+			<div class="row" style="background:#ffffff;height:12px;margin-top: 25px;"></div>
+					<div style="border-color: white;background-color: #ffffff;font-size: 17px;text-align: left;margin-left: 15px;" id="beiz_label">
+						其他信息（5-100字）
+					</div>
+					<div style="background-color: #ffffff;font-size: 15px;text-align: left;margin-left: 15px;margin-right: 15px;">
+						<textarea style="width:100%;color:#5b5b5b;disable:disable;" rows="4" id="beiz"></textarea>
+					</div>
+
+		
+						
+			<div class="bot_btn" onClick="page_back();">保存</div>
+		</div>
+
+	</div>
+	<div data-role="page" id="pcamera">
+	<!-- 顶部固定，不能滚动 -->
+		<div class="topNavWrapper" >
+			<div class="topNav">
+				<div component-role="m11_top" class="top">				
+					<div class="back_ic" onClick="page_back();"></div>
+					<span class="top_title" id="camera_title">图片展示</span>
+				</div>
+			</div>
+		</div>
+		<div data-role="content" style="margin-top:25px;">
+            <input id="_picFile" type="hidden" value="" />
+            
+
+            <br>  			
+            <br> 
+                <img
+                 id="largeImage"
+                src="" /> 
+        </div>
+	</div>
+	
+	
+	<script type="text/javascript">
+	function showimg(num){
+   	 
+   	 //var num = localStorage.getItem("imgnum");
+   	 var imgurl = localStorage.getItem("imglocalurl_"+fileno+"_"+num);
+   //	alert("imgurl="+imgurl);
+   		document.getElementById("largeImage").src = top.imgpath+imgurl;
+ 		document.getElementById("largeImage").style="display: block; width: "+screen.availWidth+"; height: auto;border: 2px; hspace: 8px";
+ 		
+    }
+	
+
+	</script>
+</body>
+</html>

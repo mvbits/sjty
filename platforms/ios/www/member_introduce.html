@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+
+           
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #f3f3f3;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+.mui-slider-item{
+	
+	
+}
+.mui-slider-item img{
+	border-radius: 5px;
+	
+}
+.icon {
+	/* 通过设置 font-size 来改变图标大小 */
+	width: 1.5em; height: 1.5em;
+	/* 图标和文字相邻时，垂直对齐 */
+	vertical-align: -0.25em;
+	/* 通过设置 color 来改变 SVG 的颜色/fill */
+	fill: currentColor;
+	/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+	   normalize.css 中也包含这行 */
+	overflow: hidden;
+}
+.mui-grid-view li{
+	margin-top:-5px;
+	height:45px;
+	color:#8e8e8e;
+}
+.mui-media img{
+	width:40px;
+	height:40px;
+}
+</style> 
+
+</head>
+
+<body style="background:#f4f4f4;">
+	<header class="mui-bar head_tmp_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#fff;" onclick="back_history();" ></a>
+		
+		<h1 class="mui-title"></h1>
+	</header>
+
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+		<div id="slider" class="mui-slider" >
+			<div class="mui-slider-group mui-slider-loop">
+				<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="#">
+						<img src="http://www.sjyjr.net/static/img/zx_vip1.png">
+					</a>
+				</div>
+				<!-- 第一张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="http://www.sjyjr.net/static/img/zx_vip1.png">
+					</a>
+				</div>
+
+				<!-- 第二张 -->
+				<div class="mui-slider-item">
+					<a href="#">
+						<img src="http://www.sjyjr.net/static/img/yj_vip1.png">
+					</a>
+				</div>
+
+				<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="#">
+						<img src="http://www.sjyjr.net/static/img/zx_vip1.png">
+					</a>
+				</div>
+			</div>
+			<div class="mui-slider-indicator">
+				<div class="mui-indicator mui-active"></div>
+				<div class="mui-indicator"></div>
+	
+			</div>
+		</div>
+			
+		</div>
+	</div>
+	<div class="div_fullscreen_footer" style="text-align:center;background-color:rgba(4,159,241,0.0);">
+				
+          <button type="button" class="mui-btn  mui-btn-danger" style="width:90%" onclick="showNewFrame('member_recharge.html', 'smask');">加盟合伙人</button>
+          	
+	</div>
+	
+</body>
+<script type="text/javascript">
+$(function() {
+	
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+
+	
+});
+
+
+</script>
+</html>

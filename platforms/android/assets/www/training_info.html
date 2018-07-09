@@ -1,0 +1,449 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" type="text/css" href="mui/css/icons-extra.css" />
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script src="js/lib/jQuery/jquery-2.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+	
+<style>
+body{
+	 background: #f4f4f4;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+        
+}
+
+.mui-bar .mui-pull-left .mui-icon {
+	padding-right: 5px;
+	font-size: 28px;
+}
+
+.mui-bar .mui-btn {
+	font-weight: normal;
+	font-size: 17px;
+}
+
+.mui-bar .mui-btn-link {
+	top: 1px;
+}
+
+.mui-content img{
+	width: 100%;
+	margin-left:10px;
+	
+}
+
+.mui-content span{
+	font-size:0.8em;
+	color:#999999;
+	
+}
+
+
+.rgt {
+	width: 12px;
+	height: 12px;
+	float: right;
+	margin-right: 10px;
+	margin-top: 5px;
+	background-size: 100% 100%;
+	background-image: url("img/show.png");
+}
+.teacher_info{
+position:relative;
+	margin-top:10px;
+	padding:15px;
+	padding-left:6vw;
+	padding-right:6vw;
+	border:1px solid #007aff;
+	color:#666666;
+	font-size:0.8em;
+}
+.teacher_name{
+	margin-bottom:-20px;
+	position:absolute;
+	
+	
+}
+.teacher_name_div{
+	margin-top:-30px;
+	margin-left:20vw;
+	width:40vw;
+	text-align:center;
+	background:#FFFFFF;
+	font-size:1.2em;
+	color:#333333;
+}
+.myimg{
+	width:30px;
+	border-radius:30px;
+}
+.mui-card-media img{
+	width:30px;
+	border-radius:30px;
+}
+.traning_info{
+	position:absolute;
+	left;0;
+	bottom:0;
+	background-color:rgba(1,1,1,0.5);
+	height:40px;
+	line-height:40px;
+	width:100vw;
+}
+.traning_info p{
+	text-indent:1em;
+	color:#d1d3dd;
+	font-size:0.8em;
+}
+</style>
+<script>
+		
+		var fileno;
+		var orgn_id;
+		var num = 0;
+		var level;
+		document.addEventListener("DOMContentLoaded", initial);
+		function initial() {
+			/*当前页面URL*/
+		
+	
+			/*mui框架初始化，为id=pullrefresh的容器添加下拉刷新事件*/
+			mui.init({
+				swipeBack:false //启用右滑关闭功能
+			});
+			
+			/*容器滚动设置*/
+			mui('.mui-scroll-wrapper').scroll({
+                deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006 
+			});
+
+			 //返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-action-back', function(e) {
+				this.click();
+				return false;
+			});
+			//返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+				this.click();
+				return false;
+			});
+       		//返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-card', function(e) {
+				this.click();
+				return false;
+			});		
+			//返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-col-xs-4', function(e) {
+				this.click();
+				return false;
+			});	
+		 
+		  //查询最近的检查信息
+			initPage();
+		}
+		
+		/*页面初始化方法, 查询当前用户的动态，并展示在功能栏下方*/
+		function initPage(){
+			var thisURL = document.URL;
+            
+			var getenv = thisURL.split('?')[1];
+			var buf = getenv.split('&');
+			fileno = buf[0].split('=')[1]; //课程编号
+			num = buf[1].split('=')[1]; //本机构报名人数
+			orgn_id = localStorage.getItem("accountOrgn");//机构号
+            var data={};
+			data.file_no = fileno;
+			data.org_id = orgn_id;
+            top.http_comm("6067", data, showpage);
+            
+            level = localStorage.getItem("level");
+            //只有合作机构老板可以报名
+            if(level != 4){
+
+            	
+            	var btnArray = ['取消', '确定'];
+                mui.confirm('只有合作机构管理人员有报名权限，如有疑问请联系客服，是否需要拨打客服电话？', top.title, btnArray, function(e) {
+                    if (e.index == 1) {
+                        top.call_server();//拨打客服电话
+                    } else {
+                       /*取消 do nothing*/
+                    }
+                });
+            }
+		}
+		
+        function showpage(msg){
+            var json = eval("("+msg+")");
+			var stat;
+			
+			
+			top.writelog("state="+json.data.state+";level="+level);
+			if(top.isEmpty(json.data.state)){
+				json.data.state = localStorage.getItem("state_"+fileno);
+			}
+			if(json.data.state == '0'||json.data.state == '1'){
+				stat = "价值"+json.data.cost+"/人,火热报名中...";
+				//只有可报名状态下，合作机构老板用户，才能报名
+				if(level == '4'){
+					$(".mui-btn").attr("disabled",false);
+				}
+            	
+            
+			}else if(json.data.state == 2){
+				stat = "价值"+json.data.cost+"/人,报名已结束...";
+			}else if(json.data.state == 3){
+				stat = "价值"+json.data.cost+"/人,培训已完成...";
+			}
+			$("#traning_time").html(json.data.time+"&#12288&#12288"+json.data.address);//培训时间地点
+         	$(".mui-title").html(json.data.name); //课程名称
+      		$("#training_info").html(json.data.info);//课程简介
+      		$("#training_price").html(stat);//收费标准
+      		
+      		//报名情况
+            $("#training_total").html("已报名：<font style='color:#C7254E'>"+json.data.applicant_num+"</font>人；最多容纳："+json.data.total_num+"人");
+      		//讲师名称
+      		$("#teacher_name").html(json.data.lecturer);
+      		//讲师简介
+      		$("#teacher_infos").html(json.data.lecturer_info);
+      		//课程图片
+      		var imgurl = top.imgpath+"/"+json.data.file_no+"/" +json.data.img.split('|')[0];
+      		$("#training_img").attr("background-image", "url("+imgurl+")");
+  
+      		
+  
+
+        }
+		
+
+
+		/*判断对象是否为空*/
+		function isEmpty(obj) {
+
+			if(!obj && obj == 0 && obj == '') {　　　　　　　　　
+			  return true;
+			}
+			
+			if(Array.prototype.isPrototypeOf(obj) && obj.length == 0) {
+				　　　return true;
+			}
+			
+			if(Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length == 0) { 
+				
+				　return true; 　　　
+			}
+			return false; 
+		}
+		
+
+
+		
+
+		
+
+        
+        //案卷评价
+        function ajpj_go(fileno){
+            $("#search_by").blur();
+            showNewFrame("ajpj.html?fileno="+fileno,'smask');
+        }
+		//报名课程
+        function enter(){
+			
+        	var data = {};
+        	data.training_num = $("#training_number").val();
+        	
+			data.file_no = fileno;
+			data.org_id = orgn_id;
+            top.http_comm("6068", data, enter_result);
+        	
+        }
+		function enter_result(msg){
+			var json = eval("("+msg+")");
+			
+			if(json.stat == '1'){//提交失败
+				var errinfo='';
+				if(json.data == "60681"){
+					errinfo="报名人数超过限定总人数！";
+				}else if(json.data == "60682"){
+					errinfo="该机构经纪人知识培训余额已不足，请充值后操作！";
+				}else if(json.data == "60683"){
+					errinfo="该机构不是合伙人，请升级为合伙人再试！";
+				}else if(json.data == "60684"){
+					errinfo="报名的课程不存在！";
+				}else{
+					errinfo="报名失败";
+				}
+					
+					
+				var btnArray = ['取消', '确定'];
+                mui.confirm(errinfo+',如有疑问请联系客服，是否需要拨打客服电话？', top.title, btnArray, function(e) {
+                    if (e.index == 1) {
+                        top.call_server();//拨打客服电话
+                    } else {
+                       /*取消 do nothing*/
+                    }
+                });
+				
+			}else{
+				mui.alert("报名成功", "世纪源金融", function(){
+					parent.initPage();//刷新父页面
+					back_history();//返回上一页面
+				});
+				//initPage(); //报名成功刷新页面
+				
+				
+			}
+			return;
+		}
+</script>
+</head>
+<body style="background:#f4f4f4;">
+
+        <header class="mui-bar head_base_color">		
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>		
+			<h1 class="mui-title">培训资料</h1>		
+		</header>
+			<div   class="mui-content mui-scroll-wrapper" style="background-color:#f4f4f4;margin-top:62px;">
+			    <div class="mui-scroll" >
+					<div class="mui-card" style="border:0px solid;box-shadow:0 0 0 #fff;border-radius:5px; margin-left:-10px;margin-right:-10px;">
+						<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url(img/slider2.jpg)" id="training_img">
+							<div class="traning_info"><p id="traning_time">培训时间：20180605 卢卡省的浪费骄傲了立刻就撒地方</p></div>
+						</div>
+						<div class="mui-card-content">
+						
+							<div class="mui-card-content-inner">
+								<div style="left:0px; width:33vw;color:#007aff;text-align:center;border-bottom:2px solid #007aff;">详情</div>
+								<div style="padding:10px;">									
+									<p style="color: #333;" id="training_info">这里显示文章摘要，让读者对文章内容有个粗略的概念...</p>	
+								</div>
+							</div>							
+						</div>	
+						<div class="mui-card-footer">
+							<p id="training_total" style="font-size:0.8em;color:#5BC0DE;text-indent:1em;width:50vw;text-align:center;border-right:1px solid #d1d3dd;">已报名：<font style='color:#C7254E'>18</font>人 ，剩余名额 25人</p>									
+							<p id="training_price" style="font-size:0.8em;color:#5CB85C;text-indent:1em;width:50vw;text-align:center;">价值100元/人，正在火热报名中...</p>
+						</div>		
+					</div>
+	
+					<div class="mui-content" style="background:#ffffff;padding:10px;">
+						<div class="rgt"></div>			
+		                    <img src="img/bao.png" style="width:20px;"></img> 
+		                    <span>质量保证</span>
+		                    <img src="img/tui.png" style="width:20px;"></img>
+		                    <span>培训前随时退课</span>
+			               					         
+		            </div>
+		            <div class="mui-content" style="background:#ffffff;padding:10px;margin-top:10px;">
+		            	<h2>讲师介绍</h2>
+		           
+		            	<div class="teacher_info">
+		            		<div class="teacher_name_div" id="teacher_name">那个谁啊</div>
+		            		<div id="teacher_infos" style="margin-top:10px;">这里时讲师的详细介绍，kasdjflas上了打卡机弗拉克斯酱豆腐爱丽丝雕刻技法楼上看风景按时灯笼裤飞机啊离开爱上了的咖啡机尽量写多点，有吸引力些，阿喀琉斯京东方垃圾死了尽快哈上的卡号发客家话按时灯笼裤激发了看见士大夫立刻爱上了打开房间啊路建康2奥地利饭卡
+		            		</div>
+		            	</div>
+		            	
+		            </div>
+		            <div class="mui-content" style="background:#ffffff;padding:10px;margin-top:10px;display:block;">
+		            	<h2>学员评价(3)<font style="color:red;font-size:0.8em">测试展示用，生成会去掉，现在不具备评论条件</font></h2>
+		           		<div id="students_report" style="border-top:1px solid #d0d0d0;margin-top:10px;">
+			           		<div class="mui-card-header mui-card-media" style="padding-bottom:10px;padding-top:10px;padding-left:0px;" >
+			           				
+			           					<img class="myimg" src="img/mylogo.png"/>
+			           				
+			           				
+									
+									<div class="mui-media-body" style="padding-left:5px;">
+										<p style="color:#049ff1;font-size:14px;font-weight:bold">刘德华</p>
+										<p style="font-size:12px;">发表于 2018年5月22号 18:04</p>
+									</div>
+									<div style="margin-top:10px;padding-left:10px;">
+										<div style="color:#333333;font-size:0.8em;">我说那飒飒的绿卡看来就是多方了解</div>>
+									</div>
+									<div style="height:30px;line-height:30px;"></div>
+							</div>
+							<div class="mui-card-header mui-card-media" style="padding-bottom:10px;padding-top:10px;padding-left:0px;" >
+			           				<img src="img/mylogo.png"/>
+			           				
+									
+									<div class="mui-media-body" style="padding-left:5px;">
+										<p style="color:#049ff1;font-size:14px;font-weight:bold">张学友</p>
+										<p style="font-size:12px;">发表于 2018年5月22号 18:04</p>
+									</div>
+									<div style="margin-top:10px;padding-left:10px;">
+										<div style="color:#333333;font-size:0.8em;">我说那飒飒的绿卡看来就是多方了解</div>>
+									</div>
+									<div style="height:30px;line-height:30px;"></div>
+							</div>
+							<div class="mui-card-header mui-card-media" style="padding-bottom:10px;padding-top:10px;padding-left:0px;" >
+			           				<img src="img/zhuanshi.png"/>
+			           				
+									
+									<div class="mui-media-body" style="padding-left:5px;">
+										<p style="color:#049ff1;font-size:14px;font-weight:bold">郭富城</p>
+										<p style="font-size:12px;">发表于 2018年5月22号 18:04</p>
+									</div>
+									<div style="margin-top:10px;padding-left:10px;">
+										<div style="color:#333333;font-size:0.8em;">我说那飒飒的绿卡看来就是多方了解</div>>
+									</div>
+									<div style="height:30px;line-height:30px;"></div>
+							</div>
+		           		</div>
+		            	
+		            	
+		            </div>
+		            <div style="margin-top:10px;width:100vw;height:25vw;background-image:url(img/header1.jpg);background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">					
+						
+					</div>
+					<div class="div_footer" style="margin-top:10px;"></div>
+				</div>
+			</div>		
+		<div class="div_fullscreen_footer">
+			<div class="mui-row">
+			    <div class="mui-col-xs-8">
+			      	参与人数:
+					<div class="mui-numbox">
+						<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+						<input class="mui-input-numbox" type="number" id="training_number"/>
+						<button class="mui-btn mui-btn-numbox-plus" type="button"  disabled="disabled">+</button>
+					</div> 
+			    </div>
+			    <div class="mui-col-xs-4"  onclick="enter()">
+			       <button type="button" class="mui-btn  mui-btn-primary" style="width:100%;" disabled="disabled">立即报名</button>
+			    </div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+		//功能菜单点击效果					
+/* 		$('li').each(function(){
+			var $obj=$(this);
+			this.addEventListener('touchstart',function(){
+				$obj.css('background-color','#cccccc');
+			}, false);
+			
+			this.addEventListener('touchend',function(){
+				$obj.css('background-color','');
+			}, false);
+			
+		});	 */
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello MUI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">	
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<script src="mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #fff;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+
+.mui-control-item{
+	width:33%;
+}
+
+
+</style>
+<script>
+var thisURL; 
+var json;
+var cp_flag = 1; //当前页面序号
+var query_flag = 0; //0-默认当天 1-本周 2-本月 3-所有
+var query_stat = 0; //1-未处理（未到期）默认项 2-已处理（正常处理非过期）3-已过期（过期未处理）4-所有
+var activeIndex = 0;
+$(function() {
+
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+
+	
+/* 	//分类页面控制
+    document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+    	activeIndex = event.detail.slideNumber;
+    	cp_flag = event.detail.slideNumber+1;
+    	top.writelog("cp_flag="+cp_flag);
+		initPage();
+	}); */
+
+
+  //  initPage()
+});
+	
+function initPage(){
+
+    var data = {};
+    data.producttype = cp_flag;
+    /*
+    top.writelog("6015 send:"+JSON.stringify(data));	
+    top.start_process();
+    $.ajax({
+           type : "post",
+           url: "http://www.sjyjr.net/app/6015;",
+           timeout: 5000,
+           data : data,
+           datatype : "json",
+           success :function(msg){
+        	   top.stop_process();
+           showinfo(msg);
+           },
+           error:function(msg){
+        	   top.stop_process();
+           top.alertInfo('网络超时，请稍后再试');
+           }
+           });
+           */
+           top.http_comm("6015", data, showinfo);
+}
+
+function showinfo(msg){
+	top.stop_process();
+	top.writelog("6010:"+msg);
+	json=eval("("+msg+")");
+
+	
+	
+	if(json.data.length == 0){
+		mui.toast('您的需求没有新的变化');
+		return;
+	}
+	
+	var info_html = '';
+	for(var i = 0; i < json.data.length; i++){
+		   var info={};
+           
+           info.id=json.data[i].productno;
+           info.cpbh=json.data[i].productno;
+           info.cpmc = json.data[i].pname;
+           info.cpbt = json.data[i].pintroduction;
+           info.cpnr = json.data[i].descpic;
+           info.cptp1 = json.data[i].picon;
+           info.cptp2 = json.data[i].ppicture;
+           info.note = json.data[i].note;
+           localStorage.setItem("cpjs"+info.cpbh,JSON.stringify(info));
+			var imgurl = top.productPath + json.data[i].picon;
+/* 			info_html += '<li class="mui-table-view-cell mui-media" onclick="getfile_info(\''+json.data[i].productno+'\')">'		                    
+                  +'<img class="mui-media-object mui-pull-left" src="'+imgurl+'" width="60px"/>'	               
+              	+'<div class="mui-media-body">'
+                  +'<p class="mui-ellipsis" style="font-size:16px;color:#000000;font-weight:bold;">'+json.data[i].pname+'</p>'
+                  +'<p class="mui-ellipsis" style="margin-top:8px;">'+json.data[i].pintroduction+'</p></div></li>'; */
+                  info_html += '<div class="mui-card" onclick="getfile_info(\''+json.data[i].productno+'\')">'
+							+'<div class="mui-card-header mui-card-media" style="height:62.5vw;background-image:url('+imgurl+')"></div></div>';
+							
+							
+		
+	}
+	
+// 	$("#info_"+activeIndex).html('');
+// 	$("#info_"+activeIndex).html(info_html);
+	$("#info_1").html('');
+	$("#info_1").html(info_html+'<div class="div_footer">————  世纪源金融服务  ————</div>');
+
+}
+
+function getfile_info(id){
+    parent.showNewFrame("tplb.html?id="+id,'smask');
+}
+
+
+</script>
+</head>
+    
+<body>
+
+    <header class="mui-bar head_base_color">
+        <h1 class="mui-title" style="font-weight:bold;">贷款产品</h1>
+    </header>
+    <div class="mui-content mui-scroll-wrapper">
+	    <div class="mui-scroll top_head" id="info_1">
+	    	
+	    </div>
+		
+	</div>
+	
+		
+		
+	    		
+
+
+</body>
+</html>

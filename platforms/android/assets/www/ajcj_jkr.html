@@ -1,0 +1,364 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+
+<link rel="stylesheet" type="text/css" href="css/aui/aui.css" />
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link href="mui/css/mui.picker.css" rel="stylesheet" />
+<link href="mui/css/mui.poppicker.css" rel="stylesheet" />
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+        <style>
+		 html, body {
+                 position: relative;
+                 height: 100%;
+             }
+         body {
+             background: #fff;
+             font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+             font-size: 14px;
+             color:#000;
+             margin: 0;
+             padding: 0;
+             overflow:auto;
+          
+         }
+
+select {
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  height:35px;
+  line-height:35px;
+  width: 120px;
+  padding-right: 14px; }
+        
+        .mui-center{
+            text-align:center;
+        }
+        .mui-right{
+            text-align:right;
+        }
+        .mui-col-xs-3{
+            border: 1px solid #aaa;
+            
+        }
+        .mui-col-xs-6{
+            border: 1px solid #aaa;
+            
+        }
+</style>
+    </head>
+    <script type="text/javascript">
+    var yorm_value = '0';
+	var paytype_value = '0';
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+
+        localStorage.setItem("pagenum", 0);
+        mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		//返回键 tap事件监听
+		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+	  		this.click();
+                              return false;
+	  	});
+        $("#qssj").on("input propertychange",function(){
+            
+            if($(this).val().length>0){
+            $(this).addClass("full");
+            }
+            else{
+            $(this).removeClass("full");
+            }
+     
+       });
+        $('input[name=number]').bind('input propertychange', function() {
+            this.value=this.value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'');
+            if(this.value.length > 9){
+         	   this.value=this.value.slice(0,9);
+            }
+            });
+           
+    }
+    
+    //等额本金
+    function get_result_bj(){
+    	var yg = 0.00;//月供
+    	var mylx = [];//每月应还利息
+    	var myyg = []; //月供
+    	var bj_total = 0.00//已归还本金
+    	var months;
+    	if(yorm_value == '0'){
+    		 months = $("#term").val()*12.0;
+    	}else{
+    		 months = $("#term").val()*1.0;
+    	}
+    //	var months = $("#term").val()*12.0;
+    	var amt = $("#loanamt").val() * 10000.00;
+    	var lx_total =0.00; //总理携
+        var per = $("#per").val()*0.01/12;
+        
+    	var mybj = amt/months;//每月应还本金
+    	
+        $("#p2").html('');
+        var p2_html = '<div class="mui-col-xs-3 mui-center">时间</div><div class="mui-col-xs-3 mui-center">月供(元)</div><div class="mui-col-xs-3 mui-center">本金(元)</div><div class="mui-col-xs-3 mui-center">利息(元)</div>';
+        
+    	
+    	for(var i = 0; i < months; i++){
+ 			var yg_tmp = mybj + (amt - bj_total)*per;
+ 			myyg.push(yg_tmp);
+    		
+    		var lx_tmp = (amt - bj_total)*per;
+    		mylx.push(lx_tmp);
+    		
+    		top.writelog("第["+i+"]月月供="+yg_tmp);
+    		
+    		top.writelog("第["+i+"]月利息="+lx_tmp);
+    		bj_total += mybj;
+    		lx_total += lx_tmp;
+            p2_html += '<div class="mui-col-xs-3 mui-center">第'+(i+1)+'个月</div><div class="mui-col-xs-3 mui-right">'+yg_tmp.toFixed(2)+'</div><div class="mui-col-xs-3 mui-right">'+mybj.toFixed(2)+'</div><div class="mui-col-xs-3 mui-right">'+lx_tmp.toFixed(2)+'</div>';
+    	}
+    	//top.writelog("yg="+yg);
+        $("#p2").html(p2_html+'<div class="mui-col-xs-6">总利息：'+lx_total.toFixed(2)+'(元)</div><div class="mui-col-xs-6">还款总额：'+(lx_total+amt).toFixed(2)+'(元)</div>');
+    	
+        $("#lx_total").val(lx_total.toFixed(2));
+        $("#amt_total").val((lx_total+amt).toFixed(2));
+    }
+    
+    //等额本息
+    function get_result_bx(){
+    	var yg = 0.00;//月供
+    	var mylx = [];//每月应还利息
+    	var mybj = [];//每月应还本金
+    
+    	var months;
+    	if(yorm_value == '0'){
+    		 months = $("#term").val()*12.0;
+    	}else{
+    		 months = $("#term").val()*1.0;
+    	}
+    	var amt = $("#loanamt").val() * 10000.00;
+    	var lx_total =0.00; //总理携
+        var per = $("#per").val()*0.01/12;
+      
+    	yg = (amt*per*cifang((1+per), months))/(cifang((1+per), months)-1);
+        $("#p2").html('');
+        var p2_html = '<div class="mui-col-xs-3 mui-center">时间</div><div class="mui-col-xs-3 mui-center">月供(元)</div><div class="mui-col-xs-3 mui-center">本金(元)</div><div class="mui-col-xs-3 mui-center">利息(元)</div>';
+        
+    	for(var i = 0; i < months; i++){
+    		var lx_tmp = amt*per*(cifang((1+per),months) - cifang((1+per), i))/(cifang((1+per),months) -1.0);
+    		var bj_tmp = amt*per*(cifang((1+per), i))/(cifang((1+per),months) -1.0);
+    		
+    		mylx.push(lx_tmp);
+    		lx_total += lx_tmp;
+    		top.writelog("第["+i+"]月利息="+lx_tmp);
+    		mybj.push(bj_tmp);
+    		top.writelog("第["+i+"]月本金="+bj_tmp);
+             p2_html += '<div class="mui-col-xs-3 mui-center">第'+(i+1)+'个月</div><div class="mui-col-xs-3 mui-right">'+yg.toFixed(2)+'</div><div class="mui-col-xs-3 mui-right">'+bj_tmp.toFixed(2)+'</div><div class="mui-col-xs-3 mui-right" >'+lx_tmp.toFixed(2)+'</div>';
+    	}
+        $("#p2").html(p2_html+'<div class="mui-col-xs-6">总利息：'+lx_total.toFixed(2)+'(元)</div><div class="mui-col-xs-6">还款总额：'+(lx_total+amt).toFixed(2)+'(元)</div>');
+        
+        
+    	//top.writelog("yg="+yg);
+        $("#lx_total").val(lx_total.toFixed(2));
+        $("#amt_total").val((lx_total+amt).toFixed(2));
+    	top.writelog("总利息:"+lx_total);
+    	
+    }
+    
+    function get_result(){
+        var amt = $("#loanamt").val();
+        var term = $("#term").val();
+        var per = $("#per").val();
+        if(top.isEmpty(amt)){
+            top.alertInfo("贷款金额不能为空");
+            return;
+        }
+        if(top.isEmpty(term)){
+            top.alertInfo("贷款期限不能为空");
+            return;
+        }
+        if(top.isEmpty(per)){
+            top.alertInfo("贷款利率不能为空");
+            return;
+        }
+    	if(paytype_value == '0'){
+    		get_result_bj();
+    	}else{
+    		get_result_bx();
+    	
+    	}
+        $("#result_info").show();
+    }
+    function cifang(val, times){
+    	
+    	var result_val = 1.00;
+
+    	
+    	
+    	for(var i = 0; i < times; i++){
+    		result_val *= val;
+    	}
+    	
+    	top.writelog("val="+val+";times="+times+";result_val="+result_val);
+    	return result_val;
+    }
+
+    </script>
+    
+<body style="background:#8EC2F5;">
+
+	<header class="mui-bar mui-bar-nav head_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title">贷款计算器</h1>
+	</header>
+
+	<div class="container-fluid">
+		<div class="mui-content mui-scroll-wrapper" >
+	    	<div class="mui-scroll top_head">
+	    		<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+					<form class="mui-input-group" >		
+						<div class="mui-input-row">										
+							<label>贷款金额</label> 
+							<input type="number" name="number" style="width:40%;float:left;" placeholder="请输入贷款总额"
+									id="loanamt" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">万元</span>
+						</div>
+					
+						<div class="mui-input-row">								
+        					<label>贷款期限</label>
+							<input type="number" placeholder="贷款期限，注意单位" id="term">
+						</div>
+						<div class="mui-input-row">								
+        					<label>期限单位</label>
+							<input type="text" placeholder="请选择年、月，默认年"   id="yorm" >
+						</div>
+                        <div class="mui-input-row">
+                            <label>还款方式</label>
+                            <input type="text" placeholder="还款方式,默认等额本金"   id="paytype" >
+                                </div>
+                        <div class="mui-input-row">                   
+                            <label>基准利率</label> <input type="number" name="number" style="width:40%;float:left;" placeholder="基准利率(年化)"
+									id="per" maxlength='6'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">%</span>
+                        </div>
+					</form>
+                    <form class="mui-input-group" style="margin-top:10px;display:none" id="result_info">
+                        <p style="padding-left:15px;padding-top:5px;height:20px;color:#007aff">计算结果</p>
+                        <div class="mui-input-row">
+                            <label>总利息</label>
+                            <input type="text"  style="width:40%;float:left;" placeholder="总利息"
+                            id="lx_total" readonly /><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+                        </div>
+                        
+                        <div class="mui-input-row">
+                            <label>还款总额</label>
+                            <input type="text"  style="width:40%;float:left;" placeholder="还款总额"
+                                id="amt_total" readonly /><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+                                </div>
+                 
+                    </form>
+
+				</div>
+
+
+
+				<div style="margin-top:10px;text-align:center;margin-bottom: 20px;" onclick="get_result()" id="tj_button">
+					<button type="button" class="mui-btn  mui-btn-primary" style="width:90%">计算</button>
+				</div>
+			
+				<div  style="margin-top:10px;">
+                    <div class="mui-row" id="p2" style="padding-left:5px;padding-right:5px;background:#fff;">
+                    </div>
+			
+				</div>
+				<div style="height:300px;line-height:300px;text-align:center;">--到底了--</div>
+			</div>
+		</div>
+	</div>
+	<script src="mui/js/mui.min.js"></script>
+	<script src="mui/js/mui.picker.js"></script>
+	<script src="mui/js/mui.poppicker.js"></script>
+
+		<script>
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					/*********是否有房产中介***********/
+					var isPicker = new $.PopPicker({
+						layer: 1
+					});
+					
+					 var yorm = [{
+                         value: '0',
+                         text: '年'
+                         }, {
+                         value: '1',
+                         text: '月'
+                         }];
+					
+
+					isPicker.setData(yorm);
+					
+					var yorm = doc.getElementById('yorm');
+					
+					yorm.addEventListener('tap', function(event) {
+                                         
+						isPicker.show(function(items) {
+							
+							yorm_value = (items[0] || {}).value;
+							yorm.value = (items[0] || {}).text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+                        var isPicker2 = new $.PopPicker({
+                                                       layer: 1
+                                                       });
+                        
+                        var isData2 = [{
+                                      value: '0',
+                                      text: '等额本金'
+                                      }, {
+                                      value: '1',
+                                      text: '等额本息'
+                                      }];
+                        isPicker2.setData(isData2);
+                        
+                        var paytype = doc.getElementById('paytype');
+                        
+                        paytype.addEventListener('tap', function(event) {
+                                                
+                                               isPicker2.show(function(items) {
+                                                             
+                                            	   paytype_value = (items[0] || {}).value;
+                                            	   paytype.value = (items[0] || {}).text;
+                                            	//  $("#paytype").val((items[0] || {}).text);
+                                            	  
+                                                             //返回 false 可以阻止选择框的关闭
+                                                             //return false;
+                                                             });
+                                               }, false);
+
+				});
+
+			
+			})(mui, document);
+		</script>
+
+</body>
+</html>

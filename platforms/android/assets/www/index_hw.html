@@ -1,0 +1,908 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title></title>
+		<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+		<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+		<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+		<link rel="stylesheet" href="mui/css/mui.min.css">
+		<link rel="stylesheet" href="mui/css/app.css">
+		<link rel="stylesheet" href="mui/css/iconfont.css">
+		<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+		<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+		<script type="text/javascript" src="cordova.js"></script>
+		<script type="text/javascript" src="js/lib/zzljs/menu11.js"></script>
+		<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+		<script type="text/javascript" src="js/jquery.md5.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+	</head>
+	<style>
+	/*--正在加载--*/
+	.showframe{
+				width: 100%;
+				height: 100%;
+				border: none;
+				display: none;
+			}
+
+
+body { 
+	margin: 0; 
+	padding: 0; 
+	background-attachment: fixed; /* prevent screen flash in IE6 */ 
+} 
+div,ul{margin: 0;padding: 0;} 
+
+    .top_class{
+        z-index:9999;
+        width:200px;
+        height:40px;
+        top:120px;
+    }
+    
+    .div_process{
+       
+        z-index:9999;background-color:#FFF0F5; width:100%; height:50px; position: fixed;  top:300px;text-align:center;
+        
+    }
+        .div_guanggao{
+        
+        z-index:10001;background-color:rgba(01,01,01,0.1);width:100%;height:100%;position: fixed;top:0px;
+    }
+    .div_back{
+        
+        z-index:9998;background-color:rgba(255,00,255,0.1);width:100%;height:100%;position: fixed;top:0px;
+    }
+    .div_ppp{
+        
+        z-index:9998;background-color:rgba(255,00,255,0.1);width:100%;height:100%;position: fixed;top:0px;
+    }
+    .upload_process_bar{
+        width:100%;
+        border:#ccc 1px solid;
+        height:10px;
+        padding:1px;
+        background:#fff;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+        border-radius:10px;
+        display:none;
+    }
+    .upload_current_process{
+        height:10px;
+        width:0%;
+        background:#00FF00;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
+        border-radius:10px;      
+    }
+
+   nav ul li {
+	width: 25%;
+	float: left;
+	margin-left: 0;
+	margin-right: 0;
+	padding: 0;
+	background-color:#f4f4f4;
+
+}
+.body_login{
+  background:url(img/bj2.png);
+background-size:cover;
+z-index:9998;width:100%;height:100%;position: fixed;top:0px;
+overflow:auto;
+}
+.inp_text_new {
+	border: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+	outline:none;
+	/* line-height: 35px !important; */
+	height:40px !important;
+	color: #f3f3f3 !important;
+	width: 65%  !important;	
+	font-size: 15px;
+	margin-top: 3px;
+	margin-left:10px;
+	height:95%;
+	vertical-bottom:0;
+}
+
+	</style>
+
+<script type="text/javascript">
+	var cpjs_data;
+	var wdjrxq_data;
+	var didian="";//所在地区
+	var uu_id;
+	var bottomNav_H,top_H=50;
+	var win_H=document.documentElement.clientHeight;
+	var win_W=document.documentElement.clientWidth;
+	var title="世纪源金融";
+	var overlay_type; //1-银行网点 2-自助设备 3-助农取款
+	var intervalid;
+	var citycode;
+	
+
+    var screenWidth;
+    var screenHeight;
+	var tx_flag=0;
+
+	var pagearr=[];
+	var jpagearr=[];
+
+    var level = 0;
+	var DEBUG = true;
+    var sessionid;
+    var imgpath="http://"+IP+":"+PORT+"/static/";
+    var productPath = "http://"+IP+":"+PORT+"/static/product/";
+    var productClassPath = "http://"+IP+":"+PORT+"/static/productClass/";
+	
+	document.addEventListener("DOMContentLoaded", initial);
+	function initial() {
+
+		/*是否登录 0-未登录 1-已登录*/
+		
+		localStorage.setItem("acount", "0");
+		localStorage.setItem("count_w", "0");
+
+
+		localStorage.setItem("camera_flag", "0");
+		localStorage.setItem("cpjs_flag", "0");
+		localStorage.setItem("dbtx_flag", "0");
+	
+		localStorage.setItem("account_c", "0");
+		localStorage.setItem("pageimgnum", '0');
+		localStorage.setItem("pagenum", '0');
+
+        
+	       var userno = localStorage.getItem("local_userid");
+	        if(userno){
+	            $("#userid").val(userno);
+	            $("#mm").val(localStorage.getItem("password"));
+	        }
+	        
+	        var undo = localStorage.getItem("undo");
+		    if( undo > 0){
+		     
+		            $(".mui-badge").html(json.data.undo);
+		            $(".mui-badge").show();
+		           
+		        }else{
+	            	$(".mui-badge").hide();
+	            }
+	        /*
+    	var login_flag = localStorage.getItem("login_flag");
+		if(!login_flag){
+			localStorage.setItem("login_flag", "0");
+		}
+		
+		
+		if( login_flag == '1'){
+			$(".body_login").hide();
+		}
+		else{
+			
+			$(".body_login").show();
+		}
+
+*/
+		
+	}
+
+	function guanggao(wait_time){
+		$("#guanggao_span").html(wait_time);
+		if(wait_time == 0){
+			$(".div_guanggao").fadeOut(2000);
+			$(".mui-bar").slideDown(2000);
+			return;
+		}
+		
+		
+		setTimeout(function(){
+			
+			wait_time--;
+			guanggao(wait_time)
+		},1000);
+	}
+
+    function call_phone(phoneno){
+    	CallPhone.show(phoneno);
+    }
+    
+    function start_process(){
+    	//MyProcess.start();
+    	NTUI.beginLoaded();
+    	
+    }
+    
+    function stop_process(){
+    	NTUI.onLoaded();
+    	//MyProcess.stop();
+    }
+	function getmylocation(fun){
+		
+		NTLocation.getLocation(
+			function(msg){
+				mainFrame1.window.buildmap(msg);
+		},function(){});
+	
+	}
+    
+    function getmylocation_r(fun){
+		
+		NTLocation.getLocation(
+			function(msg){
+				mainFrame1.window.cxdw(msg);
+		},function(){});
+		
+	}
+    
+    function App_Update(){
+    	AppUpdate.CheckUpdate(function(msg){
+			top.alertInfo('请求成功'+msg,'','温馨提示','确认');
+		}, function(msg){
+			top.alertInfo('请求失败'+msg,'','温馨提示','确认');
+		});
+    }
+    //alert
+    function alertInfo(message){
+    	navigator.notification.alert(message, null, "世纪源金融", "确定");
+    }
+    //confirm
+    function confirmInfo(message, resultCallback){
+    	
+    	navigator.notification.confirm(message, resultCallback, "世纪源金融", ["确定","取消"]);
+    }
+    
+	function howtogetpic(){
+		
+		navigator.notification.confirm("请选择图片获取方式", function(msg){
+			if( msg == 0 ) //拍照
+			{
+				capturePhoto();
+			}else if( msg == 1)//从相册获取
+			{
+			//	getPhoto();
+			getPictures();
+			}
+		}, "世纪源金融", "ok");
+	}
+
+	function getPictures(resultCallback){
+
+		ImagePicker.show(resultCallback,function(msg){
+			alertInfo("error"+msg);
+	     });
+	     
+
+
+	}
+	
+
+	
+    function onDeviceReady() {
+    	 
+        pictureSource = navigator.camera.PictureSourceType;
+ 
+        destinationType = navigator.camera.DestinationType;
+ 
+    }
+    function onPhotoURISuccess(imageURI) {
+    	 
+    	 
+        var largeImage = document.getElementById('largeImage');
+ 
+ 
+        largeImage.style.display = 'block';
+ 
+
+        largeImage.src = imageURI;
+        
+ 
+    }
+ 
+
+ 
+    function capturePhoto(resultCallback) {
+    	
+    	NTCamera.showPictureTaker(
+    			resultCallback,
+    			function(error){
+    			alert(error);
+    			},
+    			get_imgname(),
+    			'0',
+    			'0',
+    			'0'
+    			);
+
+    	/*
+ 
+        // Take picture using device camera and retrieve image as base64-encoded string
+ 
+        navigator.camera.getPicture(resultCallback, onFail, {
+ 
+            quality : 50,
+ 
+            destinationType : navigator.camera.DestinationType.FILE_URI,//这里要用FILE_URI，才会返回文件的URI地址
+ 
+            //destinationType : Camera.DestinationType.DATA_URL,
+ 
+            sourceType : Camera.PictureSourceType.CAMERA,
+ 
+            allowEdit : false,
+ 
+            encodingType : Camera.EncodingType.JPEG,
+ 
+            popoverOptions : CameraPopoverOptions,
+ 
+            saveToPhotoAlbum : true
+ 
+        });
+ */
+    }
+ 
+
+ 
+    function capturePhotoEdit() {
+ 
+        // Take picture using device camera, allow edit, and retrieve image as base64-encoded string  
+ 
+        navigator.camera.getPicture(uploadPhoto, onFail, {
+ 
+            quality : 50,
+ 
+            allowEdit : true,
+ 
+            destinationType : destinationType.DATA_URL,
+          //	destinationType : navigator.camera.DestinationType.FILE_URI,
+ 
+            saveToPhotoAlbum : true
+ 
+        });
+ 
+    }
+  
+ 
+    function getPhoto(resultCallback) {
+    	 
+        // Retrieve image file location from specified source
+ 
+        navigator.camera.getPicture(resultCallback, onFail, {
+ 
+            quality : 50,
+ 
+            destinationType : destinationType.FILE_URI,//这里要用FILE_URI，才会返回文件的URI地址
+ 
+            sourceType : pictureSource.PHOTOLIBRARY
+ 
+        });
+ 
+    }
+ 
+
+
+
+function process_show(){
+    var mycount = imageCount;
+    mycount++;
+   $(".div_back").attr("style", "display:black");
+    $("p").html("第【"+mycount+"】图片上传中,请等待片刻....");
+    
+}
+function process_dismiss(){
+    
+    $(".div_back").attr("style", "display:none");
+    
+}
+    function uploadPhoto(imageURI) {
+       
+        var options = new FileUploadOptions();
+        
+        
+        options.fileKey = "fileAddPic";//用于设置参数，对应form表单里控件的name属性，这是关键，废了一天时间，完全是因为这里，这里的参数名字，和表单提交的form对应
+ 
+ 
+        options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+      
+        //把图片路径先放入对应变量，方便后面显示
+        var num = localStorage.getItem("imgnum");
+   	 	
+        options.mimeType = "image/jpeg";
+
+        //这里的uri根据自己的需求设定，是一个接收上传图片的地址
+ 		var fileno = localStorage.getItem("fileno");
+ 		
+ 		var imagename = options.fileName;
+ 		localStorage.setItem("imglocalurl_"+num, imageURI);       
+   	 	
+
+         var uri = encodeURI("http://"+IP+":"+PORT+"/app/6033?fileno="+fileno); 
+       
+        options.chunkedMode = false;
+        
+        process_show();
+        ft = new FileTransfer();
+        ft.onprogress = showUploadingProgress;
+      
+        ft.upload(imageURI, uri, win, fail, options);
+        
+   
+    }
+
+// 显示上传进度
+function showUploadingProgress( progressEvt){
+
+    if( progressEvt.lengthComputable ){
+        //已经上传
+        var loaded=progressEvt.loaded;
+        //文件总长度
+        var total=progressEvt.total;
+        //计算百分比，用于显示进度条
+        var percent=parseInt((loaded/total)*100);
+        
+        console.log("percent = " + percent);
+        loaded=(loaded/1024/1024).toFixed(2);
+        total=(total/1024/1024).toFixed(2);
+        $('#process_info').html("已上传:"+loaded+'M/'+"(共)"+total+'M');
+        $('.upload_current_process').css({'width':percent+'%'});
+
+    }
+}
+
+    function win(r) {
+process_dismiss();
+
+        var response = r.response;
+ 
+ 	var message = eval("(" + r.response + ")");
+
+ 		//把图片路径先放入对应变量，方便后面显示
+        var num = localStorage.getItem("imgnum");
+      
+       var filename = localStorage.getItem("imgfilename_"+num);
+       
+       if( filename && filename!='undefined' ){
+           filename = filename + '|' + message.msg;
+       }else{
+           filename = message.msg;
+       }
+ 	
+        localStorage.setItem("imgfilename_"+num, filename);
+ 
+ 		
+        //以下是三个默认的返回参数
+ 
+        console.log("Code = " + r.responseCode);
+ 
+        console.log("Response = " + r.response);
+ 
+        console.log("Sent = " + r.bytesSent);
+ 
+        imageCount++;
+        //把图片路径先放入对应变量，方便后面显示
+        var num = localStorage.getItem("imgnum");
+ 
+        var filename = localStorage.getItem("img_tmp_"+num);
+ 
+        var images = filename.split('|');
+        //检查图片是否传完
+        if( imageCount < images.length){
+            uploadPhoto(images[imageCount]);
+        }else{
+            localStorage.removeItem("img_tmp_"+num);
+            var filename = localStorage.getItem("upload_fail_file");
+            if(filename){
+                localStorage.setItem("img_tmp_"+num, filename);
+            }
+            alertInfo("图片上传成功，一共上传["+images.length+"]张图片");
+            
+            back_history_old();
+        }
+        
+        
+ 
+    }
+    function onFail(message) {
+    	 
+        // alert('Failed because: ' + message);
+  
+     }
+    var errCount=0;
+    function fail(error) {
+    process_dismiss();
+  //把图片路径先放入对应变量，方便后面显示
+    var num = localStorage.getItem("imgnum");
+  //检查图片是否传完
+    var filename1 = localStorage.getItem("img_tmp_"+num);
+ 
+    var images = filename1.split('|');
+    
+        var filename = localStorage.getItem("upload_fail_file");
+        if( filename && filename!='undefined' ){
+            filename = filename + '|' + images[imageCount];
+        }else{
+            filename = images[imageCount];
+        }
+        imageCount++;
+        errCount++;
+        
+        if( imageCount < images.length){
+            uploadPhoto(images[imageCount]);
+        }else{
+            localStorage.removeItem("img_tmp_"+num);
+            var filename = localStorage.getItem("upload_fail_file");
+            if(filename){
+                localStorage.setItem("img_tmp_"+num, filename);
+            }
+            alertInfo("图片上传成功，一共上传["+images.length+"]张图片,失败["+errCount+"]张");
+            
+            back_history_old();
+        }
+        console.log("upload error source " + error.source);
+ 
+        console.log("upload error target " + error.target);
+ 
+    }
+  //  window.resolveLocalFileSystemURI(imageURI, onResolveSuccess, onError);
+    
+    function onResolveSuccess(fileEntry){
+         
+         alertInfo(fileEntry.fullPath);
+     }
+     function onError(error) { 
+
+         toLog("error code: "+ error.code);
+
+     };
+ 
+
+     function refresh_dbaj(){
+    //	 back_history();
+    	 $("#mainFrame2")[0].contentWindow.initPage();
+     }     
+     function refresh_ajpj(){
+    	    //	 back_history();
+    	    	 $("#mainFrame5")[0].contentWindow.initPage();
+    	     } 
+     function writelog(str){
+    	 
+    	 if(DEBUG){
+    		 console.log(str);
+    	 }
+     	
+     }
+     
+     function hidden_red(){
+    	$(".mui-badge").hide();
+     }
+     
+     //判断对象是否为空
+     function isEmpty(obj) {
+
+ 		if(!obj && obj == 0 && obj == '') {　　　　　　　　　
+ 		  return true;
+ 		}
+ 		
+ 		if(Array.prototype.isPrototypeOf(obj) && obj.length == 0) {
+ 			　　　return true;
+ 		}
+ 		
+ 		if(Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length == 0) { 
+ 			
+ 			　return true; 　　　
+ 		}
+ 		return false; 
+ 	}
+   //Jpush 插件
+     function Jpush_init(phoneno){
+     	var alias = [];
+     	alias.push(phoneno);
+
+         JPushPlugin.setAlias(alias);
+     }
+   
+   function check_connect_stat(){
+		$.ajax({
+			type : "post",
+			timeout: 10000,
+			url: "http://"+IP+":"+PORT+"/app/6055",
+			data : {},
+			datatype : "json",
+			success : function(msg){
+				writelog("6055 recv:"+msg);
+				var json = eval("("+msg+")");
+				
+				if(json.stat == 1){
+					top.alertInfo(json.msg);
+					
+					localStorage.setItem("login_flag", "0");			
+					$(".body_login").show();
+				}
+			},
+			error:function(msg){
+				stop_process();
+				alertInfo('登录失败');
+			}
+		});
+   }
+</script>
+<body>
+<div class="container-fluid">
+			<div class="row" style="height:100%">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+					<div component-role="swich_page" class="bottom" >
+						<iframe name="mainFrame1" id="mainFrame1"  class="showframe" src="menu.html"  style="display: block;">
+						</iframe>											
+						<iframe name="mainFrame2" id="mainFrame2"  class="showframe" src="dbaj.html">
+						</iframe>
+						<iframe name="mainFrame3" id="mainFrame3"  class="showframe" src="list.html">
+						</iframe>						 
+						<iframe name="mainFrame4" id="mainFrame4"  class="showframe" src="setting.html">
+						</iframe>
+						 	
+					</div>
+				</div>
+			</div>
+			
+		
+			<nav class="mui-bar mui-bar-tab">
+				<ul>
+					<li>
+						<a ind="1"   class="mui-tab-item mui-active" >
+							<span class="mui-icon mui-icon-home"></span>
+							<span class="mui-tab-label">案卷模块</span>
+						</a>
+					</li>
+					<li>	
+						<a ind="2"  class="mui-tab-item" >
+							<span class="mui-icon mui-icon-email"><span class="mui-badge" style="display:none"></span></span>
+							<span class="mui-tab-label">待办案卷</span>
+						</a>
+					</li>
+					<li>	
+						<a ind="3" class="mui-tab-item">
+							<span class="mui-icon mui-icon-contact"></span>
+							<span class="mui-tab-label">产品介绍</span>
+						</a>
+					</li>
+					<li>	
+						<a ind="4" class="mui-tab-item">
+							<span class="mui-icon mui-icon-gear"></span>
+							<span class="mui-tab-label">用户设置</span>
+						</a>
+					</li>
+				
+				</ul>		
+			</nav>
+
+</div>
+		
+<div class='div_back' style="display:none;">
+    <div class='div_process'>
+        <p style="width:100%"></p>
+        <div class="upload_process_bar">
+            <div class="upload_current_process"></div>
+        </div>
+        <div id="process_info"></div>
+    </div>
+</div>
+
+<div class="body_login" style="display:none">
+
+	
+	<div  class="" style="margin-top:75%;">	
+		<div >		
+			<ul>
+				<li style="line-height:40px;height:40px;border-bottom: 1px solid #ffffff;width:60%;margin-left:20%;">
+					<div style="margin-top:15px;" >					
+						<div class="user_div"></div>						
+						<input type="text"  placeholder="用户名" class="inp_text_new" style="font-size: 17px;margin-left:20px;margin-right:10px;margin-top:5px;color:#f4f4f4" id="userid"/>
+					</div>
+				</li>
+				<li style="line-height:40px;height:40px;border-bottom: 1px solid #ffffff;width:60%;margin-left:20%;">
+					<div style="margin-top:15px;" > 
+						<div class="pass_div"></div>
+						<input type="password" placeholder="密码" class="inp_text_new" style="font-size: 17px;margin-left:20px;margin-right:10px;margin-top:5px;color:#5b5b5b" id="mm"/>
+					</div>
+				</li>
+			</ul>
+		</div>
+	
+	
+		<div class="row" style="margin-top:15px;">
+			<div class="col-xs-6 text-right">			
+					<img src="img/login.png" style="height:40px;margin-right:10px;" onclick="login()"></img>
+			</div>
+			
+			<div class="col-xs-6 text-left">				
+				<img src="img/sign.png" style="height:40px;margin-left:10px;" onclick="zhuce()"></img>
+			</div>
+		</div>
+	
+		<div class="col-xs-12 text-center" style="margin-top:8px;">
+			<span style="font-size:14px;color: #3A006F;font-weight:bold" onclick="wjmm()">忘记密码</span>
+		</div>
+	</div>		
+</div>
+
+<script  type="text/javascript">
+
+function login(){
+
+	  
+	var userid = $("#userid").val();
+	var password = $("#mm").val();		
+	
+	var mm = $.md5(password);
+    if( userid == '' || password == ''){
+        alertInfo('用户号或密码不能为空');
+    }
+
+    NTParameter.addValue(null, null, "password", password);
+
+
+	var data = {};
+	data.userid = $("#userid").val();
+	
+    localStorage.setItem("password", password);
+	data.password =  $.md5(password);
+
+	writelog("6001 send:"+JSON.stringify(data));
+	
+	start_process();
+		$.ajax({
+			type : "post",
+			timeout: 10000,
+			url: "http://"+IP+":"+PORT+"/app/6001",
+			data : data,
+			datatype : "json",
+			success : jugelog,
+			error:function(msg){
+				stop_process();
+				alertInfo('登录失败');
+			}
+		});
+	}
+function jugelog(msg){
+	
+	
+		stop_process();
+	
+	var json=eval("("+msg+")");
+	top.writelog("6001 recv:"+msg);
+
+	
+	if( json.stat == '0') //登陆成功
+	{		
+		
+
+		
+		localStorage.setItem("local_userid", $("#userid").val());
+		localStorage.setItem("login_info",msg);
+
+		var userid = json.data.userId;
+		var flag = json.data.customerFlag;
+		localStorage.setItem("userid", userid);
+		top.writelog("userid="+userid+"flag="+flag);
+		if( flag == 0 ) //外部手机号客户
+		{
+			localStorage.setItem("level", 0);
+			
+		} else {
+			
+            writelog("telno="+json.data.accountTel);
+			localStorage.setItem("username", json.data.accountName);
+			localStorage.setItem("accountOrgn", json.data.accountOrgn);
+			localStorage.setItem("accountType", json.data.accountType);
+			localStorage.setItem("orgnName", json.data.orgnName);		
+			localStorage.setItem("accountTel", json.data.accountTel);
+			localStorage.setItem("orgnType", json.data.orgnType);
+			localStorage.setItem("accountPosition", json.data.accountPosition);
+			localStorage.setItem("pos_name", json.data.postName);
+			var pos = json.data.accountPosition; //0-管理层 1-普通员工
+			var hzjg_type = json.data.orgnType; //0-总公司 1-分公司 2-合作机构 3-门店
+			var type = json.data.accountType; //1-领导 2-员工
+			var level;
+			
+            if(hzjg_type == '0' || hzjg_type =='1') //总公司
+            {
+                if(pos == 'A' || pos == 'B' || pos == 'J' || pos == 'CP')//只有签单员和驻行员能创建案卷
+                    level = 3;
+                else if(pos == 'N' || pos == 'E' || pos == 'L')
+                    level = 1;
+                else
+                    level = 2;
+            }else if(hzjg_type=='2' || hzjg_type=='3'){
+                
+                 if(pos == 'X1' || pos == 'Y1')
+                    level = 4;
+                 else
+                    level = 5;
+            }else {
+                level == 0;
+            }
+            
+			localStorage.setItem("level",level);
+            
+			/*业绩排名*/
+			var pm;
+	        var mes='';
+	        localStorage.setItem("undo", json.data.undo);
+	        if( json.data.undo > 0){
+	        //	mes= '您有 ' + json.data.undo + ' 条待处理事件;';
+
+	            $(".mui-badge").html(json.data.undo);
+	            $(".mui-badge").show();
+	           
+	        }else{
+            	$(".mui-badge").hide();
+            }
+	        
+			if(json.data.rank1.length > 0 ){ //分公司排名
+				for(var i = 0; i < json.data.rank1.length; i++){
+					
+					localStorage.setItem("gr_pm_"+json.data.rank1[i].rank_type2, json.data.rank1[i].rank_no);
+				}	
+				if(pos == 'A' || pos == 'B' || pos == 'F'){
+	            	 pm = json.data.rank1[0].rank_no;
+	            	 if(pm > 0){
+		            	 mes += "您本周面签量排名 "+ pm+"位";
+		             }
+	             }
+			}
+			if(json.data.rank2.length > 0 ){ //分公司排名
+				for(var i = 0; i < json.data.rank2.length; i++){
+					
+					localStorage.setItem("fgs_pm_"+json.data.rank2[i].rank_type, json.data.rank2[i].rank_no);
+				}	
+				if(pos != 'A' && pos != 'B' && pos != 'F'){
+	            	 pm = json.data.rank2[0].rank_no;
+	            	 if(pm > 0){
+	            		 mes += "分公司面签量排名 "+ pm+"位";
+		             }
+	             }
+			}
+			if(mes!='' ){
+				alertInfo(mes);
+			}
+
+			$("#mainFrame1")[0].contentWindow.initPage();
+			$("#mainFrame4")[0].contentWindow.initPage();
+		}
+		
+		NTParameter.addValue(null, null, "userid", userid);
+		//极光推送别名注册
+		Jpush_init(userid);
+		
+		
+        //window.location.href="touch_test.html";
+	}else{
+		alertInfo("登录失败:"+json.msg);
+	}
+}
+
+function login_div_show(){
+	$(".body_login").show();
+}
+function zhuce(){
+	localStorage.setItem("hiscount", "1");
+	window.location.href="grzlzc.html"; 
+}
+
+function wjmm(){
+	localStorage.setItem("hiscount", "1");
+	window.location.href="wjmm.html"; 
+}
+function exitApp(){
+	exitApp_index();
+}
+
+</script>
+	</body>
+
+</html>

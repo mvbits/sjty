@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>我的金融需求</title>
+	<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+	<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+	<link href="css/common.css" rel="stylesheet">
+	<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+	<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+	<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.md5.js" type="text/javascript" charset="utf-8"></script>
+	<style>
+		.btn:hover, .btn:focus, .btn.focus{color:#fff;}
+	</style>
+</head>
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", initial);
+function initial() {
+	thisURL = document.URL;  
+	localStorage.setItem("thisURL", thisURL);
+	localStorage.setItem("showflag", "1");
+	
+	
+  	generateMenu();
+}
+
+
+function generateMenu() {
+	var  data={
+		"sjh":localStorage.getItem("yhsjh"),
+		"flag": 0
+	};
+	$.ajax({
+		type : "post",
+		url: "http://"+IP+":"+PORT+"/JRWG/sq/queryList",
+		data : data,
+		datatype : "json",
+		success : showmessage,
+		error:function(msg){
+			top.alertInfo('请求失败','','温馨提示','确认'); 
+		}
+	}); 
+}
+
+function showmessage(msg){  
+	/* 	alert(json); */ 
+	/*  测试数据
+	var	msg='{"data":[{ "sqsj":"20160101", "clqk":"已处理","xqlb":"需求类别1", "xq":"需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情需求详情" },{ "sqsj":"20160101", "clqk":"未处理","xqlb":"需求类别2", "xq":"需求详情2" },{ "sqsj":"20160101", "clqk":"处理中","xqlb":"需求类别3", "xq":"需求详情3" },{ "sqsj":"20160101", "clqk":"已处理","xqlb":"需求类别4", "xq":"需求详情4" }]}';	
+	var json = eval("("+msg+")"); */	
+	
+	var json = msg;	
+	var qk = json.data.sq_qk;  //预约取款
+	var dk = json.data.sq_dk;  //贷款
+	var lc = json.data.sq_lc;  //理财
+	var pj = json.data.sq_pj;  //评价
+	var qt = json.data.sq_qt;  //其他金融需求
+	
+	if(document.getElementById('content') )
+		document.getElementById('p1').removeChild(document.getElementById('content'));
+	var div_host = document.getElementById("p1");
+	var div_content = document.createElement("div");
+	div_content.setAttribute("class", "content");
+	div_content.setAttribute("id", "content");
+	
+	var b = false;
+	if(qk.length > 0){
+		b = true;
+	}
+	if(dk.length > 0){
+		b = true;
+	}
+	if(lc.length > 0){
+		b = true;
+	}
+	if(pj.length > 0){
+		b = true;
+	}
+	if(qt.length > 0){
+		b = true;
+	}
+	if(!b) //无信息	
+	{
+		var div_row = document.createElement("div");
+		div_row.setAttribute("class", "row");
+		div_row.setAttribute("style", "background:#f4f4f4;height:130px;");
+		div_content.appendChild(div_row);
+		
+		var div = document.createElement("div");
+		div.setAttribute("class", "form_div");
+		div.setAttribute("align", "center");
+		var img = document.createElement("img");
+		img.setAttribute("width", "180px");
+		img.setAttribute("heigth", "180px");
+		img.setAttribute("src", "img/wdjrxq.png");
+
+		div.appendChild(img);  			
+		div_content.appendChild(div);
+	}
+	else{
+		for(var i = 0; i < dk.length; i++){	
+			var div = document.createElement("div");   
+			div.setAttribute("class", "form_div");
+			/* var ul = document.createElement("ul"); */
+			var table = document.createElement("table");
+			table.setAttribute("class", "table_class_new");
+			 
+			var li1 = document.createElement("li");
+			var sp1=document.createElement("span");
+			sp1.setAttribute("class", "inp_label_wdjrxq");
+			sp1.innerHTML = "日期";
+			var sp1_t=document.createElement("span");
+			sp1_t.setAttribute("class", "inp_show_text_new1");
+			//sp1_t.innerHTML = dk[i].sqsj;
+			sp1_t.innerHTML = dk[i].sqsj.substring(0, 4)+"-"+dk[i].sqsj.substring(4, 6)+"-"+dk[i].sqsj.substring(6, 8)+"  "+dk[i].sqsj.substring(8, 10)+":"+dk[i].sqsj.substring(10, 12)+":"+dk[i].sqsj.substring(12, 14);
+	
+			li1.appendChild(sp1);
+			li1.appendChild(sp1_t);
+			
+			var li2 = document.createElement("li");
+			var sp2=document.createElement("span");
+			sp2.setAttribute("class", "inp_label_wdjrxq");
+			sp2.innerHTML = "需求类别";
+			var sp2_t=document.createElement("span");
+			sp2_t.setAttribute("class", "inp_show_text_new1");
+			sp2_t.innerHTML = '贷款';
+			li2.appendChild(sp2);
+			li2.appendChild(sp2_t);
+			var myid = "02"+dk[i].id;
+			var li3 = document.createElement("li");
+			//li3.setAttribute("onclick", "show_moreinfo('"+dk[i].id+"')");
+			li3.setAttribute("onclick", "show_moreinfo('"+myid+"')");
+			var sp3=document.createElement("span");
+			sp3.setAttribute("class", "inp_label_wdjrxq");
+			sp3.innerHTML = "需求详情";
+			var img=document.createElement("img");
+			img.setAttribute("src", "img/right.png");
+			img.setAttribute("style", "width: 10px;height: 18px;float: right;margin-right: 20px;margin-top: 12px;background-size: 100% 100%;");
+			li3.appendChild(sp3);
+			li3.appendChild(img);
+			var info={};
+			
+			//info.id=dk[i].id;
+		
+			info.xqlb= '02';
+			info.xqsj= dk[i].sqsj.substring(0, 4)+"-"+dk[i].sqsj.substring(4, 6)+"-"+dk[i].sqsj.substring(6, 8)+"  "+dk[i].sqsj.substring(8, 10)+":"+dk[i].sqsj.substring(10, 12)+":"+dk[i].sqsj.substring(12, 14);
+			info.gsmc = dk[i].gsmc;
+			info.khzjhm = dk[i].khzjhm;
+			
+			info.dkyt=dk[i].dkyt;
+			info.dkqx = dk[i].dkqx;
+			info.dkje = dk[i].dkje;
+			info.dz = dk[i].dz;
+			
+			info.sjh = dk[i].sjh;
+			info.xm = dk[i].xm;
+			info.wdmc = dk[i].wdmc;
+			info.dklb = dk[i].dklb;
+		//	localStorage.setItem(dk[i].id,JSON.stringify(info));
+			localStorage.setItem(myid,JSON.stringify(info));
+		
+			var liRow = document.createElement("li");
+			liRow.setAttribute("style", "height:15px;");
+			var div_row = document.createElement("div");
+			div_row.setAttribute("class", "row");
+			div_row.setAttribute("style", "background:#f4f4f4;height:20px;");
+			liRow.appendChild(div_row);
+			
+			table.appendChild(li1);
+			table.appendChild(li2);
+			table.appendChild(li3);
+		//	table.appendChild(li4);
+			table.appendChild(liRow);
+			div.appendChild(table);
+			div_content.appendChild(div);
+		}
+		for(var i = 0; i < qk.length; i++){	
+			var div = document.createElement("div");   
+			div.setAttribute("class", "form_div");
+			/* var ul = document.createElement("ul"); */
+			var table = document.createElement("table");
+			table.setAttribute("class", "table_class_new");
+			 
+			var li1 = document.createElement("li");
+			var sp1=document.createElement("span");
+			sp1.setAttribute("class", "inp_label_wdjrxq");
+			sp1.innerHTML = "日期";
+			var sp1_t=document.createElement("span");
+			sp1_t.setAttribute("class", "inp_show_text_new1");
+			sp1_t.innerHTML = qk[i].sqsj.substring(0, 4)+"-"+qk[i].sqsj.substring(4, 6)+"-"+qk[i].sqsj.substring(6, 8)+"  "+qk[i].sqsj.substring(8, 10)+":"+qk[i].sqsj.substring(10, 12)+":"+qk[i].sqsj.substring(12, 14);
+			li1.appendChild(sp1);
+			li1.appendChild(sp1_t);
+			
+			var li2 = document.createElement("li");
+			var sp2=document.createElement("span");
+			sp2.setAttribute("class", "inp_label_wdjrxq");
+			sp2.innerHTML = "需求类别";
+			var sp2_t=document.createElement("span");
+			sp2_t.setAttribute("class", "inp_show_text_new1");
+			sp2_t.innerHTML = '预约取款';
+			li2.appendChild(sp2);
+			li2.appendChild(sp2_t);
+			
+			var li3 = document.createElement("li");
+			
+			var sp3=document.createElement("span");
+			sp3.setAttribute("class", "inp_label_wdjrxq");
+			sp3.innerHTML = "需求详情";
+			var myid = "01"+qk[i].id;
+			//li3.setAttribute("onclick", "show_moreinfo('"+qk[i].id+"')");
+			li3.setAttribute("onclick", "show_moreinfo('"+myid+"')");
+			var img=document.createElement("img");
+			img.setAttribute("src", "img/right.png");
+			img.setAttribute("style", "width: 10px;height: 18px;float: right;margin-right: 20px;margin-top: 12px;background-size: 100% 100%;");
+			
+			li3.appendChild(sp3);
+			li3.appendChild(img);
+			
+			info.xqlb= '01';
+			info.xqsj= qk[i].sqsj.substring(0, 4)+"-"+qk[i].sqsj.substring(4, 6)+"-"+qk[i].sqsj.substring(6, 8)+"  "+qk[i].sqsj.substring(8, 10)+":"+qk[i].sqsj.substring(10, 12)+":"+qk[i].sqsj.substring(12, 14);
+			info.qksj = qk[i].qksj;
+			info.qkje = qk[i].qkje;
+			
+			info.sjh = qk[i].sjh;
+			info.xm = qk[i].xm;
+			info.wdmc = qk[i].wdmc;
+		
+			//localStorage.setItem(qk[i].id,JSON.stringify(info));
+			localStorage.setItem(myid,JSON.stringify(info));
+		
+			var liRow = document.createElement("li");
+			liRow.setAttribute("style", "height:15px;");
+			var div_row = document.createElement("div");
+			div_row.setAttribute("class", "row");
+			div_row.setAttribute("style", "background:#f4f4f4;height:20px;");
+			liRow.appendChild(div_row);
+			
+			table.appendChild(li1);
+			table.appendChild(li2);
+			table.appendChild(li3);
+			//table.appendChild(li4);
+			table.appendChild(liRow);
+			div.appendChild(table);
+			div_content.appendChild(div);
+		}
+		for(var i = 0; i < lc.length; i++){	
+			var div = document.createElement("div");   
+			div.setAttribute("class", "form_div");
+			/* var ul = document.createElement("ul"); */
+			var table = document.createElement("table");
+			table.setAttribute("class", "table_class_new");
+			 
+			var li1 = document.createElement("li");
+			var sp1=document.createElement("span");
+			sp1.setAttribute("class", "inp_label_wdjrxq");
+			sp1.innerHTML = "日期";
+			var sp1_t=document.createElement("span");
+			sp1_t.setAttribute("class", "inp_show_text_new1");
+			sp1_t.innerHTML = lc[i].sqsj.substring(0, 4)+"-"+lc[i].sqsj.substring(4, 6)+"-"+lc[i].sqsj.substring(6, 8)+"  "+lc[i].sqsj.substring(8, 10)+":"+lc[i].sqsj.substring(10, 12)+":"+lc[i].sqsj.substring(12, 14);
+	
+			li1.appendChild(sp1);
+			li1.appendChild(sp1_t);
+			
+			var li2 = document.createElement("li");
+			var sp2=document.createElement("span");
+			sp2.setAttribute("class", "inp_label_wdjrxq");
+			sp2.innerHTML = "需求类别";
+			var sp2_t=document.createElement("span");
+			sp2_t.setAttribute("class", "inp_show_text_new1");
+			sp2_t.innerHTML = "理财";
+			li2.appendChild(sp2);
+			li2.appendChild(sp2_t);
+			
+			var li3 = document.createElement("li");
+			
+			var sp3=document.createElement("span");
+			sp3.setAttribute("class", "inp_label_wdjrxq");
+			sp3.innerHTML = "需求详情";
+			var myid = "03"+lc[i].id;
+		//	li3.setAttribute("onclick", "show_moreinfo('"+lc[i].id+"')");
+			li3.setAttribute("onclick", "show_moreinfo('"+myid+"')");
+			var img=document.createElement("img");
+			img.setAttribute("src", "img/right.png");
+			img.setAttribute("style", "width: 10px;height: 18px;float: right;margin-right: 20px;margin-top: 12px;background-size: 100% 100%;");
+			
+			li3.appendChild(sp3);
+			li3.appendChild(img);
+			
+			info.xqlb= '03';
+			info.xqsj= lc[i].sqsj.substring(0, 4)+"-"+lc[i].sqsj.substring(4, 6)+"-"+lc[i].sqsj.substring(6, 8)+"  "+lc[i].sqsj.substring(8, 10)+":"+lc[i].sqsj.substring(10, 12)+":"+lc[i].sqsj.substring(12, 14);
+			info.lcje = lc[i].lcje;
+			info.lcqx = lc[i].lcqx;
+			
+			info.lcsy = lc[i].lcsy;
+			info.sjh = lc[i].sjh;
+			info.xm = lc[i].xm;
+			info.wdmc = lc[i].wdmc;
+		
+		//	localStorage.setItem(lc[i].id,JSON.stringify(info));
+			localStorage.setItem(myid,JSON.stringify(info));
+		
+			var liRow = document.createElement("li");
+			liRow.setAttribute("style", "height:15px;");
+			var div_row = document.createElement("div");
+			div_row.setAttribute("class", "row");
+			div_row.setAttribute("style", "background:#f4f4f4;height:20px;");
+			liRow.appendChild(div_row);
+			
+			table.appendChild(li1);
+			table.appendChild(li2);
+			table.appendChild(li3);
+		//	table.appendChild(li4);
+			table.appendChild(liRow);
+			div.appendChild(table);
+			div_content.appendChild(div);
+		}
+		for(var i = 0; i < pj.length; i++){	
+			var div = document.createElement("div");   
+			div.setAttribute("class", "form_div");
+			/* var ul = document.createElement("ul"); */
+			var table = document.createElement("table");
+			table.setAttribute("class", "table_class_new");
+			 
+			var li1 = document.createElement("li");
+			var sp1=document.createElement("span");
+			sp1.setAttribute("class", "inp_label_wdjrxq");
+			sp1.innerHTML = "日期";
+			var sp1_t=document.createElement("span");
+			sp1_t.setAttribute("class", "inp_show_text_new1");
+			sp1_t.innerHTML = pj[i].sqsj.substring(0, 4)+"-"+pj[i].sqsj.substring(4, 6)+"-"+pj[i].sqsj.substring(6, 8)+"  "+pj[i].sqsj.substring(8, 10)+":"+pj[i].sqsj.substring(10, 12)+":"+pj[i].sqsj.substring(12, 14);
+	
+			li1.appendChild(sp1);
+			li1.appendChild(sp1_t);
+			
+			var li2 = document.createElement("li");
+			var sp2=document.createElement("span");
+			sp2.setAttribute("class", "inp_label_wdjrxq");
+			sp2.innerHTML = "需求类别";
+			var sp2_t=document.createElement("span");
+			sp2_t.setAttribute("class", "inp_show_text_new1");
+			sp2_t.innerHTML = '服务评价';
+			li2.appendChild(sp2);
+			li2.appendChild(sp2_t);
+			
+			var li3 = document.createElement("li");
+			
+			var sp3=document.createElement("span");
+			sp3.setAttribute("class", "inp_label_wdjrxq");
+			sp3.innerHTML = "评价详情";
+			var myid = "99"+pj[i].id;
+			//li3.setAttribute("onclick", "show_moreinfo('"+pj[i].id+"')");
+			li3.setAttribute("onclick", "show_moreinfo('"+myid+"')");
+			var img=document.createElement("img");
+			img.setAttribute("src", "img/right.png");
+			img.setAttribute("style", "width: 10px;height: 18px;float: right;margin-right: 20px;margin-top: 12px;background-size: 100% 100%;");
+			
+			li3.appendChild(sp3);
+			li3.appendChild(img);
+			
+			info.xqlb= '99';
+			info.xqsj= pj[i].sqsj.substring(0, 4)+"-"+pj[i].sqsj.substring(4, 6)+"-"+pj[i].sqsj.substring(6, 8)+"  "+pj[i].sqsj.substring(8, 10)+":"+pj[i].sqsj.substring(10, 12)+":"+pj[i].sqsj.substring(12, 14);
+			info.pjdf = pj[i].pjdf;
+			info.pjxq = pj[i].pjxq;
+			
+			info.sjh = pj[i].sjh;
+		
+			info.xm = pj[i].xm;
+			info.wdmc = pj[i].wdmc;
+		
+			//localStorage.setItem(pj[i].id,JSON.stringify(info));
+			localStorage.setItem(myid,JSON.stringify(info));
+	
+			var liRow = document.createElement("li");
+			liRow.setAttribute("style", "height:15px;");
+			var div_row = document.createElement("div");
+			div_row.setAttribute("class", "row");
+			div_row.setAttribute("style", "background:#f4f4f4;height:20px;");
+			liRow.appendChild(div_row);
+			
+			table.appendChild(li1);
+			table.appendChild(li2);
+			table.appendChild(li3);
+			//table.appendChild(li4);
+			table.appendChild(liRow);
+			div.appendChild(table);
+			div_content.appendChild(div);
+		}
+		for(var i = 0; i < qt.length; i++){	
+			var div = document.createElement("div");   
+			div.setAttribute("class", "form_div");
+			/* var ul = document.createElement("ul"); */
+			var table = document.createElement("table");
+			table.setAttribute("class", "table_class_new");
+			 
+			var li1 = document.createElement("li");
+			var sp1=document.createElement("span");
+			sp1.setAttribute("class", "inp_label_wdjrxq");
+			sp1.innerHTML = "日期";
+			var sp1_t=document.createElement("span");
+			sp1_t.setAttribute("class", "inp_show_text_new1");
+			sp1_t.innerHTML = qt[i].sqsj.substring(0, 4)+"-"+qt[i].sqsj.substring(4, 6)+"-"+qt[i].sqsj.substring(6, 8)+"  "+qt[i].sqsj.substring(8, 10)+":"+qt[i].sqsj.substring(10, 12)+":"+qt[i].sqsj.substring(12, 14);
+	
+			li1.appendChild(sp1);
+			li1.appendChild(sp1_t);
+			
+			var li2 = document.createElement("li");
+			var sp2=document.createElement("span");
+			sp2.setAttribute("class", "inp_label_wdjrxq");
+			sp2.innerHTML = "需求类别";
+			var sp2_t=document.createElement("span");
+			sp2_t.setAttribute("class", "inp_show_text_new1");
+			sp2_t.innerHTML = '其他金融需求';
+			li2.appendChild(sp2);
+			li2.appendChild(sp2_t);
+			
+			var li3 = document.createElement("li");
+			
+			var sp3=document.createElement("span");
+			sp3.setAttribute("class", "inp_label_wdjrxq");
+			sp3.innerHTML = "需求详情";
+			
+			var myid = "98"+qt[i].id;
+			//li3.setAttribute("onclick", "show_moreinfo('"+qt[i].id+"')");
+			li3.setAttribute("onclick", "show_moreinfo('"+myid+"')");
+			var img=document.createElement("img");
+			img.setAttribute("src", "img/right.png");
+			img.setAttribute("style", "width: 10px;height: 18px;float: right;margin-right: 20px;margin-top: 12px;background-size: 100% 100%;");
+			
+			li3.appendChild(sp3);
+			li3.appendChild(img);
+			
+			info.xqlb= '98';
+			info.xqsj= qt[i].sqsj.substring(0, 4)+"-"+qt[i].sqsj.substring(4, 6)+"-"+qt[i].sqsj.substring(6, 8)+"  "+qt[i].sqsj.substring(8, 10)+":"+qt[i].sqsj.substring(10, 12)+":"+qt[i].sqsj.substring(12, 14);
+			info.xqxq = qt[i].xqxq;
+			
+			
+			info.sjh = qt[i].sjh;
+		
+			info.xm = qt[i].xm;
+			info.wdmc = qt[i].wdmc;
+		
+			//localStorage.setItem(pj[i].id,JSON.stringify(info));
+			localStorage.setItem(myid,JSON.stringify(info));
+
+			var liRow = document.createElement("li");
+			liRow.setAttribute("style", "height:15px;");
+			var div_row = document.createElement("div");
+			div_row.setAttribute("class", "row");
+			div_row.setAttribute("style", "background:#f4f4f4;height:20px;");
+			liRow.appendChild(div_row);
+			
+			table.appendChild(li1);
+			table.appendChild(li2);
+			table.appendChild(li3);
+			//table.appendChild(li4);
+			table.appendChild(liRow);
+			div.appendChild(table);
+			div_content.appendChild(div);
+		}
+	}
+	div_host.appendChild(div_content);
+	var div_duoyu = document.createElement("div");
+	div_duoyu.setAttribute("class", "row");
+	div_duoyu.setAttribute("style", "background:#f4f4f4;height:200px;");
+	div_host.appendChild(div_duoyu);
+  }
+  
+  function show_moreinfo(id)
+  {
+	  
+	 // 	$('#p1').attr("hidden", "hidden");
+	  showNewFrame("wdjrxq_detail.html?id="+id,'smask');	  
+	// window.location.href = "wdjrxq_detail.html?id="+id;
+	// localStorage.setItem("hiscount", "1");
+  }
+</script>
+
+<body style="background:#f4f4f4;overflow:auto;">
+<div class="container-fluid">
+	<!-- 顶部固定，不能滚动 -->
+	<div class="topNavWrapper" >
+		<div class="topNav">
+			<div component-role="m11_top" class="top">				
+				<div class="back_ic" onClick="parent.hideFrame('srfade');"></div>
+				<span class="top_title">湖北金融服务网格化信息网</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+		<div align="center" border="0" style="height: 30px; margin-top: 35px;">
+		<span style="font-size: 20px; color: #000;">我的金融需求</span>
+	</div>
+    </div>
+	</div>
+
+	<div id="p1" class="row-fluid col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px;overflow:auto;height:600px;"></div>
+
+</body>
+</html>

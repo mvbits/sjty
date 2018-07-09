@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">          
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<!-- Link Swiper's CSS -->
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/lib/jQueryMobile/jquery.mobile-1.4.3.css" />
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<script src="mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>                               
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+                                
+<style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
+body {
+    background: #fff;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+
+.span_ph{
+    
+    
+    line-height:35px;
+    color:#708090;
+    font-size:14px;
+    text-indent:1em;
+}
+ .span_ph_b{
+    
+    font-weight: bold;
+    line-height:35px;
+    color:#708090;
+    font-size:16px;
+    text-indent:1em;
+}
+
+
+
+</style>
+</head>
+    
+    
+    
+<body>
+
+        <header class="mui-bar mui-bar-nav head_color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+			<h1 class="mui-title">还款计划</h1>
+		</header>
+        
+        <div class="container-fluid">
+            
+            <div class="mui-content mui-scroll-wrapper" >
+		    	<div class="mui-scroll top_head">
+
+            <div class="mui-row" id="qd_card">
+             
+                    <div class="mui-col-xs-12" >
+                        <span class="span_ph_b"  id="xm">姓名 ：刘文杰</span>
+                    </div>
+                
+            
+                    
+                    <div class="mui-col-xs-12" >
+                        <span class="span_ph"  id="bank_name">贷款银行：广大银行汉阳支行</span>
+                    </div>
+             
+                    <div class="mui-col-xs-6 " >
+                       <span class="span_ph"  id="loan_amt">贷款金额：50万</span>
+                    </div>
+                    <div class="mui-col-xs-6" >
+                        <span class="span_ph"  id="loan_lv">利率：3.5%</span>
+                    </div>
+              
+                    <div class="mui-col-xs-12" >
+                        <span class="span_ph"  id="loan_time">贷款日期：2016-09-31</span>
+                    </div>
+            
+                    <div class="mui-col-xs-6 " >
+                        <span class="span_ph"  id="hksj">按揭时间：6月31号</span>
+                    </div>
+                    <div class="mui-col-xs-6" >
+                        <span class="span_ph"  id="mqhk">月供：2900元</span>
+                    </div>
+                
+                   <!--  <div class="mui-col-xs-12"><span id="img_mf_tp_label" class="span_ph_b" >还款计划图片</span></div>
+                     -->
+                
+            </div>
+        
+            <h3 style="margin-top:10px;text-algin:center;display:none" id="img_des"></h3>
+           	<ul class="mui-table-view mui-grid-view" id="image_div" style="margin-top:10px;display:none">
+
+		    </ul>
+		    <div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="back_history()">返回</button>
+            </div>
+            <div class="div_footer">————  世纪源金融服务  ————</div> 
+        </div>
+        </div>
+        </div>
+
+
+<!-- Swiper JS -->
+<script src="dist/js/swiper.min.js"></script>
+<script type="text/javascript">
+    var images=[];
+    var flag = 0;
+    //var fileno;
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+    	   mui.init({
+    			swipeBack:true //启用右滑关闭功能
+    		});
+    		mui('.mui-scroll-wrapper').scroll({
+    	        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    	        });
+    		//返回键 tap事件监听
+    		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+    	  		this.click();
+    	  		return false;
+    	  	});
+  		showmessage();
+    }
+
+function showmessage(){
+    
+   var fileno = localStorage.getItem("hkjh_fileno");
+    var msg=localStorage.getItem("hkjh_"+fileno);
+    var data=eval("("+msg+")");
+    
+    $("#xm").html("姓名 ："+data.jkr_xm);
+    $("#bank_name").html("贷款银行 ："+data.bank_name);
+    $("#loan_amt").html("贷款金额 ："+data.loan_amt+"万");
+    $("#loan_time").html("贷款期限 ："+data.dk_qx+"期");
+    $("#loan_lv").html("利率 ："+data.dk_lv+"%");
+    $("#mqhk").html("月供 ："+data.hk_aj+"元");
+    $("#hksj").html("按揭时间 ："+data.hk_sj);
+  
+
+	var pic_html = '';
+  //如果没有图片，或者图片出了问题
+    if(top.isEmpty(data.img_url)){
+    	$("#image_div").html('');
+    	$("#img_des").html("经办人没有上传图片");
+    	pic_html += '<li class="mui-table-view-cell mui-media mui-col-xs-12">'
+            +'<a href="#">'
+            +'<img class="mui-media-object" src="img/noimg.png"></a></li>'; 
+    	$("#image_div").html(pic_html);
+    	
+    	return;
+    }else{
+    	var images = data.img_url.split('|');
+   		 if( images.length > 0){
+   		     $("#img_des").html("还款计划图片");
+   		     
+   		     $("#image_div").html('');
+   		     for(var i = 0; i < images.length; i++){
+   		    	 var img_s = top.imgpath +fileno+"/"+images[i];
+   		         pic_html += '<li class="mui-table-view-cell mui-media mui-col-xs-3">'
+   				            +'<a href="#">'
+   				            +'<img class="mui-media-object" src="'+img_s+'"></a></li>';   
+   				            
+   				 //相册组件赋值         
+   		         var item = {
+   		                  src: img_s,
+   		                  w: parseInt(1080, 10),
+   		                  h: parseInt(1920, 10)
+   		              };
+   		         item.title = "还款计划..."; //文字
+   		         top.items.push(item); //存放相册图片集合
+   		     }
+   		     $("#image_div").html(pic_html);
+   		     
+   	        
+   	         //图片点击事件，打开新的页面展示相册     
+   		     $(".mui-table-view-cell").click( function(){
+   		     	//  $(".info:eq(" + $(this).index(".cd-read-more") + ")").slideToggle("slow");
+   		     	//$(".info:eq(" + $(this).index(".mui-table-view-cell") + ")").slideToggle("fast");
+   		     	 //showNewFrame('swiper_photo.html?index='+index+'&num='+num, 'smask');
+   		     	
+   		     	var index = $(this).index(".mui-table-view-cell");
+   		     	//alert("index="+index);
+   		     	showNewFrame('swiper_photo.html?index='+index,'smask');
+   		       });
+   		 }
+    }
+   
+    }
+
+
+
+    </script>
+    </body>
+</html>

@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link rel="stylesheet" href="common/slick/slick.css">
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/aui/aui.css" />
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css"> 
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/mui.pullToRefresh.js"></script>
+<script src="mui/js/mui.pullToRefresh.material.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<style>
+    html,
+    body {
+        background-color: #efeff4;
+    }
+    .mui-bar~.mui-content .mui-fullscreen {
+        top: 44px;
+        height: auto;
+    }
+    .mui-pull-top-tips {
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        margin-left: -25px;
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        z-index: 1;
+    }
+    .mui-bar~.mui-pull-top-tips {
+        top: 24px;
+    }
+    .mui-pull-top-wrapper {
+        width: 42px;
+        height: 42px;
+        display: block;
+        text-align: center;
+        background-color: #efeff4;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        background-clip: padding-box;
+        box-shadow: 0 4px 10px #bbb;
+        overflow: hidden;
+    }
+    .mui-pull-top-tips.mui-transitioning {
+        -webkit-transition-duration: 200ms;
+        transition-duration: 200ms;
+    }
+    .mui-pull-top-tips .mui-pull-loading {
+        /*-webkit-backface-visibility: hidden;
+        -webkit-transition-duration: 400ms;
+        transition-duration: 400ms;*/
+        
+        margin: 0;
+    }
+    .mui-pull-top-wrapper .mui-icon,
+    .mui-pull-top-wrapper .mui-spinner {
+        margin-top: 7px;
+    }
+    .mui-pull-top-wrapper .mui-icon.mui-reverse {
+        /*-webkit-transform: rotate(180deg) translateZ(0);*/
+    }
+    .mui-pull-bottom-tips {
+        text-align: center;
+        background-color: #efeff4;
+        font-size: 15px;
+        line-height: 40px;
+        color: #777;
+    }
+    .mui-pull-top-canvas {
+        overflow: hidden;
+        background-color: #fafafa;
+        border-radius: 40px;
+        box-shadow: 0 4px 10px #bbb;
+        width: 40px;
+        height: 40px;
+        margin: 0 auto;
+    }
+    .mui-pull-top-canvas canvas {
+        width: 40px;
+    }
+    .mui-slider-indicator.mui-segmented-control {
+        background-color: #efeff4;
+    }
+.rgt_search {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-left: 6px;
+    margin-top: 2px;
+    background-size: 100% 100%;
+    background-image: url("img/search.png");
+}
+.head_div{
+    text-align:left;
+    border-radius: 5px;
+    font-size:12px;
+    padding-top:2px;
+    background:rgba(243,243,243,0.8);
+    height:24px;
+    line-height:24px;
+    margin-top:24px;
+    margin-left:10px;
+    margin-right:10px;
+    color:#8e8e8e;
+}
+
+.mui-control-item{
+	margin-left:-15px;
+}
+.mui-control-item:first-child{
+	margin-left:0px;
+}
+/*渐变式抬头*/
+.head_color_m{
+	background: -webkit-linear-gradient(left, #007aff, #007aff);
+	background: -o-linear-gradient(right, #007aff, #007aff);
+	background: -moz-linear-gradient(right, #007aff, #007aff);
+	background: linear-gradient(to right, #007aff, #007aff);
+	height:70px;
+	padding-top:15px;
+	background-color: #007aff;box-shadow:0px 0px 0px #000;
+
+}
+
+</style>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav head_color_m">
+        <div class="head_div" onclick="search_show();">输入客户名称<div class="rgt_search" ></div></div>
+    </header>
+    <div class="mui-content" >
+    <div id="slider" class="mui-slider mui-fullscreen">
+        <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted " style="background-color: #007aff;margin-top:20px;">
+            <div class="mui-scroll">
+          <a class="mui-control-item mui-active" href="#item1mobile">
+              面签<span class="mui-badge" id="total0" style="color:#00CC00;display:none;"></span>
+                </a>
+                <a class="mui-control-item" href="#item2mobile">
+                   待终审<span class="mui-badge" id="total1" style="color:#00CC00;display:none;"></span>
+                </a>
+                <a class="mui-control-item" href="#item3mobile">
+                    待放款<span class="mui-badge" id="total2" style="color:#00CC00;display:none;"></span>
+                </a>
+                <a class="mui-control-item" href="#item4mobile">
+                    其他<span class="mui-badge" id="total3" style="color:#00CC00;display:none;"></span>
+                </a>
+             
+            </div>
+        </div>
+
+     
+        <div class="mui-slider-group" style="margin-top:18px;">
+            <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+                <div id="scroll1" class="mui-scroll-wrapper" style="background-color: #f3f3f3;">
+                    <div class="mui-scroll">
+  
+                        <ul class="mui-table-view" id="content_0">
+							
+	
+
+                        </ul>
+                        
+						<ul class="mui-table-view mui-table-view-chevron nologined">
+							<li class="mui-table-view-cell mui-media" onclick="top.login_show();" style="background-color:#ffffff6;">
+								<a class="mui-navigate-right" >
+									<img class="mui-media-object mui-pull-left " id="head-img"  src="img/logo.png">
+									<div class="mui-media-body">
+										<p id="xm">尚未登录</p>	
+										<p  id="gs">点击 登录/注册 获取更多信息</p>																								
+									</div>	
+								</a>
+							</li>
+						</ul>
+						
+                    </div>
+                </div>
+            </div>
+            <div id="item2mobile" class="mui-slider-item mui-control-content">
+                <div class="mui-scroll-wrapper" style="background-color: #f3f3f3;">
+                    <div class="mui-scroll">
+    
+                        <ul class="mui-table-view" id="content_1">
+       		
+
+                        </ul>
+                        <ul class="mui-table-view mui-table-view-chevron nologined">
+							<li class="mui-table-view-cell mui-media" onclick="top.login_show();" style="background-color:#ffffff;">
+								<a class="mui-navigate-right" >
+									<img class="mui-media-object mui-pull-left " id="head-img"  src="img/logo.png">
+									<div class="mui-media-body">
+										<p id="xm">尚未登录</p>	
+										<p  id="gs">点击 登录/注册 获取更多信息</p>																								
+									</div>	
+								</a>
+							</li>
+						</ul>
+                    </div>
+                </div>
+            </div>
+            <div id="item3mobile" class="mui-slider-item mui-control-content">
+                <div class="mui-scroll-wrapper" style="background-color: #f3f3f3;">
+                    <div class="mui-scroll">
+     
+                        <ul class="mui-table-view" id="content_2">
+  			
+
+                        </ul>
+                        <ul class="mui-table-view mui-table-view-chevron nologined">
+							<li class="mui-table-view-cell mui-media" onclick="top.login_show();" style="background-color:#ffffff;">
+								<a class="mui-navigate-right" >
+									<img class="mui-media-object mui-pull-left " id="head-img"  src="img/logo.png">
+									<div class="mui-media-body">
+										<p id="xm">尚未登录</p>	
+										<p  id="gs">点击 登录/注册 获取更多信息</p>																								
+									</div>	
+								</a>
+							</li>
+						</ul>
+                    </div>
+                </div>
+            </div>
+            <div id="item4mobile" class="mui-slider-item mui-control-content">
+                <div class="mui-scroll-wrapper" style="background-color: #f3f3f3;">
+                    <div class="mui-scroll">
+        
+                        <ul class="mui-table-view" id="content_3">
+							
+
+                        </ul>
+                        <ul class="mui-table-view mui-table-view-chevron nologined">
+							<li class="mui-table-view-cell mui-media" onclick="top.login_show();" style="background-color:#ffffff;">
+								<a class="mui-navigate-right" >
+									<img class="mui-media-object mui-pull-left " id="head-img"  src="img/logo.png">
+									<div class="mui-media-body">
+										<p id="xm">尚未登录</p>	
+										<p  id="gs">点击 登录/注册 获取更多信息</p>																								
+									</div>	
+								</a>
+							</li>
+						</ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/mui.pullToRefresh.js"></script>
+<script src="mui/js/mui.pullToRefresh.material.js"></script>
+<script>
+var index_m = 0;
+var start_no = 0;
+
+var start_list=[0,0,0,0];
+var local_list=[];
+$(function() {
+  //初始化mui
+  mui.init({
+           swipeBack:true //启用右滑关闭功能
+           });
+  //阻尼系数
+  var deceleration = mui.os.ios?0.003:0.0009;
+  $('.mui-scroll-wrapper').scroll({
+                                  bounce: false,
+                                  indicators: true, //是否显示滚动条
+                                  deceleration:deceleration
+                                  });
+  
+  //分类页面控制
+  document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+                                                         
+                                                         index_m = event.detail.slideNumber;
+                                                         top.writelog(index_m+":start_list="+start_list[index_m]);
+                                                         if(start_list[index_m] == 0){ //未初始化的初始化
+                                                         initPage();
+                                                         }
+                                                         });
+  //返回键 tap事件监听
+  mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+                        this.click();
+                        return false;
+                        });
+   //$('#search_key').bind('input propertychange', show_after_search);search_by_key
+  $('#search_key').bind('input propertychange', search_by_key);
+  });
+
+(function($) {
+     mui.init();
+    $.ready(function() {
+        index_m = 0;
+        start_no = 0;
+        //循环初始化所有下拉刷新，上拉加载。
+        $.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+            $(pullRefreshEl).pullToRefresh({
+                down: { //下拉刷新页面
+                    callback: function() {
+                        var self = this;
+                        setTimeout(function() {
+                            /*刷新页面*/
+                            pullDownFreshPage(index);
+                            self.endPullDownToRefresh();
+                        }, 1000);
+                    }
+                },
+                up: {//上拉加载更多
+                    callback: function() {
+                        var self = this;
+                        setTimeout(function() {
+                            /*加载更多*/
+                            pullUpFreshPage(index)
+                            self.endPullUpToRefresh();
+                        }, 1000);
+                    }
+                }
+            });
+        });
+
+    });
+ 
+ 
+})(mui);
+
+function pullDownFreshPage(index){
+   // alert("Down index="+index);
+   if(!top.Settings.loginState){ //如果登陆了才执行
+	   $(".no_login").show();
+	  return;
+   }
+   index_m = index;
+   initPage();
+}
+
+function pullUpFreshPage(index){
+	if(!top.Settings.loginState){ //如果登陆了才执行
+		  return;
+	   }
+   // alert("Up index="+index);
+   index_m = index;
+   //操作员显示本人代办案卷，管理员显示本公司所有超时代办案卷
+   $("#search_by").val('');
+   localStorage.setItem("acount", "0");
+   userid = localStorage.getItem("userid");
+   var data = {};
+   data.userid = localStorage.getItem("userid");
+   top.start_process();
+   data.type = index_m;
+   data.start = start_list[index_m];
+   data.limit = 20;
+
+          top.http_comm("6019", data, refresh_moreinfo);
+}
+
+function initPage(){
+	top.writelog("data_new.html,status="+top.Settings.loginState);
+	if(!top.Settings.loginState){ //如果登陆了才执行
+
+			for(var i = 0; i < 4; i++){
+				$("#content_"+i).html('');
+			}
+			$(".nologined").show();
+			return;
+	   }else{
+		 
+		   $(".nologined").hide();
+	
+	   }
+	$(".div_fullscreen").hide();
+    $("#ul_key_list").html('');
+    
+    //操作员显示本人代办案卷，管理员显示本公司所有超时代办案卷
+    $("#search_by").val('');
+    localStorage.setItem("acount", "0");
+    userid = localStorage.getItem("userid");
+    var data = {};
+    data.userid = localStorage.getItem("userid");
+    top.start_process();
+    data.type = index_m;
+    data.start = 0;
+    data.limit = 20;
+
+    top.http_comm("6019", data, show_refresh);
+}
+
+function show_refresh(msg){
+    top.writelog("initpage:"+msg);
+    var json=eval("("+msg+")");
+
+    var dk = json.data.pushList;
+    var level = localStorage.getItem("level");
+    /*单量统计*/
+    var total = json.data.total;
+    top.writelog("total="+JSON.stringify(json.data.total));
+    if(!top.isEmptyObject(total)){
+        top.writelog("total111="+JSON.stringify(total));
+        $("#total0").html(total.total0);
+        $("#total1").html(total.total1);
+        $("#total2").html(total.total2);
+        $("#total3").html(total.total3);
+        $(".mui-badge").show();
+     
+    }
+    
+    
+
+    var dz_html = '';
+    if( dk.length == 0 ){
+        dz_html = '<p style="text-align:center">没有代办事件</p>';
+        
+    }else {
+        if(start_list[index_m] == 0){
+            start_list[index_m] = 20 ; //初始化或刷新成功
+            local_list.push(dk); //把数据放入本地数组
+        }
+        
+        for(var i = 0; i < dk.length; i++){
+            
+            var str_time='';
+            if(dk[i].trandate && dk[i].trandate!="null"){
+            	str_time = '<p style="font-size:0.8em;color:#44CCFF">签单时间：'+dk[i].trandate+'</p>' ;
+            }else{
+                str_time = '<p style="font-size:0.8em;color:#44CCFF">签单时间：没有获取到签单时间</p>';//签单时间
+            }
+            
+           
+            if(!top.isEmpty(dk[i].report_date)){ //报批时间
+            	str_time += '<p style="font-size:0.8em;color:#46B8DA">报批时间：'+dk[i].report_date+'</p>' ;
+            }
+            if(!top.isEmpty(dk[i].check_date)){ //终审时间
+            	str_time += '<p style="font-size:0.8em;color:#49A9F0">终审时间：'+dk[i].check_date+'</p>' ;
+            }
+            if(!top.isEmpty(dk[i].loan_date)){ //放款时间
+            	str_time += '<p style="font-size:0.8em;color:#4C4C4C">放款时间：'+dk[i].loan_date+'</p>' ;
+            }
+            var warning= '';
+            if(dk[i].pushType == '2'){
+                warning= "已超时，请尽快处理";
+            }
+            
+            var mes_tishi = '';
+            var str_click = '';
+            if ( level == 3 || level ==2) {
+                if( dk[i].flow == 1 ) //案卷创建未完成
+                {
+                    
+                    if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                        mes_tishi = "补全资料";
+                       // str_click = "show_moreinfo('"+dk[i].fileno+"', 0)";
+                        str_click = "show_moreinfo('"+dk[i].fileno+"', '0', '"+dk[i].loantype+"')";
+                        
+                    }else{
+                        mes_tishi = "案卷查看";
+                        str_click = "ajgz_go('"+dk[i].fileno+"')";
+                        
+                    }
+                    
+                } else {
+                    
+                    if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                        mes_tishi = "案卷流转";
+                        str_click = "ajlz_go('"+dk[i].fileno+"','2')";
+                    }else{
+                        mes_tishi = "案卷查看";
+                        str_click = "ajgz_go('"+dk[i].fileno+"')";
+                    }
+                    
+                }
+            } else if ( level == '4' || level == '5' || level == '6') { //合作机构
+                str_click = "ajpj_go('"+dk[i].fileno+"')";
+                
+                if(dk[i].push_type == 3)//正常流程
+                {
+                    mes_tishi = "案卷完成";
+                }else{
+                    mes_tishi = "案卷处理中";
+                }
+                
+            } else if( level == '0'){ //外部客户
+                str_click = "ajgz_go('"+dk[i].fileno+"')";
+                
+                mes_tishi = "案卷详情";
+                
+            } else { //公司管理层，展示超时信息
+                
+                if(dk[i].push_type == 1)//正常流程
+                {
+                    if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                        mes_tishi = "案卷流转";
+                        str_click = "ajlz_go('"+dk[i].fileno+"','2')";
+                        
+                    }else{
+                        mes_tishi = "案卷详情";
+                        str_click = "ajgz_go('"+dk[i].fileno+"')";
+                    }
+                }else {//超时流程
+                    mes_tishi = "案卷详情";
+                    
+                    str_click = "timeout_go('"+dk[i].fileno+"')";
+                    
+                }
+                
+            }
+            dz_html += '<li class="mui-table-view-cell" onclick="'+str_click+'"><div class="mui-card" style="margin-top:5px;">    <div class="mui-card-content">'
+            + ' <div class="mui-card-content-inner">'
+            + '<p style="font-size:1.1em;color:#333">客户姓名：'+dk[i].jkrxm+'</p>'
+            + '<p style="font-size:1em;color:#8e8e8e;margin-top:5px;">['+cpzl_map[dk[i].loantype]+']目前处于<font style="font-size:1.2em;color:#286090">'+dk[i].flowname+'</font>环节</p>'
+/*             + '<p style="font-size:0.8em;color:#8e8e8e">当前流程：'+dk[i].flowname+'</p>'*/
+           // + '<p style="font-size:0.8em;color:#8e8e8e">签单时间：'+str_time+'</p>' 
+            + str_time+'<div style="height:30px;line-height:30px;"><span style="color: #2894FF;font-size:1em;" >'+mes_tishi+'</span>'
+            + '<span style="color:red;padding-left:20px;" >'+warning+'</span></div></div></div></div></li>';
+            
+        }
+    }
+    $("#content_"+index_m).html(dz_html);
+    
+}
+    
+    
+function refresh_moreinfo(msg){
+    top.writelog("refresh:"+msg);
+    var level = localStorage.getItem("level");
+    
+    var ul = document.getElementById('content_'+index_m);
+    var json=eval("("+msg+")");
+    /*单量统计*/
+    var total = json.data.total;
+    if(!top.isEmptyObject(total)){
+        $("#total0").html(total.total0);
+        $("#total1").html(total.total1);
+        $("#total2").html(total.total2);
+        $("#total3").html(total.total3);
+        $(".mui-badge").show();
+    }
+    var dk = json.data.pushList;
+    if(dk.length == 0){
+        mui.toast("没有更多待办信息了..");
+        return;
+    }else{
+        start_list[index_m] += 20;
+        local_list.push(dk); //把数据放入本地数组
+    }
+    for(var i = 0; i < dk.length; i++){
+        
+        var li = document.createElement('li');
+        li.className = 'mui-table-view-cell';
+        var str_time='';
+        var li_html = '';
+        if(dk[i].trandate && dk[i].trandate!="null"){
+        	str_time = '<p style="font-size:0.8em;color:#44CCFF">签单时间：'+dk[i].trandate+'</p>' ;
+        }else{
+            str_time = '<p style="font-size:0.8em;color:#44CCFF">签单时间：没有获取到签单时间</p>';//签单时间
+        }
+        
+       
+        if(!top.isEmpty(dk[i].report_date)){ //报批时间
+        	str_time += '<p style="font-size:0.8em;color:#46B8DA">报批时间：'+dk[i].report_date+'</p>' ;
+        }
+        if(!top.isEmpty(dk[i].check_date)){ //终审时间
+        	str_time += '<p style="font-size:0.8em;color:#49A9F0">终审时间：'+dk[i].check_date+'</p>' ;
+        }
+        if(!top.isEmpty(dk[i].loan_date)){ //放款时间
+        	str_time += '<p style="font-size:0.8em;color:#4C4C4C">放款时间：'+dk[i].loan_date+'</p>' ;
+        }
+        var warning= '';
+        if(dk[i].pushType == '2'){
+            warning= "已超时，请尽快处理";
+        }
+        
+        var mes_tishi = '';
+        var str_click = '';
+        if ( level == 3 || level ==2) {
+            if( dk[i].flow == 1 ) //案卷创建未完成
+            {
+                
+                if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                    mes_tishi = "补全资料";
+                 //   str_click = "show_moreinfo('"+dk[i].fileno+"', 0)";
+                    str_click = "show_moreinfo('"+dk[i].fileno+"', '0', '"+dk[i].loantype+"')";
+                    
+                }else{
+                    mes_tishi = "案卷查看";
+                    str_click = "ajgz_go('"+dk[i].fileno+"')";
+                    
+                }
+                
+            } else {
+                
+                if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                    mes_tishi = "案卷流转";
+                    str_click = "ajlz_go('"+dk[i].fileno+"','2')";
+                }else{
+                    mes_tishi = "案卷查看";
+                    str_click = "ajgz_go('"+dk[i].fileno+"')";
+                }
+                
+            }
+        } else if ( level == '4' || level == '5' || level == '6') { //合作机构
+            str_click = "ajpj_go('"+dk[i].fileno+"')";
+            
+            if(dk[i].push_type == 3)//正常流程
+            {
+                mes_tishi = "案卷完成";
+            }else{
+                mes_tishi = "案卷处理中";
+            }
+            
+        } else if( level == '0'){ //外部客户
+            str_click = "ajgz_go('"+dk[i].fileno+"')";
+            
+            mes_tishi = "案卷详情";
+            
+        } else { //公司管理层，展示超时信息
+            
+            if(dk[i].push_type == 1)//正常流程
+            {
+                if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                    mes_tishi = "案卷流转";
+                    str_click = "ajlz_go('"+dk[i].fileno+"','2')";
+                    
+                }else{
+                    mes_tishi = "案卷详情";
+                    str_click = "ajgz_go('"+dk[i].fileno+"')";
+                }
+            }else {//超时流程
+                mes_tishi = "案卷详情";
+                
+                str_click = "timeout_go('"+dk[i].fileno+"')";
+                
+            }
+            
+        }
+        li.setAttribute("onclick", str_click);
+        li_html += '<div class="mui-card" style="margin-top:5px;">    <div class="mui-card-content">'
+        + ' <div class="mui-card-content-inner">'
+        + '<p  style="font-size:1.1em;color:#333">客户姓名：'+dk[i].jkrxm+'</p>'
+        + '<p style="font-size:1em;color:#8e8e8e;margin-top:5px;">['+cpzl_map[dk[i].loantype]+']目前处于<font style="font-size:1.2em;color:#286090">'+dk[i].flowname+'</font>环节</p>'
+       // + '<p  style="font-size:14px;color:#8e8e8e">签单时间：'+str_time+'</p>'
+        + str_time+'<div style="height:30px;line-height:30px;"><span style="color: #2894FF;font-size: 1em;" >'+mes_tishi+'</span>'
+        + '<span style="color:red;padding-left:20px;" >'+warning+'</span></div></div></div></div>';
+        li.innerHTML = li_html;
+  //      top.writelog(i+"="+dk[i].jkrxm);
+        ul.appendChild(li);
+    }
+
+}
+
+//案卷流转
+function ajlz_go(fileno, flow){
+    $("#search_by").blur();
+    parent.showNewFrame("ajlz_new.html?fileno="+fileno+"&flow="+flow,'smask');
+    
+}
+
+//案卷评价
+function ajpj_go(fileno){
+    $("#search_by").blur();
+    parent.showNewFrame("flow_timeline.html?fileno="+fileno,'smask');
+}
+//外部客户查看
+function ajgz_go(fileno){
+    $("#search_by").blur();
+    parent.showNewFrame("flow_timeline.html?fileno="+fileno,'smask');
+}
+//超时展示
+function timeout_go(fileno){
+    $("#search_by").blur();
+    parent.showNewFrame("ajcs.html?fileno="+fileno,'smask');
+}
+//补齐案卷资料
+function show_moreinfo(fileno, flag, loantype){
+    $("#search_by").blur();
+    if(loantype == "8013"){
+    	parent.showNewFrame("ajcj_8013_record.html?id="+fileno+"&flag="+flag,'smask');
+    	
+    }else if(loantype == "8014"){
+        	parent.showNewFrame("ajcj_8014_record.html?id="+fileno+"&flag="+flag,'smask');
+    }else{
+    	parent.showNewFrame("dbaj_detail.html?id="+fileno+"&flag="+flag,'smask');
+    }
+   
+}
+
+function search_show(){
+    $(".div_fullscreen").show();
+    $("#search_key").focus();
+}
+
+function search_hide(){
+    $(".div_fullscreen").hide();
+}
+
+function search_by_key(){
+    
+  
+    //操作员显示本人代办案卷，管理员显示本公司所有超时代办案卷
+    localStorage.setItem("acount", "0");
+ 	if($("#search_key").val().length<1){
+ 		return;
+ 	}
+    var data = {};
+    data.userid = localStorage.getItem("userid");
+    //top.start_process();
+    data.key = $("#search_key").val();
+/*
+    top.writelog("6019 send:"+JSON.stringify(data));
+    $.ajax({
+           type : "post",
+           url: "http://www.sjyjr.net/app/6019;",
+           timeout: 5000,
+           data : data,
+           datatype : "json",
+           success :  function(msg){
+           top.stop_process();
+           show_after_search(msg);
+           },
+           error:function(msg){
+           top.stop_process();
+           
+           login_again();
+           }
+           });
+ */
+     top.http_comm("6019", data, show_after_search);
+           
+}
+
+function show_after_search(msg){
+ 
+
+
+    var x = $("#search_key").val();
+ //   top.writelog("key="+x+";len="+x.length);
+    
+    if(x.length < 1){
+        return;
+    }
+    var level = localStorage.getItem("level");
+
+	//top.writelog("6019 recv="+msg);
+	var json = eval("("+msg+")");
+	
+    var dz_html = '';
+    var dk = json.data.pushList;
+    top.writelog("dk.length="+dk.length);
+
+        for(var i = 0; i < dk.length; i++){
+           
+           var str_time;
+           if(dk[i].trandate && dk[i].trandate!="null"){
+               str_time = dk[i].trandate;//签单时间
+           }else{
+               str_time = "没有获取到签单时间";//签单时间
+           }
+           var warning= '';
+           if(dk[i].pushType == '2'){
+               warning= "已超时，请尽快处理";
+           }
+           
+           var mes_tishi = '';
+           var str_click = '';
+           if ( level == 3 || level ==2) {
+               if( dk[i].flow == 1 ) //案卷创建未完成
+               {
+                   
+                   if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                       mes_tishi = "补全资料";
+                       str_click = "show_moreinfo('"+dk[i].fileno+"', 0)";
+                       
+                   }else{
+                       mes_tishi = "案卷查看";
+                       str_click = "ajgz_go('"+dk[i].fileno+"')";
+                       
+                   }
+                   
+               } else {
+                   
+                   if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                       mes_tishi = "案卷流转";
+                       str_click = "ajlz_go('"+dk[i].fileno+"','2')";
+                   }else{
+                       mes_tishi = "案卷查看";
+                       str_click = "ajgz_go('"+dk[i].fileno+"')";
+                   }
+                   
+               }
+           } else if ( level == '4' || level == '5' || level == '6') { //合作机构
+               str_click = "ajpj_go('"+dk[i].fileno+"')";
+               
+               if(dk[i].push_type == 3)//正常流程
+               {
+                   mes_tishi = "案卷完成";
+               }else{
+                   mes_tishi = "案卷处理中";
+               }
+               
+           } else if( level == '0'){ //外部客户
+               str_click = "ajgz_go('"+dk[i].fileno+"')";
+               
+               mes_tishi = "案卷详情";
+               
+           } else { //公司管理层，
+               
+               if(dk[i].push_type == 1)//正常流程
+               {
+                   if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                       mes_tishi = "案卷流转";
+                       str_click = "ajlz_go('"+dk[i].fileno+"','2')";
+                       
+                   }else{
+                       mes_tishi = "案卷详情";
+                       str_click = "ajgz_go('"+dk[i].fileno+"')";
+                   }
+               }else {//超时流程
+                   if(dk[i].pushAcc.toLowerCase() == userid.toLowerCase()){
+                       mes_tishi = "案卷流转";
+                       str_click = "ajlz_go('"+dk[i].fileno+"','2')";
+                       
+                   }else{
+                       mes_tishi = "案卷详情";
+                       str_click = "ajgz_go('"+dk[i].fileno+"')";
+                   }
+                   
+               }
+               
+           }
+           dz_html += '<li class="mui-table-view-cell" onclick="'+str_click+'"><div class="mui-card" style="margin-top:5px;">    <div class="mui-card-content">'
+           + ' <div class="mui-card-content-inner">'
+           + '<p id="zcsj" style="font-size:16px;color:#333">客户姓名：'+dk[i].jkrxm+'</p>'
+           + '<p id="zcsj" style="font-size:16px;color:#333">贷款类别：'+cpzl_map[dk[i].loantype]+'</p>'
+           + '<p id="zcsj" style="font-size:16px;color:#333">当前流程：'+dk[i].flowname+'</p>'
+           + '<p id="zcsj" style="font-size:16px;color:#333">签单时间：'+str_time+'</p>'
+           + '<div style="height:30px;line-height:30px;"><span style="color: #2894FF;font-size: 17px;" >'+mes_tishi+'</span>'
+           + '<span style="color:red;padding-left:20px;" >'+warning+'</span><div class="rgt_s"></div></div></div></div></div></li>';
+                
+    }
+    $("#ul_key_list").html(dz_html+"<div style='height:500px;line-height:500px;text-align:center;color:#f3f3f3:font-size:14px;'>---别拉了，到底了---</div>");
+}
+</script>
+
+<div class="div_fullscreen" style="display:none;">
+    
+    <div class="mui-content" >
+    	<div class="mui-scroll-wrapper">
+        <div class="mui-scroll">
+            <div style="margin-top:25px;padding:10px;" >
+                <input type="search" class="mui-input-clear"   id="search_key"  placeholder="按关键字搜索问题" style="width:85%;float:left;">
+                    <div style="width:15%;float:right;padding-left:5px;"><button type="button" class="mui-btn  mui-btn-primary"  onclick="search_hide()">取消</button></div>
+                    </div>
+           
+                    <ul class="mui-table-view" style="margin-top:45px;" id="ul_key_list">
+                        
+                    </ul>
+        </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,478 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/aui/aui.css" />
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link href="mui/css/mui.picker.css" rel="stylesheet" />
+<link href="mui/css/mui.poppicker.css" rel="stylesheet" />
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+
+<style>
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+	background: #fff;
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	color:#000;
+	margin: 0;
+	padding: 0;
+	overflow:auto;
+ 
+}
+
+     
+
+.mui-switch:before{
+	 font-size: 13px;
+	 position: absolute;
+	 top: 3px;
+	 right: 11px;
+	 content: attr(data-off);
+	 text-transform: uppercase;
+	 color: #999;
+}
+.mui-switch.mui-active:before{
+	right: auto;
+	left: 15px;
+	content: attr(data-on);
+	color: #fff;
+}
+.div_login{
+    
+    z-index:9998;background-image:Url('img/bj2.png');background-size:100% 100%;overflow:hidden;width:100%;height:100%;position: fixed;top:0px;
+}
+.inp_text_new {
+    border: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    outline:none;
+    /* line-height: 35px !important; */
+    height:40px !important;
+    color: #f3f3f3 !important;
+    width: 65%  !important;
+    font-size: 15px;
+    margin-top: 3px;
+    margin-left:10px;
+    height:95%;
+    vertical-bottom:0;
+}
+
+#footer{
+    
+    text-align: center;
+    bottom: -35px;
+    position: absolute;
+    width: 100%;
+}
+#footer a{
+    color:#F2FAFF;
+}
+.login_active{
+	background: #3fb9ff;
+	font-size: 18px;
+	outline: none;
+	color: white;
+	background: -webkit-linear-gradient(#3fb9ff, #099be7, #229de3);
+	background: -o-linear-gradient(#3fb9ff, #099be7, #229de3);
+	background: -moz-linear-gradient(#3fb9ff, #099be7, #229de3);
+	background: linear-gradient(#3fb9ff, #099be7, #229de3);
+	border-radius: 10px;
+}
+.login{
+	background-color:rgba(51,51,51,0.3);
+}
+.red_div{
+	float:right;
+	height:60px;
+	padding-top:10px;	
+	line-height:40px;
+	width:60px;
+	font-size:14px;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	border-radius:120px;
+	box-shadow: 0 0 3px #222;
+	background: #8e8e8e;
+	color: #333;
+}
+</style>
+    </head>
+    <script type="text/javascript">
+
+var flag = 0; //登陆模式 0-密码 1-手势
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+
+       
+        mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		//返回键 tap事件监听
+		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+	  		this.click();
+                              return false;
+	  	});
+
+        mui('.mui-content .mui-switch').each(function() { //循环所有toggle
+			//toggle.classList.contains('mui-active') 可识别该toggle的开关状态
+			//this.parentNode.querySelector('span').innerText = '状态：' + (this.classList.contains('mui-active') ? 'true' : 'false');
+			/**
+			 * toggle 事件监听
+			 */
+			 
+			this.addEventListener('toggle', function(event) {
+				//event.detail.isActive 可直接获取当前状态
+				//this.parentNode.querySelector('span').innerText = '状态：' + (event.detail.isActive ? 'true' : 'false');
+				console.log("event="+JSON.stringify(event.detail.isActive));
+				console.log("this="+JSON.stringify($(this).attr("id")));
+				if($(this).attr("id") == "shouci"){ //首套房
+					if(event.detail.isActive == true){
+						fc_first = 1;
+					}else{
+						fc_first = 0;
+					}
+				}
+			});
+		});
+        
+        //登陆方式判断
+        if(top.Settings.loginMode == 'pass'){
+        	flag = 0;
+        	$(".mui-pull-right").removeClass('icon-jianpan');
+        	$(".mui-pull-right").addClass('icon-shoushi');
+    		
+        }else{
+        	flag = 1;
+        	$(".mui-pull-right").removeClass('icon-shoushi');
+    		$(".mui-pull-right").addClass('icon-jianpan');
+        }
+        
+        //账号密码自动填充
+        if(!top.isEmpty(top.Settings.userId)){
+        	$("#userid").val(top.Settings.userId);
+        	if(!top.isEmpty(top.Settings.passWd)){
+        		$("#mm").val(top.Settings.passWd);
+        	}
+        }
+    }
+    
+
+    function login(){
+
+    	if(flag == 1){//九宫格方式登陆
+    		userid = top.Settings.userId;
+    		password = top.Settings.passWd;
+    	}else{ //密码登陆方式
+    		userid = $("#userid").val();
+            password = $("#mm").val();
+    	}
+        
+       // var mm = top.get_pass(password);
+        if( userid == '' || password == ''){
+        	top.alertInfo('用户号或密码不能为空');
+        }
+     //   NTParameter.addValue(null, null, "userid", userid);
+     //  NTParameter.addValue(null, null, "password", password);
+       
+        
+        var data = {};
+        data.userid = $("#userid").val();
+        
+   
+        localStorage.setItem("password", password);
+        data.password = password;
+        
+        top.writelog("6001 send:"+JSON.stringify(data));
+        start_process();
+        
+        $.ajax({
+               type : "post",
+               timeout: 10000,
+               url: "http://"+IP+":"+PORT+"/app/6001",
+               data : data,
+               datatype : "json",
+               success : jugelog,
+               error:function(msg){
+               stop_process();
+               top.alertInfo('登录失败');
+               }
+               });
+    }
+function jugelog(msg){
+    
+    stop_process();
+    
+    var json=eval("("+msg+")");
+    
+
+   
+    if( json.stat == '0') //登陆成功
+    {
+        var userid = json.data.userId;
+        var flag = json.data.customerFlag;
+        localStorage.setItem("userid", userid);
+        localStorage.setItem("loginid", $("#userid").val());
+        $(".div_login").attr("style", "display:none");
+        localStorage.setItem("login_flag", '1');
+        if( flag == 0 ) //外部手机号客户
+        {
+            localStorage.setItem("level", 0);
+            
+        }else{
+           
+            localStorage.setItem("login_info", msg);
+            localStorage.setItem("username", json.data.accountName);
+            localStorage.setItem("customerFlag", json.data.customerFlag);
+            localStorage.setItem("accountOrgn", json.data.accountOrgn);
+            localStorage.setItem("accountType", json.data.accountType);
+            localStorage.setItem("orgnName", json.data.orgnName);
+            localStorage.setItem("accountTel", json.data.accountTel);
+            localStorage.setItem("orgnId", json.data.orgnId);
+            localStorage.setItem("orgnType", json.data.orgnType);
+            localStorage.setItem("accountPosition", json.data.accountPosition);
+           
+            var pos = json.data.accountPosition; //0-管理层 1-普通员工
+            var hzjg_type = json.data.orgnType; //0-总公司 1-分公司 2-合作机构 3-门店
+            var type = json.data.accountType; //1-领导 2-员工
+            
+   
+            localStorage.setItem("pos_name", json.data.postName);
+            var level;
+            
+            if(hzjg_type == '0' || hzjg_type =='1') //总公司
+            {
+                if(pos == 'A' || pos == 'B' || pos == 'J' || pos == 'CP' || pos == 'D')//只有签单员和驻行员能创建案卷
+                level = 3;
+                else if(pos == 'N' || pos == 'E' || pos == 'L')
+                level = 1;
+                else
+                level = 2;
+            }else if(hzjg_type=='2' || hzjg_type=='3'){
+                
+                if(pos == 'X1')
+                level = 4;
+                else
+                level = 5;
+            }else {
+                level == 0;
+            }
+            
+            localStorage.setItem("level",level);
+            var undo = json.data.undo;
+            var pm;
+            var mes = '';
+            
+            if( json.data.undo > 0){
+               // mes = '您有 ' + json.data.undo+ ' 条待处理事件;';
+               $(".mui-badge").html(json.data.undo);
+               $(".mui-badge").show();
+            }else{
+                $(".mui-badge").hide();
+            }
+            
+            /*业绩排名*/
+            if(json.data.rank1.length > 0 ){ //个人排名
+                for(var i = 0; i < json.data.rank1.length; i++){
+                    
+                    localStorage.setItem("gr_pm_"+json.data.rank1[i].rank_type2, json.data.rank1[i].rank_no);
+                }
+                if(pos == 'A' || pos == 'B' || pos == 'F'){
+                    pm = json.data.rank1[0].rank_no;
+                    if(pm > 0){
+                        mes += "您本周面签量排名 "+ pm+"位";
+                    }
+                }
+            }
+            if(json.data.rank2.length > 0 ){ //分公司排名
+                for(var i = 0; i < json.data.rank2.length; i++){
+                    
+                    localStorage.setItem("fgs_pm_"+json.data.rank2[i].rank_type, json.data.rank2[i].rank_no);
+                }
+                if(pos != 'A' && pos != 'B' && pos != 'F'){
+                    pm = json.data.rank2[0].rank_no;
+                    if(pm > 0){
+                        mes += "分公司面签量排名 "+ pm+"位";
+                    }
+                }
+            }
+            
+            if(mes!='' ){
+            	top.alertInfo(mes);
+            }
+        }
+        top.Settings.loginStatus = true;
+        top.Settings.userId = userid; //用户名
+        top.Settings.passWd = password;//密码
+		
+		set_settings(top.Settings);//更新登陆状态
+        
+       	top.refreshByLogin();
+     //   mainFrame3.window.initPage();
+     //   NTParameter.addValue(null, null, "userid", userid);
+        //刷新页面
+        top.Jpush_init(userid.toLowerCase());
+    }else{
+        top.alertInfo("登录失败:"+json.msg);
+    }
+}
+
+function zhuce(){
+    
+   
+    showNewFrame("register.html", "smask");
+}
+
+function wjmm(){
+   
+   
+    showNewFrame("forgetpass.html", "smask");
+}
+
+function change_mode(){
+	
+	if(flag == 0){ //密码转九宫格
+		if(top.isEmpty(top.Settings.userId) || top.isEmpty(top.Settings.passWd)){
+			top.alertInfo("未获取到登陆相关信息，若是第一次登陆，请使用账号密码方式");
+			return;
+		}
+		$("#pass_mode").hide();
+		$("#lock_mode").show();
+		$(".mui-pull-right").removeClass('icon-shoushi');
+		$(".mui-pull-right").addClass('icon-jianpan');
+		flag = 1;
+	}else{
+		$("#pass_mode").show();
+		$("#lock_mode").hide();
+		$(".mui-pull-right").addClass('icon-shoushi');
+		$(".mui-pull-right").removeClass('icon-jianpan');
+		flag = 0;
+	}
+}
+    </script>
+    
+<body >
+
+	<header class="mui-bar mui-bar-nav head_tmp_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title">登陆</h1>
+		<a  class="mui-icon iconfont icon-shoushi mui-pull-right" onclick="change_mode();"></a>
+	</header>
+
+	<div class="container-fluid">
+		<div class="mui-content mui-scroll-wrapper" style="background-image:Url('img/bj2.png');background-size:100% 100%;">
+	    	<div class="mui-scroll top_head">
+
+
+				<div class="mui-content" style="display:none" id="lock_mode">
+					<div class="mui-content-padded" style="margin: 10px 0px;">
+						<div class="mui-locker" data-locker-options='{"ringColor":"rgba(221,221,221,1)","fillColor":"#ffffff","pointColor":"rgba(0,136,204,1)","lineColor":"rgba(0,136,204,1)"}' data-locker-width='320' data-locker-height='320'>
+						</div>
+					</div>
+					<a id='forget'>忘记手势密码？</a>
+				</div>
+				<div style="display:black;margin-top:60%;" id="pass_mode" >
+
+				    <div>
+				       
+				            <ul>
+				                <li style="line-height:40px;height:40px;border-bottom: 1px solid #ffffff;width:60%;margin-left:20%;">
+				                    <div style="margin-top:15px;" >
+				                        <div class="user_div"></div>
+				                        <input type="text"  placeholder="用户名" class="inp_text_new" style="font-size: 17px;margin-left:20px;margin-right:10px;margin-top:5px;color:#f4f4f4" id="userid"/>
+				                    </div>
+				                </li>
+				                <li style="line-height:40px;height:40px;border-bottom: 1px solid #ffffff;width:60%;margin-left:20%;">
+				                    <div style="margin-top:15px;" >
+				                        <div class="pass_div"></div>
+				                        <input type="password" placeholder="密码" class="inp_text_new" style="font-size: 17px;margin-left:20px;margin-right:10px;margin-top:5px;color:#5b5b5b" id="mm"/>
+				                    </div>
+				                </li>
+				            </ul>
+				        
+				        
+				        
+				
+				        <div style="margin-top:10px;text-align:center;margin-bottom: 10px;">
+							<button class="login" style="width:60%;margin-top:10px;" onclick="login();">登录</button>
+							<button class="login" style="width:60%;margin-top:10px;" onclick="zhuce();">注册</button>
+						</div>
+				        <div class="col-xs-6 text-center" style="margin-top:8px;">
+				            <span style="font-size:14px;color: #3A006F;font-weight:bold" onclick="wjmm()">忘记密码</span>
+				            
+				        </div>
+				        <div class="col-xs-6 text-center" style="margin-top:8px;">
+				            
+				            <input type="checkbox" value="自动登陆">
+				            <span style="font-size:14px;color: #3A006F;font-weight:bold" onclick="wjmm()">自动登陆</span>
+				        </div>
+				    </div>
+				
+				    <div id="footer">
+				        
+				        <a>Version 1.2.9</a><br>
+				        
+				        
+				        <a>© 2018-2020 世纪源金融服务有限公司  All rights reserved.</a>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	
+	<script src="mui/js/mui.min.js"></script>
+	<script src="mui/js/mui.locker.js"></script>
+
+		<script>
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					var settings = get_settings();
+					
+					var locker = doc.querySelector('.mui-locker');
+					
+
+					
+					var info = doc.querySelector('#info');
+					var record = [];
+					locker.addEventListener('done', function(event) {
+						var rs = event.detail;
+						top.writelog("rs.points="+JSON.stringify(rs.points));
+						if (settings.gestures == rs.points.join('')) {
+							//收拾匹配成功
+							rs.sender.clear();
+						} else {
+							tryNumber--;
+							rs.sender.clear();
+							if (tryNumber > 0) {
+								plus.nativeUI.toast('解锁手势错误，还能尝试 ' + tryNumber + ' 次。');
+							} else {
+								clearStateAndToLogin();
+							}
+						}
+					}, false);
+				});
+			
+			})(mui, document);
+		</script>
+
+</body>
+</html>

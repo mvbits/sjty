@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery+CSS��ͷ�����л�</title>
+
+<script src="js/jquery.min.js"></script>   
+</head>
+<style>
+.arrow {
+  cursor: pointer;
+  display: block;
+  height: 15px;
+  margin: 10px;
+  position: relative;
+  width: 27.5px;
+}
+.arrow.active:before,
+.arrow.active:after {
+
+}
+.arrow.active:before {
+  transform: rotate(-45deg) translateX(0) translateY(0);
+}
+.arrow.active:after {
+  transform: rotate(45deg) translateX(0) translateY(0);
+}
+.arrow:before,
+.arrow:after {
+  background: none repeat scroll 0 0 #FF0000;
+  border-radius: 10px;
+  content: " ";
+  display: block;
+  height: 2px;
+  position: absolute;
+  top: 6px;
+  transition: all 300ms ease 0s;
+  width: 20px;
+}
+.arrow:before {
+  left: -3px;
+  transform: rotate(45deg);
+}
+.arrow:after {
+  right: -3px;
+  transform: rotate(-45deg);
+}
+</style>
+<script>
+$(function(){
+	var arrow = $(".arrow");
+
+	arrow.click(function() {
+	  arrow.toggleClass("active");
+	});
+})
+
+</script>
+<body>
+	<div>
+		<i class="arrow"><i class="arrow"></i></i>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="css/default.css">
+
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+
+<link rel="stylesheet" type="text/css" href="css/lib/jQueryMobile/jquery.mobile-1.4.3.css" />
+<link href="css/index.css" rel="stylesheet">
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="cordova.js"></script> 
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="js/jquery.js"></script> 
+<script type="text/javascript" src="js/jquery.md5.js"></script>
+
+<title>用户登录</title>
+<style type="text/css">
+.inp_text {
+	border: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+	line-height: 35px !important;
+	color: #5b5b5b !important;
+	width: 160px !important;
+	font-size: 15px;
+}
+.tp1
+{
+	width:20px;
+	height:25px;
+	margin-left:30px;
+	
+}
+.tp2
+{
+	width:20px;
+	height:20px;
+	margin-left:30px;
+	
+}
+body { 
+margin: 0; 
+padding: 0; 
+ /* prevent screen flash in IE6 */ 
+} 
+div,ul{margin: 0;padding: 0;} 
+.topNavWrapper { 
+width: 100%; 
+text-align: left; 
+height: 31px; 
+margin: 0px auto; 
+z-index:100; 
+_position: relative ; 
+_top:0px; 
+} 
+.topNav { 
+width: 100%; 
+float: left; 
+display: block; 
+z-index: 100; 
+overflow: visible; 
+/*position: fixed;/ 
+top: 0px; /* position fixed for IE6 */ 
+_position: relative ; 
+_top: expression(documentElement.scrollTop + "px"); 
+background-repeat: no-repeat; 
+background-position: right; 
+height: 31px; 
+line-height: 31px; 
+color:#fff; 
+background-color:#444; 
+text-align:center; 
+}
+.rgt {
+	width: 10px;
+	height: 18px;
+	float: right;
+	margin-right: 20px;
+	margin-top: 12px;
+	background-size: 100% 100%;
+	background-image: url("img/right.png");
+}
+</style> 
+<script type="text/javascript">
+	var thisURL;
+	var flag;
+	var userid;
+	var My_h;
+	document.addEventListener("DOMContentLoaded", initial);
+	function initial() {
+		alert("what happend?");
+		thisURL = document.URL; 
+		localStorage.setItem("thisURL", thisURL);
+		localStorage.setItem("acount", 0);
+		localStorage.setItem("hiscount", "0");
+		
+		
+	}
+
+	
+	function login(){
+		
+	//	var data = {};
+		
+		userid = $("#userid").val();
+		password = $("#mm").val();		
+		var mm = $.md5(password);
+
+		NTParameter.addValue(null, null, "userid", userid);
+		localStorage.setItem("acount", 0);
+
+		var data = {};
+		data.userid = $("#userid").val();
+		
+		localStorage.setItem("userid", data.userid); 
+		data.password =  $.md5(password);
+	
+		
+		
+		//	MyProcess.start();
+			$.ajax({
+				type : "post",
+				timeout: 10000,
+				url: "http://"+IP+":"+PORT+"/app/6001",
+				data : data,
+				datatype : "json",
+				success : jugelog,
+				error:function(msg){
+				//	MyProcess.stop();
+					alertInfo('登录失败','','温馨提示','确认');
+				}
+			});
+		}
+	function jugelog(msg){
+		
+	//	MyProcess.stop();
+		var json=eval("("+msg+")");
+		NTParameter.addValue(null, null, "userid", userid);
+		
+		var userid = $("#userid").val();
+		
+		if( json.stat == '0') //登陆成功
+		{			
+			
+			if( userid.length == 11 ) //外部手机号客户
+			{
+				localStorage.setItem("level", 0);
+				
+			} else {
+				
+				
+				localStorage.setItem("username", json.data.accountName);
+				localStorage.setItem("accountOrgn", json.data.accountOrgn);
+				localStorage.setItem("accountType", json.data.accountType);
+				localStorage.setItem("orgnName", json.data.orgnName);
+				localStorage.setItem("orgnType", json.data.orgnType);
+				localStorage.setItem("accountPosition", json.data.accountPosition);
+				localStorage.setItem("sessionid", json.data.jsessionid);
+				
+				var pos = json.data.accountPosition; //0-管理层 1-普通员工
+				var hzjg_type = json.data.orgnType; //0-总公司 1-分公司 2-合作机构 3-门店
+				var type = json.data.accountType; //1-领导 2-员工
+				var level;
+				
+				if(type == '2' && (pos == 'A' || pos == 'B')) //只有签单员和驻行员能创建案卷
+				{
+					level = 3;
+				}else {
+					level = 2;
+				}
+				localStorage.setItem("level",level);
+		
+			}
+			
+			NTParameter.addValue(null, null, "userid", userid);
+			
+			window.location.href="index.html";
+		}else{
+			alertInfo("登录失败:"+json.msg,'','温馨提示','确认');
+		}
+	}
+	 function alertInfo(message, completeCallback, title, buttonLabel){
+	    	navigator.notification.alert(message, completeCallback, title, buttonLabel);
+	    }
+
+	function zhuce(){
+		localStorage.setItem("hiscount", "1");
+		window.location.href="grzlzc.html"; 
+	}
+	
+	function wjmm(){
+		localStorage.setItem("hiscount", "1");
+		window.location.href="wjmm.html"; 
+	}
+	
+	
+	
+ 
+ 
+</script>   
+</head>
+
+<body  style="background:#ffffff;overflow:auto;" >
+
+
+	<div class="cont">
+		
+	  <div class="demo">
+						
+						
+					
+	    <div class="login">
+
+	<!-- 
+			<div component-role="m11_top" class="top" style="background: #FF3366;color: rgba(255, 255, 255, 0.8);">						
+						<span id="user_top" class="top_title" >世纪源金融</span>
+			</div>
+		 -->			
+		
+	      <div class="login__check" style="font:26px '微软雅黑'">世纪源金融服务有限公司</div>
+	      	<div class="login__form" >
+	        <div class="login__row">
+	          <svg class="login__icon name svg-icon" viewBox="0 0 20 20">
+	            <path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8" />
+	          </svg>
+	          <input type="text" id="userid" class="login__input name" placeholder="用户名"/>
+	        </div>
+	        <div class="login__row">
+	          <svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
+	            <path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0" />
+	          </svg>
+	          <input type="password" id="mm" class="login__input pass" placeholder="密码"/>
+	        </div>
+	        <button type="button" class="login__submit" >登 录</button>
+	        <p class="login__signup" style="font-size:17px;"><a onclick="zhuce()" target="_blank">忘记密码</a></p>
+	        <p class="login__signup" style="margin-top:10px;font-size:17px;">还没有账号? &nbsp;<a onclick="zhuce()" target="_blank">立刻注册</a></p>
+	      </div>
+	    </div>
+	   </div>
+	  </div>
+<script src='js/stopExecutionOnTimeout.js?t=1'></script>
+	
+	<script>
+	$(document).ready(function () {
+		alert("what happend111?");
+	    var animating = false, submitPhase1 = 3000, submitPhase2 = 0, logoutPhase1 = 800, $login = $('.login'), $app = $('.app');
+	    function ripple(elem, e) {
+	        $('.ripple').remove();
+	        var elTop = elem.offset().top, elLeft = elem.offset().left, x = e.pageX - elLeft, y = e.pageY - elTop;
+	        var $ripple = $('<div class=\'ripple\'></div>');
+	        $ripple.css({
+	            top: y,
+	            left: x
+	        });
+	        elem.append($ripple);
+	    }
+	    ;
+	    $(".login__submit").click( function (e) {
+	    	
+	        if (animating)
+	            return;
+	        animating = true;
+	        var that = this;
+	        ripple($(that), e);
+	        $(that).addClass('processing');
+	        setTimeout(function () {
+	            $(that).addClass('success');
+	            setTimeout(function () {
+	            	login();
+	       //         $app.show();
+	       //         $app.css('top');
+	       //         $app.addClass('active');
+	            }, submitPhase2 - 70);
+	            setTimeout(function () {
+	        //        $login.hide();
+	       //         $login.addClass('inactive');
+	               animating = false;
+	                $(that).removeClass('success processing');
+	        		$(that).addClass("login__submit");
+	            }, submitPhase2);
+	        }, submitPhase1);
+	    });
+	   
+	});
+	</script>
+</body>
+
+</html>

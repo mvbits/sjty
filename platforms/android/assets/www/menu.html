@@ -1,0 +1,747 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" type="text/css" href="mui/css/icons-extra.css" />
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script src="js/lib/jQuery/jquery-2.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+	
+<style>
+body{
+	 background: #f4f4f4;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+        
+}
+
+.mui-bar .mui-pull-left .mui-icon {
+	padding-right: 5px;
+	font-size: 28px;
+}
+
+.mui-bar .mui-btn {
+	font-weight: normal;
+	font-size: 17px;
+}
+
+.mui-bar .mui-btn-link {
+	top: 1px;
+}
+
+.mui-content img{
+	width: 100%;
+}
+.hm-description{
+	margin: 15px;
+}
+
+.hm-description>li {
+	font-size: 14px;
+	color: #8f8f94;
+}
+
+
+.dingzhu{
+	top:70px;
+	left:0px;
+    width:100%;   
+    height: 80px;   
+    background-color:#ffffff;;
+    position: fixed;
+    z-index:9997;
+    -webkit-box-shadow:none;box-shadow:none
+}
+
+
+li{
+    background-color:#fff;
+}
+
+li .name{
+	font-size:0.7em;
+	
+	color:#4B4B4B;
+}
+.mui-slider-item{
+	padding:10px;
+	
+}
+.mui-slider-item img{
+	border-radius: 5px;
+	height:50vw;
+}
+
+.nologined{
+	margin-top:10px;
+	padding:10px;
+	background: #f4f4f4;
+}
+
+.icon {
+	/* 通过设置 font-size 来改变图标大小 */
+	width: 2em; height: 2em;
+	/* 图标和文字相邻时，垂直对齐 */
+	vertical-align: 1em;
+	/* 通过设置 color 来改变 SVG 的颜色/fill */
+	fill: currentColor;
+	/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+	   normalize.css 中也包含这行 */
+	overflow: hidden;
+}
+.mui-slider-item img{
+	height:35vw;
+}
+.rgt_search {
+    width: 16px;
+    height: 16px;
+    float:left;
+    margin-left: 6px;
+    margin-top: 2px;
+    background-size: 100% 100%;
+    background-image: url("img/search.png");
+}
+.head_div{
+    text-align:left;
+    border-radius: 5px;
+    font-size:12px;
+    padding-top:2px;
+    background:rgba(243,243,243,0.8);
+    height:24px;
+    line-height:24px;
+    margin-top:14px;
+    margin-left:10px;
+    margin-right:10px;
+    color:#8e8e8e;
+}
+.indev_class{
+	 background:rgba(243,243,243,0.8);
+}
+
+.moreview{
+	display:none;
+}
+
+.someview{
+	display:none;
+}
+.worker{
+	display:none;
+}
+.mui-table-view-cell img{
+	width:2em;
+}
+.rgt {
+	width: 18px;
+	height: 18px;
+	float: right;
+	margin-right: 20px;
+	margin-top: 12px;
+	background-size: 100% 100%;
+	background-image: url("img/show.png");
+}
+
+
+</style>
+<script>
+		var thisURL; 
+		var images = ["img/logo.png",
+		              "img/cha.png",
+		              "img/he.png",
+		              "img/diao.png"];
+		var types = ["我要贷款",
+		             "我要取款",
+		             "我要理财",
+		             "其他金融需求"];
+		 var flag = 0;
+		 var head_flag = 0;
+         var start_flag = 0;
+         var start = 0;
+         var slider_num = '0';
+		document.addEventListener("DOMContentLoaded", initial);
+		function initial() {
+			/*当前页面URL*/
+			thisURL = document.URL; 
+			localStorage.setItem("thisURL", thisURL);
+			$(".mui-bar").attr("style", "background-color:rgba(254,254,254,0.0);-webkit-box-shadow:none;box-shadow:none");
+			/*mui框架初始化，为id=pullrefresh的容器添加下拉刷新事件*/
+			mui.init();
+			
+			/*容器滚动设置*/
+			mui('.mui-scroll-wrapper').scroll({
+                deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006 
+			});
+			
+			/*为容器里class=mui-card的模块添加tap事件（移动端一般用tap事件替代click事件）*/
+			mui("#pullrefresh").on('tap', '.mui-card', function (event) {
+				this.click();
+				});
+			mui("#pullrefresh").on('tap', '.mui-card-content', function (event) {
+				this.click();
+				});
+			mui("#pullrefresh").on('tap', '.mui-card-link', function (event) {
+				this.click();
+				});
+			/*为id=search_key的input空间添加触发事件,内容被修改时触发auto_complete方法*/
+		//	$('#search_key').bind('input propertychange', auto_complete);
+			
+
+			
+			 //返回键 tap事件监听
+			  mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+	              this.click();
+	              return false;
+              });
+			
+			/*监听容器滚动事件*/ 
+			
+		    document.querySelector('.mui-scroll-wrapper' ).addEventListener('scroll', function (e ) { 
+			     
+		    	
+				var down = mui('.mui-scroll-wrapper').scroll().y;
+				var h = 0 - mui('.mui-scroll-wrapper').scroll().y;
+			
+                                                                           
+				
+				/*当页面弹回到初始位置时，修改id=ul_img的容器的样式*/
+				if(mui('.mui-scroll-wrapper').scroll().y == 0){
+					$(".ul_img").attr("style", "background:#ffffff;margin-top:-50px;padding-top:5px;border:0;border-bottom: 1px solid #d0d0d0;");
+					
+					$(".mui-bar").attr("style", "background-color:rgba(254,254,254,0.0);-webkit-box-shadow:none;box-shadow:none");
+					if($(".mui-bar").is('.header_jb')){
+		 				$(".mui-bar").removeClass("header_jb");
+		 			}
+				}
+				/*当页面下拉时且垂直距离小于50时，修改id=ul_img的容器的样式*/
+				if(mui('.mui-scroll-wrapper').scroll().y > 0 && mui('.mui-scroll-wrapper').scroll().y < 50){
+				 
+					var img_h = 50 - mui('.mui-scroll-wrapper').scroll().y;
+					$(".ul_img").attr("style", "margin-top:-"+ img_h +"px;background:#ffffff;padding-top:5px;border:0;border-bottom: 1px solid #d0d0d0;");
+				}
+				
+				/*容器上滑时修改状态栏的透明度*/
+				if(mui('.mui-scroll-wrapper').scroll().y < 0){
+					if(Math.abs(h) < 155 ){
+						$(".mui-bar").attr("style", "background-color:rgba(254,254,254,"+h/155+");-webkit-box-shadow:none;box-shadow:none");
+						if($(".mui-bar").is('.header_jb')){
+			 				$(".mui-bar").removeClass("header_jb");
+			 			}
+					}else{
+						/*状态栏显现时，切换到header_jb类，渐变色*/
+						if(!$(".mui-bar").is('.header_jb')){
+			 				$(".mui-bar").addClass("header_jb");
+			 			}
+					}
+				}
+				
+				/*根据滚动条位置，调整功能模块（上滑时触发）,flag为顶部功能栏标志， flag=1时，顶部功能栏出现*/
+				if(flag == 0){ 
+					if( h > 155){		
+
+						flag = 1;
+					}
+				}else{
+					if( h <155){					  
+						flag = 0;
+					
+						if($(".mui-bar").is('.header_jb')){
+							$(".mui-bar").attr("style", "background-color:rgba(254,254,254,0.0);-webkit-box-shadow:none;box-shadow:none");
+                                                                            
+			 				$(".mui-bar").removeClass("header_jb");
+			 			}
+						
+					}
+				}
+			
+			});
+			
+			//slider 事件监听
+		    document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+		    	slider_num = event.detail.slideNumber;
+				
+		    	});
+		    var slider = mui("#slider");
+		    slider.slider({
+				interval: 2000
+			});
+		
+		  //查询最近的检查信息
+			initPage();
+		}
+		
+		/*页面初始化方法, 查询当前用户的动态，并展示在功能栏下方*/
+		function initPage(){
+			//consloe.log("state="+top.Setting.loginState);
+			
+			$(".allview").show();
+			$(".worker").hide();
+			$(".moreview").hide();
+			$(".someview").hide();
+	
+			top.writelog("menu.html,state="+top.Settings.loginState);
+			if(!top.Settings.loginState){ //如果没登陆了才执行
+				$(".logined").hide();
+				
+				$("#li_more").hide();
+				$(".moreview").hide();
+				return;
+			  	
+			}else{
+				$(".logined").show();
+				
+				$("#li_more").show();
+			}
+			
+			var level = localStorage.getItem("level");
+			
+			var pos = localStorage.getItem("accountPosition");
+			
+	
+			
+			if(level == '0'){ //外部客户
+				
+		
+				
+				$("#li_9").show();
+				
+			}else if( level == '2'){ //业务员工	
+				
+				if(pos == 'FG'){//分公司股东					
+					$("#li_1").show();
+					
+					$("#li_8").show();
+					
+				}else{		
+					
+					$(".worker").show();
+					
+                    $("#li_0").hide();
+				}
+			}else if( level == '3' || level == '1'){ //公司员工
+                
+                $(".worker").show();
+				
+                if(level == '1'){
+                   $("#li_0").hide();
+                }
+                if(pos == 'D'){
+                   $("#li_6").hide();
+                }
+			}else if( level == '4' || level == '5'){//合作机构				
+                $("#li_1").show();
+                
+                $("#li_2").show();
+                if(pos == 'X1'){
+                    $("#li_6").show();
+                }
+                
+                $("#li_7").show();
+                var undo = localStorage.getItem("undo");
+                if( undo > 0){
+                    $(".mui-badge").html(undo);
+                    $(".mui-badge").show();
+                    
+                }else{
+                    $(".mui-badge").hide();
+                }
+               
+			}
+            start_flag = 0;
+            var data={
+                userid:localStorage.getItem("userid"),
+                start:0,
+                limit:2
+            }
+
+               top.http_comm("6057", data, showpage);
+		}
+		
+        function showpage(msg){
+            top.writelog("6057 recv="+JSON.stringify(msg));
+            var json = eval("("+msg+")");
+            
+            var customerFlag = localStorage.getItem("customerFlag");
+            var level = localStorage.getItem("level");
+            var dk = json.data.pushList;
+            
+            var dz_html = '';
+            var userid = localStorage.getItem("userid");
+            var len = 2;
+            if(dk.length < len){
+            	len = dk.length;
+            }
+            if(len == 0){
+            	dz_html += '<li style="list-style-type:disc;margin-left:20px;width:100vw;"><font style="color:#d1d4dd">您暂时没有新的消息</font></li>';
+            	dz_html += '<li style="list-style-type:disc;margin-left:20px;width:100vw;"><font style="color:#d1d4dd">'+get_trandate()+'</font></li>';							
+            }
+            for(var i = 0; i < dk.length; i++){
+               
+            	dz_html += '<li style="list-style-type:disc;margin-left:20px;width:100vw;color:#666666">客户：<font style="color:#007aff">'+dk[i].jkrxm+'</font>的业务有新的变化</li>'
+            }
+            if(dk.length == 1){
+            	dz_html += '<li style="list-style-type:disc;margin-left:20px;width:100vw;"><font style="color:#d1d4dd">'+get_trandate()+'</font></li>';	
+            }
+            
+            $("#news").html(dz_html);
+
+            
+        }
+		
+        function morePage(){
+            start_flag = 1;
+            var data={
+                userid:localStorage.getItem("userid"),
+                start:start,
+                limit:10
+            }
+            
+
+                   top.http_comm("6057", data, showpage);
+        }
+
+		/*判断对象是否为空*/
+		function isEmpty(obj) {
+
+			if(!obj && obj == 0 && obj == '') {　　　　　　　　　
+			  return true;
+			}
+			
+			if(Array.prototype.isPrototypeOf(obj) && obj.length == 0) {
+				　　　return true;
+			}
+			
+			if(Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length == 0) { 
+				
+				　return true; 　　　
+			}
+			return false; 
+		}
+		
+
+
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+		
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				
+				if(top.Settings.loginState){ //如果登陆了才执行
+					initPage();
+				   }
+			//	mui.toast("没有更多信息了");
+			}, 1500);
+		}
+		
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		 var count=1;
+		function pullupRefresh() {
+			
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 200)); //参数为true代表没有更多数据了。
+				if(top.Settings.loginState){ //如果登陆了才执行
+					morePage();
+				   }
+				
+			
+			//	mui.toast("没有更多信息了");
+			}, 1500);
+		} 
+        //案卷流转
+        function ajlz_go(fileno, flow){
+            $("#search_by").blur();
+            parent.showNewFrame("ajlz_new.html?fileno="+fileno+"&flow="+flow,'smask');
+            
+        }
+        
+        //案卷评价
+        function ajpj_go(fileno){
+            $("#search_by").blur();
+            parent.showNewFrame("ajpj.html?fileno="+fileno,'smask');
+        }
+        //外部客户查看
+        function ajgz_go(fileno){
+            $("#search_by").blur();
+            parent.showNewFrame("flow_new.html?fileno="+fileno,'smask');
+        }
+        //超时展示
+        function timeout_go(fileno){
+            $("#search_by").blur();
+            parent.showNewFrame("ajcs.html?fileno="+fileno,'smask');
+        }
+        //补齐案卷资料
+        function show_moreinfo(fileno, flag){
+            $("#search_by").blur();
+            
+            parent.showNewFrame("dbaj_detail.html?id="+fileno+"&flag="+flag,'smask');
+        }
+        	var show_flag= '0'
+			function show_all_icon(){
+				if(show_flag == '0'){
+					show_flag='1';
+					$(".moreview").show();		
+				}else{
+					show_flag='0';
+					$(".moreview").hide();	
+				}			
+			}
+        	
+        	
+function get_infos(rid){
+//	mui.alert("您点击了第"+(slider_num+1)+"张图片，该模块功能暂未开放", "世纪源金融", null);
+	if(slider_num == '0'){
+		parent.showNewFrame('tplb.html?id=3','smask');
+	}else if(slider_num == '1'){
+		parent.showNewFrame('tplb.html?id=4','smask');
+	}else if(slider_num == '2'){
+		parent.showNewFrame('training_course.html','smask');
+	}else if(slider_num == '3'){
+		parent.showNewFrame('training_course.html','smask');
+	}
+}
+</script>
+</head>
+<body style="background:#f4f4f4;">
+
+        <header class="mui-bar head_tmp_color">				
+			<div class="head_div" onclick="search_show();">产品搜索<div class="rgt_search" ></div></div>		
+		</header>
+
+			<div  id="pullrefresh" class="mui-content mui-scroll-wrapper" style="background-color:#f4f4f4">
+			    <div class="mui-scroll indev_class" >
+			    	<div style="height:145px;line-height:145px;margin-top:-145px;background-color:#ffffff;text-align:center"><span >--顶部--</span></div>
+				  	<div id="indiv" class="">
+					  	<img id="img1" src="img/header.png" style="height:380px;margin-top:-160px;"/>
+						
+					  	<ul class="mui-table-view mui-grid-view mui-grid-9 ul_img" style="background-color:#ffffff;margin-top:0px;padding-top:5px;border:0;border-bottom: 0px solid #d0d0d0;" >
+				            <li id="li_0" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3 worker someview" style="border:0" onClick="show_me();">						
+				                    <img src="img/ajmq.png"></img> 
+				                   	<div class="name">贷款面签</div>
+				             </li>
+
+				            <li id="li_1" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3 worker someview" style="border:0" onClick="parent.showNewFrame('ajcx.html', 'smask');">
+				                    <img src="img/ajcx.png"></img>
+				                   	<div class="name">案卷查询</div>
+				            </li>	
+				            <li id="li_7" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3 someview" style="border:0" onClick="parent.showNewFrame('ajpj_hzjg.html', 'smask');">
+				                  <img src="img/ajpj.png"></img>
+				                   	<div class="name">案卷评价</div>
+				            </li>			   
+
+				            <li id="li_3" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3 worker someview" style="border:0" onClick="parent.showNewFrame('aj_swiper.html', 'smask');">
+				                     <img src="img/yjpm.png"></img> 
+				                   	<div class="name">业绩排名</div>
+				            </li>
+				            <li id="li_6" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3 worker someview" style="border:0" onClick="parent.showNewFrame('aj_cwcx.html', 'smask');">
+				                    <img src="img/cwcx.png"></img>
+				                   	<div class="name">财务查询</div>
+				            </li>
+				      		<li id="li_2" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3 worker someview" style="border:0" onClick="parent.showNewFrame('ajtj.html', 'smask');">			
+				                    <img src="img/ajtj.png"></img>
+				                   	<div class="name">案卷统计</div>
+				            </li>
+				            <li id="li_4" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3 moreview" style="border:0" onClick="parent.showNewFrame('ajtc.html', 'smask');">
+				                    <img src="img/tcpm.png"></img> 
+				                   	<div class="name">提成排名</div>
+				            </li>
+				   
+				            <li id="li_5" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3 moreview" style="border:0" onClick="parent.showNewFrame('aj_hkjh.html', 'smask');">
+				                    <img src="img/hkjh.png"></img>
+				                   	<div class="name">还款计划</div>
+				            </li>			   			  
+				            <li id="li_8" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3 someview" style="border:0" onClick="parent.showNewFrame('fgs_gdcx.html', 'smask');">
+				                    <img src="img/fgspm.png"></img>
+				                   	<div class="name">分公司排名</div>
+				            </li>
+				      
+			
+				            <li id="li_12" class="mui-table-view-cell  mui-col-xs-3  moreview" style="border:0" onClick="parent.showNewFrame('member_info.html', 'smask');">
+				                    <img src="img/hhrqy.png"></img>
+				                   	<div class="name">合伙人权益</div>
+                             </li>
+                             <li id="li_10" class="mui-table-view-cell  mui-col-xs-3 allview"  style="border:0" onClick="parent.showNewFrame('dk_jsq.html', 'smask');">
+				                    <img src="img/dkjsq.png"></img>
+				                   <div class="name">贷款计算器</div>
+                             </li>
+                              <li id="li_11" class="mui-table-view-cell  mui-col-xs-3 allview" style="border:0" onClick="parent.showNewFrame('sf_jsq.html', 'smask');">
+				                    <img src="img/sfjsq.png"></img>
+				                   	<div class="name">税费计算器</div>
+                             </li>
+                             <li id="li_more" class="mui-table-view-cell  mui-col-xs-3" style="border:0;display:none;" onClick="show_all_icon();">
+ 									<svg class="icon" aria-hidden="true">
+				                        <use xlink:href="#icon-gengduo1"></use>
+				                    </svg> 
+				                    
+				                   	<div class="name">更多</div>
+                             </li>
+
+				        </ul> 
+				        <div style="background-color:#ffffff;margin-top:10px;display:none" class="logined">
+							<div style="text-indent:1em;padding-top:5px;">
+								<font style="font-weight:bold;font-size:18px;color:#666666;">热门产品、近期培训</font>
+							</div>
+						
+							<div id="slider" class="mui-slider">
+								<div class="mui-slider-group mui-slider-loop" onclick="get_infos();">
+									<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+									<div class="mui-slider-item mui-slider-item-duplicate">
+										<a href="#">
+											<img src="img/slider2.jpg">
+										</a>
+									</div>
+									<!-- 第一张 -->
+									<div class="mui-slider-item">
+										<a href="#">
+											<img src="http://www.sjyjr.net/static/product/icon_3.jpg">
+										</a>
+									</div>
+									<!-- 第二张 -->
+									<div class="mui-slider-item">
+										<a href="#">
+											<img src="http://www.sjyjr.net/static/product/icon_4.jpg">
+										</a>
+									</div>
+									<!-- 第三张 -->
+									<div class="mui-slider-item">
+										<a href="#">
+											<img src="img/slider1.jpg">
+										</a>
+									</div>
+									<!-- 第四张 -->
+									<div class="mui-slider-item">
+										<a href="#">
+											<img src="img/slider2.jpg">
+										</a>
+									</div>
+									<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+									<div class="mui-slider-item mui-slider-item-duplicate">
+										<a href="#">
+											<img src="http://www.sjyjr.net/static/product/icon_3.jpg">
+										</a>
+									</div>
+								</div>
+								<div class="mui-slider-indicator">
+									<div class="mui-indicator mui-active"></div>
+									<div class="mui-indicator"></div>
+									<div class="mui-indicator"></div>
+									<div class="mui-indicator"></div>
+								</div>
+							</div>
+						</div>
+			        </div>	
+	
+					<div id="yourmsg" style="padding-top:5px; border:0px;">	
+<!-- 						<ul class="mui-table-view mui-table-view-chevron logined" >
+							<li class="mui-table-view-cell mui-media" onclick="parent.showNewFrame('menu_news.html', 'smask');">
+								<a class="mui-navigate-right">
+									<img class="mui-media-object mui-pull-left " id="head-img"  src="img/news.png">
+ 									<div class="mui-media-body" >
+										<ul id="news" >
+										
+										</ul>
+																																
+									</div>	
+								</a>
+							</li>
+						</ul> -->
+						<div class="logined" style="background-image:Url('img/news.png');background-repeat:no-repeat;background-color:#ffffff;padding:10px;min-height:60px;" onclick="parent.showNewFrame('menu_news.html', 'smask');">
+							<div class="rgt"></div>
+							<ul style="padding-left:60px;" id="news">
+								
+							</ul>
+							
+							
+						</div>
+					</div>
+
+		
+					<div class="mui-card" style="padding:6px;margin-left:0px;margin-right:0px;">	
+						<div style="height:30px;line-height:30px;text-indent:1em">
+							<font style="font-weight:bold;font-size:18px;color:#666666;">年度主推</font>
+						</div>			
+						<div class="mui-card-content"  >
+							<img src="img/loantype.jpg" alt="" width="100%"/>
+						</div>				
+					</div>
+					<div class="mui-card" style="padding:6px;margin-left:0px;margin-right:0px;">				
+						<div class="mui-card-content"  onclick="parent.showNewFrame('member_introduce.html', 'smask');">
+							<img src="http://www.sjyjr.net/static/img/zmhhr.png" alt="" width="100%" id="hhrtp"/>
+						</div>
+						<div class="mui-card-footer">
+							<a class="mui-card-link" onclick="top.call_server()">联系客服</a>
+							<a class="mui-card-link" onclick="top.call_server()">加入我们</a>
+						</div>					
+					</div>
+					
+					<div class="div_footer">————  世纪源金融服务  ————</div>
+				</div>
+			</div>		
+		<div class="div_fullscreen" style="display:none;">
+			<header class="mui-bar mui-bar-nav head_color">
+	            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="hide_me();" ></a>
+	           
+	            <h1 class="mui-title" style="font-weight:bold;color:#fff">贷款面签</h1>
+	       	 </header>
+	       	 <div class="mui-content mui-scroll-wrapper">
+			    <div class="mui-scroll" style="margin-top:35px;">	
+			     	<div class="mui-content">
+				    	<p style="color:#3e8ae8;text-align:center;">请选择需要签单的产品，找不到请选择【其他贷款】</p>		    	
+					  	<ul class="mui-table-view mui-grid-view mui-grid-9" style="background-color:rgba(2,2,2,0.0);padding-top:5px;border:0;border-bottom: 0px solid #d0d0d0;" >
+				            <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"  onClick="parent.showNewFrame('ajcj.html', 'smask');hide_me();">
+								<svg class="icon" aria-hidden="true">
+			                        <use xlink:href="#icon-xiaodaizhangdan"></use>
+			                    </svg> 
+			                   	<div class="name">其他贷款</div>
+				             </li>
+				             <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"  onClick="parent.showNewFrame('ajcj_zxd.html', 'smask');hide_me();">
+<!-- 								<svg class="icon" aria-hidden="true">
+			                        <use xlink:href="#icon-zhuangxiu"></use>
+			                    </svg>  -->
+			                    <img src="img/zxdtb.png"></img>
+				                 
+			                   	<div class="name">装修贷</div>
+				             </li>
+				             <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3"  onClick="parent.showNewFrame('ajcj_8014.html', 'smask');hide_me();">
+			<!-- 					<svg class="icon" aria-hidden="true">
+			                        <use xlink:href="#icon-tubiaozhizuomoban"></use>
+			                    </svg>  -->
+			                    <img src="img/cddtb.png"></img>
+			                   	<div class="name">车抵贷</div>
+				             </li>
+				        </ul>
+			        </div>
+			  	</div>
+	    	</div>
+		</div>
+		<script type="text/javascript">
+		function hide_me(){
+			$(".div_fullscreen").hide();
+			
+		}
+		
+		function show_me(){
+			$(".div_fullscreen").show();
+		}
+		</script>
+
+	</body>
+</html>

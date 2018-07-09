@@ -1,0 +1,274 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<script src="mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #fff;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+    overflow:auto;
+ 
+}
+.rgt {
+    width: 10px;
+    height: 18px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 12px;
+    background-size: 100% 100%;
+    background-image: url("img/right.png");
+}
+
+.rgt_span{
+    float:right;text-align:right;font-size:12px;color:#1296db;
+    padding-right:20px;
+}
+
+</style>
+</head>
+<script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+        thisURL = document.URL;
+      
+        mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		//返回键 tap事件监听
+		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+	  		this.click();
+                              return false;
+	  	});
+		//返回键 tap事件监听
+		  mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+		                        this.click();
+		                        return false;
+		                        });
+        $("#qssj").on("input propertychange",function(){
+            
+            if($(this).val().length>0){
+            	
+            $(this).addClass("full");
+            }
+            else{
+            $(this).removeClass("full");
+            }
+     
+       });
+		$("#jzsj").on("input propertychange",function(){
+       
+          if($(this).val().length>0){
+          $(this).addClass("full");
+          }
+          else{
+          $(this).removeClass("full");
+          }
+          
+        });
+        
+        localStorage.setItem("account_c", 1);
+        localStorage.setItem("info_flag", 1);
+    
+    }
+    
+    /*单笔查询*/
+    function query_aj() {
+        
+        $("#p1").attr("style", "display:block");
+        
+        
+        var data = {};
+        data.userid = localStorage.getItem("userid");
+        data.jkr_xm = $("#jkr_xm").val();
+        data.jkr_sfzh = $("#jkr_sfzh").val();
+        data.jkr_lxfs = $("#jkr_lxfs").val();
+        data.begindate = $("#qssj").val();
+        data.enddate = $("#jzsj").val();
+        /*
+        top.writelog("6007 send:"+JSON.stringify(data));
+        top.start_process();
+        $.ajax({
+               type : "post",
+               url: "http://www.sjyjr.net/app/6007;",
+               timeout: 10000,
+               data : data,
+               datatype : "json",
+               success :function(msg){
+                   top.stop_process();
+               showmessage(msg);
+               },
+               error:function(msg){
+                   top.stop_process();
+               top.alertInfo('通信失败');
+               }
+               });
+         */
+           top.http_comm("6007", data, showmessage);
+    }
+    
+    /*多笔查询*/
+    function querys_aj() {
+        
+        $("#p1").attr("style", "display:block");
+        
+        
+        var data = {};
+        data.userid = localStorage.getItem("userid");
+        
+        data.begindate = $("#qssj").val();
+        data.enddate = $("#jzsj").val();
+
+        top.start_process();
+        $.ajax({
+               type : "post",
+               url: "http://www.sjyjr.net/app/6008;",
+               timeout: 10000,
+               data : data,
+               datatype : "json",
+               success :function(msg){
+            	   top.stop_process();
+               showmessage(msg);
+               },
+               error:function(msg){
+            	   top.stop_process();
+               top.alertInfo('通信失败');
+               }
+               });
+               
+    }
+    
+    function removeAllNote(){
+    	//先删除所有子节点
+        var f = document.getElementById("p11"); 
+        var childs = f.childNodes; 
+
+        for(var i = childs.length - 1; i >= 0; i--) { 
+        	  
+        	  f.removeChild(childs[i]); 
+        }
+       
+    }
+    
+    function showmessage(msg){
+    
+    	top.writelog("6007 recv:"+msg);
+        var json=eval("("+msg+")");
+    
+        var data = json.data;
+       $("#p2").html('');
+       var p2_html = '';
+        if( data.length == 0){
+            top.alertInfo('没有相关案卷信息，请确认查询条件是否正确');
+        } else {
+            
+            for (var i = 0; i < data.length; i++ ){
+            	var jkr_xm = data[i].jkr_xm;
+                if(data[i].jkr_xm == '' || data[i].jkr_xm == 'null'){
+                    jkr_xm = "面签人员还未录入借款人姓名";
+                }
+                var time_s = data[i].fileno.substring(0,4)+"-"+data[i].fileno.substring(4,6)+"-"+data[i].fileno.substring(6,8);
+            	p2_html +='<li class="mui-table-view-cell" onclick="go_yh(\''+data[i].fileno+'\')"><a class="mui-navigate-right">'+jkr_xm+'<span class="rgt_span">'+time_s+'</span></a></li>';
+
+          
+            }
+            $("#p2").html(p2_html);
+            $("#div_query").attr("style", "margin-top:10px;text-align:center;margin-bottom:20px;");
+        }
+    }   
+    
+    function go_yh(fileno){
+    	var pos = localStorage.getItem("accountPosition");
+    	 if(pos == 'A' || pos == 'B' || pos == 'J' || pos == 'CP' || pos == 'D'){
+    		 showNewFrame('ajcx_detail.html?fileno='+fileno,'smask');
+         }else{ //没有案卷创建         
+        	 showNewFrame('flow_timeline.html?fileno='+fileno,'smask');
+         }
+          
+    }
+
+    
+
+    </script>
+    
+    <body >              
+
+	    <header class="mui-bar mui-bar-nav head_color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+			<h1 class="mui-title">案卷查询</h1>
+		</header>
+
+        <div class="container-fluid" >
+            <div class="mui-content mui-scroll-wrapper" >
+	    		<div class="mui-scroll top_head"> 
+                    <div class="mui-content-padded" style="margin: 5px;margin-top:0px;">
+						<form class="mui-input-group">
+							<div class="mui-input-row">
+								<label>客户名称</label>
+								<input type="text" placeholder="输入客户名称（全称）" id="jkr_xm">
+							</div>
+							<div class="mui-input-row">
+								<label>证件号码</label>
+								<input type="text" placeholder="证件号码" id="jkr_sfzh">
+							</div>
+							<div class="mui-input-row">
+								<label>联系方式</label>
+								<input type="tel" placeholder="输入联系方式" id="jkr_lxfs" maxlength="11">
+							</div>
+						</form>
+						<form class="mui-input-group">
+							<div class="mui-input-row">
+								<label>开始时间</label>
+								<input type="date" placeholder="请选择起始日期" id="qssj" style="height:41px;overflow: hidden;">
+							</div>
+						 
+							<div class="mui-input-row" >
+								<label>结束时间</label>
+								<input type="date" placeholder="请选择结束日期" id="jzsj" style="height:41px;overflow: hidden;">
+							</div>	
+						</form>					
+                   </div>
+                    <div style="margin-top:10px;text-align:center;margin-bottom: 20px; " onclick="query_aj();" id="div_query">
+						<button type="button" class="mui-btn  mui-btn-primary" style="width:90%">查询</button>
+					</div>
+                    
+                
+            
+	        		<div class="mui-card"  style="margin-top:10px;">
+						<ul class="mui-table-view"  id="p2" >
+							<p style="text-align:center;height:60px;line-height:60px">默认查询为三个月内的所有案卷</p>
+						</ul>										
+					</div>
+                	<div class="form_div" style="height:140px;line-height:140px;color:#f4f4f4;">案卷查询页面</div>
+            	</div>            
+        	</div>
+        </div>
+        
+    </body>
+</html>

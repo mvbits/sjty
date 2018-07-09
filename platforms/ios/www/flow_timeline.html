@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">                   
+<link href="css/index.css" rel="stylesheet">                      
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/timeline.css" />   
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<script src="mui/js/mui.min.js"></script>                               
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>                              
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>                                
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+	background: #fff;
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	color:#000;
+	margin: 0;
+	padding: 0;
+}
+
+.mui-switch:before{
+	font-size: 13px;
+	position: absolute;
+	top: 3px;
+	right: 11px;
+	content: attr(data-off);
+	text-transform: uppercase;
+	color: #999;
+}
+.mui-switch.mui-active:before{
+	right: auto;
+	left: 15px;
+	content: attr(data-on);
+	color: #fff;
+}
+.pass{
+	display:none;
+}
+
+p{
+	color:#4d4d4d;
+}
+.des{
+	padding-top:10px;
+	margin: 1.5em 0;
+}
+.des>li{
+	padding-left:15px;
+	font-size: 14px;
+	color: #4d4d4d;
+}
+
+.cd-read-more{
+	background-color:#fafafa;
+	width:40px;
+	padding:5px;
+	height:25px;
+	line-height:20px;
+	-webkit-box-shadow: 0 0 2px rgba(0, 204, 204, 0.5);  
+  	-moz-box-shadow: 0 0 2px rgba(0, 204, 204, 0.5);  
+  	box-shadow: 0 0 2px rgba(0, 204, 204, 0.5);
+}
+.hides{
+	display:none;
+}
+</style>
+<script type="text/javascript">
+var json;
+var count;
+var fileno;
+var flow;
+
+var currentPoint;
+var beiz;
+var level;
+var userid;
+var pos;
+var flow_now=0;
+document.addEventListener("DOMContentLoaded", initial);
+function initial() {
+  	mui.init({
+    		swipeBack:true //启用右滑关闭功能
+    	});
+    	mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+      }); 
+      //返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back', function(e) {
+                            this.click();
+                            return false;
+                            });
+    //返回键 tap事件监听
+    mui(document.body).on('tap', '.mui-action-menu', function(e) {
+                          this.click();
+                          return false;
+                          });
+    
+  //这个类的点击不敏感，这样试试
+    mui(document.body).on('tap', '.cd-read-more', function(e) {
+                          this.click();
+                          return false;
+                          });
+   
+	var thisURL = document.URL;
+	                                        
+	var getenv = thisURL.split('?')[1];
+	fileno = getenv.split('=')[1];
+	
+	//$("#fileno").html("案卷编号："+fileno);
+	$("#trandate").html("签单时间："+fileno.substring(0,4)+"年"+fileno.substring(4,6)+"月"+fileno.substring(6,8)+"日");
+	initPage();
+	
+	level = localStorage.getItem("level");
+	userid = localStorage.getItem("userid");
+	pos = localStorage.getItem("accountPosition");
+      
+}
+  
+function initPage(){
+    
+    var data = {};
+    data.userid = localStorage.getItem("userid");
+    data.fileno = fileno;
+    
+
+    
+    top.http_comm("6016", data, showinfo);
+    
+           
+}
+  
+var fileflow;
+var loaninfo;
+var is_finish = '0';
+function showinfo(msg){
+	 
+	var json=eval("("+msg+")");
+	
+	
+	var loanflow = json.data.loanflow;
+	fileflow = json.data.fileflow;
+	loaninfo = json.data.loaninfo;
+	//存储贷款信息，用于展示流转详细内容
+	localStorage.setItem("lz_loaninfo", JSON.stringify(loaninfo));
+	is_finish = loaninfo.is_finish;
+	
+	count = loanflow.length;
+	currentPoint = json.data.flow;
+	flow_now = json.data.flow;
+	
+	//尾款贷不显示还款方式
+	if(loaninfo.loantype == "8010"){
+		$("#dk_hkfs").hide();
+	}
+	
+	flow = json.data.flow;
+	var beiz = json.data.loaninfo.beiz;
+	if(!top.isEmpty(beiz)){
+	//	if(currentPoint == 1){
+			  mui.alert("面签备注:"+json.data.loaninfo.beiz, "世纪源金融 ", null);   
+	//	}
+		$("#jbr_beiz").html("<font style='font-weight:bold;color:red'>备注信息</font>:"+beiz);
+	}else{
+		$("#jbr_beiz").hide();
+	}
+	
+
+    
+	var info_html = '';
+	$("#cd-timeline").html(''); //初始化时间轴
+	
+	var level  = localStorage.getItem("level");//用户级别
+	var login_user = localStorage.getItem("userid");//登录用户
+    for(var i = 0; i < fileflow.length; i++){
+    	                                   
+   	
+    	if(fileflow[i].isback == 1) //不展示回退步骤
+        	continue;
+    	// top.writelog(i+"loanflow="+loanflow[i]);
+   	 	top.writelog(i+"fileflow="+JSON.stringify(fileflow[i]));
+        var tmp_html = '';
+        var time_s = '';
+        var img_s = '';
+        
+        //时间处理、图片处理,没有 enddate就可以理解为还在处理，当然，也可以用flowstat 0-处理中 1-处理完成 来判断
+        if(fileflow[i].enddate!= '' ){
+			time_s = "完成时间："+fileflow[i].enddate;
+			img_s = "img/finish.png"
+        }else{
+			time_s = "完成时间："+"正在处理...";
+			img_s = "img/doing.png";
+        }
+        
+        var time_begin = '';
+        if(fileflow[i].begindate!= '' ){
+        	time_begin = "开始时间："+fileflow[i].begindate;
+			
+        }else{
+        	time_begin = "未获取到开始时间";
+			
+        }
+        
+        //备注
+		var beiz_tmp='';
+        
+        //现在备注保存比较混乱，优先取beiz节点没有就取note节点
+        if(!top.isEmpty(fileflow[i].beiz)){
+        	beiz_tmp = "备注："+fileflow[i].beiz; 
+        }else{
+        	if(fileflow[i].note.length == 0 || fileflow[i].note == "off"){
+    			beiz_tmp = "备注：无";
+    		}else{
+    			beiz_tmp = "备注："+fileflow[i].note; 
+    		}
+        }
+
+        
+		var flow_user = fileflow[i].userid;//该流程的经办人
+		var info_div = '';
+		top.writelog("flow_user="+flow_user+";login_user="+login_user+";level="+level);
+		if((flow_user.toLowerCase() == login_user.toLowerCase()) || (level == 1)){ //是经办者本人，或管理人员
+			info_div = '<a class="cd-read-more " target="_blank" onclick="query_fileflow(\''+fileflow[i].number+'\',\''+fileflow[i].flowname+'\',\''+fileflow[i].flow+'\', \'1\')">详情</a>';
+		}else{
+			
+			info_div = '<a class="cd-read-more " target="_blank" onclick="query_fileflow(\''+fileflow[i].number+'\',\''+fileflow[i].flowname+'\',\''+fileflow[i].flow+'\', \'0\')">详情</a>';
+				
+		}
+		//展示模块
+       if( i == (fileflow.length -1)){
+       		tmp_html = '<div class="cd-timeline-block"><div class="cd-timeline-img cd-movie">'				
+			+'<img src="'+img_s+'" alt="Movie"></div><div class="cd-timeline-content">'
+			+info_div+'<h2>'+fileflow[i].flowname+'</h2>'					
+			+'<div style="display:block" class="info"><p>经办人：'+fileflow[i].account_name+'</p>'
+			+'<p onclick="myphone_new('+fileflow[i].account_tel+')">联系方式：<font style="text-decoration:underline;color:blue">'+fileflow[i].account_tel+'</font></p>'																
+			+'<p style="line-height:16px;">'+beiz_tmp+'</p><span class="cd-date">'+time_begin+'</span><span class="cd-date">'+time_s+'</span></div></div></div>';
+            if(fileflow[i].note.length == 0 || fileflow[i].note == "off"){
+              
+            }else{
+                 top.alertInfo(fileflow[i].note);
+            }
+
+       }else{
+       		tmp_html = '<div class="cd-timeline-block"><div class="cd-timeline-img cd-picture">'				
+			+'<img src="'+img_s+'" alt="Picture"></div><div class="cd-timeline-content">'
+		//	+'<a class="cd-read-more" target="_blank" onclick="query_fileflow(\''+fileflow[i].number+'\',\''+fileflow[i].flowname+'\',\''+fileflow[i].flow+'\')">详情</a><h2>'+fileflow[i].flowname+'</h2>'					
+			+info_div+'<h2>'+fileflow[i].flowname+'</h2>'
+			+'<div style="display:none" class="info"><p>经办人：'+fileflow[i].account_name+'</p>'
+			+'<p onclick="myphone_new('+fileflow[i].account_tel+')">联系方式：<font style="text-decoration:underline;color:blue">'+fileflow[i].account_tel+'</font></p>'																
+			+'<p style="line-height:16px;">'+beiz_tmp+'</p><span class="cd-date">'+time_begin+'</span><span class="cd-date">'+time_s+'</span></div></div></div>';
+       }
+        
+					
+		info_html = tmp_html + info_html;
+
+    }
+    $("#cd-timeline").html(info_html); //初始化时间轴
+    
+
+	var dk_gjj = 0.00;
+	var dk_sd = 0.00;
+	var dk_sum = 0.00;
+    if(loaninfo.dk_je == 0 ){
+    	dk_sd = loaninfo.dk_sqje;     
+    }else{
+    	dk_sd = loaninfo.dk_je;
+    }
+    
+    if(loaninfo.dk_gjj_je == 0 ){
+    	dk_gjj = loaninfo.dk_gjj_sqje;      
+    }else{
+    	dk_gjj = loaninfo.dk_gjj_je;
+    }
+    dk_sum = dk_gjj*1.00 + dk_sum *1.00;
+    
+    var dk_amt_s = '';
+    if( loaninfo.loantype == "8001"){
+		dk_amt_s = "贷款金额：<font style='color:#18b4ed'>"+dk_gjj+"</font>万元";        
+    } else if ( loaninfo.loantype == "8003"){		
+    	dk_amt_s = "贷款合计：<font style='color:#18b4ed'>"+dk_sum+"</font>万元" + "； 其中 公积金：<font style='color:#18b4ed'>"+dk_gjj+"</font>万元|商贷：<font style='color:#18b4ed'>"+dk_sd+"</font>万元";
+    } else {
+    	dk_amt_s = "贷款金额：<font style='color:#18b4ed'>"+dk_sd+"</font>万元";
+    }
+    
+    $("#cpzl").html("产品种类："+cpzl_map[loaninfo.loantype]);
+    $("#dk_je").html(dk_amt_s);
+  
+  //  $("#jkr_xm").html("借款人："+loaninfo.jkr_xm);
+    if(top.isEmpty(loaninfo.jkr_xm)){
+    	$("#jkr_xm").html("借  款  人：<font style='color:red'>面签人员还未录入借款人姓名</font>");
+    }else{
+    	$("#jkr_xm").html("借  款  人：<font style='color:#18b4ed'>"+loaninfo.jkr_xm+"</font>");
+    }
+    
+    if(top.isEmpty(loaninfo.mf_xm)){
+    	$("#mf_xm").html("产  权  人：<font style='color:#18b4ed'>面签人员还未录入产权人姓名</font>");
+    }else{
+    	$("#mf_xm").html("产  权  人：<font style='color:#18b4ed'>"+loaninfo.mf_xm+"</font>");
+    }
+    
+    if(top.isEmpty(loaninfo.bankname)){
+    	$("#bankname").html("申贷机构：style='color:res'>面签人员还未选择审贷机构</font>");
+    }else{
+    	$("#bankname").html("申贷机构：<font style='color:#18b4ed'>"+loaninfo.bankname+"</font>");
+    }
+  //  $("#bankname").html("申贷机构："+loaninfo.bankname);
+  //  $("#dk_qx").html("贷款期限："+loaninfo.dk_qx+"月");
+    if(top.isEmpty(loaninfo.dk_qx)){
+    	$("#dk_qx").html("贷款期限：0 月");
+    }else{
+    	$("#dk_qx").html("贷款期限：<font style='color:#18b4ed'>"+loaninfo.dk_qx+"</font>月");
+    }
+    
+    
+    
+  	//$("#jbrbz").html("备注："+json.data.loaninfo.beiz);
+    
+    top.writelog("dk_hkfs="+loaninfo.dk_hkfs);
+
+	if(loaninfo.dk_hkfs == '1' ){
+	    $("#dk_hkfs").html("还款方式：等额本金");    	
+	}else if(loaninfo.dk_hkfs == '2' ){
+	    $("#dk_hkfs").html("还款方式：等额本息");  	       
+	}else if(loaninfo.dk_hkfs == '3' ){
+	    $("#dk_hkfs").html("还款方式：先息后本");  	       
+	}else if(loaninfo.dk_hkfs == '4' ){
+	    $("#dk_hkfs").html("还款方式：等本等息");  	       
+	}
+    if(loaninfo.fc_pgzj.length > 0){
+        $("#fc_pgzj").html("评估总价：<font style='color:#18b4ed'>"+loaninfo.fc_pgzj + "</font>万");
+      
+        }else{
+        	$("#fc_pgzj").html("评估总价：还未出评估价格");
+        }
+  //  alert("cplz="+cpzl);
+   if(loaninfo.loantype == "8009"){
+	   $("#fc_pgzj").hide();
+   }
+   if(loaninfo.loantype == "8013"||loaninfo.loantype == "8014"){
+	   $("#fc_pgzj").hide();
+	   $("#mf_xm").hide();
+   }
+    if(top.isEmpty(loaninfo.fc_dz)){
+    	
+    	if(loaninfo.loantype == "8014"){
+    		$("#fc_dz").html("车辆品牌：面签人员还未录入");
+    	}else{
+    		$("#fc_dz").html("房产地址：面签人员还未录入");
+    	}
+    	$("#fc_mj").hide();
+    }else{
+    	
+    	if(loaninfo.loantype == "8014"){   		
+    		$("#fc_dz").html("车辆品牌："+loaninfo.fc_dz);
+    		$("#fc_mj").html("车辆型号："+loaninfo.fc_mj);//房产地址
+    	}else{    		
+    		$("#fc_dz").html("房产地址："+loaninfo.fc_dz);
+    		$("#fc_mj").html("房产面积："+loaninfo.fc_mj+"平米");//房产地址
+    	}
+    	$("#fc_mj").show();
+    	
+    }
+    
+    
+    //信用贷不显示以下三项 8005-8006-8007-8008-8011-8012
+    if(loaninfo.loantype == "8006" || loaninfo.loantype == "8007" ||loaninfo.loantype == "8008" ||loaninfo.loantype == "8011" ||loaninfo.loantype == "8012"){
+        $("#mf_xm").hide();
+        $("#fc_dz").hide();
+        $("#fc_mj").hide();
+        $("#fc_pgzj").hide();
+    }
+    
+
+  //  $("#fc_dz").html("房产地址："+loaninfo.fc_dz);
+  //  $("#fc_mj").html("房产面积："+loaninfo.fc_mj+"平米");//房产地址
+    
+    
+  //  $(".cd-read-more").click( function(){
+	  //点击左边图标展示或隐藏详细内容
+    $(".cd-timeline-img").click( function(){
+    	//  $(".info:eq(" + $(this).index(".cd-read-more") + ")").slideToggle("slow");
+    	$(".info:eq(" + $(this).index(".cd-timeline-img") + ")").slideToggle("fast");
+      });
+	  
+	  
+	 var isend = fileflow[fileflow.length - 1];
+  //处理剩余流程
+	var more_html = '';
+	$("#more_flow").html('');
+	var len = loanflow.length - 1;
+	for(var i = len; i >= currentPoint; i--){
+		more_html += '<h5>流程.'+(i+1)+'：'+loanflow[i].flowname+'</h5>';
+	}
+	$("#more_flow").html(more_html);
+	
+	if(isend == '1'){
+		$("#more_flow_div").hide();
+	
+	}
+	
+	
+	//功能菜单点击效果					
+	$('.cd-read-more').each(function(){
+		var $obj=$(this);
+		this.addEventListener('touchstart',function(){
+			$obj.css('background-color','#3e8ae8');
+		}, false);
+		
+		this.addEventListener('touchend',function(){
+			$obj.css('background-color','');
+		}, false);
+		
+	});	
+}
+ 
+
+function myphone(lxfs){
+    
+    top.call_phone("联系方式:"+$("#"+lxfs).html());
+}
+function myphone_new(lxfs){
+    
+    top.call_phone("联系方式:"+lxfs);
+}
+ 
+
+
+function show_old_page(){
+ if(is_finish == '0'){
+	 top.alertinfo("该案卷还处于补充资料阶段，暂不能获取详细信息");
+	 return;
+ }
+ showNewFrame("flow_new.html?fileno="+fileno,'smask');
+}
+ 
+function query_fileinfo(){
+    showNewFrame("ajcx_detail.html?fileno="+fileno,'smask');
+}
+//0-案卷流转计数 1-流程名 2-流程号 3-是否可见图片
+function query_fileflow(number, flowname, flow, flag){  
+	
+	localStorage.setItem("flowname_now", flowname);
+	top.writelog('ajlz_show.html?fileno='+fileno+'&number='+number+'&flow='+flow+'&flag='+flag);
+    showNewFrame('ajlz_show.html?fileno='+fileno+'&number='+number+'&flow='+flow+'&flag='+flag,'smask');
+}
+
+ 
+ function show_beiz(){
+ 	
+     var data = {};
+     data.fileno = fileno;                           
+     data.flowno = flow_now;
+
+     top.http_comm("6059", data, function(){
+    	 top.writelog("6058 recv:"+msg);
+         var json=eval("("+msg+")");
+
+         if(json.data.length  == 0){  
+      	   $("#more_beiz").html('没有其他备注信息');
+      	   return;
+         }
+         $("#more_beiz").html('');
+         var childHtml=''
+         for(var i = 0; i < json.data.length; i++){
+      	   childHtml += '<p>'+json.data[i].createdatetime+'：'+json.data[i].beiz+'</p>';
+         }
+         $("#more_beiz").html(childHtml);
+         $("#more_beiz").slideDown();
+     });
+ 
+ }
+ 
+ function show_all_flow(){
+	 $(".pass").show();
+ }
+ 
+ </script>
+                                    
+                                    
+</head>
+    <body>
+
+    <header class="mui-bar mui-bar-nav head_color">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+        <a  class="mui-action-menu mui-icon mui-icon-phone mui-pull-right"  onclick="top.call_server()"><font style="font-size:13px">App客服</font></a>
+        <h1 class="mui-title" style="font-weight:bold;">案卷流程</h1>
+    </header>
+   
+   	<div class="mui-content mui-scroll-wrapper" >
+	    <div class="mui-scroll" style="background: #fafafa;">
+		    <div class="mui-content-padded" style="margin-top:25px;border-bottom:1px solid #18b4ed">				
+				<ul class="des">
+<!-- 				<li id="fileno"></li> -->
+					<li id="trandate"></li>
+					<li id="dk_qdsj"></li>
+					<li id="jkr_xm"></li>
+					<li id="mf_xm"></li>
+					<li id="bankname"></li>
+					<li id="cpzl"></li>
+					<li id="dk_je"></li>
+					<!-- 年限，还款方式，评估总价 -->
+					<li id="dk_qx"></li>
+					<li id="dk_hkfs"></li>
+					<li id="fc_pgzj"></li>
+					<li id="fc_mj" style="display:none"></li>
+					<li id="fc_dz" ></li>
+					
+<!-- 					<li id="jbr_name"></li> -->
+<!-- 					<li onclick="myphone('jbr_lxfs')" id="jbr_lxfs"></li> -->
+<!-- 					<li id="jbr_clsj"></li> -->
+<!-- 					<li id="flow_stat"></li> -->
+<!-- 					<li id="li_flowstat"></li> -->
+ 					<li id="jbr_beiz"></li> 
+					<li style="text-align:right;" onclick="show_old_page();"><font style="text-decoration:underline;color:blue">更多</font></li>
+				</ul>
+			</div>
+			<div class="mui-card" id="more_flow_div">
+				<ul class="mui-table-view">
+			 		<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">剩余流程</a>
+						<div class="mui-collapse-content" id="more_flow">
+					
+						</div>
+					</li>
+				</ul>
+			</div>    	
+	    	<p style="text-align:right; margin-bottom:-50px;">点击左边图标可以展示或隐藏详细信息</p>
+			<section id="cd-timeline" class="cd-container">
+				
+			</section>
+		</div>
+	</div>
+</body>
+</html>

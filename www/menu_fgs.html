@@ -1,0 +1,386 @@
+﻿<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="js/lib/jQuery/jquery-2.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+	
+<style>
+body{
+	 background: #fff;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+        
+}
+ .red_div{
+ 	float:right;
+ 	top:2px;
+ 	right:66%;
+ 	position:absolute;
+ 	height:20px;
+ 	width:20px;
+ 	text-align: center;
+	align-items: center;
+	justify-content: center;
+	z-index:10011;
+   	border-radius:30px;
+   	box-shadow: 0 0 3px #222;
+   	background: red;
+   	color: #333;
+}
+.mui-bar .mui-pull-left .mui-icon {
+	padding-right: 5px;
+	font-size: 28px;
+}
+
+.mui-bar .mui-btn {
+	font-weight: normal;
+	font-size: 17px;
+}
+
+.mui-bar .mui-btn-link {
+	top: 1px;
+}
+
+.mui-content img{
+	width: 100%;
+}
+.hm-description{
+	margin: 15px;
+}
+
+.hm-description>li {
+	font-size: 14px;
+	color: #8f8f94;
+}
+.head_color_tmp{top:0;background-color:rgba(24,180,237,0。0);-webkit-box-shadow:none;box-shadow:none;height:70px;padding-top:25px;}
+	
+
+ .rgt_search {
+   width: 16px;
+   height: 16px;
+   float: right;
+   margin-right: 16px;
+   margin-top: 4px;
+   background-size: 100% 100%;
+   background-image: url("img/search.png");
+ }
+ .head_div{
+	text-align:center;
+	border-radius: 15px;
+	font-size:13px;
+	font-weight:bold;
+	background:rgba(235,236,237,1.0);
+	height:25px;
+	line-height:25px;
+	margin-top:10px;
+	margin-left:15px;
+	margin-right:15px;
+	color:#8e8e8e;
+}
+  .red_div{
+float:right;
+top:-4px;
+right:40px;
+position:absolute;
+height:20px;
+line-height:20px;
+width:20px;
+text-align: center;
+align-items: center;
+justify-content: center;
+z-index:10011;
+border-radius:30px;
+box-shadow: 0 0 3px #222;
+background: red;
+color: #ffffff;
+font-size:13px;
+
+}
+         .div_fullscreen{       
+    z-index:9998;background-color:rgba(244,244,244,1);width:100%;height:100%;position: fixed;top:0px;
+}
+.dingzhu{
+	top:70px;
+	left:0px;
+    width:100%;   
+    height: 80px;   
+    background: #ffffff;
+    position: fixed;
+    z-index:9997;
+    -webkit-box-shadow:none;box-shadow:none
+}
+
+
+.head_icon{
+	color:#4c4c4c;
+	font-size:32px;
+}
+.head_icon_big{
+	color:#4c4c4c;
+	font-size:40px;
+}
+
+		</style>
+		<script>
+		var thisURL; 
+		var images = ["img/logo.png",
+		              "img/cha.png",
+		              "img/he.png",
+		              "img/diao.png"];
+		var types = ["我要贷款",
+		             "我要取款",
+		             "我要理财",
+		             "其他金融需求"];
+		 var flag = 0;
+		 var head_flag = 0;
+		document.addEventListener("DOMContentLoaded", initial);
+		function initial() {
+			/*当前页面URL*/
+			thisURL = document.URL; 
+			localStorage.setItem("thisURL", thisURL);
+			$(".mui-bar").attr("style", "background-color:rgba(4,159,241,0.0);-webkit-box-shadow:none;box-shadow:none");
+			/*mui框架初始化，为id=pullrefresh的容器添加下拉刷新事件*/
+			mui.init({
+				
+				pullRefresh: {
+					container: '#pullrefresh',
+					
+					down: {		
+						height: 50,
+						contentinit: '下拉可以刷新',
+						contentdown: '下拉可以刷新',
+						contentover: '释放立即刷新',
+						contentrefresh: '正在刷新...',
+						auto:false,
+						callback: pulldownRefresh
+					}					
+				}			
+			});
+			
+			/*容器滚动设置*/
+			mui('.mui-scroll-wrapper').scroll({
+                deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006 
+			});
+			
+			/*为容器里class=mui-card的模块添加tap事件（移动端一般用tap事件替代click事件）*/
+			mui("#pullrefresh").on('tap', '.mui-card', function (event) {
+				this.click();
+				});
+			
+			/*为id=search_key的input空间添加触发事件,内容被修改时触发auto_complete方法*/
+		//	$('#search_key').bind('input propertychange', auto_complete);
+			
+			/*为容器里class=mui-table-view切子模块class=mui-table-view-cell的模块添加tap事件（移动端一般用tap事件替代click事件）*/
+			mui(".mui-table-view").on('tap', '.mui-table-view-cell', function (event) {
+				this.click();
+				});
+			
+			//查询最近的检查信息
+			//initPage();
+			
+			/*监听容器滚动事件*/ 
+			
+		    document.querySelector('.mui-scroll-wrapper' ).addEventListener('scroll', function (e ) { 
+			     
+		    	
+				var down = mui('.mui-scroll-wrapper').scroll().y;
+				var h = 0 - mui('.mui-scroll-wrapper').scroll().y;
+			
+				
+				/*当页面弹回到初始位置时，修改id=ul_img的容器的样式*/
+				if(mui('.mui-scroll-wrapper').scroll().y == 0){
+					$("#ul_img").attr("style", "background:#ffffff;margin-top:-50px;padding-top:5px;border:0;border-bottom: 1px solid #d0d0d0;");
+					
+					$(".mui-bar").attr("style", "background-color:rgba(4,159,241,0.0);-webkit-box-shadow:none;box-shadow:none");
+					if($(".mui-bar").is('.header_jb')){
+		 				$(".mui-bar").removeClass("header_jb");
+		 			}
+				}
+				/*当页面下拉时且垂直距离小于50时，修改id=ul_img的容器的样式*/
+				if(mui('.mui-scroll-wrapper').scroll().y > 0 && mui('.mui-scroll-wrapper').scroll().y < 50){
+				 
+					var img_h = 50 - mui('.mui-scroll-wrapper').scroll().y;
+					$("#ul_img").attr("style", "margin-top:-"+ img_h +"px;background:#ffffff;padding-top:5px;border:0;border-bottom: 1px solid #d0d0d0;");
+				}
+				
+				/*容器上滑时修改状态栏的透明度*/
+				if(mui('.mui-scroll-wrapper').scroll().y < 0){
+					if(Math.abs(h) < 155 ){
+						$(".mui-bar").attr("style", "background-color:rgba(4,159,241,"+h/155+");-webkit-box-shadow:none;box-shadow:none");
+						if($(".mui-bar").is('.header_jb')){
+			 				$(".mui-bar").removeClass("header_jb");
+			 			}
+					}else{
+						/*状态栏显现时，切换到header_jb类，渐变色*/
+						if(!$(".mui-bar").is('.header_jb')){
+			 				$(".mui-bar").addClass("header_jb");
+			 			}
+					}
+				}
+				
+				/*根据滚动条位置，调整功能模块（上滑时触发）,flag为顶部功能栏标志， flag=1时，顶部功能栏出现*/
+				if(flag == 0){ 
+					if( h > 155){				 
+						$("#guding").fadeIn();
+						flag = 1;
+					}
+				}else{
+					if( h <155){					  
+						flag = 0;
+						$("#guding").fadeOut();
+						if($(".mui-bar").is('.header_jb')){
+							$(".mui-bar").attr("style", "background-color:rgba(4,159,241,0.0);-webkit-box-shadow:none;box-shadow:none");
+			 				$(".mui-bar").removeClass("header_jb");
+			 			}
+						
+					}
+				}
+			
+			});
+		}
+		
+		/*页面初始化方法, 查询当前用户的动态，并展示在功能栏下方*/
+		function initPage(){
+
+		}
+		
+
+		
+
+		/*判断对象是否为空*/
+		function isEmpty(obj) {
+
+			if(!obj && obj == 0 && obj == '') {　　　　　　　　　
+			  return true;
+			}
+			
+			if(Array.prototype.isPrototypeOf(obj) && obj.length == 0) {
+				　　　return true;
+			}
+			
+			if(Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length == 0) { 
+				
+				　return true; 　　　
+			}
+			return false; 
+		}
+		
+
+
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				initPage();
+			
+			//	mui.toast("没有更多信息了");
+			}, 1500);
+		}
+		
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		 var count=3;
+		function pullupRefresh() {
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+				initPage();
+			
+			//	mui.toast("没有更多信息了");
+			}, 1500);
+		} 
+
+</script>
+</head>
+<body style="background:#f4f4f4;">
+
+        <header class="mui-bar head_tmp_color">				
+			<h1 class="mui-title">世纪源金融服务</h1>		
+		</header>
+		<div id="guding" style="display:none;margin-top:-1px;border-bottom: 1px solid #d0d0d0;" class="dingzhu">				  	
+			<ul class="mui-table-view mui-grid-view mui-grid-9" style="background:#ffffff;padding-top:5px;border-bottom: 1px solid #d0d0d0;" >
+	    
+          	    <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="border:0" onClick="parent.showNewFrame('ajcx.html', 'smask');">
+	                    <span class="mui-icon iconfont icon-chaxun" style="color:#18b4ed;font-size:32px;"></span>
+	                    <div class="mui-media-body" style="font-size:12px;font-weight:bold;">案卷查询</div>
+	            </li>					   				     				  
+	            <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="border:0" onClick="parent.showNewFrame('fgs_gdcx.html', 'smask');">
+	                    <span class="mui-icon iconfont icon-paiming" style="color:#18b4ed;font-size:32px;"></span>
+	                    <div class="mui-media-body" style="font-size:12px;font-weight:bold;">分公司排名</div>
+	            </li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="border:0" onClick="parent.showNewFrame('aj_hkjh.html', 'smask');">
+	                    <span class="mui-icon iconfont icon-jihua" style="color:#18b4ed;font-size:32px;"></span>
+	                    <div class="mui-media-body" style="font-size:12px;font-weight:bold;">还款计划</div>
+	            </li>	
+         
+	            	            
+	        </ul> 
+        </div>
+		<div class="container-fluid">
+			<div  id="pullrefresh" class="mui-content mui-scroll-wrapper" style="background-color:#ffffff">			
+			    <div class="mui-scroll">
+			    	<div style="height:145px;line-height:145px;margin-top:-145px;background-color:#ffffff;text-align:center"><span >--顶部--</span></div>
+				  	<div id="indiv">
+					  	<img id="img1" src="img/header.png" style="height:380px;margin-top:-100px;"/>
+					  	<ul id="ul_img" class="mui-table-view mui-grid-view mui-grid-9" style="background:#ffffff;margin-top:-50px;padding-top:5px;border:0;border-bottom: 1px solid #d0d0d0;" >
+				      
+				            <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="border:0" onClick="parent.showNewFrame('ajcx.html', 'smask');">
+				                    <span class="mui-icon iconfont icon-chaxun" style="color:#18b4ed;font-size:32px;"></span>
+				                    <div class="mui-media-body" style="font-size:12px;font-weight:bold;">案卷查询</div>
+				            </li>					   				     				  
+				            <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="border:0" onClick="parent.showNewFrame('fgs_gdcx.html', 'smask');">
+				                    <span class="mui-icon iconfont icon-paiming" style="color:#18b4ed;font-size:32px;"></span>
+				                    <div class="mui-media-body" style="font-size:12px;font-weight:bold;">分公司排名</div>
+				            </li>
+				            <li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="border:0" onClick="parent.showNewFrame('aj_hkjh.html', 'smask');">
+				                    <span class="mui-icon iconfont icon-jihua" style="color:#18b4ed;font-size:32px;"></span>
+				                    <div class="mui-media-body" style="font-size:12px;font-weight:bold;">还款计划</div>
+				            </li>
+				        		            					            		            
+				        </ul> 
+			        </div>	
+			    	
+					<div id="yourmsg">	
+		
+						
+					</div>
+					<div style="height:100px;line-height:100px;text-align:center"><span style="font-size:12px;color:#ffffff">————到底了————</span></div>
+				</div>
+			</div>		
+		</div>
+		
+		<script type="text/javascript">
+		//功能菜单点击效果					
+		$('li').each(function(){
+			var $obj=$(this);
+			this.addEventListener('touchstart',function(){
+				$obj.css('background-color','#cccccc');
+			}, false);
+			
+			this.addEventListener('touchend',function(){
+				$obj.css('background-color','');
+			}, false);
+			
+		});	
+		</script>
+
+	</body>
+</html>

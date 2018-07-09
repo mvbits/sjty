@@ -1,0 +1,427 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" type="text/css" href="mui/css/icons-extra.css" />
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script src="js/lib/jQuery/jquery-2.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+	
+<style>
+body{
+	 background: #f4f4f4;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+        
+}
+
+.mui-bar .mui-pull-left .mui-icon {
+	padding-right: 5px;
+	font-size: 28px;
+}
+
+.mui-bar .mui-btn {
+	font-weight: normal;
+	font-size: 17px;
+}
+
+.mui-bar .mui-btn-link {
+	top: 1px;
+}
+
+.mui-content img{
+	width: 100%;
+}
+.hm-description{
+	margin: 15px;
+}
+
+.hm-description>li {
+	font-size: 14px;
+	color: #8f8f94;
+}
+
+
+.dingzhu{
+	top:70px;
+	left:0px;
+    width:100%;   
+    height: 80px;   
+    background-color:#007aff;;
+    position: fixed;
+    z-index:9997;
+    -webkit-box-shadow:none;box-shadow:none
+}
+
+
+li{
+    background-color:#fff;
+}
+
+li .name{
+	font-size:12px;
+	font-weight:bold;
+	color:#4B4B4B;
+}
+.mui-slider-item{
+	padding:10px;
+	
+}
+.mui-slider-item img{
+	border-radius: 5px;
+	height:50vw;
+}
+
+.nologined{
+	margin-top:10px;
+	padding:10px;
+	background: #f4f4f4;
+}
+
+.icon {
+	/* 通过设置 font-size 来改变图标大小 */
+	width: 2em; height: 2em;
+	/* 图标和文字相邻时，垂直对齐 */
+	vertical-align: 1em;
+	/* 通过设置 color 来改变 SVG 的颜色/fill */
+	fill: currentColor;
+	/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+	   normalize.css 中也包含这行 */
+	overflow: hidden;
+}
+</style>
+<script>
+		var thisURL; 
+		var images = ["img/logo.png",
+		              "img/cha.png",
+		              "img/he.png",
+		              "img/diao.png"];
+		var types = ["我要贷款",
+		             "我要取款",
+		             "我要理财",
+		             "其他金融需求"];
+		 var flag = 0;
+		 var head_flag = 0;
+         var start_flag = 0;
+         var start = 0;
+		document.addEventListener("DOMContentLoaded", initial);
+		function initial() {
+			/*当前页面URL*/
+		
+	
+			/*mui框架初始化，为id=pullrefresh的容器添加下拉刷新事件*/
+			mui.init({
+				
+				pullRefresh: {
+					container: '#pullrefresh',
+					
+					down: {		
+						height: 50,
+						contentinit: '下拉可以刷新',
+						contentdown: '下拉可以刷新',
+						contentover: '释放立即刷新',
+						contentrefresh: '正在刷新...',
+						auto:false,
+						callback: pulldownRefresh
+                     },
+                     up: {//上拉加载更多
+                         height: 50,
+                         contentinit: '上拉可以刷新',
+                         contentdown: '上拉可以刷新',
+                         contentover: '释放立即刷新',
+                         contentrefresh: '正在刷新...',
+                         auto:false,
+                         callback: pullupRefresh
+                     }
+				}			
+			});
+			
+			/*容器滚动设置*/
+			mui('.mui-scroll-wrapper').scroll({
+                deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006 
+			});
+
+			 //返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-action-back', function(e) {
+				this.click();
+				return false;
+			});
+			//返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+				this.click();
+				return false;
+			});
+       		//返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-card', function(e) {
+				this.click();
+				return false;
+			});		
+		 
+		  //查询最近的检查信息
+			initPage();
+		}
+		
+		/*页面初始化方法, 查询当前用户的动态，并展示在功能栏下方*/
+		function initPage(){
+
+            start_flag = 0;
+            var data={
+                userid:localStorage.getItem("userid"),
+                start:0,
+                limit:10
+            }
+
+            top.http_comm("6057", data, showpage);
+		}
+		
+        function showpage(msg){
+            top.writelog("6057 recv="+JSON.stringify(msg));
+            var json = eval("("+msg+")");
+                      
+            var customerFlag = localStorage.getItem("customerFlag");
+            var level = localStorage.getItem("level");
+            var dk = json.data.pushList;
+            
+            var dz_html = '';
+            var userid = localStorage.getItem("userid");
+            var len = 2;
+            if(dk.length < len){
+            	len = dk.length;
+            }
+            for(var i = 0; i < dk.length; i++){
+                var mes_tishi;
+                var str_click;
+                var warning= '';
+                var  info = '';
+                if(dk[i].type == 1)//正常流程
+                {
+                    if(dk[i].flag == '0'){
+                    	mes_tishi = "立即处理";
+                        info = '您经办的客户：<font style="color:#007aff">'+dk[i].jkrxm+'</font>，所办理的【<font style="color:#23527C">'+cpzl_map[dk[i].loantype]+'</font>】目前正处于【<font  style="color:#B94A48;">'+dk[i].flowname+'</font>】流程，请尽快处理！';
+                        if( dk[i].flowname.match('面签') || dk[i].flowname.match('创建')) //案卷创建未完成
+                        {
+                            str_click = "show_moreinfo('"+dk[i].fileno+"', '0', '"+dk[i].loantype+"')";
+                       
+                        }else{
+                        	
+                            str_click = "ajlz_go('"+dk[i].fileno+"','2')";
+                        }
+                    }else{
+                    	mes_tishi = "查看详情";
+                        str_click = "ajgz_go('"+dk[i].fileno+"')";
+                   
+                    	if(customerFlag == '0'){//外部客户
+                    		  info = '<font style="color:#007aff">'+dk[i].jkrxm+'</font>：您好，您所办理的【<font style="color:#23527C">'+cpzl_map[dk[i].loantype]+'</font>】目前正处于【<font  style="color:#B94A48;">'+dk[i].flowname+'</font>】流程，请耐心等待！';
+                              
+                    	}else{
+                    		 if(level > 3){
+                    			 info = '您的客户：<font style="color:#007aff">'+dk[i].jkrxm+'</font>，所办理的【<font style="color:#23527C">'+cpzl_map[dk[i].loantype]+'</font>】目前正处于【<font  style="color:#B94A48;">'+dk[i].flowname+'</font>】流程，请耐心等待！';
+                                 
+                    		 }else{
+                    			 if(level == 1){
+                    				 info = '您的客户：<font style="color:#007aff">'+dk[i].jkrxm+'</font>，所办理的【<font style="color:#23527C">'+cpzl_map[dk[i].loantype]+'</font>】目前正处于【<font  style="color:#B94A48;">'+dk[i].flowname+'</font>】流程，请关注进度！';                                    
+                    			 }else{
+                    				 info = '您的客户：<font style="color:#007aff">'+dk[i].jkrxm+'</font>，所办理的【<font style="color:#23527C">'+cpzl_map[dk[i].loantype]+'</font>】目前正处于【<font  style="color:#B94A48;">'+dk[i].flowname+'</font>】流程，请关注进度！';                                     
+                    			 }
+                    			
+                    		 }
+                             
+                    	}
+                    }
+                        
+                }else {//超时流程
+                   
+                    if(dk[i].flag == '0'){
+                        mes_tishi = "立即处理";
+                        info = '您的客户：<font style="color:#007aff">'+dk[i].jkrxm+'</font>，所办理的【<font style="color:#23527C">'+cpzl_map[dk[i].loantype]+'</font>】目前正处于【<font  style="color:#B94A48;">'+dk[i].flowname+'</font>】流程，<font style="color:red">并且已经超时</font>，请尽快处理';
+                        if( dk[i].flowname.match('面签') || dk[i].flowname.match('创建')) //案卷创建未完成
+                        {
+                           // str_click = "show_moreinfo('"+dk[i].fileno+"', '0')";
+                        	str_click = "show_moreinfo('"+dk[i].fileno+"', '0', '"+dk[i].loantype+"')";
+                        }else{
+                            
+                            str_click = "ajlz_go('"+dk[i].fileno+"','2')";
+                        }
+                    }else{
+                        mes_tishi = "查看详情";
+                        info = '您的客户：<font style="color:#007aff">'+dk[i].jkrxm+'</font>，所办理的【<font style="color:#23527C">'+cpzl_map[dk[i].loantype]+'</font>】目前正处于【<font  style="color:#B94A48;">'+dk[i].flowname+'</font>】流程，<font style="color:red">并且已经超时</font>，请尽快处理';
+
+                        str_click = "ajgz_go('"+dk[i].fileno+"')";
+                    }
+                }
+
+                var notes = ''
+                if(dk[i].beiz.length > 0){
+                    notes = dk[i].beiz;
+                }else{
+                    notes = "上一经办人什么留言都没有";
+                }
+               
+           
+                    dz_html += '<p id="zcsj" style="font-size:14px;color:#8e8e8e;text-align:center;margin-top:10px;">'+dk[i].trandate+'</p><div class="mui-card" style="margin:0px;padding:10px;" onclick="'+str_click+'">    <div class="mui-card-content">'
+                    + '<div class="mui-card-content-inner">'
+                    + '<p style="font-size:13px;color:#8e8e8e;">案卷编号：'+dk[i].fileno+'</p>'
+                    + '<p style="font-size:16px;color:#333">'+info+'</p>'
+                    + '<p id="zcsj" style="font-size:14px;color:#8e8e8e;margin-top:5px;">【备注提示】：'+notes+'</p>'
+                    + '<div style="height:30px;line-height:30px;text-align:center"><span style="color: #2894FF;font-size: 17px;" >'+mes_tishi+'</span>'
+                    + '</div></div></div></div>';
+              
+                
+            }
+            
+            if(start_flag == 1){ // 上拉查看更多
+                start += dk.length;
+                $("#yourmsg").append(dz_html);
+            }else{ //下拉刷新
+                start = dk.length;
+                $("#yourmsg").html(dz_html);
+            }
+            
+        }
+		
+        function morePage(){
+            start_flag = 1;
+            var data={
+                userid:localStorage.getItem("userid"),
+                start:start,
+                limit:10
+            }
+
+                   top.http_comm("6057", data, showpage);
+        }
+
+		/*判断对象是否为空*/
+		function isEmpty(obj) {
+
+			if(!obj && obj == 0 && obj == '') {　　　　　　　　　
+			  return true;
+			}
+			
+			if(Array.prototype.isPrototypeOf(obj) && obj.length == 0) {
+				　　　return true;
+			}
+			
+			if(Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length == 0) { 
+				
+				　return true; 　　　
+			}
+			return false; 
+		}
+		
+
+
+		
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+		
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				
+				if(top.Settings.loginState){ //如果登陆了才执行
+					initPage();
+				   }
+			//	mui.toast("没有更多信息了");
+			}, 1500);
+		}
+		
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		 var count=1;
+		function pullupRefresh() {
+			
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 200)); //参数为true代表没有更多数据了。
+				if(top.Settings.loginState){ //如果登陆了才执行
+					morePage();
+				   }
+				
+			
+			//	mui.toast("没有更多信息了");
+			}, 1500);
+		} 
+        //案卷流转
+        function ajlz_go(fileno, flow){
+            $("#search_by").blur();
+            showNewFrame("ajlz_new.html?fileno="+fileno+"&flow="+flow,'smask');
+            
+        }
+        
+        //案卷评价
+        function ajpj_go(fileno){
+            $("#search_by").blur();
+            showNewFrame("ajpj.html?fileno="+fileno,'smask');
+        }
+        //外部客户查看
+        function ajgz_go(fileno){
+            $("#search_by").blur();
+            showNewFrame("flow_new.html?fileno="+fileno,'smask');
+        }
+        //超时展示
+        function timeout_go(fileno){
+            $("#search_by").blur();
+            showNewFrame("ajcs.html?fileno="+fileno,'smask');
+        }
+        //补齐案卷资料
+        function show_moreinfo(fileno, flag, loantype){
+            $("#search_by").blur();
+            
+            if(loantype == "8013"){
+            	showNewFrame("ajcj_8013_record.html?id="+fileno+"&flag="+flag,'smask');
+            }else{
+            	showNewFrame("dbaj_detail.html?id="+fileno+"&flag="+flag,'smask');
+            }
+            
+        }
+
+</script>
+</head>
+<body style="background:#f4f4f4;">
+
+        <header class="mui-bar head_color">		
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>		
+			<h1 class="mui-title">案卷最新动态</h1>		
+		</header>
+			<div  id="pullrefresh" class="mui-content mui-scroll-wrapper" style="background-color:#f4f4f4;margin-top:75px;">
+			    <div class="mui-scroll" >
+					<div id="yourmsg" style="padding-top:5px;">
+					</div>	
+					<div style="height:100px;line-height:100px;text-align:center"><span style="font-size:12px;color:#969696">————到底了————</span></div>
+				</div>
+			</div>		
+		
+		
+		<script type="text/javascript">
+		//功能菜单点击效果					
+/* 		$('li').each(function(){
+			var $obj=$(this);
+			this.addEventListener('touchstart',function(){
+				$obj.css('background-color','#cccccc');
+			}, false);
+			
+			this.addEventListener('touchend',function(){
+				$obj.css('background-color','');
+			}, false);
+			
+		});	 */
+		</script>
+
+	</body>
+</html>

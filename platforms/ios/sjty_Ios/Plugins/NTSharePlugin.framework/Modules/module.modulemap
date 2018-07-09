@@ -1,0 +1,6 @@
+framework module NTSharePlugin {
+  umbrella header "NTSharePlugin.h"
+
+  export *
+  module * { export * }
+}

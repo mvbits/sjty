@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>产品介绍</title>
+	<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+	<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+	<link href="css/common.css" rel="stylesheet">
+	<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+	<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+	<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.md5.js" type="text/javascript" charset="utf-8"></script>
+	<style>
+		.btn:hover, .btn:focus, .btn.focus{color:#fff;}
+	</style>
+</head>
+<script type="text/javascript">
+var  cp_flag;
+function initial() {
+	thisURL = document.URL;  
+	localStorage.setItem("thisURL", thisURL);
+	
+  //	generateMenu();
+  top.top3 = $(".top_title");
+
+}
+function changetitle()
+{
+	$(".top_title").html("湖北金融服务网格化信息网"+window.parent.didian);
+}
+</script>
+
+<body style=" border-color: white;background-color: #ffffff;overflow:auto">
+	<!-- 顶部固定，不能滚动 -->
+	<div class="topNavWrapper" >
+		<div class="topNav">
+			<div component-role="m11_top" class="top">				
+			<div class="back_ic" style="margin-top:-4px;" onClick="back_history();">	</div>	
+				<span class="top_title">湖北金融服务网格化信息网</span>
+			</div>
+		</div>
+	</div>
+	
+ 	<div class="container-fluid">
+	 	<!-- <div style="width: 100%;margin-right:-2px;border-color: white;background-color: #ffffff;"> -->
+			<div class="form_div_cp " style="margin-top:18px;"> 
+			<ul>
+				<li onclick="go_cp('1');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+						<tr>
+						    <th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/qs.png" style="margin-bottom:0px;"  alt="" name="cpzs" width="60"  id="cpzs" /></div></th>
+						    <th width="70%" height="30px" scope="col"><span style="font-size: 17px">全省通用</span></th>
+						    <th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;vertical-align:50%;">全省通用理财产品</span></td>
+					  	</tr>
+					</table>
+				</li>
+				<li onclick="go_cp('2');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+						    <th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/yc.jpg" style="margin-bottom:0px;"  alt="" name="cpzs" width="60"  id="cpzs" /></div></th>
+						    <th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">宜昌</span></th>
+						    <th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">宜昌地区专用理财产品</span></td>
+					  	</tr>
+					</table>
+				</li>
+				<li onclick="go_cp('3');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/jm.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">荆门</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">荆门地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                                				<li onclick="go_cp('4');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/jz.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">荆州</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">荆州地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('5');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/sy.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">十堰</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">十堰地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('6');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/xy.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">襄阳</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">襄阳地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('7');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/es.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">恩施</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">恩施地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('8');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/sz.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">随州</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">随州地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('9');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/xg.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">孝感</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">孝感地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('10');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/xn.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">咸宁</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">咸宁地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('11');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/ez.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">鄂州</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">鄂州地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('12');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/hg.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">黄冈</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">黄冈地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('13');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/hs.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">黄石</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">黄石地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('14');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/tm.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">天门</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">天门地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('15');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/qj.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">潜江</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">潜江地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('16');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/xt.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">仙桃</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">仙桃地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+                				<li onclick="go_cp('17');" style="margin-left:10px;margin-right:10px;height:70px;">
+					<table width="100%" border="0" style="margin-top:5px">
+					  	<tr>
+					  	  	<th width="20%" rowspan="2" scope="col"><div style="margin-top:0px;"><img src="img/lq.jpg" style="margin-bottom:0px;" alt="" name="cpzs" width="60"  id="cpzs" /><div></th>
+					    	<th width="70%" height="30px" scope="col"><span style="font-size:17px;absolute,bottom:0px;">林区</span></th>
+					    	<th width="10%" rowspan="2" scope="col"><img src="img/show.png" style="margin-bottom:0px;" alt="" name="cpzs" width="10"  id="cpzs" /></th>
+					  	</tr>
+					  	<tr>
+					    	<td height="30px"><span style="font-size:13px;vertical-align:50%;margin-top:2px;width:200px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">神农架地区专用理财产品</span></td>
+					 	</tr>
+					</table>
+				</li>
+			</ul>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script>
+function go_cp(flag){
+	cp_flag = flag;
+	if(flag == 1) 
+		localStorage.setItem("cp_dq", "全省");
+	else if( flag == 2)
+		localStorage.setItem("cp_dq", "宜昌");
+	else if( flag == 3)
+		localStorage.setItem("cp_dq", "荆门");
+	else if( flag == 4)
+		localStorage.setItem("cp_dq", "荆州");
+	else if( flag == 5)
+		localStorage.setItem("cp_dq", "十堰");
+	else if( flag == 6)
+		localStorage.setItem("cp_dq", "襄阳");
+	else if( flag == 7)
+		localStorage.setItem("cp_dq", "恩施");
+	else if( flag == 8)
+		localStorage.setItem("cp_dq", "随州");
+	else if( flag == 9)
+		localStorage.setItem("cp_dq", "孝感");
+	else if( flag == 10)
+		localStorage.setItem("cp_dq", "咸宁");
+	else if( flag == 11)
+		localStorage.setItem("cp_dq", "鄂州");
+	else if( flag == 12)
+		localStorage.setItem("cp_dq", "黄冈");
+	else if( flag == 13)
+		localStorage.setItem("cp_dq", "黄石");
+	else if( flag == 14)
+		localStorage.setItem("cp_dq", "天门");
+	else if( flag == 15)
+		localStorage.setItem("cp_dq", "潜江");
+	else if( flag == 16)
+		localStorage.setItem("cp_dq", "仙桃");
+	else if( flag == 17)
+		localStorage.setItem("cp_dq", "林区");
+	
+	cp_flag = localStorage.getItem("cp_flag");
+	cp_dq = localStorage.getItem("cp_dq");
+	var  data={
+		"cpdl":cp_flag,
+		"cpdq":cp_dq
+	};
+	$.ajax({
+		type : "post",
+		url: "http://"+IP+":"+PORT+"/JRWG/jrcp/countByCPDL",
+		data : data,
+		datatype : "json",
+		success : function(msg) {
+			/* alert(msg);
+			alert(JSON.stringify(msg));
+			msg =  eval("("+msg+")"); */
+			var count = msg.data;
+			if(count > 0){
+				showNewFrame("cpjs_new.html", "smask");
+			}else{
+				top.alertInfo('暂时没有此类相关产品介绍','','温馨提示','确认');
+			}
+		},
+		error:function(msg){
+			top.alertInfo('请求失败','','温馨提示','确认');
+		}
+	}); 
+	
+}
+</script>
+</div>
+
+<div style="text-align:center;clear:both;">
+<script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
+<script src="/follow.js" type="text/javascript"></script>
+</div>
+</body>
+</html>

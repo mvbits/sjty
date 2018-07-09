@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+                <link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+                    <link rel="stylesheet" type="text/css" href="css/lib/jQueryMobile/jquery.mobile-1.4.3.css" />
+                    <link href="css/index.css" rel="stylesheet">
+                        <link rel="stylesheet" href="common/slick/slick.css">
+                            <link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+                                <link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+                                    <link href="css/common.css" rel="stylesheet">
+                                   
+                                        <script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+                                       
+                                        <script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+                                        <script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+                                      
+                                        <script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+        <style>
+            .btn:hover, .btn:focus, .btn.focus{color:#fff;}
+            .bot_btn_m{
+                text-shadow: none !important;
+                width: 80%;
+                text-align: center;
+                height:45px;
+                line-height: 45px;
+                color: #ffffff;
+                font-size: 20px;
+                margin: 10px auto;
+                margin-top: 30px;
+                margin-bottom: 30px;
+                background-color: #cc0033;
+            }
+        .rgt {
+            width: 10px;
+            height: 18px;
+            float: right;
+            margin-right: 20px;
+            margin-top: 12px;
+            background-size: 100% 100%;
+            background-image: url("img/right.png");
+        }
+        .inp_label{
+            width: 200px;
+            line-height: 45px;
+            color: #000000;
+            font-size: 17px;
+            text-align: left;
+            float: left;
+            margin-left: 15px;
+        }
+        .div-radius {
+            padding:1px; ;
+            border-color: white;
+            -moz-border-radius: 15px;
+            -webkit-border-radius: 15px;
+            border-radius:15px;
+            
+        }
+        .span_label{
+	width: 100%;
+	line-height: 35px;
+	color: #2894FF;
+	/* font-weight:bold; */
+	font-size: 16px;
+	text-align: left;
+	float: left;
+	margin-left: 15px;
+}
+
+.span_text{
+	width: 100%;
+	line-height: 35px;
+	color: #8e8e8e;
+	font-size: 15px;
+	text-align: left;
+	float: left;
+	margin-left: 3px;
+	margin-right: 15px;
+}
+</style>
+    </head>
+    <script type="text/javascript">
+        var cpzl_map = {
+            "8001":"公积金按揭贷款",
+            "8002":"商贷按揭贷款",
+            "8003":"组合按揭贷款",
+            "8004":"房抵贷",
+            "8005":"安居贷",
+            "8006":"大树金融",
+            "8007":"友金所",
+            "8008":"平安新一贷",
+            "8009":"赎楼贷",
+            "8010":"尾款贷"
+        };
+        var dk;
+        var userid;
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+        var thisURL = document.URL;
+        document.getElementsByTagName('body')[0].style.width = top.screenWidth+"px";
+        document.getElementsByTagName('body')[0].style.height = top.screenHeight+20+"px";
+ 
+     
+      	initPage();
+    }
+    
+    function initPage(){
+    	
+ 
+    	 localStorage.setItem("acount", '1');
+        var data = {};
+        data.userid = localStorage.getItem("userid");
+        top.start_process();
+    
+        $.ajax({
+               type : "post",
+               url: "http://"+IP+":"+PORT+"/app/6019;",
+               timeout: 5000,
+               data : data,
+               datatype : "json",
+               success :  function(msg){
+            	   top.stop_process();
+               show_aj(msg);
+               },
+               error:function(msg){
+            	   top.stop_process();
+               		
+               		login_again();
+               }
+               });
+       top.writelog(JSON.stringify(data));
+       // scroll_auto(); 
+    }
+    function scroll_auto(){				
+		if($("body").css("overflow") == "auto"){
+			$("body").attr("style", "overflow:scroll");
+		}else{
+			$("body").attr("style", "overflow:auto");
+		}
+	}
+    function show_aj(msg){
+       
+        var json=eval("("+msg+")");
+        
+        if(document.getElementById('content') )
+        document.getElementById('p1').removeChild(document.getElementById('content'));
+        var div_host = document.getElementById("p1");
+        var div_content = document.createElement("div");
+        div_content.setAttribute("class", "content");
+        div_content.setAttribute("id", "content");
+        
+        
+        dk = json.data.pushList;
+
+        
+        if( dk.length == 0 ){
+            var div_row = document.createElement("div");
+            div_row.setAttribute("class", "row");
+            div_row.setAttribute("style", "background:#f4f4f4;height:130px;");
+            div_content.appendChild(div_row);
+            
+            var div = document.createElement("div");
+            div.setAttribute("class", "form_div");
+            div.setAttribute("align", "center");
+            var img = document.createElement("img");
+            img.setAttribute("width", "180px");
+            img.setAttribute("heigth", "180px");
+            img.setAttribute("src", "img/wdjrxq.png");
+            
+            div.appendChild(img);
+            div_content.appendChild(div);
+
+        }else {
+
+         
+            for(var i = 0; i < dk.length; i++){
+            	
+            	if(dk[i].push_type == 3)//正常流程
+                {
+            		top.writelog(i+":push_type="+dk[i].push_type );
+	                var div = document.createElement("div");
+	                div.setAttribute("class", "form_div");
+	               
+	                var table = document.createElement("table");
+	                table.setAttribute("class", "table_class_new ");
+	                table.setAttribute("style", "box-shadow: 0 0 1px 1px #BEC0C2;margin-top:5px;border-radius:5px;")
+	                var li1 = document.createElement("li");
+	                li1.setAttribute("style", "border:0;height:35px;border-radius:5px;");
+	                var div1=document.createElement("div");
+	                div1.setAttribute("class", "col-xs-4");
+	                var sp1=document.createElement("span");
+	                sp1.setAttribute("class", "span_label");
+	                sp1.innerHTML = "客户姓名";
+	                div1.appendChild(sp1);
+	                var div1_t=document.createElement("div");
+	                div1_t.setAttribute("class", "col-xs-8");
+	                var sp1_t=document.createElement("span");
+	                sp1_t.setAttribute("class", "span_text");
+	                var fileno = dk[i].fileno;
+	                sp1_t.innerHTML = dk[i].jkrxm;
+	                div1_t.appendChild(sp1_t);
+	                li1.appendChild(div1);
+	                li1.appendChild(div1_t);
+	              
+	                
+	                var li2 = document.createElement("li");
+	                li2.setAttribute("style", "height:35px;")
+	                var div2=document.createElement("div");
+	                div2.setAttribute("class", "col-xs-4");
+	                var sp2=document.createElement("span");
+	                sp2.setAttribute("class", "span_label");
+	                sp2.innerHTML = "贷款类别";
+	                div2.appendChild(sp2);
+	                var div2_t=document.createElement("div");
+	                div2_t.setAttribute("class", "col-xs-8");
+	                var sp2_t=document.createElement("span");
+	                sp2_t.setAttribute("class", "span_text");
+	                var loantype = dk[i].loantype;
+	                sp2_t.innerHTML = cpzl_map[loantype];
+	                div2_t.appendChild(sp2_t);
+	                li2.appendChild(div2);
+	                li2.appendChild(div2_t);
+	                
+	                var li3 = document.createElement("li");
+	                li3.setAttribute("style", "height:35px;border-bottom:0;")
+	                var div3=document.createElement("div");
+	                div3.setAttribute("class", "col-xs-4");
+	                var sp3=document.createElement("span");
+	                sp3.setAttribute("class", "span_label");
+	                sp3.innerHTML = "当前流程";
+	                div3.appendChild(sp3);
+	                var div3_t=document.createElement("div");
+	                div3_t.setAttribute("class", "col-xs-8");
+	                var sp3_t=document.createElement("div");
+	               sp3_t.setAttribute("class", "span_text");
+	                sp3_t.innerHTML = dk[i].flowname;//房产地址
+	                div3_t.appendChild(sp3_t);
+	                li3.appendChild(div3);
+	                li3.appendChild(div3_t);
+	                
+	                var li5 = document.createElement("li");
+	                li5.setAttribute("style", "height:35px;border-bottom:0;")
+	                var div5=document.createElement("div");
+	                div5.setAttribute("class", "col-xs-4");
+	                var sp5=document.createElement("span");
+	                sp5.setAttribute("class", "span_label");
+	                sp5.innerHTML = "签单时间";
+	                div5.appendChild(sp5);
+	                var div5_t=document.createElement("div");
+	                div5_t.setAttribute("class", "col-xs-8");
+	                var sp5_t=document.createElement("div");
+	               sp5_t.setAttribute("class", "span_text");
+	               if(dk[i].trandate && dk[i].trandate!="null"){
+	            	   sp5_t.innerHTML = dk[i].trandate;//签单时间
+	               }else{
+	            	   sp5_t.innerHTML = "没有获取到签单时间";//签单时间
+	               }
+	               div5_t.appendChild(sp5_t);
+	                li5.appendChild(div5);
+	                li5.appendChild(div5_t);
+	                
+	                var li4 = document.createElement("li");
+	                li4.setAttribute("style", "border:0px;height:35px;border-bottom:0;border-top:0;")
+	        
+	              
+                    li4.setAttribute("onclick", "ajpj_go('"+dk[i].fileno+"')");
+                    div.setAttribute("onclick", "ajpj_go('"+dk[i].fileno+"')");
+                    var sp4=document.createElement("span");
+                    sp4.setAttribute("class", "inp_label");
+                    if(dk[i].push_type == 3)//正常流程
+                    {
+                    	sp4.innerHTML = "案卷评价";
+                    }
+                    var img=document.createElement("img");
+                    img.setAttribute("src", "img/right.png"); 
+                    img.setAttribute("style", "width: 10px;height: 18px;float: right;margin-right: 20px;margin-top: 12px;background-size: 100% 100%;line-height:35px;");
+                    li4.appendChild(sp4);
+                    li4.appendChild(img);
+               
+                    
+	                var liRow = document.createElement("li");
+	                
+	                liRow.setAttribute("style", "height:15px;border:0px;margin-top:1px;");
+	                var div_row = document.createElement("div");
+	                div_row.setAttribute("class", "row");
+	                div_row.setAttribute("style", "background:#f4f4f4;height:20px;");
+	                liRow.appendChild(div_row);
+	                
+	                table.appendChild(li1);
+	                table.appendChild(li2);
+	                table.appendChild(li3);
+	                table.appendChild(li5);
+	                table.appendChild(li4);
+	               
+	                div.appendChild(table);
+	                div.appendChild(liRow);
+	                div_content.appendChild(div);
+                }
+            }
+            
+        }
+        div_host.appendChild(div_content);
+    }
+    
+
+    
+    //案卷评价
+    function ajpj_go(fileno){
+       
+        showNewFrame("ajpj_detail.html?fileno="+fileno,'smask');
+    }
+
+
+    </script>
+    
+    <body style="background:#f4f4f4;overflow:auto;">
+        
+        <!-- 顶部固定，不能滚动 -->
+       <div class="topNavWrapper" >
+            <div class="topNav">
+                <div component-role="m11_top" class="top">
+                    <div class="back_ic" onClick="back_history();"></div>
+                    <span class="top_title">案卷评价</span>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="container-fluid" style="margin-top: 30px;height:100%;overflow:auto;">
+            
+            <div id="p1"   style="margin-top:5px;">
+        
+            </div>
+            <div class="form_div" style="height:140px;margin-bottom: 100px;"></div>
+            
+        </div>
+    </body>
+</html>

@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+                
+<link href="css/lib/bootstrap/bootstrap-combined.min.css"  rel="stylesheet">
+<link rel="stylesheet" type="text/css"  href="css/lib/jQueryMobile/jquery.mobile-1.4.3.css" />
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">               
+<link rel="stylesheet" href="css/common.css">
+
+
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="css/frozen.css">
+<link rel="stylesheet" href="css/demo.css">
+<link href="mui/css/mui.picker.css" rel="stylesheet" />
+<link href="mui/css/mui.poppicker.css" rel="stylesheet" />
+<script src="mui/js/mui.min.js"></script>
+
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script src="js/lib/jQuery/jquery.mobile-1.4.3.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+		 html, body {
+                 position: relative;
+                 height: 100%;
+             }
+         body {
+             background: #fff;
+             font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+             font-size: 14px;
+             color:#000;
+             margin: 0;
+             padding: 0;
+             overflow:auto;
+          
+         }
+         .top_head{
+         	margin-top:25px;
+         }
+         .mui-btn-primary{
+         	background-color: #18b4ed;
+         }
+         
+         .redColor::-webkit-input-placeholder{
+         	color:red;
+         }
+         .redColor::-moz-placeholder{
+         	color:red;
+         }
+         .redColor:-moz-placeholderr{
+         	color:red;
+         }
+         .redColor:-ms-input-placeholder{
+         	color:red;
+         }
+         .rgt_c {
+             width: 40px;
+             height: 36px;
+             float: right;
+             margin-right: 10px;
+             margin-top: 2px;
+             background-size: 100% 100%;
+             background-image: url("img/pz.png");
+         }
+         </style>
+         
+<script type="text/javascript">
+	var hzgj_List;//存放机构信息数组
+	var hzmd_list;//存放门店嘻嘻数组
+	var loantype = "8014";
+	var loantype_name = "车抵贷";
+	var is_finish_count = 0;
+	var zk_num = 0; //选中直客的数组下标
+	var dictflag = '0'; //渠道类型
+	var jy_fkfs = '0';
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+
+        
+        mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		//返回键 tap事件监听
+		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+	  		this.click();
+            return false;
+	  	});
+		mui(document.body).on('tap', '.hzjg .mui-input-row', function(e) {
+	  		this.click();
+            return false;
+	  	});
+		
+		mui(document.body).on('tap', '.hzjg .mui-table-view-cell', function(e) {
+	  		this.click();
+            return false;
+	  	});
+		//对金额输入做控制
+		$('input[type=number]').bind('input propertychange', function() {
+			this.value=this.value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,''); 			
+        });
+		
+        $('#bank_search_key').bind('input focus propertychange', function() {  
+        	search_sdyh();  
+        });
+        $('#inst_search_key').bind('input propertychange', function() {  
+        	
+        	search_hzjg();  
+        });
+ 		$('#md_search_key').bind('input propertychange', function() {  
+        	
+        	search_md();  
+        });
+ 		
+		document.querySelector('.mui-table-view.mui-table-view-radio.radio0').addEventListener('selected',function(e){			
+		
+			if(e.detail.el.id == 0){//合作机构
+				dictflag = '0';
+				$(".hzjg").show();
+				$("#zk_gdbh").hide();
+				$("#is_zk_list").hide();
+				
+				$(".yjgs").show();
+				$("#yjgs_fgs_label").val("所属分公司");
+				$("#yjgs_xsjl_label").val("销售经理");
+				
+			}else if (e.detail.el.id == 1){//直客（个人）
+				dictflag = '1';
+				//查询直客信息
+				show_zkgr();
+				$(".hzjg").hide();
+				$("#zk_gdbh").hide();
+				$("#is_zk_list").show();
+				
+				$("#yjgs_fgs_label").val("团队业绩");
+				$("#yjgs_xsjl_label").val("个人业绩");
+				$(".yjgs").show();
+				
+			}else if (e.detail.el.id == 2){//直客(盖担保函) 没有业绩归属
+				dictflag = '2';		
+				$(".hzjg").hide();
+				$("#zk_gdbh").show();
+				$("#is_zk_list").hide();
+				$(".yjgs").hide();
+			
+			}
+		});
+		
+		//微信渠道，审贷编号选择
+		document.querySelector('.mui-table-view.mui-table-view-radio.radio1').addEventListener('selected',function(e){			
+			
+			$("#LoanNo").val(e.detail.el.id);
+			$(".div_fullscreen_radio").hide();
+		});
+		localStorage.setItem("back_alert", "1");
+        localStorage.setItem("pagenum", "0"); //pagenum大于0时backpage
+        localStorage.setItem("h_back_flag", '0');
+
+		//页面初始化
+		initPage();
+    }
+    
+    function initPage(){
+    	
+    	//获取案卷编号及合作机构等基本信息
+    	var data = {};
+        var userid = localStorage.getItem("userid");
+        
+        data.userid = userid;
+        data.loantype = loantype;
+        
+        
+        top.http_comm("6005", data, initPageWith);
+        $("#jkr_hasgtjkr").attr("name", "0");
+        $("#jkr_hasgtjkr").val("没有");
+        
+        $("#jkr_hasdlr").attr("name", "0");
+        $("#jkr_hasdlr").val("没有");
+        
+        $("#jkr_haspo").attr("name", "0");
+        $("#jkr_haspo").val("未婚");
+        
+        $("#dk_hkfs").attr("name", "1");
+        $("#dk_hkfs").val("等额本息");
+        
+        $("#gtjkr_haspo").attr("name", "0");
+        $("#gtjkr_haspo").val("未婚");
+		$("#fc_pgsj").on("input propertychange",function(){
+            
+            if($(this).val().length>0){
+            	
+            $(this).addClass("full");
+            }
+            else{
+            $(this).removeClass("full");
+            }
+     
+       });
+    }
+    
+    function initPageWith(msg){
+    	
+		var json=eval("("+msg+")");
+        
+        
+        //案卷编号初始化      
+        fileno = json.data.fileno;
+
+        localStorage.setItem("fileno", fileno);
+        $("#fileno").val(fileno);
+        
+        
+        
+        hzjg_List = json.data.hzjgList; //合作机构列表
+		/*装修贷没有这三项 
+		pggs_List = json.data.pggsList; //评估公司列表
+        pggs_lxr_List = json.data.pggsLxrList; //评估公司联系人
+        bdcj_List = json.data.bdcjList; //不动产局
+        */
+
+        //获取申贷机构信息
+        get_sdyh();
+    }
+    
+    //选择何种机构后查询该合作机构下属门店信息
+    function set_hzjg(num){
+    //	li.setAttribute("onclick", "set_hzjg('"+hzjg_List[i].orgn_id+"','"+hzjg_List[i].orgn_name+"','"+hzjg_List[i].ORGN_MANAGER_NAME+"','"+hzjg_List[i].ORGN_MANAGER_TEL+"','"+hzjg_List[i].ORGN_LINKER_NAME+"','"+hzjg_List[i].ORGN_LINKER_TEL+"','"+hzjg_List[i].orgn_linker+"','"+hzjg_List[i].orgn_manager+"','"+hzjg_List[i].TYPE_NAME+"','"+hzjg_List[i].porgnId+"','"+hzjg_List[i].porgnName+"')");
+        
+    	top.writelog("hzjg["+num+"]"+JSON.stringify(hzjg_List[num]));
+        $("#hzjg_mc").val(hzjg_List[num].orgn_name); //合作机构名称
+        $("#hzjg_mc").attr("name", hzjg_List[num].orgn_id); //合作机构ID
+        
+		//结算方式
+        if(top.isEmpty(hzjg_List[num].type_name)){
+        	$("#fc_pggs_jsfs").val("该合作机构没有配置结算方式");
+        }else{
+            $("#fc_pggs_jsfs").val(hzjg_List[num].type_name);
+        }
+        
+        //合作机构老板和联系方式
+        $("#hzjg_lb").val(hzjg_List[num].orgn_manager_name);
+        $("#hzjg_lb").attr("name", hzjg_List[num].orgn_manager);
+        $("#hzjg_lblxfs").val(hzjg_List[num].orgn_manager_tel);
+        
+        clear_jtmd();
+      	//选择后返回上一页面
+        jQuery.mobile.changePage('#p5', {transition : 'slide'});reduce_page();
+        
+        //根据合作机构编号，查询门店信息
+        var data = {};
+        data.ssjg = hzjg_List[num].orgn_id;
+        
+        top.http_comm("6022", data, initMdInfo);
+    }
+    
+    function clear_jtmd(){
+        //销售经理姓名+id
+        $("#yjgs_xsjl").val('');
+        $("#yjgs_xsjl").attr("name", '')
+        //销售经理联系方式
+        $("#yjgs_xsjllxfs").val('');
+        //业绩归属分公司名称+id
+        $("#yjgs_fgs").val('');
+        $("#yjgs_fgs").attr("name", '');
+        
+        
+       
+     	//合作机构名称+id
+        $("#hzjg_jtmd").val('');
+        $("#hzjg_jtmd").attr("name", '');
+     	//合作机构对接人名称+id
+     	$("#hzjg_djr").val('');
+     	$("#hzjg_djr").attr("name", '');
+     	//合作机构对接人联系方式
+        $("#hzjg_djrlxfs").val('');
+    	
+    }
+
+    
+    //初始化门店信息
+    function initMdInfo(msg){
+    	var json=eval("("+msg+")");
+        
+        hzmd_List = json.data;
+        $("#md_list").html('');
+        var md_list = '';
+        for(var i=0; i < hzmd_List.length; i++){
+        	md_list += '<li class="mui-table-view-cell" onclick="set_jtmd(\''+i+'\')"><a class="mui-navigate-right">'
+			+'<font color="#049FF1">'+hzmd_List[i].orgn_linker_name+'</font>'
+			+':'+hzmd_List[i].orgn_name+'</a></li>';
+        	
+        }
+        $("#md_list").html(md_list);
+        
+        
+    }
+    
+    function set_jtmd(num){
+    	top.writelog("hzmd["+num+"]"+JSON.stringify(hzmd_List[num]));
+        //销售经理姓名+id
+        $("#yjgs_xsjl").val(hzmd_List[num].finance_name);
+        $("#yjgs_xsjl").attr("name", hzmd_List[num].finance_id)
+        //销售经理联系方式
+        $("#yjgs_xsjllxfs").val(hzmd_List[num].finance_tel);
+        //业绩归属分公司名称+id
+        $("#yjgs_fgs").val(hzmd_List[num].pporgn_name);
+        $("#yjgs_fgs").attr("name", hzmd_List[num].pporgn_id);
+        
+        
+       
+     	//合作机构名称+id
+        $("#hzjg_jtmd").val(hzmd_List[num].orgn_name);
+        $("#hzjg_jtmd").attr("name", hzmd_List[num].orgn_id);
+     	//合作机构对接人名称+id
+     	$("#hzjg_djr").val(hzmd_List[num].ORGN_LINKER_NAME);
+     	$("#hzjg_djr").attr("name", hzmd_List[num].orgn_linker);
+     	//合作机构对接人联系方式
+        $("#hzjg_djrlxfs").val(hzmd_List[num].orgn_linker_tel);
+     	
+     	//选择后返回上一页面
+        jQuery.mobile.changePage('#p5', {transition : 'slide'});reduce_page();
+    	
+    }
+    //pagenum - 1
+    function reduce_page(){
+    	var pagenum = localStorage.getItem("pagenum"); 
+    	pagenum--;
+    	localStorage.setItem("pagenum", pagenum); 
+    }
+    //pagenum = 0;
+    function reduce_page(){
+
+    	localStorage.setItem("pagenum", 0); 
+    }
+    //pagenum + 1
+    function page_add(){
+    	var pagenum = localStorage.getItem("pagenum"); 
+    	pagenum++;
+    	localStorage.setItem("pagenum", pagenum); 
+    }
+    
+    
+    //验证身份证号是否合法，是否存量客户
+    function check_id(checkdiv){
+        var idno = $("#"+checkdiv).val();
+        
+        top.writelog("idno="+idno);
+        //判断身份证号是否合法
+        var sfzh=isCardID(idno);
+        if (sfzh) {
+            top.alertInfo(sfzh);
+           
+            return;
+        }
+        
+        if(checkdiv != 'jkr_sfzh'){ //只有借款人证件号需要查重
+            return;
+        }
+        //合法身份则判断是非重复
+        var data={
+            LoanType:loantype,
+            IdNo:idno
+        };
+
+        top.http_comm("6056", data, function(msg){
+                     
+                      var json = eval("("+msg+")");
+                      if(json.stat == '1'){
+                      top.alertInfo(json.msg);
+                      }
+                      });
+    }
+    
+    //查询改客户是否微信申贷客户
+    function check_loanno(){
+    	
+    	var tel = $("#jkr_lxfs1").val();
+    	var data = {};
+    	
+    	if(top.isEmpty(tel)){
+    		top.alertInfo("借款人第一个手机号不能为空");
+    		return;
+    	}
+    	data.LoanTel = tel;
+    	data.fileno = fileno;
+     
+
+        top.http_comm_wx("/wx/S003", data, function(msg){
+                         
+                         var json = eval("("+msg+")");
+                         var LoopResult = json.responseData.LoopResult;
+                         
+                         
+                         if(LoopResult.length == 0){ //非微信用户
+                         $("#LoanNo").val('app');
+                         return;
+                         }else{//有多条申贷信息
+                         
+                         
+                         $(".radio1").html('');
+                         var radio_html = '';
+                         for(var i = 0; i < LoopResult.length; i++){
+                         
+                         var loanno = LoopResult[i].LoanNo;
+                         var strTime = loanno.substring(1,5)+'年'+loanno.substring(5,7)+'月'+loanno.substring(7,9)+'日'+' '+loanno.substring(9,11)+":"+loanno.substring(11,13)+":"+loanno.substring(13,15) + ' 微信端发起申请';
+                         top.writelog(i+":loanno="+loanno);
+                         radio_html += '<li class="mui-table-view-cell" id="'+LoopResult[i].LoanNo+'"><a class="mui-navigate-right">'+strTime+'</a></li>';
+                         }
+                         $(".radio1").html(radio_html);
+                         if(LoopResult.length == 1 ){
+                         	$("#LoanNo").val(LoopResult[0].LoanNo);
+                         }else{
+                         	$(".div_fullscreen_radio").show();
+                         }
+                         
+                      }
+                         
+        });
+    }
+    var sdyh_list;//审贷银行数组
+    //获取审贷银行信息
+    function get_sdyh(){
+        var data = {};
+        data.loantype = loantype;
+        data.userid = localStorage.getItem("userid");
+
+        top.http_comm("6031", data,function(msg){           
+	        var json=eval("("+msg+")");
+	        sdyh_List = json.data;
+	        search_sdyh();
+        });
+    }
+    //根据关键字搜索审贷银行
+    function search_sdyh(){
+    	var key = $("#bank_search_key").val();
+    	
+    	top.writelog("key="+key);
+    	$("#bank_list").html('');
+    	var bank_html='';
+    	
+    	
+    	if(top.isEmpty(key)){ //没有关键字
+    		for(var i = 0; i < sdyh_List.length; i++){
+    			bank_html += '<li class="mui-table-view-cell" onclick="set_sdyh(\''+i+'\')"><a class="mui-navigate-right">'
+				+'<font color="#049FF1">'+sdyh_List[i].bank_name+'</font></a></li>';
+				
+    		}
+    	}else{
+    		for(var i = 0; i < sdyh_List.length; i++){
+    			if(sdyh_List[i].bank_name.match(key)){
+    				bank_html += '<li class="mui-table-view-cell" onclick="set_sdyh(\''+i+'\')"><a class="mui-navigate-right">'
+    				+'<font color="#049FF1">'+sdyh_List[i].bank_name+'</font></a></li>';
+    			}
+    			
+				
+    		}
+    	}
+    	$("#bank_list").html(bank_html);
+    	
+    }
+    
+    //选择审贷银行
+    function set_sdyh(num){
+    
+    	top.writelog("sdyh["+num+"] = " + JSON.stringify(sdyh_List[num]));
+       	//银行名称+ID
+        $("#bank_name").val(sdyh_List[num].bank_name);
+        $("#bank_name").attr("name",sdyh_List[num].bank_id);
+        
+        //直客盖担保函信息先赋值
+        $("#gdbh_mc").val(sdyh_List[num].bank_name);            
+        $("#gdbh_lb").val(sdyh_List[num].account_name);   
+        $("#gdbh_lblxfs").val(sdyh_List[num].account_tel);  
+        
+        //返回主页面
+        jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();
+    }
+  	//根据关键字搜索合作机构
+    function search_hzjg(){
+  		
+		var key = $("#inst_search_key").val();
+    	
+    	top.writelog("key="+key);
+    	if(key.length < 1){
+    		mui.toast("鉴于合作机构数据量较大，请输入一个字以上关键字");
+    		return;
+    	}
+    	$("#inst_list").html('');
+        var inst_html = '';
+        var len = hzjg_List.length
+        for(var i = 0; i < len; i++){
+        	if(hzjg_List[i].orgn_name.match(key) || hzjg_List[i].orgn_manager_name.match(key) ){
+        		inst_html += '<li class="mui-table-view-cell" onclick="set_hzjg(\''+i+'\')"><a class="mui-navigate-right">'
+        				+'<font color="#049FF1">'+hzjg_List[i].orgn_manager_name+'</font>'
+        				+':'+hzjg_List[i].orgn_name+'</a></li>';
+        	}
+        }
+        $("#inst_list").html(inst_html);
+    }
+  	//根据关键字搜索门店信息
+    function search_md(){
+		var key = $("#md_search_key").val();
+    	
+    	top.writelog("key="+key);
+        $("#md_list").html('');
+        var md_list = '';
+        for(var i=0; i < hzmd_List.length; i++){
+        	if(hzmd_List[i].orgn_name.match(key) || hzmd_List[i].orgn_linker_name.match(key) ){
+	        	md_list += '<li class="mui-table-view-cell" onclick="set_jtmd(\''+i+'\')"><a class="mui-navigate-right">'
+				+'<font color="#049FF1">'+hzmd_List[i].orgn_linker_name+'</font>'
+				+':'+hzmd_List[i].orgn_name+'</a></li>';
+        	}
+        	
+        }
+        $("#md_list").html(md_list);
+    }
+  	
+  	//直客（个人）信息展示
+  	function show_zkgr(){
+  		var data={};
+  		top.http_comm("6048", data, function(msg){
+            
+            var json = eval("("+msg+")");
+            var zk_html = '';
+            $("#is_zk_list").html('');
+            zkgr_List = json.data;
+            for(var i = 0; i < json.data.length; i++){
+	            zk_html += '<li class="mui-table-view-cell" onclick="set_zkgr(\''+i+'\')"><a class="mui-navigate-right">'
+				+'<font color="#049FF1">'+zkgr_List[i].account_name+'</font></a></li>';
+				
+            }
+            
+            $("#is_zk_list").html(zk_html);
+       });
+    }
+  	
+  	//选择直客（个人）
+  	function set_zkgr(num){
+  		zk_num = num;
+        //销售经理姓名+id
+        $("#yjgs_xsjl").val(zkgr_List[num].account_name);
+        $("#yjgs_xsjl").attr("name", hzmd_List[num].account_id)
+        //销售经理联系方式
+        $("#yjgs_xsjllxfs").val(zkgr_List[num].account_tel);
+        //业绩归属分公司名称+id
+        $("#yjgs_fgs").val(zkgr_List[num].orgn_name);
+        $("#yjgs_fgs").attr("name", hzmd_List[num].orgn_id);
+        
+     	//直客对接人就是自己
+     	$("#hzjg_djr").val(hzmd_List[num].account_name);
+     	$("#hzjg_djr").attr("name", hzmd_List[num].account_id);
+
+     	//选择后返回上一页面
+        jQuery.mobile.changePage('#p5', {transition : 'slide'});
+  	}
+  	
+
+  	//返回方法
+    function h_back(){
+    	var pagenum = localStorage.getItem("pagenum");
+	 	pagenum--;
+		localStorage.setItem("pagenum", pagenum);
+    	//alert("h_back");
+    	if(pagenum == 2){
+    		jQuery.mobile.changePage('#p5', {transition : 'slide'});
+    	}else{
+    		jQuery.mobile.changePage('#p1', {transition : 'slide'});
+    	}
+    	
+    }
+  	
+  	//案卷提交--新版本首次面签时不再可以流转
+  	function summit(){
+  		
+  		//提交前清理所有颜色标记
+  		$(".redColor").removeClass("redColor");
+  		var data = {};
+  		
+ 		 var count = 0;
+ 		 var hzjg_count = 0; //判断渠道信息
+        data.userid = localStorage.getItem("userid");
+        data.username = localStorage.getItem("username");
+        data.trustees = localStorage.getItem("userid");
+        data.trusteename = localStorage.getItem("username");
+       
+        
+        data.loantype = loantype;
+        
+        data.bankname= $("#bank_name").val();
+        top.writelog("bankname="+$("#bank_name").val());
+        data.bankid = $("#bank_name").attr("name");
+        
+        if( top.isEmpty(data.bankname) || top.isEmpty(data.bankid)){
+            top.alertInfo("申贷机构不能为空");
+            return;
+        }
+        
+        data.fileno=fileno;
+  		data.jkr_xm=$("#jkr_xm").val();
+        data.jkr_sfzh=$("#jkr_sfzh").val();
+        data.jkr_lxfs1=$("#jkr_lxfs1").val();
+        data.jkr_lxfs2=$("#jkr_lxfs2").val();
+     
+        data.LoanNo = $("#LoanNo").val(); //申贷编号
+        
+        /*借款人配偶信息*/
+        data.jkr_haspo=$("#jkr_haspo").attr("name");
+        if( data.jkr_haspo == 1){
+            data.jkrpo_xm=$("#jkrpo_xm").val();
+            data.jkrpo_sfzh=$("#jkrpo_sfzh").val();
+            data.jkrpo_lxfs1=$("#jkrpo_lxfs1").val();
+            data.jkrpo_lxfs2=$("#jkrpo_lxfs2").val();
+        }
+        
+        /*共同借款人信息*/
+        data.jkr_hasgtjkr=$("#jkr_hasgtjkr").attr("name");
+        if( data.jkr_hasgtjkr == 1 ){
+            data.gtjkr_xm=$("#gtjkr_xm").val();
+            data.gtjkr_sfzh=$("#gtjkr_sfzh").val();
+            data.gtjkr_lxfs1=$("#gtjkr_lxfs1").val();
+            data.gtjkr_lxfs2=$("#gtjkr_lxfs2").val();
+            
+            /*共同借款人配偶xinxi*/
+            data.gtjkr_haspo=$("#gtjkr_haspo").attr("name");
+            if( data.gtjkr_haspo == 1 ){
+                data.gtjkrpo_xm=$("#gtjkrpo_xm").val();
+                data.gtjkrpo_sfzh=$("#gtjkrpo_sfzh").val();
+                data.gtjkrpo_lxfs1=$("#gtjkrpo_lxfs1").val();
+                data.gtjkrpo_lxfs2=$("#gtjkrpo_lxfs2").val();
+            }  
+        }
+        
+        /*借款人代理人信息*/
+        data.jkr_hasdlr=$("#jkr_hasdlr").attr("name");
+        if( data.jkr_hasdlr == 1) {
+            data.jkr_dlr_xm=$("#jkr_dlr_xm").val();
+            data.jkr_dlr_sfzh=$("#jkr_dlr_sfzh").val();
+            data.jkr_dlr_lxfs=$("#jkr_dlr_lxfs").val();
+        }
+        
+        data.LoanNo = $("#LoanNo").val(); //申贷编号
+        if(top.isEmpty($("#LoanNo").val())){
+        	mui.alert("借款人信息里的申贷编号不能为空，请去选择", "世纪源金融",null)
+        	return;
+        }
+        /*贷款信息*/
+        data.dk_je = $("#dk_je").val();
+        data.dk_yt = $("#dk_yt").val();
+        data.dk_pz=loantype_name;
+        data.dk_sqqx=$("#dk_qx").val();
+        data.dk_qx=$("#dk_qx").val();
+        data.dk_hkfs=$("#dk_hkfs").attr("name"); 
+        data.dk_jg=$("#bank_name").attr("name");
+        data.fc_dz=$("#fc_dz").val();       
+        data.fc_mj=$("#fc_mj").val();
+        data.fc_pgsj = $("#fc_pgsj").val();
+      
+
+        data.dictflag = dictflag;//直客标志0-否 1-是
+        //合作机构名称
+        if(dictflag == '0'){ //合作机构
+            data.hzjg_mc=$("#hzjg_mc").val();
+            data.hzjg_bh = $("#hzjg_mc").attr("name");
+            
+            data.hzjg_lb=$("#hzjg_lb").val();
+            data.hzjg_lb_bh = $("#hzjg_lb").attr("name");
+            data.hzjg_lblxfs=$("#hzjg_lblxfs").val();
+            //合作机构对接人
+            
+            data.hzjg_djr=$("#hzjg_djr").val();
+            
+            data.hzdjr_bh = $("#hzjg_djr").attr("name");
+            
+            data.hzjg_djrlxfs=$("#hzjg_djrlxfs").val();
+            //具体门店
+            if($("#hzjg_jtmd").html() == "选择具体门店") //实际没选
+            {
+                data.hzjg_jtmd='';
+            }else{
+                data.hzjg_jtmd=$("#hzjg_jtmd").val();
+            }
+            
+            data.hzmd_bh=$("#hzjg_jtmd").attr("name");
+            data.fc_pggs_jsfs=$("#fc_pggs_jsfs").val();
+            data.yjgs_fgs=$("#yjgs_fgs").val();
+            data.yjgs_fgs_id = $("#yjgs_fgs").attr("name");
+            data.yjgs_xsjl=$("#yjgs_xsjl").val();
+            data.yjgs_xsjl_hb=$("#yjgs_xsjl").attr("name");
+            
+            data.yjgs_xsjllxfs=$("#yjgs_xsjllxfs").val();
+        }else if(dictflag == '1'){ //直客
+        	data.dict_account_id = zk_data[zk_num].account_id;
+        	data.dict_account_name = zk_data[zk_num].account_name;
+        	data.dict_account_tel = zk_data[zk_num].account_tel;
+        	data.dict_orgn_id = zk_data[zk_num].orgn_id;
+        	data.dict_orgn_name = zk_data[zk_num].orgn_name;
+            data.yjgs_fgs=$("#yjgs_fgs").val();
+            data.yjgs_fgs_id = $("#yjgs_fgs").attr("name");
+            data.yjgs_xsjl=$("#yjgs_xsjl").val();
+            data.yjgs_xsjl_hb=$("#yjgs_xsjl").attr("name");;
+            
+            data.yjgs_xsjllxfs=$("#yjgs_xsjllxfs").val();
+        	
+        }else if(dictflag == '2'){
+        	data.hzjg_mc=$("#gdbh_mc").val();
+            data.hzjg_bh = $("#gdbh_mc").attr("name");           
+            data.hzjg_lb=$("#gdbh_lb").val();
+         
+            data.hzjg_lblxfs=$("#gdbh_lblxfs").val();  
+        
+        }
+        
+       
+        data.jy_fkfs = jy_fkfs;//默认付0
+        data["jy_fkfs"]="0";
+        
+       
+        //处理未输入的标签，变为红色
+        for(var key in data){
+           
+            var str_inp = data[key];
+            $("#"+key).addClass("redColor");
+            if( top.isEmpty_n(str_inp)){
+            	count++;
+            	 top.writelog("data["+key+"]="+data[key]);
+            	 if( key.match("jkr_")) //借款人信息
+                 {
+                 	top.writelog("jkr_color:"+key);
+                     $("#jkr_label").attr("style", "color:#007aff");          
+                 }else if( key.match("fc_")) //房产信息
+                 {
+                 	top.writelog("fc_color:"+key);
+                     $("#fc_label").attr("style", "color:#007aff");
+                 }else if( key.match("dk_")) //贷款信息
+                 {
+                 	top.writelog("dk_color:"+key);
+                     $("#dk_label").attr("style", "color:#007aff");
+                 }else if( key.match("hzjg_") || key.match("dict") || key.match("yjgs")) //渠道信息
+                 {
+                 	top.writelog("qd_color:"+key);
+                     $("#qd_label").attr("style", "color:#007aff");
+                     hzjg_count++;
+                 }else if(key.match("cwys_")) //财务信息
+                 {
+                 	top.writelog("cwsf_color:"+key);
+                     $("#cwsf_label").attr("style", "color:#007aff");
+                 }
+            }
+            
+            
+        }
+        
+        //借款人图片信息
+        var jkr_imgurl = localStorage.getItem("imgfilename_"+fileno+"_1_0");
+        if(top.isEmpty(jkr_imgurl)){
+        	count++;
+        	$("#jkr_tp").addClass("redColor");
+        }else{
+        	data.img_jkr_tp = jkr_imgurl;
+        }
+      //房产图片信息
+        var fc_imgurl = localStorage.getItem("imgfilename_"+fileno+"_1_7");
+        if(top.isEmpty(fc_imgurl)){
+        	count++;
+        	$("#fc_tp").addClass("redColor");
+        }else{
+        	data.fc_tp = fc_imgurl;
+        }
+
+        
+        
+     
+        data.cwys_fwf=$("#cwys_fwf").val(); //服务费
+        if(top.isEmpty($("#cwys_fwf").val()) || parseFloat($("#cwys_fwf").val()) < 0.01){
+           
+        	$("#cwys_fwf").addClass("redColor");
+        	$("#cwsf_label").attr("style", "color:#007aff");
+            data.cwys_fwf = "0.00";
+        }
+        data.cwys_zlf=$("#cwys_zlf").val(); //资料费
+        if(top.isEmpty($("#cwys_zlf").val()) || parseFloat($("#cwys_zlf").val()) < 0.01){
+         
+        	$("#cwys_zlf").addClass("redColor");
+        	$("#cwsf_label").attr("style", "color:#007aff");
+            data.cwys_zlf = "0.00";
+        }
+        data.cwys_qtfy=$("#cwys_qtfy").val(); //其他费用
+        if(top.isEmpty($("#cwys_qtfy").val()) || parseFloat($("#cwys_qtfy").val()) < 0.01){
+         
+        	$("#cwys_qtfy").addClass("redColor");
+        	$("#cwsf_label").attr("style", "color:#007aff");
+            data.cwys_qtfy = "0.00";
+        }
+        data.cwyf_ds=$("#cwyf_ds").val(); //代收费用
+        if(!top.isEmpty($("#cwyf_ds").val()) || parseFloat($("#cwyf_ds").val()) > 0.01){
+        	data.cwyf_yf=$("#cwyf_yf").val(); //有代收就有代付
+
+        }
+        
+        data.beiz=$("#beiz").val();
+        
+        top.writelog("hzjg_count="+hzjg_count);
+        if(hzjg_count > 0){
+        	mui.alert('合作渠道信息不能为空', '世纪源金融', null);
+        	return;
+        }
+        if( count == 0 ){
+            data.isfinish = 1;
+        } else {
+            data.isfinish = 0;
+        }
+        
+        if( data.isfinish == 0){
+            //收单时候必须要素内容不能为空
+            if( data.bankid == ""){
+                errorinfo="申贷银行不能为空";
+                top.alertInfo(errorinfo);
+                return;
+            }
+            is_finish_count = count;
+        }else{
+            is_finish_count = 0;
+        }
+        
+
+        data.beiz=$("#beiz").val();
+        data.flow = 1;
+        data.number = 1;
+        number = 1;
+       // data.note = note;
+    top.writelog("6006 jy_fkfs="+data.jy_fkfs);
+        top.http_comm("6006", data, done_after_save);
+  	}
+  	
+  	var is_finish_count = 0;
+    function done_after_save(msg){
+        top.writelog("is_finish_count="+is_finish_count);
+        var json=eval("("+msg+")");
+        
+        if( json.stat == '0') //登陆成功
+        {
+            
+            if( is_finish_count > 0 ){
+               
+                mui.alert('案卷创建资料不全，已转入代办事件，请尽快补全资料', '世纪源金融', function(){
+                	localStorage.setItem("back_alert", "0");
+                	parent.hideFrame('srfade');
+                    return;
+                });
+                
+                
+            }else{
+            	mui.alert('面签完成，请尽快在【待办事件】里流转', '世纪源金融', function(){
+            		localStorage.setItem("back_alert", "0");
+                	parent.hideFrame('srfade');
+                    return;
+                });
+                
+            }
+            
+            
+        }else{
+        	mui.alert('面签失败', '世纪源金融', null);
+        }
+    }
+    
+    function check_loan_hide(){
+    	$(".div_fullscreen_radio").hide();
+    }
+    function uploadimg(num){
+    	  
+    	
+        var imgnum = fileno + '_1_' + num;
+        localStorage.setItem("imgnum", imgnum);
+        if(num == 7){
+    		localStorage.setItem(imgnum+"_des", "车辆相关信息图片");
+    	} 
+       showNewFrame('dbaj_detail_bak.html?id='+num+'&type=0','smask');
+      
+       var img_filename = localStorage.getItem("imgfilename_"+fileno+"_1_10");
+       top.writelog("uploadimg.jjxx="+img_filename);
+    }
+    
+    //计算应返金额
+    function get_yf(){
+        
+        if(  $("#cwys_fwf").val() =='' || $("#cwys_zlf").val() == '' || $("#cwys_qtfy").val() == '' ){
+            mui.alert("财务应收必须填写完整后，才能代收", "世纪源金融", null);
+            $("#cwyf_ds").val('');
+            return ;
+        }
+        
+        
+        var fwf = $("#cwys_fwf").val()*1.0;
+        
+        var zlf = $("#cwys_zlf").val()*1.0;
+        
+        var qtfy = $("#cwys_qtfy").val()*1.0;
+        
+        
+        if($("#cwyf_ds").val() == ''){
+            $("#cwyf_yf").val('');
+        }else{
+            var ds = $("#cwyf_ds").val()*1.0;
+            
+          //  var yf = (pgf + dbf + fwf + zlf + qtfy - ds).toFixed(2);
+            var yf = ds.toFixed(2) - (fwf + zlf + qtfy ).toFixed(2);
+            $("#cwyf_yf").val(yf);
+        }
+        
+        
+    }
+</script>
+	  	
+	  	<body>
+        
+        <div data-role="page" id="p1">
+        	<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history()" ></a>
+				<h1 class="mui-title">抵车贷</h1>
+			</header>
+			<div class="mui-content mui-scroll-wrapper" >
+		    	<div class="mui-scroll top_head">
+		    		<!-- 案卷编号页面加载时生成 -->
+		    		<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+						<form class="mui-input-group">
+							<div class="mui-input-row">
+								<label>案卷编号</label>
+								<input data-role="none" type="text" placeholder="" id="fileno" readonly="readonly">														
+							</div>
+							<div class="mui-input-row" onclick="jQuery.mobile.changePage('#pbank', {transition : 'slide'});">
+								<label>审贷机构</label>
+								<input data-role="none" type="text" placeholder="" id="bank_name" class="type" name="" readonly="readonly">
+								<a  class="mui-navigate-right">点击选择</a>							
+							</div>		
+						</form>
+					</div>
+					<!-- 需要收集内容 -->
+					<div class="mui-content-padded"  style="margin: 5px;margin-top:10px;">	
+						<form class="mui-input-group">					
+							<div class="mui-input-row" onclick="jQuery.mobile.changePage('#p2', {transition : 'slide'});page_add();">
+								<label id="jkr_label">借款人信息</label>
+								<input data-role="none" type="text" placeholder=""  readonly="readonly">
+								<a  class="mui-navigate-right"></a>							
+							</div>	
+							<div class="mui-input-row" onclick="jQuery.mobile.changePage('#p3', {transition : 'slide'});page_add();">
+								<label id="dk_label">贷款信息</label>
+								<input data-role="none" type="text" placeholder=""  readonly="readonly">
+								<a  class="mui-navigate-right"></a>							
+							</div>
+							<div class="mui-input-row" onclick="jQuery.mobile.changePage('#p4', {transition : 'slide'});page_add();">
+								<label id="fc_label">车辆信息</label>
+								<input data-role="none" type="text" placeholder=""  readonly="readonly">
+								<a  class="mui-navigate-right"></a>							
+							</div>
+							<div class="mui-input-row" onclick="jQuery.mobile.changePage('#p5', {transition : 'slide'});page_add();">
+								<label  id="qd_label">渠道归属</label>
+								<input data-role="none" type="text" placeholder=""  readonly="readonly">
+								<a  class="mui-navigate-right"></a>							
+							</div>
+							<div class="mui-input-row" onclick="jQuery.mobile.changePage('#p6', {transition : 'slide'});page_add();">
+								<label id="cwsf_label">财务收付</label>
+								<input data-role="none" type="text" placeholder=""  readonly="readonly">
+								<a  class="mui-navigate-right"></a>							
+							</div>					
+						</form>						
+					</div>
+					<!-- 经办人留言信息 -->
+		            <div class="mui-content-padded" style="margin: 5px;">
+		                <form class="mui-input-group" >
+		                    <div class="mui-input-row" style="height:105px;">
+		                        <textarea id="beiz" rows="4" placeholder="注意事项（500字以内）" maxlength='500' onkeydown="checkMaxInput(this,500)"
+		                            onkeyup="checkMaxInput(this,500)" onfocus="checkMaxInput(this,500)" onblur="checkMaxInput(this,500);resetMaxmsg()"></textarea>
+		                    </div>
+		                </form>
+		            </div>
+		            
+		            <div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+		                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%;" onclick="summit()">提交</button>
+		            </div>
+				</div>
+			</div>
+        </div>
+        <!-- 借款人信息 -->
+        <div data-role="page" id="p2">
+        	<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();" ></a>
+				<h1 class="mui-title">借款人信息</h1>
+			</header>
+			<div class="mui-content mui-scroll-wrapper" >
+		    	<div class="mui-scroll top_head">
+		    		<!-- 借款人信息 -->
+		    		<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>姓名</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="jkr_xm" />
+							</div>
+							<div class="mui-input-row">										
+								<label>证件号码</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="jkr_sfzh" maxlength="18" onKeyUp="value=value.replace(/[\W]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onblur="check_id('jkr_sfzh');"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>本人手机号</label> 
+								<input data-role="none" type="tel"   placeholder="请输入联系方式"
+										id="jkr_lxfs1" maxlength="11"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>联系方式</label> 
+								<input data-role="none" type="tel"   placeholder="请输入备用联系方式"
+										id="jkr_lxfs2" maxlength="11"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>申贷编号</label> 
+								<input data-role="none" type="text"   placeholder="微信渠道客户必须输入"  onfocus="check_loanno()" readonly="readonly"
+										id="LoanNo" />
+							</div>
+						</form>
+						<form class="mui-input-group" >	
+							<div class="mui-input-row" onclick="uploadimg(0);">
+								<label>图片上传</label>
+								<input data-role="none" type="text" placeholder="借款人图片" id="jkr_tp" style="width:40%;float:left;" readonly="readonly">
+								<div class="rgt_c"></div>							
+							</div>
+						</form>
+					</div>
+					<!-- 借款人配偶信息 -->
+					<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">		
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>婚姻状态</label> 
+								<input data-role="none" type="text"   placeholder="默认未婚"
+										id="jkr_haspo" class="type" name="0" value="未婚" />
+							</div>
+						</form>					
+						<!-- 配偶信息模块 -->
+						<form class="mui-input-group" id="jkrpo_form" style="display:none">
+							<div class="mui-input-row">										
+								<label>姓名</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="jkrpo_xm" />
+							</div>
+							<div class="mui-input-row">										
+								<label>证件号码</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="jkrpo_sfzh" maxlength="18" onKeyUp="value=value.replace(/[\W]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onblur="check_id('jkrpo_sfzh');"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>本人手机号</label> 
+								<input data-role="none" type="number"   placeholder="请输入配偶本人手机号"
+										id="jkrpo_lxfs1" maxlength="11"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>联系方式</label> 
+								<input data-role="none" type="number"   placeholder="请输入备用联系方式"
+										id="jkrpo_lxfs2" maxlength="11"/>
+							</div>
+						</form>
+					</div>
+					<!--共同借款人信息 -->
+					<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">		
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>共同借款人</label> 
+								<input data-role="none" type="text"  placeholder="默认没有"
+										id="jkr_hasgtjkr" class="type" name="0" value="没有"/>
+							</div>
+						</form>							
+						<form class="mui-input-group" id="gtjkr_form" style="display:none">		
+							<div class="mui-input-row">										
+								<label>姓名</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="gtjkr_xm" />
+							</div>
+							<div class="mui-input-row">										
+								<label>证件号码</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="gtjkr_sfzh" maxlength="18" onKeyUp="value=value.replace(/[\W]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onblur="check_id('gtjkr_sfzh');"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>本人手机号</label> 
+								<input data-role="none" type="number"   placeholder="请输入联系方式"
+										id="gtjkr_lxfs1" maxlength="11"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>备用手机号</label> 
+								<input data-role="none" type="number"   placeholder="请输入备用联系方式"
+										id="gtjkr_lxfs2" maxlength="11"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>婚姻状态</label> 
+								<input data-role="none" type="text"  placeholder="默认没有"
+										id="gtjkr_haspo" class="type" name="0" value="未婚"/>
+							</div>
+						</form>
+
+									
+						<form class="mui-input-group" id="gtjkrpo_form" style="display:none">		
+							<div class="mui-input-row">										
+								<label>姓名</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="gtjkrpo_xm" />
+							</div>
+							<div class="mui-input-row">										
+								<label>证件号码</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="gtjkrpo_sfzh" maxlength="18" onKeyUp="value=value.replace(/[\W]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onblur="check_id('gtjkrpo_sfzh');"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>本人手机号</label> 
+								<input data-role="none" type="tel"   placeholder="请输入联系方式"
+										id="gtjkrpo_lxfs1" maxlength="11"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>备用手机号</label> 
+								<input data-role="none" type="tel"   placeholder="请输入备用联系方式"
+										id="gtjkrpo_lxfs2" maxlength="11"/>
+							</div>
+						</form>
+
+					</div>
+					<!--共同借款人信息 -->
+					<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">		
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>借款代理人</label> 
+								<input data-role="none" type="text"  placeholder="默认没有"
+										id="jkr_hasdlr" class="type" name="0" value="没有"/>
+							</div>
+						</form>
+						<form class="mui-input-group" id="jkdlr_form" style="display:none">		
+							<div class="mui-input-row">										
+								<label>姓名</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="jkr_dlr_xm" />
+							</div>
+							<div class="mui-input-row">										
+								<label>证件号码</label> 
+								<input data-role="none" type="text"   placeholder="请输入"
+										id="jkr_dlr_sfzh" maxlength="18" onKeyUp="value=value.replace(/[\W]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onblur="check_id('jkr_dlr_sfzh');"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>联系方式</label> 
+								<input data-role="none" type="number"   placeholder="请输入联系方式"
+										id="jkr_dlr_lxfs" maxlength="11"/>
+							</div>					
+						</form>
+					</div>
+					<div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+		                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();">返回</button>
+		            </div>
+				</div>
+			</div>
+        </div>
+        <!-- 贷款信息 -->
+        <div data-role="page" id="p3">
+        	<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();" ></a>
+				<h1 class="mui-title">贷款信息</h1>
+			</header>
+			<div class="mui-content mui-scroll-wrapper" >
+		    	<div class="mui-scroll top_head">
+		    		<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>贷款金额</label> 
+								<input data-role="none" type="number" name="number" style="width:55%;float:left;" placeholder="请输入贷款总额"
+										id="dk_je" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">万</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>贷款期限</label> 
+								<input data-role="none" type="number" name="number" style="width:55%;float:left;" placeholder="请输入贷款期限"
+										id="dk_qx" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">月</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>贷款用途</label> 
+								<input data-role="none" type="text"   placeholder="请输入贷款用途"
+										id="dk_yt"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>还款方式</label> 
+								<input data-role="none" type="text"  placeholder="请选择还款方式"
+										id="dk_hkfs" class="type" name="1" value="等额本息"/>
+							</div>
+						</form>
+					</div>
+					<div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+		                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();">返回</button>
+		            </div>
+				</div>
+			</div>
+        </div>
+        <!-- 装修信息 -->
+        <div data-role="page" id="p4">
+        	<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();" ></a>
+				<h1 class="mui-title">车辆信息</h1>
+			</header>
+			<div class="mui-content mui-scroll-wrapper" >
+		    	<div class="mui-scroll top_head">
+		    		<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>车辆品牌</label> 
+								<input data-role="none" type="text" name="number" placeholder="请输入车辆品牌"
+										id="fc_dz"/>
+							</div>		
+							<div class="mui-input-row">										
+								<label>车辆型号</label> 
+								<input data-role="none" type="text"  style="width:55%;float:left;" placeholder="请输入车辆型号"
+										id="fc_mj"/>
+							</div>		
+							<div class="mui-input-row">										
+								<label>出厂日期</label> 
+								<input data-role="none" type="date"  placeholder="请选择出厂日期"
+										id="fc_pgsj" style="height:41px;overflow: hidden;"/>
+							</div>			
+						</form>
+						<form class="mui-input-group" >	
+							<div class="mui-input-row" onclick="uploadimg(7);">
+								<label>图片上传</label>
+								<input data-role="none" type="text" placeholder="车辆图片"  id="fc_tp" style="width:40%;float:left;" readonly="readonly">
+								<div class="rgt_c"></div>						
+							</div>
+						</form>
+					</div>
+					<div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+		                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();">返回</button>
+		            </div>
+				</div>
+			</div>
+        </div>
+         <!-- 合作渠道 -->
+        <div data-role="page" id="p5" >
+        	<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();" ></a>
+				<h1 class="mui-title">渠道归属</h1>
+			</header>
+			<div class="mui-content mui-scroll-wrapper" >
+		    	<div class="mui-scroll top_head">
+		    		<div class=""  style="margin: 5px;margin-top:0px;">								
+						<ul class="mui-table-view mui-table-view-radio radio0">
+							<li class="mui-table-view-cell  mui-selected" id="0">
+								<a class="mui-navigate-right">
+									渠道（合作机构）
+								</a>
+							</li>
+							<li class="mui-table-view-cell" id="1">
+								<a class="mui-navigate-right">
+									直客（个人）
+								</a>
+							</li>
+							<li class="mui-table-view-cell" id="2">
+								<a class="mui-navigate-right">
+									直客（盖担保函）
+								</a>
+							</li>						
+						</ul>
+					</div>
+				
+
+					<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">		
+						<!-- 合作机构 -->						
+						<form class="mui-input-group hzjg" >		
+							<div class="mui-input-row" onclick="jQuery.mobile.changePage('#phzjg', {transition : 'slide'});page_add();">										
+								<label>合作机构</label> 
+								<input data-role="none" type="text" placeholder="点击选择合作机构"
+										id="hzjg_mc" class="double" name="" readonly="readonly"/>
+								<a  class="mui-navigate-right"></a>
+							</div>
+							<div class="mui-input-row">										
+								<label>老板姓名</label> 
+								<input data-role="none" type="text" placeholder="老板姓名"
+										id="hzjg_lb" class="double" name="" readonly="readonly"/>
+							</div>			
+							<div class="mui-input-row">										
+								<label>联系方式</label> 
+								<input data-role="none" type="number" placeholder="联系方式"
+										id="hzjg_lblxfs" readonly="readonly"/>
+							</div>	
+							<div class="mui-input-row">										
+								<label>结算方式</label> 
+								<input data-role="none" type="text" placeholder="结算方式"
+										id="fc_pggs_jsfs" class="double" name="" readonly="readonly"/>
+							</div>		
+						</form>
+						<!-- 门店 -->	
+						<form class="mui-input-group hzjg" >	
+							<div class="mui-input-row" onclick="jQuery.mobile.changePage('#phzmd', {transition : 'slide'});page_add();">										
+								<label>具体门店</label> 
+								<input data-role="none" type="text" placeholder="点击选择具体门店"
+										id="hzjg_jtmd" class="double" name="" readonly="readonly"/>
+										<a  class="mui-navigate-right"></a>
+							</div>
+							<div class="mui-input-row">										
+								<label>对接人</label> 
+								<input data-role="none" type="text" placeholder="对接人"
+										id="hzjg_djr" class="double" name="" readonly="readonly"/>
+								<a  class="mui-navigate-right"></a>
+							</div>			
+							<div class="mui-input-row">										
+								<label>联系方式</label> 
+								<input data-role="none" type="number" placeholder="联系方式"
+										id="hzjg_djrlxfs" readonly="readonly"/>
+							</div>
+						</form>
+						<!-- 直客(盖担保函)信息 -->	
+						<form class="mui-input-group"  id="zk_gdbh" style="display:none">	
+							<div class="mui-input-row">										
+								<label>合作支行</label> 
+								<input data-role="none" type="text" placeholder="合作支行"
+										id="gdbh_mc"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>银行经理</label> 
+								<input data-role="none" type="text"  placeholder="银行经理"
+										id="gdbh_lb" class="double" name=""/>
+							</div>			
+							<div class="mui-input-row">										
+								<label>联系方式</label> 
+								<input data-role="none" type="number"  placeholder="联系方式"
+										id="gdbh_lblxfs" readonly="readonly"/>
+							</div>
+						</form>
+						<ul class="mui-table-view" style="margin-top:45px;display:none" id="is_zk_list">
+                        
+                    	</ul>
+						<!-- 归属信息 -->	
+						<form class="mui-input-group yjgs">	
+							<div class="mui-input-row">										
+								<label>所属分公司</label> 
+								<input data-role="none" type="text"  placeholder="分公司"
+										id="yjgs_fgs" class="double" name="" readonly="readonly"/>
+							</div>
+							<div class="mui-input-row">										
+								<label>销售经理</label> 
+								<input data-role="none" type="text"  placeholder="销售经理"
+										id="yjgs_xsjl" class="double" name="" readonly="readonly"/>
+							</div>			
+							<div class="mui-input-row">										
+								<label>联系方式</label> 
+								<input data-role="none" type="number"  placeholder="联系方式"
+										id="yjgs_xsjllxfs" readonly="readonly"/>
+							</div>
+						</form>
+					</div>
+					<div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+		                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();">返回</button>
+		            </div>
+				</div>
+			</div>
+        </div>
+        <!-- 财务收付 -->
+        <div data-role="page" id="p6">
+        	<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();" ></a>
+				<h1 class="mui-title">财务收付</h1>
+			</header>
+			<div class="mui-content mui-scroll-wrapper" >
+		    	<div class="mui-scroll top_head">
+		    		<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>服务费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入服务费"
+										id="cwys_fwf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>资料费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入资料费"
+										id="cwys_zlf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>其他费用</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入其他费用"
+										id="cwys_qtfy" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+						</form>
+					</div>
+					<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>代收金额</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入代收金额"
+										id="cwyf_ds" maxlength='9' onblur="get_yf()"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>应反金额</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入应反金额"
+										id="cwyf_yf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>							
+						</form>
+					</div>
+					<div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+		                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();">返回</button>
+		            </div>
+				</div>
+			</div>
+        </div>
+<!--         选择审贷银行页面 -->
+        <div data-role="page" id="pbank">
+        	<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="jQuery.mobile.changePage('#p1', {transition : 'slide'});reduce_page();" ></a>
+				<h1 class="mui-title">审贷银行</h1>
+			</header>
+			<div class="mui-content mui-scroll-wrapper">
+		    	<div class="mui-scroll top_head">		
+		           <div class="mui-input-row mui-search">
+						<input type="text" class="mui-input-clear" placeholder="按关键字搜索问题" id="bank_search_key">
+					</div>
+                    <ul class="mui-table-view" style="margin-top:5px;" id="bank_list">
+                        
+                    </ul>
+				</div>
+			</div>
+        </div>
+       <!-- 选择合作机构 --> 
+        <div data-role="page" id="phzjg">
+        	<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="jQuery.mobile.changePage('#p5', {transition : 'slide'});reduce_page();" ></a>
+				<h1 class="mui-title">选择合作机构</h1>
+			</header>
+			<div class="mui-content mui-scroll-wrapper" >
+		    	<div class="mui-scroll top_head">
+	
+			        <div class="mui-input-row mui-search">
+						<input  type="text" class="mui-input-clear" placeholder="按关键字搜索问题" id="inst_search_key">
+					</div>
+		            
+	           		<ul class="mui-table-view hzjg" style="margin-top:5px;" id="inst_list">
+                       
+                   	</ul>
+		           
+                    
+				</div>
+			</div>
+        </div>
+       <!-- 选择门店信息页面 --> 
+        <div data-role="page" id="phzmd">
+        	<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="jQuery.mobile.changePage('#p5', {transition : 'slide'});reduce_page();" ></a>
+				<h1 class="mui-title">选择合作门店</h1>
+			</header>
+			<div class="mui-content mui-scroll-wrapper" >
+		    	<div class="mui-scroll top_head">
+		
+		           <div class="mui-input-row mui-search">
+						<input type="text" class="mui-input-clear" placeholder="按关键字搜索问题" id="md_search_key">
+					</div>
+					
+                    <ul class="mui-table-view hzjg" style="margin-top:5px;" id="md_list">
+                        
+                    </ul>
+	                
+				</div>
+			</div>
+        </div>
+        <div class="div_fullscreen_radio" style="display:none">
+	        <header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="check_loan_hide();" ></a>
+				<h1 class="mui-title">请选择微信申贷编号</h1>
+				
+			</header>
+	     	<div class="mui-content mui-scroll-wrapper">       		
+		       	<div class="mui-scroll ">
+		       		
+					<ul class="mui-table-view mui-table-view-radio radio1" style="margin-top:75px;">
+						
+					</ul>
+		       		
+		       	</div>
+		    </div>
+		 </div>
+		
+ 
+	<script src="mui/js/mui.picker.js"></script>
+	<script src="mui/js/mui.poppicker.js"></script>
+
+		<script>
+            
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					/*********婚姻状态***********/
+					var isPicker = new $.PopPicker({
+						layer: 1
+					});
+					
+					isPicker.setData(Marital_Status);
+					
+					var jkr_haspo = doc.getElementById('jkr_haspo');
+					
+					jkr_haspo.addEventListener('tap', function(event) {
+						isPicker.show(function(items) {
+							
+							jkr_haspo.name = (items[0] || {}).value;
+							jkr_haspo.value = (items[0] || {}).text;
+							var jkrpo_form = doc.getElementById('jkrpo_form');
+							if(jkr_haspo.name == '1'){ //已婚
+								jkrpo_form.style.display="block";
+							}else{
+								jkrpo_form.style.display="none";
+							}
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					
+					/*********是否有共同借款人***********/
+					var isPicker2 = new $.PopPicker({
+						layer: 1
+					});
+					
+					isPicker2.setData(Yes_No);
+					
+					var jkr_hasgtjkr = doc.getElementById('jkr_hasgtjkr');
+					
+					jkr_hasgtjkr.addEventListener('tap', function(event) {
+						isPicker2.show(function(items) {
+							
+							jkr_hasgtjkr.name = (items[0] || {}).value;
+							jkr_hasgtjkr.value = (items[0] || {}).text;
+							var gtjkr_form = doc.getElementById('gtjkr_form');
+							if(jkr_hasgtjkr.name == '1'){ //已婚
+								gtjkr_form.style.display="block";
+							}else{
+								gtjkr_form.style.display="none";
+							}
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					
+					/*********是否有共同借款人配偶***********/
+					var isPicker3 = new $.PopPicker({
+						layer: 1
+					});
+					
+					isPicker3.setData(Marital_Status);
+					
+					var gtjkr_haspo = doc.getElementById('gtjkr_haspo');
+					
+					gtjkr_haspo.addEventListener('tap', function(event) {
+						isPicker3.show(function(items) {
+							
+							gtjkr_haspo.name = (items[0] || {}).value;
+							gtjkr_haspo.value = (items[0] || {}).text;
+							var gtjkrpo_form = doc.getElementById('gtjkrpo_form');
+							if(gtjkr_haspo.name == '1'){ //已婚								
+								gtjkrpo_form.style.display="block";
+							}else{								
+								gtjkrpo_form.style.display="none";
+							}
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					
+					/*********是否有代理人***********/
+				
+					var isPicker5 = new $.PopPicker({
+						layer: 1
+					});
+					
+					isPicker5.setData(Yes_No);
+					
+					var jkr_hasdlr = doc.getElementById('jkr_hasdlr');
+					
+					jkr_hasdlr.addEventListener('tap', function(event) {
+						isPicker5.show(function(items) {
+							
+							jkr_hasdlr.name = (items[0] || {}).value;
+							jkr_hasdlr.value = (items[0] || {}).text;
+							var jkdlr_form = doc.getElementById('jkdlr_form');
+							if(jkr_hasdlr.name == '1'){ //shi
+								jkdlr_form.style.display="block";
+							}else{								
+								jkdlr_form.style.display="none";
+							}
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					
+					//还款方式
+					var isPicker4 = new $.PopPicker({
+						layer: 1
+					});
+					
+					isPicker4.setData(Repayment_Mode);
+					
+					var dk_hkfs = doc.getElementById('dk_hkfs');
+					
+					dk_hkfs.addEventListener('tap', function(event) {
+						isPicker4.show(function(items) {
+							
+							dk_hkfs.name = (items[0] || {}).value;
+							dk_hkfs.value = (items[0] || {}).text;
+							
+							
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					
+					
+			
+					
+				});
+			})(mui, document);
+		</script>
+        </body>
+</html>

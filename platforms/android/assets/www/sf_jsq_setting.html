@@ -1,0 +1,508 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+
+<link rel="stylesheet" type="text/css" href="css/aui/aui.css" />
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link href="mui/css/mui.picker.css" rel="stylesheet" />
+<link href="mui/css/mui.poppicker.css" rel="stylesheet" />
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+        <style>
+		 html, body {
+                 position: relative;
+                 height: 100%;
+             }
+         body {
+             background: #fff;
+             font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+             font-size: 14px;
+             color:#000;
+             margin: 0;
+             padding: 0;
+             overflow:auto;
+          
+         }
+
+select {
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  height:35px;
+  line-height:35px;
+  width: 120px;
+  padding-right: 14px; }
+        
+        .mui-center{
+            text-align:center;
+        }
+        .mui-right{
+            text-align:right;
+        }
+
+  
+        .mui-col-xs-3{
+            border: 1px solid #aaa;
+            
+        }
+
+
+
+          .mui-switch:before{
+    font-size: 13px;
+    position: absolute;
+    top: 3px;
+    right: 11px;
+    content: attr(data-off);
+    text-transform: uppercase;
+    color: #999;
+   }
+   .mui-switch.mui-active:before{
+    right: auto;
+    left: 15px;
+    content: attr(data-on);
+    color: #fff;
+   }
+
+.wan{
+	position:absolute;
+	right:0;
+	z-index:5;
+	width:44px;
+	line-height:40px;
+	font-weight:bold;
+	color:#17A9FF;
+}
+
+.yuan{
+	border:2px solid #8EC2F5;
+	height:16px;
+	line-height:16px;
+	width:10vw;
+	color:#8EC2F5;
+	border-radius:10px;
+	text-align:center;
+	font-size:12px;
+}
+
+
+.p_title{
+	padding-left:15px;padding-top:5px;height:20px;font-weight:bold;color:#99CC00
+}
+
+.p_note{
+	padding-left:15px;padding-top:5px;height:20px;
+}
+.os{
+	padding-right:44px;
+}
+.os_half{
+	padding-right:30px;
+	border:0px;
+}
+
+.os_half label{
+	width:12vw;
+	font-size:12px;
+}
+.os_half input{
+	
+	font-size:16px;
+}
+</style>
+    </head>
+    <script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+
+        localStorage.setItem("pagenum", 0);
+        mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		//返回键 tap事件监听
+		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+	  		this.click();
+                              return false;
+	  	});
+
+		$("input").attr("style", "text-align:right;font-size:14px;color:#6e6e6e;");
+		$("input").bind("keyup", onlyNumber);
+		var msg = localStorage.getItem("rate_info");
+		//top.writelog("rate_info="+msg);
+		var responseData = eval("("+msg+")");
+
+		for(var key in responseData){
+	    	top.writelog("C025:key="+key+";value="+responseData[key]);
+	        $("#"+key).val(responseData[key]);
+	    }
+		
+		if(!top.Settings.loginState){
+			top.alertInfo("您的账号未登陆，将无法修改税费参数");
+			$("input").attr("readonly", "readonly");
+			//return;
+		}
+    }
+    
+
+
+function onlyNumber(){    
+    
+    $this=$(this);
+    var value = $this.val();
+    
+    //得到第一个字符是否为负号    
+    var t = value.charAt(0);      
+    //先把非数字的都替换掉，除了数字和.     
+    value = value.replace(/[^\d\.]/g,'');       
+     //必须保证第一个为数字而不是.       
+     value = value.replace(/^\./g,'');       
+     //保证只有出现一个.而没有多个.       
+     value = value.replace(/\.{2,}/g,'.');       
+     //保证.只出现一次，而不能出现两次以上       
+     value = value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');  
+ 
+     value = value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');  
+     $this.val(value);
+     //如果第一位是负号，则允许添加    
+     if(t == '-'){    
+          
+       return;  
+     }    
+    
+
+}
+
+function set_rate(){
+	//读取服务器 税费设置文件
+	
+	var msg = localStorage.getItem("rate_info");
+	top.writelog("rate_info="+msg);
+	var responseData = eval("("+msg+")");
+
+	for(var key in responseData){
+    	top.writelog("C025:key="+key+";value="+responseData[key]);
+        $("#"+key).val(responseData[key]);
+    }
+	
+	
+}
+
+function save_rate(){
+	if(!top.Settings.loginState){
+		top.alertInfo("请先登陆后，再修改税费参数");
+		return;
+	}
+	var data={};
+	$("input").each(
+            function(index){
+	            $this=$(this);
+	            var key = $this.attr('id');
+	            var value = $this.val();
+	            var name = $this.attr('name');
+	            data[key] = value;
+            }
+            );
+	
+	
+	localStorage.setItem("rate_info", JSON.stringify(data));
+	
+}
+
+    </script>
+    
+<body style="background:#8EC2F5;">
+	  	<header class="mui-bar mui-bar-nav head_color" style="background-color: #007aff;box-shadow:0px 0px 0px #000;border:0px;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>	
+			<h1 class="mui-title" id="sl_title">税费参数配置</h1>
+		
+		</header>
+       	<div class="mui-content" >											
+		    	<div id="slider" class="mui-slider" style="margin-top:25px;border:0px;">
+					<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" style="background-color: #007aff;border:0px;">
+						<a class="mui-control-item mui-active" href="#residence">
+							住宅
+						</a>
+						<a class="mui-control-item" href="#non-residence">
+							非住宅
+						</a>
+						
+					</div>
+					<div class="mui-slider-group">
+						<div id="residence" class="mui-slider-item mui-control-content mui-active">
+							<div id="scroll1" class="mui-scroll-wrapper">
+								<div class="mui-scroll">
+						    		<div class="mui-content-padded "  style="margin: 5px;margin-top:2px;">								
+										<form class="mui-input-group" >	
+											<p class="p_title">契税</p>
+											<p class="p_note">房产面积≤90m²，契税比例</p>	
+											<div class="mui-row">
+						                        <div class="mui-col-xs-6" >
+						                            <div class="mui-input-row os_half">
+						                                <label>首套</label>
+						                                <input type="text" class="type" placeholder="点击输入"   id="qs_s_1_rate" name="">
+						                                <span class="wan">%</span>
+						                            </div>
+						                        </div>
+						                        <div class="mui-col-xs-6">
+						                            <div class="mui-input-row os_half">
+						                                <label>二套</label>
+						                                <input type="text" placeholder="点击输入"   id="qs_s_2_rate">
+						                                <span class="wan">%</span>
+						                            </div>
+						                        </div>						                     
+											</div>
+											
+											<p class="p_note">房产面积≥90m²，契税比例</p>	
+											<div class="mui-row">
+						                        <div class="mui-col-xs-6">
+						                            <div class="mui-input-row os_half">
+						                                <label>首套</label>
+						                                <input type="text" class="type" placeholder="点击输入"   id="qs_m_1_rate" name="">
+						                                <span class="wan">%</span>
+						                            </div>
+						                        </div>
+						                        <div class="mui-col-xs-6">
+						                            <div class="mui-input-row os_half">
+						                                <label>二套</label>
+						                                <input type="text" placeholder="点击输入"   id="qs_m_2_rate">
+						                                <span class="wan">%</span>
+						                            </div>
+						                        </div>
+						                
+											</div>
+										</form>
+										<form class="mui-input-group" style="margin-top:10px;">	
+											<p class="p_title">增值税</p>
+											<p class="p_note">住宅类，证不足2年为网签价*税率；满两年免征</p>
+											<div class="mui-row">			                        		                        	
+					                            <div class="mui-input-row os">
+					                                <label>税率</label>
+					                                <input type="text" class="type" placeholder="点击输入"   id="zzs_rate" name="">
+					                                <span class="wan">%</span>
+					                            </div>        
+						                    </div>								
+										</form>
+										<form class="mui-input-group" style="margin-top:10px;">	
+											<p class="p_title">个人所得税</p>							
+											<p class="p_note">证不足5年：网签价*税率；满5年且家庭唯一免征</p>
+											<div class="mui-row">			                        		                        	
+					                            <div class="mui-input-row os">
+					                                <label>税率</label>
+					                                <input type="text" class="type" placeholder="点击输入"   id="gs_rate" name="">
+					                                <span class="wan">%</span>
+					                            </div>        
+						                    </div>								
+										</form>
+										<!-- 
+										<form class="mui-input-group" style="margin-top:10px;">	
+											<p class="p_title">土地增值税</p>	
+											<p class="p_note">房价*税率</p>
+											<div class="mui-row">
+						                        <div class="mui-col-xs-6" >
+						                            <div class="mui-input-row os_half">
+						                                <label>远郊</label>
+						                                <input type="text" class="type" placeholder="点击输入"   id="td_sub_rate" name="">
+						                                <span class="wan">%</span>
+						                            </div>
+						                        </div>
+						                        <div class="mui-col-xs-6">
+						                            <div class="mui-input-row os_half">
+						                                <label>近郊</label>
+						                                <input type="text" placeholder="点击输入"   id="td_cen_rate"  name="">
+						                                <span class="wan">%</span>
+						                            </div>
+						                        </div>
+						                 	</div>
+						                 </form>
+						                  -->
+						                 <form class="mui-input-group" style="margin-top:10px;">	
+											<p class="p_title">综合服务费</p>
+											<p class="p_note">建筑面积*（费用/平米）</p>
+											<div class="mui-row">			                        		                        	
+					                            <div class="mui-input-row os">
+					                                <label>费用</label>
+					                                
+					                                <input type="text" class="type" placeholder="点击输入"   id="fwf_rate" name="">
+					                                <span class="wan">元</span>
+					                            </div>        
+						                    </div>								
+										</form>
+										<!-- 
+						                 <form class="mui-input-group" style="margin-top:10px;">	
+											<p class="p_title">房屋登记费</p>	
+											<p class="p_note">登记费由（原件*费用+共有证*本数*费用组成）</p>
+											<div class="mui-row">
+						                        <div class="mui-col-xs-6" >
+						                            <div class="mui-input-row os_half">
+						                                <label>每本</label>
+						                                <input type="text" class="type" placeholder="原件费用"   id="djf_rate" name="">
+						                                <span class="wan">元</span>
+						                            </div>
+						                        </div>
+						                        <div class="mui-col-xs-6">
+						                            <div class="mui-input-row os_half">
+						                                <label>每本</label>
+						                                <input type="text" placeholder="共有证费用"   id="djf_add_rate">
+						                                <span class="wan">元</span>
+						                            </div>
+						                        </div>
+						                 	</div>
+						                 </form>
+						                  -->
+						      
+						                  <form class="mui-input-group" style="margin-top:10px;">	
+											<p class="p_title">房屋登记费</p>	
+											<p class="p_note">登记费约为</p>
+											<div class="mui-row">
+						                        
+						                            <div class="mui-input-row os">
+						                                <label>每本</label>
+						                                <input type="text" class="type" placeholder="原件费用"   id="djf_rate" name="">
+						                                <span class="wan">元</span>
+						                            </div>
+						                       						              
+						                 	</div>
+						                 </form>
+						                 <p class="p_note">修改只会影响本人的税率</p>
+						                 <div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+											<button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="save_rate();">保存修改</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="non-residence" class="mui-slider-item mui-control-content">
+							<div id="scroll1" class="mui-scroll-wrapper">
+								<div class="mui-scroll">
+									<div class="mui-content-padded "  style="margin: 5px;margin-top:2px;">								
+										<form class="mui-input-group" >	
+											<div class="mui-row">    
+												<div class="mui-col-xs-6">  
+													<p class="p_title">契税</p>
+													<p class="p_note">网签价*税率</p>	                  
+						                            <div class="mui-input-row os_half">
+						                                <label>税率</label>
+						                                <input type="text" class="type" placeholder="点击输入"   id="qs_rate_n" name="">
+						                                <span class="wan">%</span>
+						                            </div>
+						                        </div>
+											
+												<div class="mui-col-xs-6"> 
+													<p class="p_title">增值税</p>
+													<p class="p_note">网签价*税率</p>
+															                        		                        	
+						                            <div class="mui-input-row os_half">
+						                                <label>税率</label>
+						                                <input type="text" class="type" placeholder="点击输入"   id="zzs_rate_n" name="">
+						                                <span class="wan">%</span>
+						                            </div>        
+								                   	
+							                    </div>
+						                    </div>							
+										</form>
+										<form class="mui-input-group" style="margin-top:10px;">	
+											<div class="mui-row">
+												<div class="mui-col-xs-6">  
+													<p class="p_title">个人所得税</p>							
+													<p class="p_note">网签价*税率</p>
+															                        		                        	
+						                            <div class="mui-input-row os">
+						                                <label>税率</label>
+						                                <input type="text" class="type" placeholder="点击输入"   id="gs_rate_n" name="">
+						                                <span class="wan">%</span>
+						                            </div>  
+					                            </div>  
+					                            
+					                            <div class="mui-col-xs-6"> 
+					                            	<p class="p_title">土地增值税</p>
+													<p class="p_note">网签价*税率</p>
+													<div class="mui-input-row os_half">
+						                                <label>税率</label>
+						                                <input type="text" class="type" placeholder="点击输入"   id="td_rate_n" name="">
+						                                <span class="wan">%</span>
+						                            </div>
+					                            </div>
+					                                
+						                    </div>								
+										</form>
+										
+										<form class="mui-input-group" style="margin-top:10px;">	
+											<div class="mui-row">
+												<div class="mui-col-xs-6">  
+													<p class="p_title">印花税</p>
+													<p class="p_note">网签价*税率</p>
+															                        		                        	
+						                            <div class="mui-input-row os">
+						                                <label>税率</label>
+						                                <input type="text" class="type" placeholder="点击输入"   id="yhs_rate_n" name="">
+						                                <span class="wan">%</span>
+						                            </div>  
+					                            </div>  
+					                            
+					                            <div class="mui-col-xs-6"> 
+					                            	<p class="p_title">综合服务费</p>
+													<p class="p_note">建筑面积*（费用/平米）</p>
+													<div class="mui-input-row os_half">
+						                                <label>费用</label>
+						                                <input type="text" class="type" placeholder="点击输入"   id="fwf_rate_n" name="">
+						                                <span class="wan">元</span>
+						                            </div>
+					                            </div>
+					                                
+						                    </div>								
+										</form>
+						                
+		
+						                 <form class="mui-input-group" style="margin-top:10px;">	
+											<p class="p_title">房屋登记费</p>	
+											<p class="p_note">每本费用*本数</p>
+											
+					                        <div class="mui-input-row os">
+					                            <label>每本</label>
+					                            <input type="text" class="type" placeholder="原件费用"   id="djf_rate_n" name="">
+					                            <span class="wan">元</span>
+					                        </div>
+						                 </form>
+						                 <form class="mui-input-group" style="margin-top:10px;">	
+											<p class="p_title">土地收益金</p>	
+											<p class="p_note">住宅与费住宅统一计算标准，建筑面积*（费用/平米）</p>
+											
+					                        <div class="mui-input-row os">
+					                            <label>每平方</label>
+					                            <input type="text" class="type" placeholder="土地收益金"   id="syj_rate" name="">
+					                            <span class="wan">元</span>
+					                        </div>
+						                 </form>
+						                 <p class="p_note">修改只会影响本人的税率</p>
+						                 <div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+											<button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="save_rate();">保存修改</button>
+										</div> 
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>			 
+			</div>			      
+		
+	
+	<script src="mui/js/mui.min.js"></script>
+
+
+</body>
+</html>

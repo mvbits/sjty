@@ -1,0 +1,750 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+
+<link rel="stylesheet" type="text/css" href="css/aui/aui.css" />
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link href="mui/css/mui.picker.css" rel="stylesheet" />
+<link href="mui/css/mui.poppicker.css" rel="stylesheet" />
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+        <style>
+		 html, body {
+                 position: relative;
+                 height: 100%;
+             }
+         body {
+             background: #fff;
+             font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+             font-size: 14px;
+             color:#000;
+             margin: 0;
+             padding: 0;
+             overflow:auto;
+          
+         }
+
+select {
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  height:35px;
+  line-height:35px;
+  width: 120px;
+  padding-right: 14px; }
+        
+        .mui-center{
+            text-align:center;
+        }
+        .mui-right{
+            text-align:right;
+        }
+        .mui-col-xs-3{
+            border: 1px solid #aaa;
+            
+        }
+        .mui-col-xs-6{
+            border: 1px solid #aaa;
+            
+        }
+          .mui-switch:before{
+    font-size: 13px;
+    position: absolute;
+    top: 3px;
+    right: 11px;
+    content: attr(data-off);
+    text-transform: uppercase;
+    color: #999;
+   }
+   .mui-switch.mui-active:before{
+    right: auto;
+    left: 15px;
+    content: attr(data-on);
+    color: #fff;
+   }
+
+.wan{
+	position:absolute;
+	right:0;
+	z-index:5;
+	width:44px;
+	line-height:40px;
+	font-weight:bold;
+}
+
+.yuan{
+	border:2px solid #8EC2F5;
+	height:16px;
+	line-height:16px;
+	width:90px;
+	color:#8EC2F5;
+	border-radius:10px;
+	text-align:center;
+	font-size:12px;
+}
+
+.mui-col-xs-6{
+	border:0;
+}
+.p_title{
+	padding-left:15px;padding-top:5px;height:20px;font-weight:bold;color:#99CC00
+}
+
+.p_note{
+	padding-left:15px;padding-top:5px;height:20px;
+}
+.addWidth{
+	width:150%;
+}
+.mui-h5{
+	font-weight:bold;
+	font-size:16px;
+	color:#17A9FF;
+	font-family:"微软雅黑","黑体","宋体";
+}
+</style>
+    </head>
+    <script type="text/javascript">
+    var  term_value = '0';
+    var  fc_type_value = '0';
+	var  total_amt = 0.00; //合计金额
+	var  qs_amt = 0.00; //契税
+	var  zzs_amt = 0.00; //增值税
+	var  gs_amt = 0.00; //个人所得税
+	var  td_amt = 0.00; //土地增值税
+	var  yhs_amt = 0.00; //印花税
+	var  fwf_amt = 0.00; //服务费
+	var  djf_amt = 0.00; //登记费
+	var add_type_value = 0;//土地性质 1-出让 2-划拨
+	var fc_first = 1; //是否首套房 0-否 1-是
+	var fc_only = 1; //是否唯一住房 0-否 1-是
+	var dw_flag = 0; //是否单位住房 0-否 1-是
+	var y=0;//垂直偏移量
+	var rate_info = {};
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+
+        localStorage.setItem("pagenum", 0);
+        mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		//返回键 tap事件监听
+		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+	  		this.click();
+                              return false;
+	  	});
+		y = 0- $(".offset_ul").offset().top -80;
+    	
+        $("input").attr("style", "text-align:right;font-size:14px;");
+        mui('.mui-content .mui-switch').each(function() { //循环所有toggle
+			//toggle.classList.contains('mui-active') 可识别该toggle的开关状态
+			//this.parentNode.querySelector('span').innerText = '状态：' + (this.classList.contains('mui-active') ? 'true' : 'false');
+			/**
+			 * toggle 事件监听
+			 */
+			 
+			this.addEventListener('toggle', function(event) {
+				//event.detail.isActive 可直接获取当前状态
+				//this.parentNode.querySelector('span').innerText = '状态：' + (event.detail.isActive ? 'true' : 'false');
+				console.log("event="+JSON.stringify(event.detail.isActive));
+				console.log("this="+JSON.stringify($(this).attr("id")));
+				if($(this).attr("id") == "shouci"){ //首套房
+					if(event.detail.isActive == true){
+						fc_first = 1;
+					}else{
+						fc_first = 0;
+					}
+				}else if($(this).attr("id") == "shouci"){//是否唯一住房
+					if(event.detail.isActive == true){
+						fc_only = 1;
+					}else{
+						fc_only = 0;
+					}
+				}else if($(this).attr("id") == "dwzf"){//是否单位住房
+					if(event.detail.isActive == true){
+						dw_flag = 1;
+					}else{
+						dw_flag = 0;
+					}
+				}
+			});
+		});
+        
+        //获取 税费计算参数
+        /*
+        $.ajax({
+               type : "post",
+               timeout: 5000,
+               url: "http://www.sjyjr.net/app/6060",
+               data : {},
+               datatype : "json",
+               success : function(msg){
+               top.writelog("6060 recv:"+JSON.stringify(msg));
+               var json = eval("("+msg+")")
+               rate_info = json.data;  
+               top.writelog("rate_info="+JSON.stringify(rate_info));
+               },
+               error:function(msg){
+               top.check_connect_stat();
+               }
+               });
+               */
+               top.http_comm("6025", data, function(msg){
+                             top.writelog("6060 recv:"+JSON.stringify(msg));
+                             var json = eval("("+msg+")")
+                             rate_info = json.data;
+                             top.writelog("rate_info="+JSON.stringify(rate_info));
+                             });
+    }
+    
+
+function get_info(){
+	total_amt = 0.00; //合计金额
+	qs_amt = 0.00; //契税
+	zzs_amt = 0.00; //增值税
+	gs_amt = 0.00; //个人所得税
+	td_amt = 0.00; //土地增值税
+	yhs_amt = 0.00; //印花税
+	fwf_amt = 0.00; //服务费
+	djf_amt = 0.00; //登记费
+
+	if(top.isEmptyObject(rate_info)){
+		top.alertInfo("为获取到税费计算参数，请检查网络状态，稍后重新登陆再试");
+		return;
+	}
+	if(term_value == 0){ //房产年限
+		top.alertInfo("请选择房产年限");
+		return;
+	}
+	
+	if(fc_type_value == 0){ //房产用途 1-住宅 2-非住宅
+		top.alertInfo("请选择房产用途");
+		return;
+	}
+	if(add_type_value == 0){ //土地性质 1-出让 2-划拨
+		top.alertInfo("请选择土地性质");
+		return;
+	}
+	var proportion = $("#proportion").val() *1.00;//房产米娜及
+	var fc_amt = $("#fc_amt").val()*1.00; //房产总价
+	var fc_ce = $("#fc_ce").val()*1.00; //上手计税价格
+	var margin = (fc_amt - fc_ce)*1.00; //放假差额
+	if(proportion == 0){
+		top.alertInfo("请填写房屋面积");
+		return;
+	}
+	if(fc_amt == 0){
+		top.alertInfo("请填写房屋总价");
+		return;
+	}
+	if(margin == 0){
+		top.alertInfo("请填写房价差额");
+		return;
+	}
+
+	
+	$(".result_class").show();
+	//抬头高度减去要移动的DIV离顶部距离
+	mui('.mui-scroll-wrapper').scroll().reLayout();//重新布局，不加这个移动后会自动回弹
+	mui('.mui-scroll-wrapper').scroll().scrollTo(0,y,1000);//1000毫秒滚动顶部滚动到Y的位置
+
+	if(top.isEmptyObject(rate_info)){
+		top.alertInfo("未获取到相关参数，请稍后再试");
+		return;
+	}
+
+	
+	if(add_type_value == '2'){ //只有划拨才有土地收益金
+	//	profit = (proportion * rate_info.syj_rate).toFixed(2);
+		profit = 1000.00;
+	}else{
+		profit = 0.00;
+	}
+	if( fc_type_value == 1){ //住宅
+		
+		//契税
+		if(proportion > 90){//房产面积大鱼90
+			if(fc_first == 1){ //首套房
+				qs_amt = (fc_amt * rate_info.qs_m_1_rate * 100).toFixed(2);
+			}else{
+				qs_amt = (fc_amt * rate_info.qs_m_2_rate * 100).toFixed(2);
+			}
+			
+		}else{ //房产面积小于90
+			qs_amt = (fc_amt * rate_info.qs_s_1_rate * 100).toFixed(2);
+		}
+	
+		//增值税
+		if(term_value==1){//房产年限小于2年
+			zzs_amt = (margin * rate_info.zzs_rate * 100).toFixed(2);
+		}
+		
+		//个人所得税
+		if(term_value < 3 || fc_only == 0 ){//房产年限大于5年
+			gs_amt = (fc_amt * rate_info.gs_rate * 100).toFixed(2);
+		}
+		
+		//土地增值税-最新说法，住宅没有
+		
+		if(dw_flag == 1){ //单位住房
+			/* 新说法，不存在近郊远郊区别
+			if(add_type_value == 1){//远郊
+				td_amt = (fc_amt * rate_info.td_sub_rate * 100).toFixed(2);
+			}else if(add_type_value == 2){//城区
+				td_amt = (fc_amt * rate_info.td_cen_rate * 100).toFixed(2);
+			}
+		*/
+			td_amt = (fc_amt * rate_info.td_cen_rate * 100).toFixed(2);
+			$("#td_info").show();
+		}else{
+			td_amt = 0.00;
+			$("#td_info").hide();
+		}
+		
+		
+		if(rate_info.yhs_rate > 0){
+			yhs_amt = (fc_amt * rate_info.yhs_rate * 100).toFixed(2);
+			$("#yhs_des").html("住宅类印花税:"+rate_info.yhs_rate_n+"%;");
+			$("#yhs_info").show();
+		}else{
+			yhs_amt = 0.00;
+			$("#yhs_info").hide();
+		}
+		
+		//综合服务费
+		fwf_amt = (proportion * rate_info.fwf_rate).toFixed(2);
+		djf_amt = rate_info.djf_rate;
+		$("#qs_des").html("面积≤90m²,首套、二套均为："+rate_info.qs_s_1_rate+"%;面积≥90m²时，首套："+rate_info.qs_m_1_rate+"%;二套:"+rate_info.qs_m_2_rate+"%;");
+		$("#zzs_des").html("办证不满两年："+rate_info.zzs_rate+"%;满两年免征");
+		$("#gs_des").html("办证不满五年或非卖方唯一住宅："+rate_info.gs_rate+"%;满5年且为卖方唯一住宅免征");
+		$("#td_des").html("单位出售给个人为："+rate_info.td_cen_rate+"%");
+		
+		$("#fwf_des").html(rate_info.fwf_rate+"元/m²");
+		$("#djf_des").html("约为"+rate_info.djf_rate+"元;");
+		$("#syj_des").html("约为:"+profit+"元");
+	}else{//非住宅
+		
+		//契税
+		qs_amt = (fc_amt * rate_info.qs_rate_n * 100).toFixed(2);
+		//增值税
+		zzs_amt = (margin * rate_info.zzs_rate_n * 100).toFixed(2);
+		//个人所得税
+		gs_amt = (fc_amt * rate_info.gs_rate_n * 100).toFixed(2);
+		//土地增值税
+		td_amt = (fc_amt * rate_info.td_rate_n * 100).toFixed(2);
+		//印花税
+		yhs_amt = (fc_amt * rate_info.yhs_rate_n).toFixed(2);
+		//综合服务费
+		fwf_amt = (proportion * rate_info.fwf_rate_n).toFixed(2);
+		//登记费
+		djf_amt = rate_info.djf_rate_n;
+		$("#td_info").show();
+		$("#qs_des").html("非住宅类费率统一为："+rate_info.qs_rate_n+"%;");
+		$("#zzs_des").html("非住宅类费率统一为："+rate_info.zzs_rate_n+"%;");
+		$("#gs_des").html("非住宅类费率统一为："+rate_info.gs_rate_n+"%;");
+		$("#td_des").html("非住宅类费率统一为："+rate_info.td_rate_n+"%;");
+		$("#yhs_des").html("非住宅类印花税为："+rate_info.yhs_rate_n+"%;");
+		$("#fwf_des").html("每平方："+rate_info.fwf_rate_n+"元");
+		$("#djf_des").html("约为"+rate_info.djf_rate_n+"元;");
+		$("#syj_des").html("约为:"+profit+"元");
+	}
+	
+	
+
+	$("#qs_amt").html(qs_amt+'<font style="font-weight:bold;color:black;"> 元</font>');
+	$("#zzs_amt").html(zzs_amt+'<font style="font-weight:bold;color:black;"> 元</font>');
+	$("#gs_amt").html(gs_amt+'<font style="font-weight:bold;color:black;"> 元</font>');
+	$("#td_amt").html(td_amt+'<font style="font-weight:bold;color:black;"> 元</font>');
+	$("#yhs_amt").html(yhs_amt+'<font style="font-weight:bold;color:black;"> 元</font>');
+	$("#fwf_amt").html(fwf_amt+'<font style="font-weight:bold;color:black;"> 元</font>');
+	$("#djf_amt").html(djf_amt+'<font style="font-weight:bold;color:black;"> 元</font>');
+	$("#syj_amt").html(profit+'<font style="font-weight:bold;color:black;"> 元</font>');
+	total_amt = (parseFloat(profit)+parseFloat(djf_amt)+parseFloat(fwf_amt)+parseFloat(yhs_amt)+parseFloat(td_amt)+parseFloat(gs_amt)+parseFloat(zzs_amt)+parseFloat(qs_amt)).toFixed(2);
+	$("#total_amt").val(total_amt);
+}
+function onlyNumber(obj){    
+    
+    //得到第一个字符是否为负号    
+    var t = obj.value.charAt(0);      
+    //先把非数字的都替换掉，除了数字和.     
+    obj.value = obj.value.replace(/[^\d\.]/g,'');       
+     //必须保证第一个为数字而不是.       
+     obj.value = obj.value.replace(/^\./g,'');       
+     //保证只有出现一个.而没有多个.       
+     obj.value = obj.value.replace(/\.{2,}/g,'.');       
+     //保证.只出现一次，而不能出现两次以上       
+     obj.value = obj.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');  
+ 
+     obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');  
+     //如果第一位是负号，则允许添加    
+     if(t == '-'){    
+          
+       return;  
+     }    
+    
+
+}
+
+function set_rate(){
+	showNewFrame('sf_jsq_setting.html?','smask');
+}
+
+function save_rate(){
+	var data={};
+	$("input").each(
+            function(index){
+	            $this=$(this);
+	            var key = $this.attr('id');
+	            var value = $this.val();
+	            var name = $this.attr('name');
+	            data[key] = value;
+            }
+            );
+	
+	
+	localStorage.setItem("rate_info", JSON.stringify(data));
+}
+
+    </script>
+    
+<body style="background:#8EC2F5;">
+
+	<header class="mui-bar mui-bar-nav head_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title">税费计算器</h1>
+		<!-- <a  class="mui-icon mui-icon-settings mui-pull-right" onclick="set_rate();"></a> -->
+	</header>
+
+	<div class="container-fluid">
+		<div class="mui-content mui-scroll-wrapper home" >
+	    	<div class="mui-scroll top_head">
+	    		<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+					<form class="mui-input-group" >		
+						<div class="mui-input-row" style="padding-right:44px;">	
+															
+							<label>房产面积</label> 
+							<input type="text" name="number"  placeholder="0.00"
+									id="proportion" onkeyup="onlyNumber(this)"/>
+							<span class="wan">平米</span>
+							
+									
+						</div>
+					
+						<div class="mui-input-row">								
+        					<label>办证时间</label>
+							<input type="text" placeholder="点击选择办证年限" id="term">
+						</div>
+						<div class="mui-input-row" style="padding-right:44px;">								
+        					<label>计税总价</label>
+							<input type="text" placeholder="0.00"    id="fc_amt" onkeyup="onlyNumber(this)"/>							
+							<span class="wan">万元</span>
+						</div>
+						<div class="mui-input-row" style="padding-right:44px;">								
+        					<label>上手计税价</label>
+							<input type="text" placeholder="0.00"   id="fc_ce" onkeyup="onlyNumber(this)"/>							
+							<span class="wan">万元</span>
+						</div>
+        				<div class="mui-input-row">								
+        					<label>规划用途</label>
+							<input type="text" placeholder="点击选择规划用途" id="fc_type">
+						</div>
+						<div class="mui-input-row">								
+        					<label>土地性质</label>
+							<input type="text" placeholder="点击选择土地性质" id="add_type">
+						</div>
+						<!-- 
+						<div class="mui-input-row" style="padding-right:44px;">								
+        					<label>登记费</label>
+							<input type="text" placeholder="0.00"  id="djf_amt_input" onkeyup="onlyNumber(this)"/>
+							<span class="wan">元</span>
+						</div>
+						<div class="mui-input-row" style="padding-right:44px;">								
+        					<label>土地收益</label>
+							<input type="text" placeholder="0.00"  id="profit" onkeyup="onlyNumber(this)"/>
+							<span class="wan">元</span>
+						</div>
+						 -->
+					</form>
+		
+				
+					<ul class="mui-table-view offset_ul" style="margin-top:10px;">
+						<li class="mui-table-view-cell">
+							<span>买方家庭首次购房</span>
+							<div class="mui-switch mui-switch-blue mui-active" data-off="否" data-on = "是" id="shouci">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<span>卖方家庭唯一住房</span>
+							<div class="yuan" onclick="">满5唯一免个税</div>
+							<div class="mui-switch mui-switch-blue mui-active" data-off="否" data-on = "是" id="weiyi">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						
+						<li class="mui-table-view-cell">
+							<span>是否单位住房</span>
+							<div class="mui-switch mui-switch-blue" data-off="否" data-on = "是" id="dwzf">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						 
+					</ul>
+				</div>
+				<div class="mui-content-padded result_class"  style="margin: 5px;margin-top:0px;display:none">	
+					<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin-top:10px;">
+	                    <li class="mui-table-view-cell">
+				            <div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-8">
+				                    <h4 class="">契税</h4>
+				                   
+				                    <p class="mui-h6 addWidth " id="qs_des">面积≤90m²,首套、二套均为1%;90平以上首套1.5%、二套2%</p>
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+				                    <span class="mui-h5" id="qs_amt">300000.00<font style="font-weight:bold;color:black;"> 元</font></span>
+				                     
+				                </div>
+				            </div>
+				        </li>
+				        <li class="mui-table-view-cell">
+				            <div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-8">
+				                    <h4 class="">增值税</h4>
+				                   
+				                    <p class="mui-h6 addWidth " id="zzs_des">未满2年收取合同价5。6%增值税，满2年免征</p>
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+				                    <span class="mui-h5" id="zzs_amt">300000.00<font style="font-weight:bold;color:black;"> 元</font></span>
+				                     
+				                </div>
+				            </div>
+				        </li>
+				        <li class="mui-table-view-cell">
+				            <div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-8">
+				                    <h4 class="">个人所得税</h4>
+				                   
+				                    <p class="mui-h6 addWidth " id="gs_des">144平及以内，未满5年或满5年不唯一征收合同价1%</p>
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+				                    <span class="mui-h5" id="gs_amt">300000.00<font style="font-weight:bold;color:black;"> 元</font></span>
+				                     
+				                </div>
+				            </div>
+				        </li>
+				         <li class="mui-table-view-cell" id="td_info" style="display:none">
+				            <div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-8">
+				                    <h4 class="">土地增值税</h4>
+				                   
+				                    <p class="mui-h6 addWidth" id="td_des">远郊区5%，中心城区7%</p>
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+				                    <span class="mui-h5" id="td_amt">300000.00<font style="font-weight:bold;color:black;"> 元</font></span>
+				                     
+				                </div>
+				            </div>
+				        </li>
+				        <li class="mui-table-view-cell" id="yhs_info" style="display:none">
+				            <div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-8">
+				                    <h4 class="">工本印花费</h4>
+				                    
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+				                    <span class="mui-h5" id="yhs_amt">300000.00<font style="font-weight:bold;color:black;"> 元</font></span>
+				                     
+				                </div>
+				            </div>
+				        </li>
+				        <li class="mui-table-view-cell">
+				            <div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-8">
+				                    <h4 class="">综合服务费</h4>
+				                   
+				                    <p class="mui-h6 addWidth" id="fwf_des">建筑面积*5元/平方</p>
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+				                    <span class="mui-h5" id="fwf_amt">300000.00<font style="font-weight:bold;color:black;"> 元</font></span>
+				                     
+				                </div>
+				            </div>
+				        </li>
+				        <li class="mui-table-view-cell">
+				            <div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-8">
+				                    <h4 class="">房屋登记费</h4>
+				                   
+				                    <p class="mui-h6 addWidth " id="djf_des">85元/本，共有证每本增加10元</p>
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+				                    <span class="mui-h5" id="djf_amt">300000.00<font style="font-weight:bold;color:black;"> 元</font></span>
+				                     
+				                </div>
+				            </div>
+				        </li>
+				        <li class="mui-table-view-cell">
+				            <div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-8">
+				                    <h4 class="">土地收益金</h4>
+				                   
+				                    <p class="mui-h6 addWidth " id="syj_des">地段等级*土地分摊面积</p>
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+				                    <span class="mui-h5" id="syj_amt">300000.00<font style="font-weight:bold;color:black;"> 元</font></span>
+				                     
+				                </div>
+				            </div>
+				        </li>
+			        </ul>
+                    <form class="mui-input-group" style="margin-top:10px;" id="result_info">
+
+                        <div class="mui-input-row" style="padding-right:44px;">
+                            <label>合计</label>
+                            <input type="text"  
+                                id="total_amt" placeholder="0.00" readonly />
+                            <span class="wan">元</span>
+                        </div>
+                                
+                 
+                    </form>
+					<p class="p_note">计算结果仅供参考，请以实际购买交易情况为准</p>
+				</div>
+
+
+
+				<div style="margin-top:10px;text-align:center;margin-bottom: 300px;">
+					<button type="button" class="mui-btn  mui-btn-primary" style="width:90%" onclick="get_info();">计算</button>
+				</div>
+			
+				<div  style="margin-top:10px;">
+                    <div class="mui-row" id="p2" style="padding-left:5px;padding-right:5px;background:#fff;">
+                    </div>
+			
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+
+	
+	<script src="mui/js/mui.min.js"></script>
+	<script src="mui/js/mui.picker.js"></script>
+	<script src="mui/js/mui.poppicker.js"></script>
+
+		<script>
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					/*********房产年限***********/
+					var isPicker = new $.PopPicker({
+						layer: 1
+					});
+					
+					 var termdata = [{
+                         value: '1',
+                         text: '2年以内（不含2年）'
+                         }, {
+                         value: '2',
+                         text: '2到5年（不含5年）'
+                         }, {
+                             value: '3',
+                             text: '5年以上（含5年）'
+                             }];
+					
+
+					isPicker.setData(termdata);
+					
+					var term = doc.getElementById('term');
+					
+					term.addEventListener('tap', function(event) {
+                                         
+						isPicker.show(function(items) {
+							
+							 term_value = (items[0] || {}).value;
+							term.value = (items[0] || {}).text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					/*********房屋类型***********/
+					var isPicker1 = new $.PopPicker({
+						layer: 1
+					});
+					
+					 var typedata = [{
+                         value: '1',
+                         text: '住宅'
+                         }, {
+                         value: '2',
+                         text: '非住宅'
+                         }];
+					
+
+					 isPicker1.setData(typedata);
+					
+					var fc_type = doc.getElementById('fc_type');
+					
+					fc_type.addEventListener('tap', function(event) {
+                                         
+						isPicker1.show(function(items) {
+							
+							fc_type_value = (items[0] || {}).value;
+							fc_type.value = (items[0] || {}).text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					
+					/*********地理位置***********/
+					var isPicker2 = new $.PopPicker({
+						layer: 1
+					});
+					
+					 var add_typedata = [{
+                         value: '1',
+                         text: '出让'
+                         }, {
+                         value: '2',
+                         text: '划拨'
+                         }];
+					
+
+					 isPicker2.setData(add_typedata);
+					
+					var add_type = doc.getElementById('add_type');
+					
+					add_type.addEventListener('tap', function(event) {
+                                         
+						isPicker2.show(function(items) {
+							
+							add_type_value = (items[0] || {}).value;
+							add_type.value = (items[0] || {}).text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+
+				});
+
+			
+			})(mui, document);
+		</script>
+
+</body>
+</html>

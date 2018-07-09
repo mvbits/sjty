@@ -1,0 +1,6 @@
+framework module NTNewHttpCommunication {
+  umbrella header "NTNewHttpCommunication.h"
+
+  export *
+  module * { export * }
+}

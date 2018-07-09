@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+
+<script src="mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+
+           
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #f3f3f3;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+
+</style> 
+
+</head>
+
+<body style="background:#f4f4f4;">
+
+	<header class="mui-bar mui-bar-nav head_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title">个人资料修改</h1>
+	</header>
+	<div class="container-fluid">
+		<div class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll top_head">
+				<div class="mui-content-padded" style="margin: 5px;">
+					<form class="mui-input-group">
+						<div class="mui-input-row">
+							<label>姓名</label>
+							<input type="text" placeholder="姓名" id="name" readonly="readonly">
+						</div>
+						<div class="mui-input-row">
+							<label>账号</label>
+							<input type="text" placeholder="账号" id="account" readonly="readonly">
+						</div>
+						<div class="mui-input-row">
+							<label>联系方式</label>
+							<input type="text" placeholder="联系方式" id="tel_no" maxlength="11" readonly="readonly">
+						</div>						
+					</form>
+				</div>
+				<div class="mui-content-padded" style="margin: 5px;">
+					<form class="mui-input-group">
+						<div class="mui-input-row">
+							<label>用户岗位</label>
+							<input type="text" placeholder="输入联系方式" id="user_type" readonly="readonly">
+						</div>
+						<div class="mui-input-row">
+							<label>所属机构</label>
+							<input type="text" placeholder="输入联系方式" id="instno" readonly="readonly">
+						</div>
+
+					</form>
+				</div>
+				<!-- 
+				<div class="mui-content-padded" style="margin: 5px;" onclick="showNewFrame('setting_Unlock.html', 'smask');">
+					<form class="mui-input-group">						
+						<div class="mui-input-row">
+							<label>设置锁屏图案</label>
+							<a href="#account" class="mui-navigate-right"></a>							
+						</div>
+					</form>
+				</div>
+				 -->
+				<div class="mui-content-padded" style="margin: 5px;" onclick="showNewFrame('setting_Password.html', 'smask');">
+					<form class="mui-input-group">						
+						<div class="mui-input-row">
+							<label><font color="#ff6600">修改密码</font></label>
+							<a href="#account" class="mui-navigate-right"></a>							
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(function() {
+	
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+	$("input").attr("style", "text-align:right;");
+	
+	
+	$("#name").val(localStorage.getItem("username"));
+	$("#account").val(localStorage.getItem("userid"));
+	$("#tel_no").val(localStorage.getItem("accountTel"));
+	$("#user_type").val(localStorage.getItem("pos_name"));
+	$("#instno").val(localStorage.getItem("orgnName"));
+	
+});
+
+
+</script>
+</html>

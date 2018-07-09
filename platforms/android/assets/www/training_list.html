@@ -1,0 +1,346 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" type="text/css" href="mui/css/icons-extra.css" />
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script src="js/lib/jQuery/jquery-2.0.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+	
+<style>
+body{
+	 background: #f4f4f4;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+        
+}
+
+.mui-bar .mui-pull-left .mui-icon {
+	padding-right: 5px;
+	font-size: 28px;
+}
+
+.mui-bar .mui-btn {
+	font-weight: normal;
+	font-size: 17px;
+}
+
+.mui-bar .mui-btn-link {
+	top: 1px;
+}
+
+.mui-content img{
+	width: 100%;
+	margin-left:10px;
+	
+}
+
+.mui-content span{
+	font-size:0.6em;
+	color:#999999;
+	
+}
+
+
+.rgt {
+	width: 12px;
+	height: 12px;
+	float: right;
+	margin-right: 10px;
+	margin-top: 5px;
+	background-size: 100% 100%;
+	background-image: url("img/show.png");
+}
+.teacher_info{
+position:relative;
+	margin-top:10px;
+	padding:15px;
+	padding-left:6vw;
+	padding-right:6vw;
+	border:1px solid #cccccc;
+	color:#666666;
+	font-size:0.8em;
+}
+.teacher_name{
+	margin-bottom:-20px;
+	position:absolute;
+	
+	
+}
+.teacher_name_div{
+	margin-top:-30px;
+	margin-left:20vw;
+	width:40vw;
+	text-align:center;
+	background:#FFFFFF;
+	font-size:1.2em;
+	color:#333333;
+}
+.myimg{
+	width:30px;
+	border-radius:30px;
+}
+.mui-card-media img{
+	width:30px;
+	border-radius:30px;
+}
+</style>
+<script>
+		var thisURL; 
+		var images = ["img/logo.png",
+		              "img/cha.png",
+		              "img/he.png",
+		              "img/diao.png"];
+		var types = ["我要贷款",
+		             "我要取款",
+		             "我要理财",
+		             "其他金融需求"];
+		 var flag = 0;
+		 var head_flag = 0;
+         var start_flag = 0;
+         var start = 0;
+		document.addEventListener("DOMContentLoaded", initial);
+		function initial() {
+			/*当前页面URL*/
+		
+	
+			/*mui框架初始化，为id=pullrefresh的容器添加下拉刷新事件*/
+			mui.init({
+				swipeBack:false //启用右滑关闭功能
+			});
+			
+			/*容器滚动设置*/
+			mui('.mui-scroll-wrapper').scroll({
+                deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006 
+			});
+
+			 //返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-action-back', function(e) {
+				this.click();
+				return false;
+			});
+			//返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+				this.click();
+				return false;
+			});
+       		//返回键 tap事件监听
+			mui(document.body).on('tap', '.mui-card', function(e) {
+				this.click();
+				return false;
+			});		
+		 
+		  //查询最近的检查信息
+			initPage();
+		}
+		
+		/*页面初始化方法, 查询当前用户的动态，并展示在功能栏下方*/
+		function initPage(){
+
+            
+            var data={
+
+            }
+
+            top.http_comm("6066", data, showpage);
+		}
+		
+        function showpage(msg){
+            var json = eval("("+msg+")");
+
+            var dk = json.data.pushList;
+            
+            var dz_html = '';
+            var userid = localStorage.getItem("userid");
+            var len = 2;
+            if(dk.length < len){
+            	len = dk.length;
+            }
+            
+            for(var i = 0; i < dk.length; i++){
+        		dz_html +='<div class="mui-card">'
+        				+'<div class="mui-card-header">腾讯重磅发布全新全栈开发教程</div>'
+						+'<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url(../images/cbd.jpg)"></div>'
+						+'<div class="mui-card-content">'
+						+'<div class="mui-card-content-inner">'
+						+'<p>培训日期：2018年6月15号</p>'
+						+'<p style="color: #333;">腾讯专家XXX教授担任讲师</p>'
+						+'</div>'
+						+'</div>'
+						+'<div class="mui-card-footer">'
+						+'<a class="mui-navigate-right">阅读全文</a>'
+						+'</div>'
+						+'</div>';
+ 				
+            }
+
+            $("#yourmsg").html(dz_html);
+        }
+		
+
+
+		/*判断对象是否为空*/
+		function isEmpty(obj) {
+
+			if(!obj && obj == 0 && obj == '') {　　　　　　　　　
+			  return true;
+			}
+			
+			if(Array.prototype.isPrototypeOf(obj) && obj.length == 0) {
+				　　　return true;
+			}
+			
+			if(Object.prototype.isPrototypeOf(obj) && Object.keys(obj).length == 0) { 
+				
+				　return true; 　　　
+			}
+			return false; 
+		}
+		
+
+
+		
+
+		
+
+        
+        //案卷评价
+        function ajpj_go(fileno){
+            $("#search_by").blur();
+            showNewFrame("ajpj.html?fileno="+fileno,'smask');
+        }
+
+</script>
+</head>
+<body style="background:#f4f4f4;">
+
+        <header class="mui-bar head_base_color">		
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>		
+			<h1 class="mui-title">参与过的培训</h1>		
+		</header>
+			<div   class="mui-content mui-scroll-wrapper" style="background-color:#f4f4f4;margin-top:60px;">
+			    <div class="mui-scroll" >
+					<div class="mui-card" style="border:0px solid;box-shadow:0 0 0 #fff;border-radius:5px; margin-left:-10px;margin-right:-10px;">
+						<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url(img/slider2.jpg)" id="training_img"></div>
+						<div class="mui-card-content">
+							<div class="mui-card-content-inner">
+								<div style="left:0px; width:33vw;color:#007aff;text-align:center;border-bottom:2px solid #007aff;">详情</div>
+								<div style="padding:10px;">
+									<p style="color: #333;" id="training_info">这里显示文章摘要，让读者对文章内容有个粗略的概念...</p>
+								</div>
+								<div style="padding:10px;float:right;">
+									<p id="training_total">参与 4 人，总人数40人</p>
+								</div>
+							</div>
+							
+						</div>			
+					</div>
+					<div class="mui-content" style="background:#ffffff;padding:10px;">
+						<div class="rgt"></div>			
+		                    <img src="img/bao.png" style="width:20px;"></img> 
+		                    <span>质量保证</span>
+		                    <img src="img/tui.png" style="width:20px;"></img>
+		                    <span>培训前随时退课</span>
+			               					         
+		            </div>
+		            <div class="mui-content" style="background:#ffffff;padding:10px;margin-top:10px;">
+		            	<h2>讲师介绍</h2>
+		           
+		            	<div class="teacher_info">
+		            		<div class="teacher_name_div" id="teacher_name">那个谁啊</div>
+		            		<div id="teacher_infos" style="margin-top:10px;">这里时讲师的详细介绍，kasdjflas上了打卡机弗拉克斯酱豆腐爱丽丝雕刻技法楼上看风景按时灯笼裤飞机啊离开爱上了的咖啡机尽量写多点，有吸引力些，阿喀琉斯京东方垃圾死了尽快哈上的卡号发客家话按时灯笼裤激发了看见士大夫立刻爱上了打开房间啊路建康2奥地利饭卡
+		            		</div>
+		            	</div>
+		            	
+		            </div>
+		            <div class="mui-content" style="background:#ffffff;padding:10px;margin-top:10px;">
+		            	<h2>学员评价(3)</h2>
+		           		<div id="students_report" style="border-top:1px solid #d0d0d0;margin-top:10px;">
+			           		<div class="mui-card-header mui-card-media" style="padding-bottom:10px;padding-top:10px;padding-left:0px;" >
+			           				
+			           					<img class="myimg" src="img/mylogo.png"/>
+			           				
+			           				
+									
+									<div class="mui-media-body" style="padding-left:5px;">
+										<p style="color:#049ff1;font-size:14px;font-weight:bold">刘德华</p>
+										<p style="font-size:12px;">发表于 2018年5月22号 18:04</p>
+									</div>
+									<div style="margin-top:10px;padding-left:10px;">
+										<div style="color:#333333;font-size:0.8em;">我说那飒飒的绿卡看来就是多方了解</div>>
+									</div>
+									<div style="height:30px;line-height:30px;"></div>
+							</div>
+							<div class="mui-card-header mui-card-media" style="padding-bottom:10px;padding-top:10px;padding-left:0px;" >
+			           				<img src="img/mylogo.png"/>
+			           				
+									
+									<div class="mui-media-body" style="padding-left:5px;">
+										<p style="color:#049ff1;font-size:14px;font-weight:bold">张学友</p>
+										<p style="font-size:12px;">发表于 2018年5月22号 18:04</p>
+									</div>
+									<div style="margin-top:10px;padding-left:10px;">
+										<div style="color:#333333;font-size:0.8em;">我说那飒飒的绿卡看来就是多方了解</div>>
+									</div>
+									<div style="height:30px;line-height:30px;"></div>
+							</div>
+							<div class="mui-card-header mui-card-media" style="padding-bottom:10px;padding-top:10px;padding-left:0px;" >
+			           				<img src="img/zhuanshi.png"/>
+			           				
+									
+									<div class="mui-media-body" style="padding-left:5px;">
+										<p style="color:#049ff1;font-size:14px;font-weight:bold">郭富城</p>
+										<p style="font-size:12px;">发表于 2018年5月22号 18:04</p>
+									</div>
+									<div style="margin-top:10px;padding-left:10px;">
+										<div style="color:#333333;font-size:0.8em;">我说那飒飒的绿卡看来就是多方了解</div>>
+									</div>
+									<div style="height:30px;line-height:30px;"></div>
+							</div>
+		           		</div>
+		            	
+		            	
+		            </div>
+					<div class="div_footer" style="margin-top:10px;"></div>
+				</div>
+			</div>		
+		<div class="div_fullscreen_footer">
+			<div class="mui-row">
+			  
+			       <button type="button" class="mui-btn  mui-btn-primary" style="width:100%;" onclick="()">立即评价</button>
+			    
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+		//功能菜单点击效果					
+/* 		$('li').each(function(){
+			var $obj=$(this);
+			this.addEventListener('touchstart',function(){
+				$obj.css('background-color','#cccccc');
+			}, false);
+			
+			this.addEventListener('touchend',function(){
+				$obj.css('background-color','');
+			}, false);
+			
+		});	 */
+		</script>
+
+	</body>
+</html>

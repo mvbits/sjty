@@ -1,0 +1,376 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/aui/aui.css" />
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link href="mui/css/mui.picker.css" rel="stylesheet" />
+<link href="mui/css/mui.poppicker.css" rel="stylesheet" />
+<script src="mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #fff;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+.rgt {
+    width: 10px;
+    height: 18px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 12px;
+    background-size: 100% 100%;
+    background-image: url("img/right.png");
+}
+.rgt_c {
+    width: 40px;
+    height: 36px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 6px;
+    background-size: 100% 100%;
+    background-image: url("img/tpck.png");
+}
+.list_font{
+    font-size:15px;
+    color:#696969;
+}
+.nextandlast{
+    
+    z-index:9998;background-color:rgba(240,255,240,0.0); width:100%; height:50px; line-height:50px;position: fixed;  top:0px;text-align:center;
+    
+}
+.left{float:left;width:20%;margin-top:10px;font-weight:bold;background-color:rgba(240,255,240,0.0);z-index:9999;}
+.center{float:left;width:60%;margin-top:10px;font-weight:bold;background-color:rgba(240,255,240,0.0);z-index:9999;}
+.right{float:right;width:20%;margin-top:10px;font-weight:bold;background-color:rgba(240,255,240,0.0);z-index:9999;}
+.max{width:100%;height:auto;}
+
+.form_div_m{
+	width: 100%;
+	background-color:#ffffff;
+	margin: 0px auto;
+	padding: 0px;
+}
+.form_div_m li{
+		height: 35px;
+		line-height:35px;
+	width: 100%;
+	border-top: 1px solid #d0d0d0; 
+	border-bottom : 1px solid #d0d0d0;
+	list-style-type: none;
+	margin: 0px;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-align-items: center;
+	align-items: center;
+	
+}
+.inp_text_m {
+	border: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+	line-height: 35px !important;
+	height:40px !important;
+	color: #5b5b5b !important;
+	width: 50% !important;	
+	font-size: 15px;
+	height:100%;
+	vertical-bottom:0;
+	
+}
+
+</style>
+</head>
+    <script type="text/javascript">
+
+var aj_stat = '1';
+
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+        mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		//返回键 tap事件监听
+		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+	  		this.click();
+	  		return false;
+	  	});
+        $("#qssj").on("input propertychange",function(){
+            
+            if($(this).val().length>0){
+            	
+            $(this).addClass("full");
+            }
+            else{
+            $(this).removeClass("full");
+            }
+     
+       });
+		$("#jzsj").on("input propertychange",function(){
+       
+          if($(this).val().length>0){
+          $(this).addClass("full");
+          }
+          else{
+          $(this).removeClass("full");
+          }
+          
+        });
+     
+		
+        initPage();
+        
+    }
+    
+    /*单笔查询*/
+    function initPage() {
+        
+        $("#p1").attr("style", "display:block");
+        
+        
+        var data = {};
+        data.userid = localStorage.getItem("userid");
+        data.jkr_xm = $("#jkr_xm").val();
+        data.accountPosition = localStorage.getItem("accountPosition");
+        data.begindate = $("#qssj").val();
+        data.enddate = $("#jzsj").val();
+        data.flag = aj_stat;
+        
+        top.http_comm("6037", data, showmessage);
+               
+    }
+    
+    
+    
+    
+    function showmessage(msg){
+    	top.writelog("6037 recv:"+msg);
+    	top.stop_process();
+        var json=eval("("+msg+")");
+        
+        
+        var cwcx_info='';
+		if(json.data.length == 0){
+			var msg;
+
+			top.alertInfo("该时段没有通过终审的案卷信息");
+            $("#default_info").show();
+			return;
+		}
+        $("#default_info").hide();
+		var yffy_total = 0.00;
+		var ysfy_total = 0.00;
+		var level = localStorage.getItem("level");
+		var flag;
+		if( level < 4 ){
+			flag = 1; //金融公司
+		}else{
+			flag = 2; //合作机构
+		}
+        for(var i=0; i< json.data.length; i++){
+            
+            var info={};
+            info.fileno=json.data[i].fileno;
+            info.xm=json.data[i].jkr_xm;
+            info.bank_name = json.data[i].bankname;
+            info.typeName = json.data[i].typeName;
+            if(json.data[i].loantype == "8001"){
+                info.loan_amt = json.data[i].dk_gjj_je;
+            }else if(json.data[i].loantype == "8003"){
+                info.loan_amt = json.data[i].dk_gjj_je*1.00 + json.data[i].dk_gjj_je*1.00;
+            }else{
+                info.loan_amt = json.data[i].dk_je;
+            }
+            
+            info.fc_pgzj = json.data[i].fc_pgzj;
+            info.check_date = json.data[i].check_date;
+            info.loan_date = json.data[i].loan_date;
+            info.ysfy = json.data[i].cw_rece_total*1.00;
+            
+            
+            info.yffy = json.data[i].cw_pay_total*1.00;
+            
+            ysfy_total += json.data[i].cw_rece_total*1.00;
+            yffy_total += json.data[i].cw_pay_total*1.00;
+            var url = cpzl_image[json.data[i].loantype];
+            var paystat;
+            if(json.data[i].flag == 0){
+                paystat = "还未付款";
+            }else{
+                paystat = "费用已于【"+json.data[i].cw_rece_date+"】结清";
+            }
+            info.paystat = paystat;
+            var payinfo;
+            if( flag == 1 ){
+            	payinfo = "应收费用："+ json.data[i].cw_rece_total + "元";
+            }else{
+            	payinfo = "应付费用："+ json.data[i].cw_rece_total + "元";
+            }
+
+            cwcx_info +='<div class="mui-card" onclick="goto_map(\''+json.data[i].fileno+'\');"><div class="mui-card-header mui-card-media"><img src="'+url+'" />'						
+			+'<div class="mui-media-body">买方:'+json.data[i].jkr_xm+'<p>终审时间: '+json.data[i].check_date+'</p></div></div>'	
+			+'<div class="mui-card-content" style="padding-left:50px;">'
+			+'<p style="margin:1px;font-size:12px;">产品种类：'+cpzl_map[json.data[i].loantype]+'</p>'	
+			+'<p style="margin:1px;font-size:12px;">评估总价：'+info.fc_pgzj+'万</p>'
+			+'<p style="margin:1px;font-size:12px;">贷款金额：'+info.loan_amt+'万</p>'
+			+'<p style="margin:1px;font-size:12px;">'+payinfo+'</p>'
+            +'<p style="margin:1px;font-size:12px;"><font style="color:#FF6347">'+paystat+'</font></p>'
+			+'</div><div style="text-align:center;background:#fcfcfa;height:30px;line-height:30px;"><span style="font-size:14px;">立即查看</span></div>'
+			+'</div>';
+    		
+		
+            
+            localStorage.setItem("cwcx_"+json.data[i].fileno,JSON.stringify(info));
+        }
+        var info;
+        if(flag == 1){
+        	info = "总笔数:"+json.data.length+";总金额:"+ysfy_total+" 元";
+        }else{
+        	info = "总笔数:"+json.data.length+";总金额:"+ysfy_total+" 元";
+        }
+        cwcx_info = '<div style="text-align:center"><p>'+info+'</p></div>' + cwcx_info;
+        $("#cwcx_info").html(cwcx_info);
+    }
+    
+    function time_flag(){
+        
+        
+      
+        
+        if($("#time_flag").val() == 3){
+            $("#time_div").show();
+            $(".radmenu").attr("style", "display: flex !important;")
+        }else{
+            $("#time_div").hide();
+            $(".radmenu").attr("style", "none;");
+            var data = {};
+            data.userid = localStorage.getItem("userid");
+            data.flag = $("#time_flag").val();
+            localStorage.setItem("ph_flag", data.flag);
+            data.accountPosition = localStorage.getItem("accountPosition");
+
+            top.http_comm("6037", data, showmessage);
+        }
+    }
+    
+    function goto_map(fileno){
+        
+        showNewFrame("aj_cwcx_detail.html?id="+fileno, "smask");
+    }
+    </script>
+    
+    <body>
+
+     
+   	<header class="mui-bar mui-bar-nav head_color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+			<h1 class="mui-title">财务查询</h1>
+		</header>
+
+        <div class="container-fluid" >
+            <div class="mui-content mui-scroll-wrapper" >
+	    		<div class="mui-scroll top_head">
+					<div class="mui-content-padded" style="margin: 5px;margin-top:0px;">
+						<form class="mui-input-group">
+							<div class="mui-input-row">
+								<label>客户名称</label>
+								<input type="text" placeholder="输入客户名称（全称）" id="jkr_xm">
+							</div>
+			
+						
+                            <div class="mui-input-row">
+                                <label>付款状态</label>
+                                <input type="text" placeholder="根据状态查询，默认查未付款" id="stat" style="height:41px;overflow: hidden;">
+                            </div>
+							<div class="mui-input-row">
+								<label>开始时间</label>
+								<input type="date" placeholder="请选择起始日期" id="qssj" style="height:41px;overflow: hidden;">
+							</div>
+						 
+							<div class="mui-input-row" >
+								<label>结束时间</label>
+								<input type="date" placeholder="请选择结束日期" id="jzsj" style="height:41px;overflow: hidden;">
+							</div>	
+						</form>					
+                   </div>
+	                <div style="margin-top:10px;text-align:center;margin-bottom: 30px; " onclick="initPage();">
+						<button type="button" class="mui-btn  mui-btn-primary" style="width:90%">查询</button>
+					</div>	       		        
+                    <p style="text-align:center;height:60px;line-height:60px" id="default_info">默认查询本月终审通过的案卷</p>
+		            <div style="margin-bottom:300px;" id="cwcx_info">		            
+						
+			
+					</div>
+		        </div>
+        
+        	</div>
+        </div>
+        
+        <script src="mui/js/mui.min.js"></script>
+        <script src="mui/js/mui.picker.js"></script>
+        <script src="mui/js/mui.poppicker.js"></script>
+        
+        <script>
+            (function($, doc) {
+             $.init();
+             $.ready(function() {
+                     /*********是否有房产中介***********/
+                     var isPicker = new $.PopPicker({
+                                                    layer: 1
+                                                    });
+                     
+                     var isData = [{
+                                   value: '0',
+                                   text: '全部'
+                                   }, {
+                                   value: '1',
+                                   text: '未付款'
+                                   }, {
+                                   value: '2',
+                                   text: '已付款'
+                                   }];
+                     
+         
+                     isPicker.setData(isData);
+                     
+                     var is_zj = doc.getElementById('stat');
+                     
+                     is_zj.addEventListener('tap', function(event) {
+                                            isPicker.show(function(items) {
+                                                          
+                                                          aj_stat = (items[0] || {}).value;
+                                                          is_zj.value = (items[0] || {}).text;
+                                                        
+                                                          });
+                                            }, false);
+                    
+             
+                     });
+             })(mui, document);
+            </script>
+        
+        
+        
+    </body>
+</html>

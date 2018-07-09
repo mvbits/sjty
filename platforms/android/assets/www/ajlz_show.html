@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">           
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>               
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/lib/jQueryMobile/jquery.mobile-1.4.3.css" />
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">                    
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/default.css" />
+<link rel="stylesheet" type="text/css" href="css/component.css" />
+<link href="css/index.css" rel="stylesheet">                
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">   
+                            
+<script src="mui/js/mui.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+                                
+<style>
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #fff;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+    overflow:auto;
+    
+}
+.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{
+	font-size: 15px;
+	margin-top:8px;
+	color: #333;
+}
+
+.divcss5_w{ border:0px solid #000; width:30vw; height:29vw;overflow:hidden;padding:5px;} 
+.divcss5_w img{max-width:28vw;_width:expression(this.width > 28 ? "28vw" : this.width);}
+.divcss5_h{ border:0px solid #000; width:85px; height:90px;overflow:hidden;padding:5px;} 
+.divcss5_h img{max-height:80px;_height:expression(this.height > 80 ? "80px" : this.height);} 
+</style>
+
+<script type="text/javascript">
+
+var loaninfo;
+var fileno;
+var flowname;
+var flow = 0;
+var number;
+var loantype;
+var hk_flag = 0;
+var pic;
+var pics;
+var isend=0;
+var flag = 0; //是否可见图片 0-不可见 1-可见
+  document.addEventListener("DOMContentLoaded", initial);
+  function initial() {
+
+      mui.init({
+			swipeBack:false //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+          deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+          });
+		//返回键 tap事件监听
+      mui(document.body).on('tap', '.mui-action-back', function(e) {
+                            this.click();
+                            return false;
+                            });
+    //返回键 tap事件监听
+      mui(document.body).on('tap', '.mui-action-menu', function(e) {
+                            this.click();
+                            return false;
+                            });
+/*       mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+          this.click();
+          return false;
+          }); */
+    //根据产品种类和流转过程初始化页面
+      initPage();
+  }
+       
+function initPage(){
+	 var thisURL = document.URL;
+	 top.writelog("ajlz_show initPage:"+thisURL);
+     localStorage.setItem("thisURL", thisURL);
+
+     var getenv = thisURL.split('?')[1];
+     var buf = getenv.split('&');
+     fileno = buf[0].split('=')[1];
+     var tmp_number = buf[1].split('=')[1];
+     var tmp_flow = buf[2].split('=')[1];
+     flow = tmp_flow;
+     number = parseInt(tmp_number)+1;
+     flag = buf[3].split('=')[1];
+     $(".mui-title").html(localStorage.getItem("flowname_now"));
+     
+    var data = {};
+    data.fileno = fileno;
+    data.flowno = flow;
+    
+    top.http_comm("6059", data, function(msg){
+                 
+		var json = eval("("+msg+")");
+		                  
+		if( json.stat == 0){   
+			
+            //展示流转备注
+			if(json.data.length > 0){
+				//该流程经办人
+				$("#jbr").val(json.data[0].jbrname);
+				
+				var jbrly_html = '';
+				$("#jbrly").html('');
+				var len = json.data.length - 1;
+				
+				for(var i = len; i >= 0; i--){
+				//	jbrly_html += '<p style="text-align:left;"><font style="color:#d1d3dd;"> By：'+json.data[i].createdatetime+'</font></p><p style="text-indent:1em;">'+json.data[i].beiz+'</p>';
+					var str_date = json.data[i].createdatetime.split(' ')[0];
+					var str_time = json.data[i].createdatetime.split(' ')[1];
+					jbrly_html += '<li><time class="cbp_tmtime"><span>'+json.data[i].createdatetime+'</span><span></span></time>'					
+								+'<div class="cbp_tmlabel"><p style="color:#ffffff;">'+json.data[i].beiz+'</p></div></li>';
+				}
+				$("#jbrly").html(jbrly_html);			 	
+			}else{
+				$("#jbrly").html("<p><font style='font-weight:bold;color:#18b4ed;'>经办人没有留下任何信息</font></p>");
+			}
+            
+            //可见图片
+            if(flag == 1){
+            	//showimage();
+            	$(".mui-pull-right").show();
+            }
+			
+		}else{
+		                  
+			top.alertInfo('通信失败');
+		}
+	});
+}
+
+//展示流转图片
+function showimage(){
+    var data = {};
+    data.fileno = fileno;                           
+    data.number = number;
+    top.items=[]; //初始化相册
+    top.http_comm("6017", data, function(msg){
+       
+        var json=eval("("+msg+")");
+        var pic_html ='';
+        //如果没有图片，或者图片出了问题
+        if(top.isEmpty(json.data.imageurl)){
+        	$("#image_div").html('');
+        	$("#img_des").html("经办人没有上传图片");
+			mui.alert("经办人没有上传图片或该步骤不需要上传图片", "世纪源金融", null);
+        	
+        	return;
+        }else{
+        	var images = json.data.imageurl.split('|');
+	   		 if( images.length > 0){
+	   		     $("#img_des").html("流程图片："+json.data.imagedes);
+	   		     
+	   		     $("#image_div").html('');
+	   		     for(var i = 0; i < images.length; i++){
+	   		    	 var img_s = top.imgpath +fileno+"/"+images[i];
+	   		         pic_html += '<li class="mui-table-view-cell mui-media mui-col-xs-3">'
+	   				            +'<a href="#">'
+	   				            +'<div class="divcss5_w"><img class="mui-media-object" src="'+img_s+'"></div></a></li>';   
+	   				            
+	   				 //相册组件赋值         
+	   		         var item = {
+	   		                  src: img_s,
+	   		                  w: parseInt(1080, 10),
+	   		                  h: parseInt(1920, 10)
+	   		              };
+	   		         item.title = json.data.imagedes; //文字
+	   		         top.items.push(item); //存放相册图片集合
+	   		     }
+	   		     $("#image_div").html(pic_html);
+	   		  		$("#image_div").show();
+	   	        
+	   	         //图片点击事件，打开新的页面展示相册     
+	   		     $(".mui-table-view-cell").click( function(){
+
+	   		     	var index = $(this).index(".mui-table-view-cell");
+	   	
+	   		     	showNewFrame('swiper_photo.html?index='+index,'smask');
+	   		       });
+	   		 }
+        }
+		
+    });
+    
+    $("#img_des").show();
+}
+
+
+function uploadimg(mynum, picname, str_label){
+    
+
+    localStorage.setItem("imgnum", mynum);
+    localStorage.setItem("lz_label_now", str_label);
+    
+    showNewFrame('flow_new_0831.html?type=0','smask');
+
+    
+}
+
+
+
+function myphone(lxfs){
+    
+    top.call_phone("联系方式:"+$("#"+lxfs).val());
+}
+
+
+
+
+
+
+</script>  
+
+</head>
+    <body  style="background-color: #ffffff;">
+         <header class="mui-bar mui-bar-nav head_color">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+            <a  class="mui-action-menu mui-icon mui-icon-image mui-pull-right"  onclick="showimage();" style="display:none;"><font style="font-size:13px">看照片</font></a>
+            <h1 class="mui-title" style="font-weight:bold;color:#fff">案卷流转</h1>
+        </header> 
+        <div class="container-fluid">
+        	<div class="mui-content mui-scroll-wrapper">       		
+	       		 <div class="mui-scroll  top_head" >
+					<h5 style="margin-top:10px;text-algin:center;text-indent:1em;font-weight:bold" id="jbr">经办人</h5>
+					<div class="main" style="border-bottom:1px solid #18b4ed">
+						<ul class="cbp_tmtimeline" id="jbrly" style="padding-left:10px;padding-right:10px;">
+		            	</ul>
+		            </div>
+					<h5 style="margin-top:10px;text-algin:center;display:none;text-indent:1em;font-weight:bold" id="img_des">流程图片</h5>
+		           	<ul class="mui-table-view mui-grid-view" id="image_div" style="margin-top:10px;background-color: #fafafa; border:0px;display:none">
+
+				    </ul> 
+		            
+		
+		           	<div class="div_footer">————  世纪源金融服务  ————</div> 
+		        </div>
+            
+		</div>
+	</div>
+    </body>
+</html>

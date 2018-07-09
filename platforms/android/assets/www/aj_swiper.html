@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello MUI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title></title>
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">	
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<script src="mui/js/mui.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #fff;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+    overflow:hidden;
+}
+.span_ph{
+    width:100%;
+    text-align:center;
+    line-height:35px;
+    color:#4169E1;
+    font-size:14px;
+}
+.span_ph_l{
+    width:100%;
+    text-align:center;
+    line-height:35px;
+    color:#4169E1;
+    font-size:12px;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    -o-text-overflow:ellipsis;
+    overflow: hidden;
+}
+.span_ph0{
+    width:100%;
+    text-align:center;
+    line-height:35px;
+    color:#4169E1;
+    font-size:14px;
+}
+.span_ph1{
+    width:100%;
+    text-align:center;
+    line-height:35px;
+    color:#4169E1;
+    font-size:14px;
+}
+.span_ph2{
+    width:100%;
+    text-align:center;
+    line-height:35px;
+    color:#4169E1;
+    font-size:14px;
+}
+.span_ph3{
+    width:100%;
+    text-align:center;
+    line-height:35px;
+    color:#4169E1;
+    font-size:14px;
+}
+.span_ph_active{
+    width:100%;
+    text-align:center;
+    line-height:35px;
+    color:#20B2AA;
+    font-size:14px;
+}
+.swiper-container {
+    width: 100%;
+    
+}
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+}
+.form_div{
+	width: 100%;
+	background-color:#ffffff;
+	margin: 0px auto;
+	padding: 0px;
+}
+.form_div li{
+		height: 35px;
+		line-height:35px;
+	width: 100%;
+	border-top: 0; 
+	border-bottom : 1px solid #d0d0d0;
+	list-style-type: none;
+	margin: 0px;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-align-items: center;
+	align-items: center;
+	
+}
+.form_div li:nth-child(odd){
+	background-color: #f1f1f1;
+}
+.form_div li:nth-child(even){
+	background-color: #fafafa;
+}
+.inp_text_m {
+	border: 0 !important;
+	background: none !important;
+	box-shadow: none !important;
+	line-height: 35px !important;
+	height:40px !important;
+	color: #5b5b5b !important;
+	width: 50% !important;	
+	font-size: 15px;
+	height:100%;
+	vertical-bottom:0;
+	
+}
+.nextandlast{
+    
+    z-index:9998;background-color:#3C3C3C; width:100%; height:70px; line-height:50px;position: fixed;  top:0px;text-align:center;
+    
+}
+.left{float:left;width:20%;margin-top:20px;font-weight:bold;color:#A9A9A9;background-color:rgba(240,255,240,0.0);z-index:9999;}
+.center{float:left;width:60%;margin-top:20px;font-weight:bold;color:#A9A9A9;background-color:rgba(240,255,240,0.0);z-index:9999;}
+.right{float:right;width:20%;margin-top:20px;font-weight:bold;background-color:rgba(240,255,240,0.0);z-index:9999;}
+.div_conditions{       
+    z-index:9998;background-color:rgba(244,244,244,1);width:100%;height:100%;position: fixed;top:0px;
+}
+
+</style>
+
+<script>
+
+var change_id=0;
+var userid;
+var rankO=[];
+
+
+var rankA=[];
+
+
+
+var rankB=[];
+
+
+
+var rankF=[];
+var rankO_total1 = 0;
+var rankO_total2 = 0;
+var rankO_total3 = 0;
+var rankO_total4 = 0;
+
+var rankA_total1 = 0;
+var rankA_total2 = 0;
+var rankA_total3 = 0;
+var rankA_total4 = 0;
+
+var rankB_total1 = 0;
+var rankB_total2 = 0;
+var rankB_total3 = 0;
+var rankB_total4 = 0;
+
+var rankF_total1 = 0;
+var rankF_total2 = 0;
+var rankF_total3 = 0;
+var rankF_total4 = 0;
+
+var sorttext="签单量";
+
+document.addEventListener("DOMContentLoaded", initial);
+function initial() {
+	var thisURL = document.URL;
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	mui('.mui-scroll-wrapper').scroll({
+	          deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+	          });
+	
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back', function(e) {
+	 		this.click();
+	 		return false;
+	 	});
+	mui(document.body).on('tap', '.mui-action-menu', function(e) {
+ 		this.click();
+ 		
+ 	});
+	localStorage.setItem("ph_type","0");
+    document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+    	
+		activeIndex = event.detail.slideNumber;
+		localStorage.setItem("ph_type",activeIndex);
+		console.log(activeIndex);
+	});
+   
+	 $("#qssj").on("input propertychange",function(){
+	     
+	     if($(this).val().length>0){
+	     	
+	     $(this).addClass("full");
+	     }
+	     else{
+	     $(this).removeClass("full");
+	     }
+	
+	});
+	$("#jzsj").on("input propertychange",function(){
+	     
+	        if($(this).val().length>0){
+	        $(this).addClass("full");
+	        }
+	        else{
+	        $(this).removeClass("full");
+	        }
+        
+      });
+	document.querySelector('.mui-table-view.mui-table-view-radio').addEventListener('selected',function(e){
+		var str = e.detail.el.innerText;
+	//	radio_flag = e.detail.el.id;
+		sorttext = str;
+	
+		top.writelog("id="+e.detail.el.id);
+		change(e.detail.el.id);
+		
+	});
+      userid = localStorage.getItem("userid");
+    
+
+      initPage();
+   
+  }
+                    
+                    //根据flag 0-签单量 1-批过量 2-放款量 3- 发放额 对数据源排序并跟新列表
+                    function array_sort(flag){
+                     
+                     
+                        if(flag == 0){//签单量
+                            rankO.sort(function(b,a){
+                                       return a.total1-b.total1;
+                                       });
+                            rankA.sort(function(b,a){
+                                        return a.total1-b.total1;
+                                        });
+                            rankB.sort(function(b,a){
+                                       return a.total1-b.total1;
+                                        });
+                            rankF.sort(function(b,a){
+                                       return a.total1-b.total1;
+                                       });
+                        }else if(flag == 1){//批过量
+                            rankO.sort(function(b,a){
+                                       return a.total2-b.total2;
+                                       });
+                                       rankA.sort(function(b,a){
+                                                  return a.total2-b.total2;
+                                                  });
+                                                  rankB.sort(function(b,a){
+                                                             return a.total2-b.total2;
+                                                             });
+                                                             rankF.sort(function(b,a){
+                                                                        return a.total2-b.total2;
+                                                                        });
+                        }else if(flag == 2){//发放量
+                            rankO.sort(function(b,a){
+                                       return a.total3-b.total3;
+                                       });
+                                       rankA.sort(function(b,a){
+                                                  return a.total3-b.total3;
+                                                  });
+                                                  rankB.sort(function(b,a){
+                                                             return a.total3-b.total3;
+                                                             });
+                                                             rankF.sort(function(b,a){
+                                                                        return a.total3-b.total3;
+                                                                        });
+                        }else if(flag == 3){//放款额
+                            rankO.sort(function(b,a){
+                                       return a.total4-b.total4;
+                                       });
+                                       rankA.sort(function(b,a){
+                                                  return a.total4-b.total4;
+                                                  });
+                                                  rankB.sort(function(b,a){
+                                                             return a.total4-b.total4;
+                                                             });
+                                                             rankF.sort(function(b,a){
+                                                                        return a.total4-b.total4;
+                                                                        });
+                        }
+                        
+                        addinfo();
+                    }
+                    function initPage(){
+                        var data = {};
+                        data.userid = localStorage.getItem("userid");
+                      
+                        data.begindate = $("#qssj").val();
+                        data.enddate = $("#jzsj").val();
+                     
+                        /*
+                        top.start_process();
+                        $.ajax({
+                               type : "post",
+                               timeout: 3000,
+                               url: "http://"+IP+":"+PORT+"/app/6035",
+                               data : data,
+                               datatype : "json",
+                               success : function(msg){
+                            	   top.stop_process();
+                            	   top.writelog("6035 recv:"+msg);
+                            	   
+                               var json=eval("("+msg+")");
+                               rankO = json.data.rankO;
+                               rankA = json.data.rankA;
+                               rankB = json.data.rankB;
+                               rankF = json.data.rankF;
+                               
+                               array_sort(change_id);
+                               },
+                               error:function(msg){
+                            	   top.stop_process();
+                               alertInfo('登录失败');
+                               }
+                               });
+                        */
+                        top.http_comm("6035", data, done_before);
+                    }
+	
+                    function done_before(msg){
+                    	var json=eval("("+msg+")");
+                        rankO = json.data.rankO;
+                        rankA = json.data.rankA;
+                        rankB = json.data.rankB;
+                        rankF = json.data.rankF;
+                        
+                        array_sort(change_id);
+                    }
+                    
+                    var mq_count = 0;
+                    var xs_count = 0;
+                    var zh_count = 0;
+                    var fgs_count = 0;
+                    function addinfo(){
+                    	var rankO_total1 = 0;
+                    	var rankO_total2 = 0;
+                    	var rankO_total3 = 0;
+                    	var rankO_total4 = 0;
+
+                    	var rankA_total1 = 0;
+                    	var rankA_total2 = 0;
+                    	var rankA_total3 = 0;
+                    	var rankA_total4 = 0;
+
+                    	var rankB_total1 = 0;
+                    	var rankB_total2 = 0;
+                    	var rankB_total3 = 0;
+                    	var rankB_total4 = 0;
+
+                    	var rankF_total1 = 0;
+                    	var rankF_total2 = 0;
+                    	var rankF_total3 = 0;
+                    	var rankF_total4 = 0;
+                        //    $("#fgs_slide").html('');
+                            //把图片路径先放入对应变量，方便后面显示
+
+                            var fgs='';
+                            for(var i = 0; i < rankO.length; i++){
+                                var pm = i;
+                                pm++;
+                               // alert(rankO[i].orgnId);
+                                fgs+='<li id="fgs_'+i+'" onclick="go_info(\''+rankO[i].orgnId+'\')"><div class="mui-col-xs-1 " >'
+                                    +'<span class="span_ph" style="color:#4169E1;margin-left:10px;">'+pm+'</span></div>'
+                                    +'<div class="mui-col-xs-3" ><span class="span_ph_l" style="text-indent:1em;font-size:12px;">'+rankO[i].short_name+'</span></div>'
+                                    +'<div class="mui-col-xs-2"><span class="span_ph0" id="span_qdl">'+rankO[i].total1+'</span></div>'
+                                    +'<div class="mui-col-xs-2"><span class="span_ph1" id="span_pgl">'+rankO[i].total2+'</span></div>'
+                                    +'<div class="mui-col-xs-2"><span class="span_ph2" id="span_fkl">'+rankO[i].total3+'</span></div>'
+                                    +'<div class="mui-col-xs-2"><span class="span_ph3" id="span_ffe">'+rankO[i].total4+'</span></div></li>';
+  								
+                                rankO_total1 += rankO[i].total1;
+                                rankO_total2 += rankO[i].total2;
+                                rankO_total3 += rankO[i].total3;
+                                rankO_total4 += rankO[i].total4;
+                            }
+                            
+                            
+                        //    $("#xs_slide").html('');
+                            var xs='';
+                            for(var i = 0; i < rankF.length; i++){
+                                var pm = i;
+                                pm++;
+                              //  alert(rankF[i].account_id);
+                                xs+='<li id="xs_'+i+'" onclick="go_info(\''+rankF[i].account_id+'\')"><div class="mui-col-xs-1 " >'
+                                +'<span class="span_ph" style="color:#4169E1;margin-left:10px;">'+pm+'</span></div>'
+                                +'<div class="mui-col-xs-3" ><span class="span_ph_l" style="text-indent:1em;font-size:12px;">'+rankF[i].account_name+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph0" id="span_qdl">'+rankF[i].total1+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph1" id="span_pgl">'+rankF[i].total2+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph2" id="span_fkl">'+rankF[i].total3+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph3" id="span_ffe">'+rankF[i].total4+'</span></div></li>';
+                                rankF_total1 += rankF[i].total1;
+                                rankF_total2 += rankF[i].total2;
+                                rankF_total3 += rankF[i].total3;
+                                rankF_total4 += rankF[i].total4;
+                            }
+                            
+                            
+                       //     $("#zh_slide").html('');
+                            var zh='';
+                            for(var i = 0; i < rankB.length; i++){
+                                var pm = i;
+                                pm++;
+                               // alert(rankB[i].bank_id);
+                                zh+='<li id="zh_'+i+'" onclick="go_info(\''+rankB[i].bank_id+'\')"><div class="mui-col-xs-1 " >'
+                                +'<span class="span_ph" style="color:#4169E1;margin-left:10px;">'+pm+'</span></div>'
+                                +'<div class="mui-col-xs-3" ><span class="span_ph_l" style="text-indent:1em;font-size:12px;">'+rankB[i].short_name+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph0" id="span_qdl">'+rankB[i].total1+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph1" id="span_pgl">'+rankB[i].total2+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph2" id="span_fkl">'+rankB[i].total3+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph3" id="span_ffe">'+rankB[i].total4+'</span></div></li>';
+                                rankB_total1 += rankB[i].total1;
+                                rankB_total2 += rankB[i].total2;
+                                rankB_total3 += rankB[i].total3;
+                                rankB_total4 += rankB[i].total4;
+                            }
+                           
+                            
+                         //   $("#mq_slide").html('');
+                            var mq='';
+                            for(var i = 0; i < rankA.length; i++){
+                                var pm = i;
+                                pm++;
+                              //  alert(rankA[i].account_id);
+                                mq+='<li id="mq_'+i+'" onclick="go_info(\''+rankA[i].account_id+'\')"><div class="mui-col-xs-1" >'
+                                +'<span class="span_ph" style="color:#4169E1;margin-left:10px;">'+pm+'</span></div>'
+                                +'<div class="mui-col-xs-3" ><span class="span_ph_l" style="text-indent:1em;font-size:12px;">'+rankA[i].account_name+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph0" id="span_qdl">'+rankA[i].total1+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph1" id="span_pgl">'+rankA[i].total2+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph2" id="span_fkl">'+rankA[i].total3+'</span></div>'
+                                +'<div class="mui-col-xs-2"><span class="span_ph3" id="span_ffe">'+rankA[i].total4+'</span></div></li>';
+                                rankA_total1 += rankA[i].total1;
+                                rankA_total2 += rankA[i].total2;
+                                rankA_total3 += rankA[i].total3;
+                                rankA_total4 += rankA[i].total4;
+                            }
+                          
+                         var fgs_total = '<div class="form_div" ><li><div class="mui-col-xs-4" >'
+                         +'<span class="span_ph_l" style="color:#4169E1;margin-left:10px;">总计:</span></div>'
+                         +'<div class="mui-col-xs-2"><span class="span_ph0" id="span_qdl">'+rankO_total1+'</span></div>'
+                         +'<div class="mui-col-xs-2"><span class="span_ph1" id="span_pgl">'+rankO_total2+'</span></div>'
+                         +'<div class="mui-col-xs-2"><span class="span_ph2" id="span_fkl">'+rankO_total3+'</span></div>'
+                         +'<div class="mui-col-xs-2"><span class="span_ph3" id="span_ffe">'+rankO_total4+'</span></div></li>';
+                         
+                         var xs_total = '<div class="form_div" ><li><div class="mui-col-xs-4" >'
+                             +'<span class="span_ph_l" style="color:#4169E1;margin-left:10px;">总计:</span></div>'
+                             +'<div class="mui-col-xs-2"><span class="span_ph0" id="span_qdl">'+rankF_total1+'</span></div>'
+                             +'<div class="mui-col-xs-2"><span class="span_ph1" id="span_pgl">'+rankF_total2+'</span></div>'
+                             +'<div class="mui-col-xs-2"><span class="span_ph2" id="span_fkl">'+rankF_total3+'</span></div>'
+                             +'<div class="mui-col-xs-2"><span class="span_ph3" id="span_ffe">'+rankF_total4+'</span></div></li>';
+                             
+                             var zh_total = '<div class="form_div" ><li><div class="mui-col-xs-4" >'
+                                 +'<span class="span_ph_l" style="color:#4169E1;margin-left:10px;">总计:</span></div>'
+                                 +'<div class="mui-col-xs-2"><span class="span_ph0" id="span_qdl">'+rankB_total1+'</span></div>'
+                                 +'<div class="mui-col-xs-2"><span class="span_ph1" id="span_pgl">'+rankB_total2+'</span></div>'
+                                 +'<div class="mui-col-xs-2"><span class="span_ph2" id="span_fkl">'+rankB_total3+'</span></div>'
+                                 +'<div class="mui-col-xs-2"><span class="span_ph3" id="span_ffe">'+rankB_total4+'</span></div></li>';
+                                 
+                                 var mq_total = '<div class="form_div" ><li><div class="mui-col-xs-4" >'
+                                     +'<span class="span_ph_l" style="color:#4169E1;margin-left:10px;">总计:</span></div>'
+                                     +'<div class="mui-col-xs-2"><span class="span_ph0" id="span_qdl">'+rankA_total1+'</span></div>'
+                                     +'<div class="mui-col-xs-2"><span class="span_ph1" id="span_pgl">'+rankA_total2+'</span></div>'
+                                     +'<div class="mui-col-xs-2"><span class="span_ph2" id="span_fkl">'+rankA_total3+'</span></div>'
+                                     +'<div class="mui-col-xs-2"><span class="span_ph3" id="span_ffe">'+rankA_total4+'</span></div></li>';
+                         
+                         $("#fgs_slide").html(fgs_total+fgs+"</div><div style='text-align:center;height:200px;line-height:200px;' ><p>没有更多了...</p></div>");
+                          	$("#xs_slide").html(xs_total+xs+"</div><div style='text-align:center;height:200px;line-height:200px;' ><p>没有更多了...</p></div>");
+                          	$("#zh_slide").html(zh_total+zh+"</div><div style='text-align:center;height:200px;line-height:200px;' ><p>没有更多了...</p></div>");
+                          
+                          	$("#mq_slide").html(mq_total+mq+"</div><div style='text-align:center;height:200px;line-height:200px;' ><p>没有更多了...</p></div>");
+          
+                          for(var i = 0; i< 4; i++){
+                              if(i == change_id){
+                                  $(".span_ph"+i).attr("style", "width:100%;text-align:center;line-height:35px;color:#20B2AA;font-size:14px;");
+                              }else{
+                                  $(".span_ph"+i).attr("style", "width:100%;text-align:center;line-height:35px;color:#4169E1;font-size:14px;");
+                              }
+                          }
+                          
+                          	
+                          
+                          mq_count = 0;
+                          xs_count = 0;
+                          zh_count = 0;
+                          var pm_count = change_id;
+                          pm_count++;
+                        	fgs_count = localStorage.getItem("fgs_pm_"+pm_count);
+                       	//	 alert("fgs_pm="+fgs_count);
+                       		if(localStorage.getItem("accountPosition") == 'A'){ //面签
+                       			mq_count =  localStorage.getItem("gr_pm_"+pm_count);
+                       		}else if(localStorage.getItem("accountPosition") == 'B'){//驻行
+                       			zh_count =  localStorage.getItem("gr_pm_"+pm_count);
+                       		}else if(localStorage.getItem("accountPosition") == 'F'){//销售
+                       			xs_count =  localStorage.getItem("gr_pm_"+pm_count);
+                       		}
+                          if(mq_count > 0){
+                        	  mq_count--;
+                              $("#mq_"+mq_count).attr("style", "background-color:rgba(221,160,221,0.3)");
+                          }
+                          if(xs_count > 0){
+                        	  xs_count--;
+                              $("#xs_"+xs_count).attr("style", "background-color:rgba(221,160,221,0.3)");
+                          }
+                          
+                          if(zh_count > 0){
+                        	  zh_count--;
+                              $("#zh_"+zh_count).attr("style", "background-color:rgba(221,160,221,0.3)");
+                          }
+                          if(fgs_count > 0){
+                        	  fgs_count--;
+                              $("#fgs_"+fgs_count).attr("style", "background-color:rgba(221,160,221,0.3)");
+                          }
+                          
+   						mui.toast("已按【"+sorttext+"】排序");
+                  
+                    }
+                    
+                    function go_info(id){
+                     
+                        localStorage.setItem("ph_begindate", $("#qssj").val());
+                        localStorage.setItem("ph_enddate", $("#jzsj").val());
+                        showNewFrame('aj_mqph.html?userid='+id,'smask');
+                    }
+                    function show_conditions(){
+                    	//top.hide_nav();
+                    	$(".div_conditions").show();
+                    }
+
+                    function hide_conditions(){
+                    	
+                    	$(".div_conditions").hide();
+                    }
+                </script>
+                            
+                        
+    </head>
+    <body>        
+   	<header class="mui-bar mui-bar-nav head_color" style="box-shadow:0px 0px 0px #000">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<a  class="mui-action-menu mui-icon mui-icon-bars mui-pull-right"  onclick="show_conditions();"></a>	
+		<h1 class="mui-title">业绩排名</h1>
+	</header>
+  
+  <div class="mui-content" style="margin-top:25px;">
+			<div id="slider" class="mui-slider mui-fullscreen" >
+				<div id="sliderSegmentedControl" class="mui-slider-indicator  mui-scroll-wrapper mui-segmented-control mui-segmented-control-inverted " style="background-color: #007aff;">
+					<div class="mui-scroll" >
+						<a class="mui-control-item mui-active" href="#item_0">
+							团队排名
+						</a>
+						<a class="mui-control-item" href="#item_1">
+							销售经理
+						</a>
+						<a class="mui-control-item" href="#item_2">
+							支行签单
+						</a>
+						<a class="mui-control-item" href="#item_3">
+							面签排名
+						</a>					
+					</div>
+				</div>
+<!--                 <div id="sliderProgressBar" class="mui-slider-progress-bar  mui-col-xs-3"></div> -->
+                <div class="form_div">
+                	<ul>
+                        <li style="height:35px;line-height:35px;background-color:#fff">
+		                     <div class="mui-col-xs-1 " >
+		                         <span class="span_ph" style="color:#4169E1;margin-left:10px;font-weight:bold;">No.</span>
+		                     </div>
+		                     <div class="mui-col-xs-3" >
+		                         <span class="span_ph" style="text-indent:1em;font-weight:bold;">名称</span>
+		                     </div>
+		                     <div class="mui-col-xs-2">
+		                         <span class="span_ph_active" id="span_qdl" style="font-weight:bold;">签单量</span>
+		                     </div>
+		                     <div class="mui-col-xs-2">
+		                         <span class="span_ph" id="span_pgl" style="font-weight:bold;">批过量</span>
+		                     </div>
+		                     <div class="mui-col-xs-2">
+		                         <span class="span_ph" id="span_fkl" style="font-weight:bold;">放款量</span>
+		                     </div>
+		                     <div class="mui-col-xs-2">
+		                         <span class="span_ph" id="span_ffe" style="font-size:12px;font-weight:bold;">发放额/万</span>
+		                     </div>
+	                 	</li>
+                 	</ul>
+             	</div>
+				<div class="mui-slider-group" style="margin-top:32px;">
+					<div id="item_0" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll" id="fgs_slide">
+			
+			
+							</div>
+						</div>
+					</div>
+					<div id="item_1" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll" id="xs_slide">
+	
+							</div>
+						</div>
+					</div>
+					<div id="item_2" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll" id="zh_slide">							
+
+							</div>
+						</div>
+					</div>
+					<div id="item_3" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper" >
+							<div class="mui-scroll" id="mq_slide">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		</div>
+         <div class="div_conditions" style="display:none">
+			<header class="mui-bar mui-bar-nav head_color">
+				<a class="mui-action-menu mui-icon mui-icon-close mui-pull-right "  onclick="hide_conditions();" ></a>
+				<h1 class="mui-title">条件筛选</h1>				
+			</header>
+			<div class="mui-content" style="margin-top:15px;">
+				<ul class="mui-table-view mui-table-view-radio">
+					<li class="mui-table-view-cell mui-selected" id="0">
+						<a class="mui-navigate-right">
+							签单量
+						</a>
+					</li>
+					<li class="mui-table-view-cell" id="1">
+						<a class="mui-navigate-right">
+							批过量
+						</a>
+					</li>
+					<li class="mui-table-view-cell" id="2">
+						<a class="mui-navigate-right">
+							放款量
+						</a>
+					</li>
+					<li class="mui-table-view-cell" id="3">
+						<a class="mui-navigate-right">
+							发放额
+						</a>
+					</li>
+				</ul>
+				<ul>
+					<li class="mui-table-view-cell">
+						<div class="mui-input-row" style="background:#ffffff">
+							<label>开始时间</label>
+							<input type="date" placeholder="请选择起始日期" id="qssj" style="height:41px;overflow: hidden;">
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="mui-input-row" style="background:#ffffff">
+							<label>结束时间</label>
+							<input type="date" placeholder="请选择结束日期" id="jzsj" style="height:41px;overflow: hidden;">
+						</div>
+					</li>
+				</ul>
+			
+	            <div style="margin-top:10px;text-align:center;margin-bottom: 600px;" onclick="initPage();">
+					<button type="button" class="mui-btn  mui-btn-primary" style="width:90%">搜索</button>
+				</div>
+	      	</div>
+		</div>
+        <!-- Initialize Swiper -->
+        <script>
+
+                              
+            function change(id) {
+                change_id = id;
+                if (id == 0) {
+                    $("#div_qd").show();
+                    $("#div_pg").hide();
+                    $("#div_fk").hide();
+                    $("#div_ff").hide();
+                    $("#t1").addClass("active");
+                    $("#t2").removeClass("active");
+                    $("#t3").removeClass("active");
+                    $("#t4").removeClass("active");
+                    $("#span_qdl").removeClass().addClass("span_ph_active");
+                    $("#span_pgl").removeClass().addClass("span_ph");
+                    $("#span_fkl").removeClass().addClass("span_ph");
+                    $("#span_ffe").removeClass().addClass("span_ph");
+                   
+                } else if(id == 1){
+                    $("#div_qd").hide();
+                    $("#div_pg").show();
+                    $("#div_fk").hide();
+                    $("#div_ff").hide();
+                    $("#t1").removeClass("active");
+                    $("#t2").addClass("active");
+                    $("#t3").removeClass("active");
+                    $("#t4").removeClass("active");
+                    $("#span_qdl").removeClass().addClass("span_ph");
+                    $("#span_pgl").removeClass().addClass("span_ph_active");
+                    $("#span_fkl").removeClass().addClass("span_ph");
+                    $("#span_ffe").removeClass().addClass("span_ph");
+                    
+                }else if(id == 2){
+                    $("#div_qd").hide();
+                    $("#div_pg").hide();
+                    $("#div_fk").show();
+                    $("#div_ff").hide();
+                    $("#t1").removeClass("active");
+                    $("#t2").removeClass("active");
+                    $("#t3").addClass("active");
+                    $("#t4").removeClass("active");
+                    $("#span_qdl").removeClass().addClass("span_ph");
+                    $("#span_pgl").removeClass().addClass("span_ph");
+                    $("#span_fkl").removeClass().addClass("span_ph_active");
+                    $("#span_ffe").removeClass().addClass("span_ph");
+                }else{
+                    $("#div_qd").hide();
+                    $("#div_pg").hide();
+                    $("#div_fk").hide();
+                    $("#div_ff").show();
+                    $("#t1").removeClass("active");
+                    $("#t2").removeClass("active");
+                    $("#t3").removeClass("active");
+                    $("#t4").addClass("active");
+                    $("#span_qdl").removeClass().addClass("span_ph");
+                    $("#span_pgl").removeClass().addClass("span_ph");
+                    $("#span_fkl").removeClass().addClass("span_ph");
+                    $("#span_ffe").removeClass().addClass("span_ph_active");
+                }
+                array_sort(id);
+            }
+
+            </script>
+    </body>
+</html>

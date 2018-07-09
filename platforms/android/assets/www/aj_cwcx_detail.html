@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">         
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>              
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">                 
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+.btn:hover, .btn:focus, .btn.focus{color:#fff;}
+
+.rgt {
+    width: 10px;
+    height: 18px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 12px;
+    background-size: 100% 100%;
+    background-image: url("img/right.png");
+}
+.rgt_c {
+    width: 40px;
+    height: 36px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 6px;
+    background-size: 100% 100%;
+    background-image: url("img/tpck.png");
+}
+.max{width:100%;height:auto;}
+.rgt_c {
+    width: 40px;
+    height: 36px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 6px;
+    background-size: 100% 100%;
+    background-image: url("img/pz.png");
+}
+.inp_label{
+    width: 30%;
+    line-height: 45px;
+    font-size: 15px;
+    text-align: left;
+    float: left;
+    margin-left: 15px;
+    font-weight: bold;
+    color:#708090;
+}
+
+.inp_text{
+    width: 70%;
+    line-height: 35px;
+    color: #8e8e8e;
+    font-size: 15px;
+    text-align: left;
+    float: left;
+    margin-top:5px;
+    
+}
+</style>
+</head>
+<script type="text/javascript">
+var fileno;
+document.addEventListener("DOMContentLoaded", initial);
+function initial() {
+    mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+        });
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+	
+	 var thisURL = document.URL;
+	 var getenv = thisURL.split('?')[1];
+    fileno = getenv.split('=')[1];
+    var level = localStorage.getItem("level");
+    var pos = localStorage.getItem("accountPosition");
+    if(level == '1' || level == '2' || level == '3'){           
+       // $("#li_fgs").attr("style", "display:black");
+        if(pos == 'E' || pos == 'L' || pos =='F'){
+        	$("#li_ysfy").attr("style", "display:black");
+        }else{
+        	$("#li_ysfy").attr("style", "display:none");
+        }
+    }else if(level == '4'){
+        $("#li_hzjg").attr("style", "display:black");
+       // $("#li_fgs").attr("style", "display:none");
+    }
+    
+    showmessage();
+}
+    
+
+    function showmessage(){
+        
+        var msg=localStorage.getItem("cwcx_"+fileno);
+        var data=eval("("+msg+")");
+       
+        $("#xm").html(data.xm);
+        $("#bank_name").html(data.bank_name);
+        $("#loan_amt").html(data.loan_amt + "万");
+        $("#typeName").html(data.typeName);
+        $("#fc_pgzj").html(data.fc_pgzj + "万");
+        $("#check_date").html(data.check_date);
+        $("#paystat").html(data.paystat);
+        if(!top.isEmpty(data.loan_date)){
+        	$("#loan_date").html(data.loan_date);
+        }else{
+        	$("#loan_date").html("尚未放款");
+        }
+        
+        
+        
+     //   $("#yffy").html(data.yffy);
+        $("#ysfy").html(data.ysfy + "元");
+        $("#hzjg_yffy").html(data.ysfy + "元");
+        localStorage.setItem("tmp_show_img", 0);
+        
+    }
+    
+        </script>
+    
+    <body>
+
+    <header class="mui-bar mui-bar-nav head_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title">财务明细</h1>
+	</header>
+        
+    <div class="container-fluid">
+        <div class="mui-content mui-scroll-wrapper" >
+		  	<div class="mui-scroll top_head">           
+		    	<div class="form_div">
+		        	<ul>	
+		              <li>
+		                  <div class="inp_label" width="140px" >姓名</div> <span id="xm"
+		                      class="inp_text" ></span>
+		                      </li>
+		              <li>
+		                  <div class="inp_label" width="140px" >贷款银行</div> <span id="bank_name"
+		                      class="inp_text" ></span>
+		                      </li>
+		              <li>
+		                  <div class="inp_label" width="140px" >贷款金额</div> <span id="loan_amt"
+		                      class="inp_text" ></span>
+		                      </li>
+		              <li>
+		                  <div class="inp_label" width="140px" >贷款产品</div> <span id="typeName"
+		                      class="inp_text" ></span>
+		                      </li>
+		              <li>
+		                  <div class="inp_label" width="140px" >评估总价</div> <span id="fc_pgzj"
+		                      class="inp_text" ></span>
+		                      </li>
+		              <li>
+		                  <div class="inp_label" width="140px" >终审时间</div> <span id="check_date"
+		                      class="inp_text" ></span>
+		                      </li>
+		              <li>
+		                  <div class="inp_label" width="140px" >放款时间</div> <span id="loan_date"
+		                      class="inp_text" ></span>
+		                      </li>
+		                      <!--
+		              <li id="li_yffy" style="display:none">
+		                  <div class="inp_label" width="140px" >应付费用</div> <span id="yffy"
+		                      class="inp_text" ></span>
+		                      </li>
+		                      -->
+		              <li id="li_ysfy" style="display:none">
+		                  <div class="inp_label" width="140px" >应收费用</div> <span id="ysfy"
+		                      class="inp_text" ></span>
+		                      </li>
+		              <li id="li_hzjg" style="display:none">
+		                  <div class="inp_label" width="140px" >应付费用</div> <span id="hzjg_yffy"
+		                      class="inp_text" ></span>
+		                      </li>
+                      <li>
+                          <div class="inp_label" width="140px" >结算状态</div> <span id="paystat"
+                              class="" ></span>
+                      </li>
+		          </ul>  
+		          </div>            
+		   	</div>
+   		</div>
+    </div>
+</body>
+</html>

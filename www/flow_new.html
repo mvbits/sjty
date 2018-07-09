@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">                   
+<link href="css/index.css" rel="stylesheet">                      
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link href="css/common.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/aui/aui.css" />   
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<script src="mui/js/mui.min.js"></script>                               
+<script src="js/jquery.min.js"></script>                                  
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style>
+                                        *, *:before, *:after {
+                                            -webkit-box-sizing: border-box;
+                                            -moz-box-sizing: border-box;
+                                            box-sizing: border-box;
+                                        }
+                                    
+                                    html, body {
+                                        position: relative;
+                                        height: 100%;
+                                    }
+                                    body {
+                                        background: #fff;
+                                        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+                                        font-size: 14px;
+                                        color:#000;
+                                        margin: 0;
+                                        padding: 0;
+                                    }
+                                    .inp_label_s{
+                                        width: 80px;
+                                        line-height: 35px;
+                                        color:#272727;
+                                        font-size: 17px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: 15px;
+                                    }
+                                    .inp_show_text {
+                                        width: 160px;
+                                        line-height: 35px;
+                                        color: #8e8e8e;
+                                        font-size: 15px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: 15px;
+                                    }
+                                    body {
+                                        font-size: 14px;
+                                        
+                                    }
+                                    .inp_label_x{
+                                        width: 200px;
+                                        line-height: 45px;
+                                        color: #4499EE;
+                                        font-size: 17px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: 15px;
+                                        font-weight: bold;
+                                        
+                                    }
+                                    .inp_label_f{
+                                        width: 80px;
+                                        height:35px;
+                                        line-height: 35px;
+                                        color: #000000;
+                                        font-size: 14px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: 10px;
+                                        
+                                        
+                                    }
+                                    .inp_text_f {
+                                        width: 60%;
+                                        height:35px;
+                                        line-height: 25px;
+                                        inline-block; 
+                                        color: #8e8e8e;
+                                        font-size: 14px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: 10px;
+                                        font-weight: bold;
+                                    }
+                                    .inp_text_fi {
+                                        width: 100px;
+                                        line-height: 25px;
+                                        color: #8e8e8e;
+                                        font-size: 12px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: -10px;
+                                        font-weight: bold;
+                                    }
+                                    .inp_text_p {
+                                        width: 100px;
+                                        line-height: 35px;
+                                        color: #8e8e8e;
+                                        font-size: 14px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: 10px;
+                                        font-weight: bold;
+                                    }
+                                    .inp_label_si{
+                                        width: 80px;
+                                        line-height: 25px;
+                                        color:#272727;
+                                        font-size: 13px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: 15px;
+                                        font-weight: bold;
+                                    }
+                                    .inp_show_texti {
+                                        width: 160px;
+                                        line-height: 25px;
+                                        color: #8e8e8e;
+                                        font-size: 13px;
+                                        text-align: left;
+                                        float: left;
+                                        margin-left: 15px;
+                                        font-weight: bold;
+                                    }
+                                    .inp_show_textq {
+                                        line-height: 25px;
+                                        color: #8e8e8e;
+                                        font-size: 13px;
+                                        text-align: center;
+                                        font-weight:bold;
+                                       
+                                       
+                                    }
+                                    .jbr_info{
+                                        color: 	#8e8e8e;
+                                        font-size: 17px;
+                                        height:25px;
+                                        font-weight: bold;
+                                    }
+                                    .inliner {
+                                        height: 20%;
+                                        margin-top:10px;
+                                    }
+                                    
+                                    .inliner,
+                                    .inliner + .inlined {
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                    }
+                                    
+                                    .inlined {
+                                        width:100%;
+                                        overflow-x:scroll;
+                                        dispaly:inline;
+                                        white-space:nowrap;
+                                        margin-top:10px;
+                                    }
+                                    
+                                    .progress-meter {
+                                        margin: 20px auto 40px;
+                                        padding: 40px;
+                                    }
+                                    
+                                    .progress-meter {
+                                        counter-reset: point;
+                                    }
+                                    .progress-meter .progress-point:before {
+                                        -webkit-transition: all 1s;
+                                        -moz-transition: all 1s;
+                                        -o-transition: all 1s;
+                                        transition: all 1s;
+                                        -webkit-border-radius: 18px;
+                                        -moz-border-radius: 18px;
+                                        -ms-border-radius: 18px;
+                                        -o-border-radius: 18px;
+                                        border-radius: 18px;
+                                        -webkit-box-shadow: 0 0 0 2px white;
+                                        -moz-box-shadow: 0 0 0 2px white;
+                                        box-shadow: 0 0 0 2px white;
+                                        content: "\2713";
+                                        display: block;
+                                        width: 18px;
+                                        height:18px;
+                                        margin: 0 auto 9px;
+                                        border: 2px solid 	#aaaaaa;
+                                        text-align: center;
+                                        background-color: white;
+                                        color: white;
+                                    }
+                                    .progress-meter .track {
+                                        position: relative;
+                                        height: 4px;
+                                        width:200%;
+                                        background: #dddddd;
+                                    }
+                                    .progress-meter .progress {
+                                        -webkit-transition: width 1s;
+                                        -moz-transition: width 1s;
+                                        -o-transition: width 1s;
+                                        transition: width 1s;
+                                        display: block;
+                                        position: absolute;
+                                        left: 0;
+                                        top: 0;
+                                        width: 0;
+                                        height: 4px;
+                                        background: 	#8E8E8E;
+                                    }
+                                    .progress-meter .progress-points {
+                                        position: relative;
+                                        margin: -14px 0 0;
+                                        padding: 0;
+                                        list-style: none;
+                                    }
+                                    
+                                    .progress-meter .progress-point {
+                                        -webkit-transition: color 1s;
+                                        -moz-transition: color 1s;
+                                        -o-transition: color 1s;
+                                        transition: color 1s;
+                                        position: absolute;
+                                        display: block;
+                                        width: 100px;
+                                        margin-left: -50px;
+                                        text-align: center;
+                                        cursor: pointer;
+                                        color: #999;
+                                    }
+                                    .progress-meter .progress-point.completed, .progress-meter .progress-point.active {
+                                        color: #00BB00;
+                                    }
+                                    .progress-meter .progress-point.completed:before {
+                                        border-color: #00BB00;
+                                        background-color: #00BB00;
+                                    }
+                                    .progress-meter .progress-point.active:before {
+                                        -webkit-transition-delay: 1s;
+                                        -moz-transition-delay: 1s;
+                                        -o-transition-delay: 1s;
+                                        transition-delay: 1s;
+                                        border-radius: 32px;
+                                        margin-top: -12px;
+                                        width: 32px;
+                                        height:32px;
+                                        border-color: #A23400;
+                                    }
+                                    .progress-meter .progress-point .label:before {
+                                        counter-increment: point;
+                                        content: counter(point) ". ";
+                                        /* Display the counter */
+                                    }
+                                    
+                                    .controls {
+                                        text-align: center;
+                                        font-size: 14px;
+                                    }
+                                    
+                                    .trigger {
+                                        -webkit-border-radius: 3px;
+                                        -moz-border-radius: 3px;
+                                        -ms-border-radius: 3px;
+                                        -o-border-radius: 3px;
+                                        border-radius: 3px;
+                                        padding: 6px 8px;
+                                        border: none;
+                                        font: 14px inherit;
+                                        text-shadow: 0px 1px 1px rgba(251, 251, 251, 0.75);
+                                        color: #626262;
+                                        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bbbbbb), color-stop(100%, #959595));
+                                        background-image: -webkit-linear-gradient(#bbbbbb, #959595);
+                                        background-image: -moz-linear-gradient(#bbbbbb, #959595);
+                                        background-image: -o-linear-gradient(#bbbbbb, #959595);
+                                        background-image: linear-gradient(#bbbbbb, #959595);
+                                    }
+                                    
+                                    .box-shadow{
+                                        -webkit-box-shadow: 1px 1px 1px;
+                                        -moz-box-shadow: 1px 1px 1px;
+                                        box-shadow: 1px 1px 1px;
+                                    }
+                                    .box-shadow1{
+                                        -webkit-box-shadow: 1px 1px 1px;
+                                        -moz-box-shadow: 1px 1px 1px;
+                                        box-shadow: 1px 1px 1px;
+                                    }
+                                    .div-radius {
+                                        padding:10px; ;
+                                        background:#FC9;
+                                        -moz-border-radius: 5px;
+                                        -webkit-border-radius: 5px;
+                                        border-radius:5px;
+                                        
+                                    }
+                                    
+                                    .div-radius1 {
+                                        padding:3px;
+                                        background:#8EC2F5;
+                                        -moz-border-radius: 5px;
+                                        -webkit-border-radius: 5px;
+                                        border-radius:5px;
+                                        
+                                    }
+                                    .phone {
+                                        width: 27px;
+                                        height: 28px;
+                                        float: right;
+                                        margin-right:20px;
+                                        margin-left:5px;
+                                        margin-top: 4px;
+                                        background-size: 100% 100%;
+                                        background-image: url("img/phone.png");
+                                    }
+                                    .rgt_x {
+                                        
+                                        height: 18px;
+                                        float: right;
+                                        width: 60px;
+                                        line-height: 25px;
+                                        font-size: 14px;
+                                        text-align: left;
+                                        
+                                        color:#2F4F4F;
+                                        font-weight:bold;
+                                    }
+                                    .rgt_s{
+                                        
+                                        height: 25px;
+                                        float: right;
+                                        width: 60px;
+                                        line-height: 35px;
+                                        font-size: 12px;
+                                        text-align: left;
+                                        color:#2F4F4F;
+                                       
+                                    }
+ul{
+    border:0;
+}
+li{
+    
+    border:0;
+    
+}
+          .mui-switch:before{
+    font-size: 13px;
+    position: absolute;
+    top: 3px;
+    right: 11px;
+    content: attr(data-off);
+    text-transform: uppercase;
+    color: #999;
+   }
+   .mui-switch.mui-active:before{
+    right: auto;
+    left: 15px;
+    content: attr(data-on);
+    color: #fff;
+   }
+   
+   #more_beiz p{
+   		height:20px;
+   		line-height:15px;
+   }
+                                    </style>
+                                    <script type="text/javascript">
+                                        var json;
+                                        var count;
+                                        var fileno;
+                                        var flow;
+                                        var number;
+                                        var currentPoint;
+                                        var toggleflag=0;
+                                        var cpzl_map = {
+                                                "8001":"公积金贷款",
+                                                "8002":"商贷贷款",
+                                                "8003":"组合贷款",
+                                                "8004":"消费贷",
+                                                "8005":"安居贷",
+                                                "8006":"车供贷",
+                                                "8007":"房供贷",
+                                                "8008":"保单贷",
+                                                "8009":"赎楼贷",
+                                                "8010":"尾款贷",
+                                                "8011":"积金贷",
+                                                "8012":"小赢优贷",
+                                                "8013":"装修贷"
+                                            };
+                                    var point_arr, points, progress, trigger, activate, active, max, tracker, val;
+                                    var beiz;
+                                    var level;
+                                    var userid;
+                                    var pos;
+                                    var flow_now=0;
+                                    document.addEventListener("DOMContentLoaded", initial);
+                                    function initial() {
+                                    	mui.init({
+                                      		swipeBack:true //启用右滑关闭功能
+                                      	});
+                                      	mui('.mui-scroll-wrapper').scroll({
+                                              deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+                                        }); 
+                                        //返回键 tap事件监听
+                                        mui(document.body).on('tap', '.mui-action-back', function(e) {
+                                                              this.click();
+                                                              return false;
+                                                              });
+                                      //返回键 tap事件监听
+                                      mui(document.body).on('tap', '.mui-action-menu', function(e) {
+                                                            this.click();
+                                                            return false;
+                                                            });
+                                        var thisURL = document.URL;
+                                                                                
+                                        var getenv = thisURL.split('?')[1];
+                                        fileno = getenv.split('=')[1];
+                                        
+                                        $("#fileno").html(fileno);
+                                        $("#trandate").html(fileno.substring(0,4)+"年"+fileno.substring(4,6)+"月"+fileno.substring(6,8)+"日");
+                                        initPage();
+                                        
+                                        level = localStorage.getItem("level");
+                                        userid = localStorage.getItem("userid");
+                                        pos = localStorage.getItem("accountPosition");
+                                        
+                                        /*
+                                        mui('.mui-content .mui-switch').each(function() { //循环所有toggle
+                                			//toggle.classList.contains('mui-active') 可识别该toggle的开关状态
+                                			//this.parentNode.querySelector('span').innerText = '状态：' + (this.classList.contains('mui-active') ? 'true' : 'false');
+                                		
+                                			 
+                                			this.addEventListener('toggle', function(event) {
+                                				//event.detail.isActive 可直接获取当前状态
+                                				//this.parentNode.querySelector('span').innerText = '状态：' + (event.detail.isActive ? 'true' : 'false');
+                                				//console.log("event="+JSON.stringify(event.detail.isActive));
+                                				//console.log("this="+JSON.stringify($(this).attr("id")));
+                                				
+                                					if(event.detail.isActive == true){
+                                						
+                                						show_beiz();
+                                					}else{
+                                						$("#more_beiz").slideUp();
+                                					}
+                                		
+                                			});
+                                		});
+                                        */
+                                    }
+                                    
+                                    function initPage(){
+                                        
+                                        var data = {};
+                                        data.userid = localStorage.getItem("userid");
+                                        data.fileno = fileno;
+                                        /*
+                                        $.ajax({
+                                               type : "post",
+                                               url: "http://www.sjyjr.net/app/6016;",
+                                               timeout: 3000,
+                                               data : data,
+                                               datatype : "json",
+                                               success :function(msg){
+                                               
+                                               showinfo(msg);
+                                               },
+                                               error:function(msg){
+                                               
+                                               top.alertInfo('通信失败');
+                                               }
+                                               });
+                                         */
+                                         top.http_comm("6016", data, showinfo);
+                                               
+                                    }
+                                    
+                                    var fileflow;
+                                    var loaninfo;
+                                    function showinfo(msg){
+                                       
+                                        json=eval("("+msg+")");
+                                        
+                                       top.writelog("6016 recv:"+msg);
+                                        var loanflow = json.data.loanflow;
+                                        fileflow = json.data.fileflow;
+                                        loaninfo = json.data.loaninfo;
+                                                                                
+                                        count = loanflow.length;
+                                        currentPoint = json.data.flow;
+                                        flow_now = json.data.flow;
+                                        flow = json.data.flow;
+                                        if(currentPoint == 1){
+                                        	  var beiz = json.data.loaninfo.beiz;
+                                              if(!top.isEmpty(beiz)){
+                                              	top.alertInfo(beiz);
+                                                 $("#jbr_beiz").html("<font style='font-weight:bold;color:red'>备注信息</font>:"+beiz);
+                                              }
+                                        }
+                                        
+                                        removeAllChild();
+                                        var div_host = document.getElementById("allpoints");
+                                        var ddzz = document.getElementById("ddzz");
+                                        
+                                        var wid = loanflow.length * 20;
+                                        for(var i = 0; i < loanflow.length; i++){
+                                        	                                   
+                                        	if(loanflow[i].isback == 1) //不展示回退步骤
+                                            continue;
+                                            var li = document.createElement("li");
+                                            li.setAttribute("class", "progress-point");
+                                            li.setAttribute("data-point",i);
+                                            
+                                            $(".track").attr("style", "width:"+wid+"%");
+                                            
+                                            li.setAttribute("style", "left:"+i*wid/(loanflow.length-1)+"%");
+                                            li.setAttribute("id", "step"+i);
+                                            li.setAttribute("onclick", "point_click('"+i+"')");
+                                            var span = document.createElement("span");
+                                            span.setAttribute("class", "inp_show_textq");
+                                            
+                                            if( i < (currentPoint - 1)){
+                                                span.setAttribute("style", "color:#000000;text-align:center;");
+                                            }else if (i == (currentPoint -1)){
+                                                span.setAttribute("style", "color:#A23400;text-align:center;");
+                                            }else{
+                                                span.setAttribute("style", "color:#8e8e8e;text-align:center;");
+                                            }
+                                            
+                                            span.innerHTML = loanflow[i].flowname;
+                                            
+                                            
+                                            li.appendChild(span);
+                                            div_host.appendChild(li);
+                                            
+                                            
+                                            
+                                            if( i < currentPoint){
+                                                var li_p = document.createElement("li");
+                                                var div_p = document.createElement("div");
+                                                var span_sj = document.createElement("span");
+                                                
+                                                var div_p1 = document.createElement("div");
+                                                var span_mc= document.createElement("span");
+                                                var div_phone = document.createElement("div");
+                                                li_p.setAttribute("style", "height:35px;line-height:35px;");
+                                                
+                                                div_p.setAttribute("class", "aui-col-xs-3");
+                                                div_p.setAttribute("style", "text-align:left");
+                                                div_p.innerHTML = fileflow[i].flowname;
+                                                
+                                                span_sj.setAttribute("class", "aui-col-xs-3");
+                                                span_sj.setAttribute("style", "text-align:left");
+                                                span_mc.setAttribute("class", "aui-col-xs-3");
+                                                span_mc.setAttribute("style", "text-align:right;color:#ffa6ff;");
+                                                
+                                               
+                                                if( i == (currentPoint - 1)){
+                                                    if(fileflow[i].enddate){
+                                                       
+                                                        span_sj.innerHTML = fileflow[i].enddate.substring(0,10);
+                                                        
+                                                    }else{
+                                                        span_sj.innerHTML="处理中";
+                                                    }
+                                                  
+                                
+                                                    if(i > 0){
+                                                        if(fileflow[i-1].note.length == 0){
+                                                            $("#jbr_beiz").html("<font style='font-weight:bold;color:red'>备注信息</font>：这家伙很懒，什么都没有留下..");
+                                                        }else{
+                                                            top.alertInfo(fileflow[i-1].note);
+                                                            $("#jbr_beiz").html("<font style='font-weight:bold;color:red'>备注信息</font>："+fileflow[i-1].note);
+                                                        }
+                                                    }
+                                                   
+                                                }else {
+                                                  
+                                                    span_sj.innerHTML = fileflow[i].enddate.substring(0,10);
+                                                    
+                                                }
+                                                
+                                                span_mc.innerHTML = fileflow[i].account_name;
+                                                
+                                                div_phone.setAttribute("class", "aui-col-xs-2 phone");
+                                                div_phone.setAttribute("onclick", "myphone_new('"+fileflow[i].account_tel +"')");
+
+                                                li_p.appendChild(div_p);
+                                                li_p.appendChild(span_sj);
+                                                
+                                                div_p1.appendChild(span_mc);
+                                                div_p1.appendChild(div_phone);
+                                                
+                                                li_p.appendChild(div_p1);
+                                                ddzz.appendChild(li_p);
+                                                top.writelog("8888i="+i+";fileflow="+JSON.stringify(fileflow[i]));
+                                            }
+                                            
+                                            
+                                        }
+                                        
+                                        div_host.setAttribute("data-current", currentPoint);
+                                        trigger = $('.trigger').first();
+                                        
+                                        points = $('.progress-points').first();
+                                        
+                                        point_arr = $('[data-point]');
+                                        
+                                        progress = $('.progress').first();
+                                        
+                                        val = parseInt(points.data('current')) - 1;
+                                        
+                                        max = point_arr.length - 1;
+                                        
+                                        tracker = active = 0;
+                                        setTimeout((function() {
+                                                    return activate(val);
+                                                    }), 1000);
+                                                    
+                                                    
+                                                    show_moreinfo();
+                                                    $("#jbr_name").html(fileflow[currentPoint-1].account_name);
+                                                    $("#jbr_lxfs").html(fileflow[currentPoint-1].account_tel );
+                                                    if(fileflow[currentPoint-1].enddate){
+                                                        $("#jbr_clsj").html(fileflow[currentPoint-1].enddate );
+                                                    }else{
+                                                        $("#jbr_clsj").html("正在处理" );
+                                                    }
+                                                    
+                                                    
+                                                    if( fileflow[currentPoint-1].flowstat == 0 ) //处理中
+                                                    {
+                                                        $("#flow_stat").html("处理中");		
+                                                    }
+                                                    else if(fileflow[currentPoint-1].flowstat == 1) //已完成
+                                                    {
+                                                        $("#flow_stat").html("处理完成");	
+                                                    }
+                                                    else if(fileflow[currentPoint-1].flowstat == 2) //已完成
+                                                    {
+                                                        $("#flow_stat").html("回退上一流程");	
+                                                    }else if(fileflow[currentPoint-1].flowstat == 3) //已完成
+                                                    {
+                                                        $("#flow_stat").html("异常结案");	
+                                                    }
+                                                                 
+                                    }
+                                    
+                                    function show_moreinfo(){
+          
+                                        
+                                        $("#jkr_xm").html(loaninfo.jkr_xm);
+                                        var idno = loaninfo.jkr_sfzh
+                                        $("#jkr_sfzh").html(idno.substring(0,4)+"**********"+idno.substring(14,18));
+                                        $("#jkr_lxfs").html(loaninfo.jkr_lxfs1);
+                                        
+                                        $("#fc_dz").html(loaninfo.fc_dz);//房产地址
+                                        $("#fc_mj").html(loaninfo.fc_mj+"平米");//房产地址
+                                        $("#mf_xm").html(loaninfo.mf_xm); //产权人姓名
+                                        $("#mf_lxfs").html(loaninfo.mf_lxfs1); //产权人电话
+                                        $("#yjgs_xsjl").html(loaninfo.yjgs_xsjl);//销售经理姓名
+                                        $("#yjgs_xsjllxfs").html(loaninfo.yjgs_xsjllxfs);//销售经理电话
+                                        $("#dk_qdsj").html(fileflow[0].enddate.substring(0,4)+"年"+fileflow[0].enddate.substring(5,7)+"月"+fileflow[0].enddate.substring(8,10)+"日");//签单时间
+                                        $("#dk_lx").html(cpzl_map[loaninfo.loantype]);
+                                        if( loaninfo.loantype == "8001"){
+                                            $("#sd_li").attr("style", "display:none");
+                                            $("#gjjdk_li").attr("style", "display:block");
+                                            
+                                        } else if ( loaninfo.loantype == "8003"){
+                                            $("#sd_li").attr("style", "display:block");
+                                            $("#gjjdk_li").attr("style", "display:block");
+                                            
+                                        } else {
+                                            $("#sd_li").attr("style", "display:block");
+                                            
+                                            $("#gjjdk_li").attr("style", "display:none");
+                                        }
+                                        var cpzl = loaninfo.loantype;
+                                        localStorage.setItem("lz_show_loantype", loaninfo.loantype);
+                                        $("#dk_yh").html(loaninfo.bankname);
+                                        
+                                        if(loaninfo.dk_je == 0 ){
+                                            $("#dk_je").html(loaninfo.dk_sqje);
+                                            localStorage.setItem("lz_show_sd", loaninfo.dk_sqje);
+                                        }else{
+                                            $("#dk_je").html(loaninfo.dk_je);
+                                            localStorage.setItem("lz_show_sd", loaninfo.dk_je);
+                                        }
+                                        if(loaninfo.dk_gjj_je == 0 ){
+                                            $("#dk_gjj_je").html(loaninfo.dk_gjj_sqje);
+                                            localStorage.setItem("lz_show_gd", loaninfo.dk_gjj_sqje);
+                                        }else{
+                                            $("#dk_gjj_je").html(loaninfo.dk_gjj_je);
+                                            localStorage.setItem("lz_show_gd", loaninfo.dk_gjj_je);
+                                        }
+                                        
+                                        $("#dk_qx").html(loaninfo.dk_qx);
+                                        localStorage.setItem("lz_show_qx", loaninfo.dk_qx);
+                                        
+                                        top.writelog("dk_hkfs="+loaninfo.dk_hkfs);
+                                        if(loaninfo.dk_hkfs == '1' ){
+                                    	    $("#dk_hkfs").html("等额本金");    	
+                                    	}else if(loaninfo.dk_hkfs == '2' ){
+                                    	    $("#dk_hkfs").html("等额本息");  	       
+                                    	}else if(loaninfo.dk_hkfs == '3' ){
+                                    	    $("#dk_hkfs").html("先息后本");  	       
+                                    	}else if(loaninfo.dk_hkfs == '4' ){
+                                    	    $("#dk_hkfs").html("等本等息");  	       
+                                    	}
+                                        //信用贷不显示以下三项 8005-8006-8007-8008-8011-8012-8013-8014
+                                        if(cpzl == "8006" || cpzl == "8007" ||cpzl == "8008" ||cpzl == "8011" ||cpzl == "8012" ||cpzl == "8013"||cpzl == "8014"){
+                                            $("#cqrxx").hide();
+                                        
+                                        }
+                                        if(loaninfo.fc_pgzj.length > 0){
+                                            $("#fc_pgzj").html(loaninfo.fc_pgzj);
+                                            $("#fc_pggs").html(loaninfo.fc_pggs);
+                                            $("#ul_pg").attr("style", "display:black");
+                                            }
+                                        
+                                        
+                                        $("#fc_dz").html(loaninfo.fc_dz);
+           
+                                        if(loaninfo.dictflag == 1){ //直客
+                                        	$("#p22_label").html("直客（个人）");
+                                        	$("#zk_mc").html(loaninfo.dict_account_name);
+                                       	 	$("#ul_hzjg").hide();
+                                       	 	$("#ul_hzmd").hide();
+                                       	 	$("#ul_gdbh").hide();
+                                       	 	$("#ul_zk").show();
+                                       	 	$("#yjgs_fgs_label").html("团队业绩归属");
+                                			$("#yjgs_xsjl_label").html("个人业绩归属");
+                                			
+                                        }else if(loaninfo.dictflag == 2){                                        	
+                                        	$("#p22_label").html("直客（盖担保函）");
+                                    	 	$("#ul_hzjg").hide();
+                                       	 	$("#ul_hzmd").hide();
+                                       	 	$("#ul_gdbh").show();
+                                       	 	$("#ul_zk").hide();
+
+                                	     	$("#gdbh_mc").html(loaninfo.hzjg_mc);                                            	          
+                                            $("#gdbh_lb").html(loaninfo.hzjg_lb);                                         
+                                            $("#gdbh_lblxfs").html(loaninfo.hzjg_lblxfs); 
+                                        }
+                                        else{
+                                        	$("#p22_label").html("合作机构");
+                                        	$("#ul_hzjg").show();
+                                       	 	$("#ul_hzmd").show();
+                                       	 	$("#ul_gdbh").hide();
+                                       	 	$("#ul_zk").hide();
+                                       	   $("#hzjg_mc").html(loaninfo.hzjg_mc);
+                                           $("#hzjg_lb").html(loaninfo.hzjg_lb);
+                                           $("#hzjg_lblxfs").html(loaninfo.hzjg_lblxfs);
+                                           $("#hzjg_djr").html(loaninfo.hzjg_djr);
+                                           $("#hzjg_djrlxfs").html(loaninfo.hzjg_djrlxfs);
+                                           $("#hzjg_jtmd").html(loaninfo.hzjg_jtmd);
+                                            
+                                        }
+                                        
+                                        
+                                        
+                                        
+                                    }
+                                    function removeAllChild()
+                                    {
+                                        var div = document.getElementById("allpoints");
+                                        while(div.hasChildNodes()) //当div下还存在子节点时 循环继续
+                                        {
+                                            div.removeChild(div.firstChild);
+                                        }
+                                        
+                                        var div = document.getElementById("ddzz");
+                                        while(div.hasChildNodes()) //当div下还存在子节点时 循环继续
+                                        {
+                                            div.removeChild(div.firstChild);
+                                        }
+                                        
+                                    }
+                                    
+                                    
+                                    
+                                    function myphone(lxfs){
+                                        
+                                        top.call_phone("联系方式:"+$("#"+lxfs).html());
+                                    }
+                                    function myphone_new(lxfs){
+                                        
+                                        top.call_phone("联系方式:"+lxfs);
+                                    }
+                                    
+                                    function activate(index) {
+                                        //index = index - 1;
+                                        if (index !== active) {
+                                            active = index;
+                                            point_arr.removeClass('completed active');
+                                            point_arr.slice(0, index).addClass('completed');
+                                            point_arr.eq(active).addClass('active');
+                                            
+                                            return progress.css('width', (index / max * 100) + "%"); 
+                                        }
+                                    }
+                                    
+                                    function point_click(index) {
+                                        // index = index - 1;
+                                        if( index > (currentPoint - 1)){
+                                            top.alertInfo("还未处理到该流程，请耐心等待");
+                                            return ;
+                                        }
+                                        $("#more_beiz").slideUp();
+                                        $(".mui-active").removeClass("mui-active");
+                                        //	$("#flow_name").html(json.data[index].flowname);
+                                        /*20161107add*/
+                                        flow_now = fileflow[index].flow;
+                                        number = fileflow[index].number;
+                                        localStorage.setItem("beiz_now", fileflow[index].note);
+                                        localStorage.setItem("filename_now", fileflow[index].flowname);
+                                        
+                                        if( index < (currentPoint-1) && index != 0){
+                                            if(level == '1' || userid == fileflow[index].account_id){
+                                                $("#fileno_flow").attr("style", "display:black");
+                                            }else{
+                                                if(pos == 'J' || pos == 'CP'){
+                                                    $("#fileno_flow").attr("style", "display:black");
+                                                }else{
+                                                    $("#fileno_flow").attr("style", "display:none");
+                                                }
+                                               
+                                            }
+                                            
+                                        }else{
+                                            $("#fileno_flow").attr("style", "display:none");
+                                            
+                                        }
+                                        if(index > 0){
+                                            if(fileflow[index-1].note.length == 0){
+                                                $("#jbr_beiz").html("<font style='font-weight:bold;color:red'>备注信息</font>：这家伙很懒，什么都没有留下..");
+                                            }else{
+                                                
+                                                $("#jbr_beiz").html("<font style='font-weight:bold;color:red'>备注信息</font>："+fileflow[index-1].note);
+                                            }
+                                        }
+                                        
+                                        
+                                        $("#jbr_name").html(fileflow[index].account_name);
+                                        $("#jbr_lxfs").html(fileflow[index].account_tel );
+                                        
+                                        if(fileflow[index].enddate!= '' ){
+                                            $("#jbr_clsj").html(fileflow[index].enddate );
+                                        }else{
+                                            $("#jbr_clsj").html("正在处理" );
+                                        }
+                                        
+                                        
+                                        if( fileflow[index].flowstat == 0 ) //处理中
+                                        {
+                                            $("#flow_stat").html("处理中");		
+                                        }
+                                        else if(fileflow[index].flowstat == 1) //已完成
+                                        {
+                                            $("#flow_stat").html("处理完成");	
+                                        }
+                                        else if(fileflow[index].flowstat == 1) //已完成
+                                        {
+                                            $("#flow_stat").html("回退上一流程");	
+                                        }else if(fileflow[index].flowstat == 1) //已完成
+                                        {
+                                            $("#flow_stat").html("异常结案");	
+                                        }
+                                        
+                                        tracker = index === 0 ? 1 : index === val ? 0 : tracker;
+                                        return activate(index);
+                                    };
+                                    
+                                    function trigger_click() {
+                                        return activate(tracker++ % 2 === 0 ? 0 : val);
+                                    };
+                                    
+                                    
+                                    function query_fileinfo(){
+                                        showNewFrame("ajcx_detail.html?fileno="+fileno,'smask');
+                                    }
+                                    function query_fileflow(){                                          
+                                        showNewFrame('ajlz_show.html?fileno='+fileno+'&number='+number,'smask');
+                                    }
+                                    
+                                    
+                                    function show_beiz(){
+                                    	
+                                        var data = {};
+                                        data.fileno = fileno;                           
+                                        data.flowno = flow_now;
+                                        
+/*
+                                        top.writelog("6059 send:"+JSON.stringify(data));
+                                        $.ajax({
+                                               type : "post",
+                                               url: "http://www.sjyjr.net/app/6059;",
+                                               timeout: 3000,
+                                               data : data,
+                                               datatype : "json",
+                                               success :   function(msg){
+                                               top.writelog("6058 recv:"+msg);
+                                               var json=eval("("+msg+")");
+                              					
+                                               if(json.data.length  == 0){  
+                                            	   $("#more_beiz").html('没有其他备注信息');
+                                            	   return;
+                                               }
+                                               $("#more_beiz").html('');
+                                               var childHtml=''
+                                               for(var i = 0; i < json.data.length; i++){
+                                            	   childHtml += '<p>'+json.data[i].createdatetime+'：'+json.data[i].beiz+'</p>';
+                                               }
+                                               $("#more_beiz").html(childHtml);
+                                               $("#more_beiz").slideDown();
+                                               },
+                                               error:function(msg){
+                                               
+                                          
+                                               }
+                                               });
+                                               */
+                                               top.http_comm("6059", data, function(msg){
+                                                             top.writelog("6058 recv:"+msg);
+                                                             var json=eval("("+msg+")");
+                                                             
+                                                             if(json.data.length  == 0){
+                                                             $("#more_beiz").html('没有其他备注信息');
+                                                             return;
+                                                             }
+                                                             $("#more_beiz").html('');
+                                                             var childHtml=''
+                                                             for(var i = 0; i < json.data.length; i++){
+                                                             childHtml += '<p>'+json.data[i].createdatetime+'：'+json.data[i].beiz+'</p>';
+                                                             }
+                                                             $("#more_beiz").html(childHtml);
+                                                             $("#more_beiz").slideDown();
+                                                             });
+                                    }
+                                    </script>
+                                    
+                                    
+                                    </head>
+    <body>
+
+        <header class="mui-bar mui-bar-nav head_color">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+            <a  class="mui-action-menu mui-icon mui-icon-phone mui-pull-right"  onclick="top.call_server()"><font style="font-size:13px">App客服</font></a>
+            <h1 class="mui-title" style="font-weight:bold;">案卷查询</h1>
+        </header>
+    <div class="container-fluid">
+    	<div class="mui-content mui-scroll-wrapper" >
+		    <div class="mui-scroll top_head">
+	            <div class="inlined" id="inlined" style="margin-top:-10px;display:none;">
+	                <div class="progress-meter">
+	                    <div class="track">
+	                        <span class="progress"></span>
+	                    </div>
+	                    <ol class="progress-points" data-current="4" id="allpoints">
+	                        
+	                        
+	                    </ol>
+	                </div>
+	                
+	            </div>
+            
+	            <div id="div_jbr" style="margin-top:5px;font-size:12px;margin-left:10px;margin-right:10px;background-color: #fafafa;">
+	                <ul>
+	                    <li style="height:25px;">
+	                        <div class="inp_label_si" >案卷编号</div><span class="inp_show_texti" id="fileno"></span>
+	                            <div class="rgt_x" style="display:none;" onclick="query_fileinfo()" id="fileno_info">更多</div>
+	                            
+	                            </li >
+	                    <li style="height:25px; ">
+	                        <div class="inp_label_si" >面签时间</div><span class="inp_show_texti" id="trandate"></span>
+	                    </li >
+                        <li style="height:25px; ">
+                            <div class="inp_label_si" >面签完成</div><span class="inp_show_texti" id="dk_qdsj"></span>
+                        </li >
+	                    
+	                    <li style="height:25px;">
+	                            <div class="inp_label_si" >经办人</div><span class="inp_show_texti" id="jbr_name"></span>
+	                    </li>	
+	                    <li style="height:25px;">
+	                            <div class="inp_label_si" >联系方式</div><span class="inp_show_texti" onclick="myphone('jbr_lxfs')" id="jbr_lxfs" style=" text-decoration:underline"></span>
+	                    </li>
+	                    <li style="height:25px;">
+	                            <div class="inp_label_si" >处理时间</div><span class="inp_show_texti" id="jbr_clsj" ></span>
+	                    </li>
+	                    <li id="li_flowname" style="height:25px;">
+	                            <div class="inp_label_si" >当前流程</div><span class="inp_show_texti" id="flow_stat" style="color:#ff0000"></span>
+	                         <!--    <div class="rgt_x" style="display:none;" onclick="query_fileflow()" id="fileno_flow">详情</div> -->
+	                    </li>
+	                    <li id="li_flowstat" style="height:25px;">
+	                            <div class="inp_label_si" >当前状态</div><span class="inp_show_texti" id="flow_stat" style="color:#ff0000"></span>
+	                         <!--    <div class="rgt_x" style="display:none;" onclick="query_fileflow()" id="fileno_flow">详情</div> -->
+	                    </li>
+	                     <li id="li_flowstat" style="height:25px;">
+	                            <div id="jbr_beiz" style="text-align:left;text-indent:1em;"></div>
+	                          <!--  <div class="rgt_x"  onclick="show_beiz()" ><span class="mui-icon mui-icon-more" style="color:#18b4ed;font-size:24px;"></span></div> --> 
+	                    </li>
+                       <!--  <p id="jbr_beiz" style="text-align:left;text-indent:1em;"></p>--> 
+	            	</ul>
+	            	<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+					
+<!-- 	            	<ul class="mui-table-view" style="margin-top:10px;background-color: #fafafa;">
+						<li class="mui-table-view-cell">
+							<span>更多备注</span>
+							<div class="mui-switch mui-switch-blue" data-off="关" data-on="开">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+					</ul> -->
+					</div>
+	            	<div id="more_beiz" class="mui-input-row" style="display:none;padding:10px;">
+	            	
+	            	</div>
+				</div>
+                            <div style="width:100%;background-color: #fafafa;margin-top:10px;">
+                            
+                            <div style="margin-left:20px;"><span id="p25_label" class="inp_label_x">借款人信息</span></div><br>
+                            <div class="obj box-shadow1 div-radius1" style=" background-color: #ffffff;margin-left:20px;margin-right:20px;">
+                            
+                            <div class="form_div div-radius1" style="margin-top:25px;">
+                            
+                            <ul>
+                            <li style="height:35px;">
+                            <div class="inp_label_s"  >姓名</div> <span id="jkr_xm" 
+                            class="inp_text_f" data-role="none"></span>
+                            </li>
+                            <li style="height:35px;">
+                            <div class="inp_label_s">身份证</div> <span id="jkr_sfzh" 
+                            class="inp_text_f" data-role="none"></span>
+                            </li>
+                            <li style="height:35px;">
+                            <div class="inp_label_s" style="line-height:35px;">电话</div> <span id="jkr_lxfs" 
+                            class="inp_text_f"  onclick="myphone('jkr_lxfs')"></span>
+                            </li>
+                            </ul>
+                            </div>
+                            </div>
+                            
+                            
+                            <!--  <div onclick="show_jbrinfo();" class="jbr_info" style="margin-top:20px;">信息</div>-->
+                            <div class="obj box-shadow1 div-radius1 " style="margin-top:5px; background-color: #ffffff;margin-left:20px;margin-right:20px;" id="cqrxx">
+                                <div style=""><span id="p24_label" class="inp_label_x">产权人信息</span></div><br>
+                                <div class="form_div div-radius1 " style="margin-top:25px;">
+                                    
+                                    <ul>
+                                        <li style="height:35px;">
+                                            <div class="inp_label_s">姓名</div> <span id="mf_xm"
+                                                class="inp_text_f" data-role="none"></span>
+                                            
+                                        </li>
+                                        <li style="height:35px;">
+                                            <div class="inp_label_s" style="line-height:35px;">电话</div> <span id="mf_lxfs"
+                                                class="inp_text_f"  onclick="myphone('mf_lxfs')"></span>
+                                            
+                                        </li>
+                                        <li style="height:35px;">
+                                            <div class="inp_label_s" style="line-height:35px;">房产面积</div> <span id="fc_mj"
+                                                class="inp_text_f"></span>
+                                            
+                                        </li>
+                                        <li style="height:65px;">
+                                            <div class="inp_label_s" >房产地址</div> <span id="fc_dz"
+                                                class="inp_text_f" style="height:22px;line-height:22px;" data-role="none"></span>
+                                        </li>
+                                        
+                                    </ul>
+                                    
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            <div class="obj box-shadow1 div-radius1 " style="margin-top:5px; background-color: #ffffff;margin-left:20px;margin-right:20px;">
+                            <div style=""><span id="p24_label" class="inp_label_x">贷款信息</span></div><br>
+                            <div class="form_div div-radius1 " style="margin-top:25px;">
+                            
+                            <ul style="border-bottom:0px;">
+                            <li style="height:35px;">
+                            <div class="inp_label_s" >贷款类型</div> <span id="dk_lx" 
+                            class="inp_text_f" data-role="none"></span>
+                            </li>
+                            <li style="height:35px;">
+                            <div class="inp_label_s">贷款银行</div> <span id="dk_yh" 
+                            class="inp_text_f" data-role="none"></span>
+                            
+                            </li>
+                            </ul>
+                            <ul id="ul_pg" style="display:none">
+                            <li style="height:35px;">
+                             
+                            <div class="aui-col-xs-4" ><div class="inp_label_s" >评估公司</div></div>	
+                    		<div class="aui-col-xs-8" ><span id="fc_pggs" class="inp_text_p" data-role="none"></span></div>
+                            </li>
+                            <li style="height:35px;">
+                            <div class="inp_label_s"  >评估总价</div> <span id="fc_pgzj" 
+                            class="inp_text_p" data-role="none"></span>
+                            <div class="rgt_s">万元</div>	
+                            </li>
+                            </ul>
+                            <ul>
+                            <li style="height:35px;" id="gjjdk_li">
+                            <div class="inp_label_s"  >公贷金额</div> <span id="dk_gjj_je" 
+                            class="inp_text_p" data-role="none"></span>
+                            <div class="rgt_s">万元</div>	
+                            </li>
+                            <li style="height:35px;" id="sd_li">
+                            <div class="inp_label_s" >商贷金额</div> <span id="dk_je" 
+                            class="inp_text_p" data-role="none"></span>
+                            <div class="rgt_s">万元</div>	
+                            </li>
+                            <li style="height:35px;">
+                            <div class="inp_label_s" >贷款期限</div> <span id="dk_qx" 
+                            class="inp_text_p" ></span>
+                            <div class="rgt_s">月</div>	
+                            </li>
+                            <li style="height:35px;">
+                            <div class="inp_label_s" >还款方式</div> <span id="dk_hkfs" 
+                            class="inp_text_p" data-role="none"></span>
+                            </li>
+                            
+                            </ul>
+                            </div>
+                            </div>
+                            
+         
+                            <div class="obj box-shadow1 div-radius1" style=" background-color: #ffffff;margin-left:20px;margin-right:20px;margin-top:10px;">
+                            <div style=""><span id="p22_label" class="inp_label_x">合作信息</span></div><br>
+                            <div class="form_div div-radius1" style="margin-top:25px;">
+                                <p style="color:#E8402C">如若信息有误，请点击右上角拨打客服电话。</p>
+                            <ul id="ul_zk">
+                            	<li>
+                            		<div class="inp_label_s" style="line-height:30px;">直客</div>
+	                    			<span id="zk_mc" class="inp_text_f" style="color:#5b5b5b"></span>
+	                    			</li>
+                            </ul>
+                            <ul id="ul_hzjg" style="border-bottom:0px;">
+                            	<li style="height:60px;" id="li_hzjg">
+	                            	<div class="inp_label_s" style="line-height:30px;">合作机构</div>
+	                    			<span id="hzjg_mc" class="inp_text_f" style="color:#5b5b5b"></span>
+	                            </li>	                           							
+	                            <li style="height:35px;">
+	                            	<div class="inp_label_s" id="hzjg_lb_label">老板姓名</div> 
+	                            	<span id="hzjg_lb" class="inp_text_f" ></span>
+	                            
+	                            </li>
+	                            <li style="height:35px;">
+	                            	<div class="inp_label_s" id="hzjg_lblxfs_label">联系电话</div> 
+	                            	<span class="inp_text_f"  id="hzjg_lblxfs" onclick="myphone('hzjg_lblxfs')" style="text-decoration:underline;"></span>
+	                            
+	                            </li>
+	                            <li style="height:35px;">
+	                            	<div class="inp_label_s" id="hzjg_djr_label">对接人</div> 
+	                            	<span class="inp_text_f"  id="hzjg_djr" ></span>
+	                            
+	                            <li style="height:35px;">
+	                            <div class="inp_label_s" id="hzjg_djrlxfs_label">联系电话</div> <span 
+	                            class="inp_text_f"  id="hzjg_djrlxfs" onclick="myphone('hzjg_djrlxfs')" style="text-decoration:underline;" ></span>
+	                            </li>
+	                            <li style="height:65px;" id="li_jtmd">
+	                            <div class="inp_label_s" style="height:22px;line-height:22px;">
+	                            		具体门店
+	                            </div>
+	                            <span id="hzjg_jtmd" class="inp_text_f" style="color:#5b5b5b"></span>
+	                            </li>
+                            </ul>
+                            <ul id="ul_gdbh" style="display:none">                       
+		                        <li>
+		                            <div class="inp_label_s" id="gdbh_mc_label">合作支行</div><span id="gdbh_mc" class="inp_show_text" ></span>                           
+		                        </li>                        
+		                        <li>
+		                            <div class="inp_label_s" id="gdbh_lb_label">支行经理</div> <span id="gdbh_lb" 
+		                                class="inp_show_text"  ></span>
+		                        </li>                        
+		                        <li>
+		                            <div class="inp_label_s" id="gdbh_lblxfs_label">联系电话</div> <span 
+		                                class="inp_show_text"  id="gdbh_lblxfs" onclick="myphone('gdbh_lblxfs')"></span>
+		                        </li>           
+		                    </ul>
+                            <ul>
+                                <li style="height:35px;">
+                                    <div class="inp_label_s">销售经理</div> <span id="yjgs_xsjl"
+                                        class="inp_text_f" data-role="none"></span>
+                                    
+                                </li>
+                                <li style="height:35px;">
+                                    <div class="inp_label_s" style="line-height:35px;">联系电话</div> <span id="yjgs_xsjllxfs"
+                                        class="inp_text_f"  onclick="myphone('yjgs_xsjllxfs')"></span>
+                                    
+                                </li>
+                            </ul>
+                            </div>	
+                            </div>	
+                            <div class="obj box-shadow1 div-radius1" style=" background-color: #ffffff;margin-left:20px;margin-right:20px;margin-top:10px;">
+                            <div style=""><span id="p23_label" class="inp_label_x">案卷追踪</span></div><br>
+                            <div class="form_div " style="margin-top:25px;" id="ddzz">
+                            
+                            
+                            
+                            
+                            </div>	
+                            </div>
+                            
+                            <div style="height:20px;"></div>
+                            </div>
+<!--                            <div class="bot_btn_m" onClick="back_history();" style="margin-top:10px;margin-bottom: 300px;">返回</div>-->
+                            <div style="margin-top:10px;text-align:center;margin-bottom: 300px;" onclick="back_history();">
+                                <button type="button" class="mui-btn  mui-btn-primary" style="width:90%">返回</button>
+                            </div>
+                            </div>	
+		</div>
+	</div>
+</body>
+</html>

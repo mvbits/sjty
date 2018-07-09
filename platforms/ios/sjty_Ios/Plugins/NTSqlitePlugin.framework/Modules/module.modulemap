@@ -1,0 +1,6 @@
+framework module NTSqlitePlugin {
+  umbrella header "NTSqlitePlugin.h"
+
+  export *
+  module * { export * }
+}

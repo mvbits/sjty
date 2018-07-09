@@ -1,0 +1,6 @@
+framework module NTFilePlugin {
+  umbrella header "NTFilePlugin.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+
+           
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #f3f3f3;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+.mui-slider-item{
+	padding:10px;
+	
+}
+.mui-slider-item img{
+	border-radius: 5px;
+	height:50vw;
+}
+.icon {
+	/* 通过设置 font-size 来改变图标大小 */
+	width: 1.5em; height: 1.5em;
+	/* 图标和文字相邻时，垂直对齐 */
+	vertical-align: -0.35em;
+	/* 通过设置 color 来改变 SVG 的颜色/fill */
+	fill: currentColor;
+	/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+	   normalize.css 中也包含这行 */
+	overflow: hidden;
+}
+.mui-grid-view li{
+	margin-top:-5px;
+	height:45px;
+	color:#8e8e8e;
+}
+.mui-media img{
+	width:40px;
+	height:40px;
+}
+.mui-media-body p{
+	font-size:10px;
+}
+.mui-col-xs-4{
+	text-align:center;
+	border-left:1px solid #d0d0d0;
+	
+}
+.mui-col-xs-4:first-child{
+	text-align:center;
+	border-left:0px solid #d0d0d0;
+}
+</style> 
+
+</head>
+
+<body style="background:#f4f4f4;">
+	<header class="mui-bar head_tmp_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title"><font style="color:#fff;">金融会员</font></h1>
+	</header>
+
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-content" id="vip_background" style="background-image:Url('img/vip.png');background-size:100% 100%;overflow:hidden;width:100%;height:60vw;">
+				<div class="mui-media" style="background:rgba(45,45,45,0.0);margin-top:20vw;padding:10px;padding-left:30px;">					
+						<img class="mui-media-object mui-pull-left " id="head-img"  src="img/level0.png">
+						<div class="mui-media-body">
+						
+							<p id="vip_level" style="color:#fff;font-weight:bold;font-size:14px;text-indent:0.5em">刘文杰</p>	
+							
+							<p  id="balance" style="color:#6d6d6d;text-indent:0.5em;font-size:12px;">100代扣次数</p>	
+								 																						
+						</div>						
+				</div>
+			</div>
+			<ul class="mui-table-view mui-grid-view mui-grid-9" style="background:rgba(45,45,45,0.7);margin-top:-45px;height:45px;border:0px;border-bottom: 1px solid #2d2d2d;" >
+	            <li class="mui-table-view-cell  mui-col-xs-6" onClick="showNewFrame('member_recharge.html', 'smask');">
+	                   <svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-_xianjin"></use>
+		                    </svg> 
+		                   	 马上充值	              
+	             </li>
+	             <li class="mui-table-view-cell  mui-col-xs-6" onClick="showNewFrame('member_bills.html', 'smask');">
+	                   <svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-_dayinxiaopiao"></use>
+		                    </svg>
+		                    	我的账单	                    
+	             </li>
+			</ul>
+
+			
+			<div class="mui-row" style="background:#fff;padding:10px;margin-top:10px;" >
+				<div class="mui-col-xs-4" onClick="showNewFrame('member_bills.html?flag=1', 'smask');">
+					<p>剩余抵扣次数</p>
+					<h5 id="dkcs">0次</h5>
+				</div>
+				<div class="mui-col-xs-4" onClick="showNewFrame('member_bills.html?flag=2', 'smask');">
+					<p>本年培训余额</p>
+					<h5 id="pxye">0.00元</h5>
+				</div>
+				<div class="mui-col-xs-4" onClick="showNewFrame('member_bills.html?flag=3', 'smask');">
+					<p>当前应得分红</p>
+					<h5 id='dqfh'>0.00元</h5>
+				</div>
+			</div>
+			<div class="mui-row vip" style="background:#fff;padding:10px;margin-top:10px;display:none;">
+				<img src="http://www.sjyjr.net/static/img/zx_vip1.png" style="width:100%;" id="vipinfo_img"></img>
+			</div>
+			<div class="mui-row novip" style="background:#fff;padding:10px;margin-top:10px;display:none" onclick="showNewFrame('member_introduce.html', 'smask');">
+				<img src="http://www.sjyjr.net/static/img/zmhhr.png" style="width:100%;"></img>
+			</div>
+			<div class="div_footer">————  世纪源金融服务  ————</div>
+		</div>
+
+
+		</div>
+	
+	
+</body>
+<script type="text/javascript">
+$(function() {
+	
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+	//返回键 tap事件监听
+	  mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+	                        this.click();
+	                        return false;
+	                        });
+	//合伙人相关信息
+	var vip_info = JSON.parse(localStorage.getItem("vip_info"));
+	var area_s = '';
+	if(vip_info.area == '0'){//远郊
+		area_s = 'yj_';
+	}else{
+		area_s = 'zx_';
+	}
+	
+	//根据合伙人级别展示不同信息
+	if(vip_info.partner_level == '0'){
+		$("#vip_level").html("您还不是合伙人");
+		$("#balance").html('<font style="color:#F0AD4E;font-weight:bold;font-size:12px;">充值享受更多优惠</font>');
+		$("#vip_background").attr("background-image", "Url('img/vip.png')");
+		$("#head-img").attr("src", "img/level0.png");
+		$(".novip").show();
+		$(".vip").hide();
+	}else{
+		if(vip_info.partner_level == '1'){
+			$("#vip_level").html("金牌合伙人");			
+			$("#vip_background").attr("background-image", "Url('img/vip1.jpg')");
+			$("#head-img").attr("src", "img/level1.png");
+			$("#vipinfo_img").attr("src", top.imgpath+"/img/"+area_s+"vip1.png");
+		}else if(vip_info.partner_level == '2'){
+			$("#vip_level").html("白金合伙人");			
+			$("#vip_background").attr("background-image", "Url('img/vip2.jpg')");
+			$("#head-img").attr("src", "img/level2.png");
+			$("#vipinfo_img").attr("src", top.imgpath+"/img/"+area_s+"vip1.png");
+		}if(vip_info.partner_level == '3'){
+			$("#vip_level").html("钻石合伙人");			
+			$("#vip_background").attr("background-image", "Url('img/vip3.jpg')");
+			$("#head-img").attr("src", "img/level3.png");
+			$("#vipinfo_img").attr("src", top.imgpath+"/img/"+area_s+"vip1.png");
+		}
+		
+		$("#balance").html('<font style="color:#F0AD4E;font-weight:bold;font-size:12px;">'+vip_info.discount+'</font>抵扣次数');
+		
+		$("#dkcs").html(vip_info.discount+"次");
+		$("#pxye").html(vip_info.trainee_broker+"元");
+		$("#dqfh").html(vip_info.balance+"元");
+		$(".vip").show();
+		$(".novip").hide();
+	}
+	
+	//账单信息查询
+	 var data = {};
+     data.userid = localStorage.getItem("userid");
+     data.username = localStorage.getItem("username");
+     data.orgnid = localStorage.getItem("orgnId");
+   //  top.http_comm("7003", data, show_bills);
+	
+});
+
+function show_bills(msg){
+	var json = eval("("+msg+")");
+	var tmp_html = '';
+	
+	$("#bills").html('');
+	for(var i = 0; i < json.data.length; i++){
+		var tmp_img = '';
+		var tmp_url = 'parent.showNewFrame("setting_Modify.html?rid='+json.data[i].rid+'", "smask");';
+		var tmp_bill = '';
+		var tmp_time = '';
+		tmp_html += '<li class="mui-table-view-cell mui-media" onclick="'+tmp_url+'">'
+					+'<a href="javascript:;"><img class="mui-media-object mui-pull-left" src="'+tmp_img+'">'						
+					+'<div class="mui-media-body">'+tmp_time+''
+					+'<p class="mui-ellipsis">'+tmp_time+'</p></div></a></li>'
+			
+	}
+	
+	$("#bills").html(tmp_html);
+}
+</script>
+</html>

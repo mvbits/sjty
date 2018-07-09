@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title></title>
+<link href="css/lib/bootstrap/bootstrap-combined.min.css" rel="stylesheet">
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link rel="stylesheet" href="mui/css/iconfont.css">
+<link rel="stylesheet" href="mui/css/demo.css">
+<script src="mui/js/mui.min.js"></script>
+<script src="mui/js/iconfont.js"></script>
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+
+           
+html, body {
+    position: relative;
+    height: 100%;
+}
+body {
+    background: #f3f3f3;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0;
+    padding: 0;
+}
+.mui-slider-item{
+	padding:10px;
+	
+}
+.mui-slider-item img{
+	border-radius: 5px;
+	height:50vw;
+}
+.icon {
+	/* 通过设置 font-size 来改变图标大小 */
+	width: 1.5em; height: 1.5em;
+	/* 图标和文字相邻时，垂直对齐 */
+	vertical-align: -0.25em;
+	/* 通过设置 color 来改变 SVG 的颜色/fill */
+	fill: currentColor;
+	/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+	   normalize.css 中也包含这行 */
+	overflow: hidden;
+}
+.mui-grid-view li{
+	margin-top:-5px;
+	height:45px;
+	color:#8e8e8e;
+}
+.mui-media img{
+	width:40px;
+	height:40px;
+}
+.check-active{
+	background:#8e8e8e;
+}
+
+.mui-radio p{
+	padding-top:5px;
+	font-size:10px;
+	color:#007aff;
+}
+</style> 
+
+</head>
+
+<body style="background:#f4f4f4;">
+	<header class="mui-bar head_tmp_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title"><font style="color:#fff;">充值中心</font></h1>
+	</header>
+
+	<div class="mui-content mui-scroll-wrapper">
+		<div class="mui-scroll">
+			<div class="mui-content" style="background-image:Url('img/vip.png');background-size:100% 100%;overflow:hidden;width:100%;height:60vw;">
+				<div class="mui-media" style="background:rgba(45,45,45,0.0);margin-top:28vw;padding:10px;padding-left:30px;">
+					
+						<img class="mui-media-object mui-pull-left " id="head-img"  src="img/level0.png">
+						<div class="mui-media-body">
+							<p id="xm" style="color:#fff;font-weight:bold;text-indent:0.5em">刘文杰</p>	
+							<p  id="gs" style="color:#6d6d6d;text-indent:0.5em;font-size:12px;">XXX中介合作公司有限公司</p>																								
+						</div>	
+					
+				</div>
+			</div>
+
+
+			<h5 class="mui-content-padded">请选择充值级别，充值成功后将提升为对应级别合伙人</h5>
+			<div class="mui-card">
+				<form class="mui-input-group">
+					<div class="mui-input-row mui-radio" style="height:50px;line-height:50px;">
+						<label>金牌合伙人  1万元<p id="p1">13单二手房按揭消费</p></label>
+						
+						<input name="radio1" type="radio" value='1' checked>
+					</div>
+					<div class="mui-input-row mui-radio" style="height:50px;line-height:50px;">
+						<label>白金合伙人  2万元<p id="p2">26单二手房按揭消费</p></label>
+						<input name="radio1" type="radio" value='2'>
+					</div>
+					<div class="mui-input-row mui-radio" style="height:50px;line-height:50px;">
+						<label>钻石合伙人  5万元<p id="p3">66单二手房按揭消费</p></label>
+						<input name="radio1" type="radio" value='5'>
+					</div>
+
+				</form>
+			</div>
+			<div class="mui-card">
+				
+				<div class="mui-card-header">合伙人权限</div>
+				<div class="mui-card-content" >
+					<img src="img/testlong.png" alt="" width="100%" id="hhrtp"/>
+				</div>
+			</div>
+			<div class="div_footer">————  世纪源金融服务  ————</div>
+		</div>
+
+
+		</div>
+		<div class="div_fullscreen_footer">
+			<div class="mui-row">
+			    <div class="mui-col-xs-8">
+			      	<div style="text-indent:2em" id="amt">总计：10000.00元</div>  
+			    </div>
+			    <div class="mui-col-xs-4">
+			       <button type="button" class="mui-btn  mui-btn-primary" style="width:100%;" onclick="()">付款</button>
+			    </div>
+			</div>
+		</div>
+	
+</body>
+<script type="text/javascript">
+var level = 1;
+var area_s = '0';
+$(function() {
+	
+	//初始化mui
+	mui.init({
+		swipeBack:true //启用右滑关闭功能
+	});
+	/*初始化滚动条*/
+	mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+	//返回键 tap事件监听
+	mui(document.body).on('tap', '.mui-action-back ', function(e) {
+  		this.click();
+  		return false;
+  	});
+	mui('.mui-input-group').on('change', 'input', function() {
+		//	var value = this.checked?"true":"false";
+		//	this.previousElementSibling.innerText = "checked："+value;
+			var num = this.value;
+			if( this.checked ){
+				$(".mui-radio").removeClass("check-active");
+			//	console.log("this.parent="+this.parentNode);
+				level = num;
+				var amt_text;
+				if(num == '1'){
+					amt_text = "总计：10000.00 元";
+                    $("#hhrtp").attr("src", top.imgpath+"/img/"+area_s+"vip1.png");
+				}else if(num == '2'){
+					amt_text = "总计：20000.00 元";
+                   $("#hhrtp").attr("src", top.imgpath+"/img/"+area_s+"vip2.png");
+				}else if(num == '5'){
+					amt_text = "总计：50000.00 元";
+                   $("#hhrtp").attr("src", top.imgpath+"/img/"+area_s+"vip3.png");
+				}
+				
+				$("#amt").html(amt_text);
+				//this.parentNode.className = this.parentNode.className == '' ? "check-active" : this.parentNode.className + ' ' + "check-active";
+				//alert("checked:"+num);
+				//this.previousElementSibling.innerHTML = label_list[this.value];
+				
+			}else{
+				//alert("not checked:"+num);
+				//this.previousElementSibling.innerHTML = label_list[this.value];
+			
+			}
+	
+		});
+  
+  
+  //合伙人相关信息
+  var vip_info = JSON.parse(localStorage.getItem("vip_info"));
+  
+  if(vip_info.area == '0'){//远郊
+      area_s = 'yj_';
+ 
+  }else{
+      area_s = 'zx_';
+      $("#p1").html("15单二手房按揭消费");
+      $("#p2").html("30单二手房按揭消费");
+      $("#p3").html("75单二手房按揭消费");
+  }
+  $("#hhrtp").attr("src", top.imgpath+"/img/"+area_s+"vip1.png");
+  $("#xm").html(localStorage.getItem("username"));
+  $("#gs").html(localStorage.getItem("orgnName"));
+});
+
+
+</script>
+</html>

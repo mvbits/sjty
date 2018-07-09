@@ -1,0 +1,467 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">		
+<link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+<link rel="stylesheet" href="css/common.css">
+
+<link rel="stylesheet" type="text/css" href="css/aui/aui.css" />
+<link rel="stylesheet" href="mui/css/mui.min.css">
+<link rel="stylesheet" href="mui/css/app.css">
+<link href="mui/css/mui.picker.css" rel="stylesheet" />
+<link href="mui/css/mui.poppicker.css" rel="stylesheet" />
+<script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+
+<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+        <style>
+		 html, body {
+                 position: relative;
+                 height: 100%;
+             }
+         body {
+             background: #fff;
+             font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+             font-size: 14px;
+             color:#000;
+             margin: 0;
+             padding: 0;
+             overflow:auto;
+          
+         }
+
+select {
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  height:35px;
+  line-height:35px;
+  width: 120px;
+  padding-right: 14px; }
+
+</style>
+    </head>
+    <script type="text/javascript">
+
+    
+
+    var cpzl = [];
+    var cpname = [];
+    var ajzt = '3';
+    var flow = '4';
+    var loantype = '8888';
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+
+        localStorage.setItem("pagenum", 0);
+        mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('.mui-scroll-wrapper').scroll({
+            deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		//返回键 tap事件监听
+		mui(document.body).on('tap', '.mui-action-back ', function(e) {
+	  		this.click();
+                              return false;
+	  	});
+		//返回键 tap事件监听
+		  mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+		                        this.click();
+		                        return false;
+		                        });
+        $("#qssj").on("input propertychange",function(){
+            
+            if($(this).val().length>0){
+            $(this).addClass("full");
+            }
+            else{
+            $(this).removeClass("full");
+            }
+     
+       });
+		$("#jzsj").on("input propertychange",function(){
+       
+          if($(this).val().length>0){
+          $(this).addClass("full");
+          }
+          else{
+          $(this).removeClass("full");
+          }
+          
+        });
+   
+       mui('.mui-input-group').on('change', 'input', function() {
+                             // var value = this.checked?"true":"false";
+                                  var value = $(this).val();
+                                  top.writelog("value="+value);
+                                  if(value == '8888'){
+                                      $("input[type=checkbox]").attr("checked",false);
+                                      this.checked = true;
+                                  }else{
+                                      $("input[value=8888]").attr("checked",false);
+                                  }
+                              });
+          flow = '4';
+    }
+    
+    
+    function aj_submit(){
+        
+        
+        var data = {};
+        //data.loantype = cpzl.join('-');
+        data.loantype = loantype;
+        data.loanstat = ajzt;
+        data.begindate = $("#qssj").val();
+        data.bossname = $("#boss").val();
+        data.enddate = $("#jzsj").val();
+        data.userid = localStorage.getItem("userid");
+        data.flow = flow;
+        /*
+        top.start_process();
+        top.writelog("6009 send:"+JSON.stringify(data));
+        $.ajax({
+               type : "post",
+               url: "http://www.sjyjr.net/app/6009",
+               timeout: 5000,
+               data : data,
+               datatype : "json",
+               success :function(msg){
+            	   top.stop_process();
+               showmessage(msg);
+               },
+               error:function(msg){
+            	   top.stop_process();
+               top.alertInfo('通信失败');
+               }
+               });
+         */
+         top.http_comm("6009", data, showmessage);
+    }
+    
+    function showmessage(msg){
+
+		top.writelog("6009 recv:"+msg);
+        var total_num = 0;
+        var total_amt = 0.00;
+        var json=eval("("+msg+")");
+        var p2_html = '';
+		$("#p2").html('');
+        
+        //var data = json.responsedata.data;
+        var data = json.data.fileList;
+        if(data.length == 0){
+            top.alertInfo('没有相关案卷信息，请确认查询条件是否正确');
+            $("#p2").html('<p>没有相关案卷信息，请确认查询条件是否正确</p>');
+            return;
+        }
+        for (var i = 0; i < data.length; i++ ){
+        	var jkr_xm = data[i].jkr_xm;
+            if(data[i].jkr_xm == '' || data[i].jkr_xm == 'null'){
+                jkr_xm = "面签人员还未录入借款人姓名";
+            }
+            
+        	p2_html +='<li class="mui-table-view-cell" onclick="go_yh(\''+data[i].fileno+'\')"><a class="mui-navigate-right">'+jkr_xm+'</a></li>';
+
+      
+
+            total_amt += parseFloat(data[i].dk_je + data[i].dk_gjj_je);
+            var info={};
+            
+            info.fc_dz = data[i].fc_dz;
+            info.loantype = data[i].loantype;
+            info.bankid = data[i].bankid;
+            info.dk_sqje = data[i].dk_sqje;
+            info.dk_sqqx = data[i].dk_sqqx;
+            info.dk_je = data[i].dk_je;
+            info.dk_qx = data[i].dk_qx;
+            info.dk_hkfs = data[i].dk_hkfs;
+            localStorage.setItem("ajtj_"+data[i].fileno,JSON.stringify(info));
+        }
+       
+        $("#p2").html(p2_html);
+        $("#tjbs").val(json.data.total_num+" 笔");
+        $("#tjje").val(json.data.total_amt+"万");
+        $("#mxtj").attr("style", "display:black");
+        $("#tj_button").attr("style", "margin-top:10px;text-align:center;margin-bottom:20px;");
+    }
+    
+    function go_yh(fileno){
+        
+        showNewFrame('flow_timeline.html?fileno='+fileno,'smask');
+      //  parent.showNewFrame("flow_new.html?fileno="+fileno,'smask');
+        
+    }
+    
+    
+    
+    function show_cp(){
+        $(".div_fullscreen").show();
+    }
+    
+    function hide_cp(){
+        
+        cpzl=[];
+        cpname = [];
+        //遍历checkbox
+        $("input[type=checkbox]").each(function(){
+                                       if(this.checked){
+                                       var value = $(this).val();
+                                       var name = $(this).attr("name");
+                                       cpzl.push(value);
+                                       cpname.push(name);
+                                       }
+                                       });
+                                       $("#cpzl").val(cpname.join(','));
+                                       top.writelog("cpzl="+cpzl);
+                                       
+        $(".div_fullscreen").hide();
+    }
+
+    </script>
+    
+<body style="background:#8EC2F5;">
+	<header class="mui-bar mui-bar-nav head_color">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" onclick="back_history();" ></a>
+		<h1 class="mui-title">案卷统计</h1>
+	</header>
+
+	<div class="container-fluid">
+		<div class="mui-content mui-scroll-wrapper" >
+	    	<div class="mui-scroll top_head">
+	    		<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+					<form class="mui-input-group" >		
+						<div class="mui-input-row">										
+							<label>产品种类</label>
+							<input type="text" placeholder="请选择产品种类"  readonly="readonly"  id="cpzl">
+						</div>
+					
+						<div class="mui-input-row">										
+							<label>案卷状态</label>
+							<input type="text" placeholder="请选择案卷状态"  readonly="readonly" id="ajzt">
+						</div>
+                        <div class="mui-input-row">
+                            <label>当前流程</label>
+                            <input type="text" placeholder="请选择当前流程"  readonly="readonly" id="flow">
+                                </div>
+                        <div class="mui-input-row">
+                            <label>机构老板</label>
+                            <input type="text" placeholder="输入老板名称"   id="boss">
+                        </div>
+					</form>
+
+					<form class="mui-input-group" style="margin-top:10px;">	
+						<div class="mui-input-row" style="background:#ffffff">
+							<label>开始时间</label>
+							<input type="date" placeholder="请选择结束日期" id="qssj" style="height:41px;overflow: hidden;">
+						</div>
+						<div class="mui-input-row" style="background:#ffffff">
+							<label>结束时间</label>
+							<input type="date" placeholder="请选择结束日期" id="jzsj" style="height:41px;overflow: hidden;">
+						</div>
+					</form>
+					<form class="mui-input-group" id="mxtj" style="margin-top:10px;display:none;">	
+						<div class="mui-input-row" style="background:#ffffff">
+							<label>贷款笔数</label>
+							<input type="text"  id="tjbs" >
+						</div>
+						<div class="mui-input-row" style="background:#ffffff">
+							<label>贷款总额</label>
+							<input type="text"  id="tjje" >
+						</div>
+					</form>
+				</div>
+
+
+				
+				<div style="margin-top:10px;text-align:center;margin-bottom: 20px;" onclick="aj_submit()" id="tj_button">
+					<button type="button" class="mui-btn  mui-btn-primary" style="width:90%">查询</button>
+				</div>
+			
+				<div class="mui-card"  style="margin-top:10px;">
+					<ul class="mui-table-view"  id="p2" >
+						<p style="text-align:center;height:60px;line-height:60px">默认查询为三个月内的所有案卷</p>
+					</ul>
+					
+			
+				</div>
+				<div class="form_div" style="height:140px;line-height:140px;color:#f4f4f4;">案卷查询页面</div>
+			</div>
+		</div>
+	</div>
+	<script src="mui/js/mui.min.js"></script>
+	<script src="mui/js/mui.picker.js"></script>
+	<script src="mui/js/mui.poppicker.js"></script>
+
+		<script>
+            
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					/*********是否有房产中介***********/
+					var isPicker = new $.PopPicker({
+						layer: 1
+					});
+					
+					var isData = [{
+						value: '0',
+						text: '未完成'
+					}, {
+						value: '1',
+						text: '异常终结'
+					}, {
+						value: '2',
+						text: '已完成'
+					}, {
+						value: '3',
+						text: '所有'
+					}];
+					
+
+					isPicker.setData(isData);
+					
+					var is_zj = doc.getElementById('ajzt');
+					
+					is_zj.addEventListener('tap', function(event) {
+						isPicker.show(function(items) {
+							
+							ajzt = (items[0] || {}).value;
+							is_zj.value = (items[0] || {}).text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+                        var isPicker2 = new $.PopPicker({
+                                                       layer: 1
+                                                       });
+                        
+                        var isData2 = [{
+                                      value: '0',
+                                      text: '面签'
+                                      }, {
+                                      value: '1',
+                                      text: '终审'
+                                      }, {
+                                      value: '2',
+                                      text: '放款'
+                                      }, {
+                                      value: '3',
+                                      text: '其他'
+                                       }, {
+                                       value: '4',
+                                       text: '所有'
+                                       }];
+                        isPicker2.setData(isData2);
+                        
+                        var is_flow = doc.getElementById('flow');
+                        
+                        is_flow.addEventListener('tap', function(event) {
+                                               isPicker2.show(function(items) {
+                                                             
+                                                             flow = (items[0] || {}).value;
+                                                             is_flow.value = (items[0] || {}).text;
+                                                             //返回 false 可以阻止选择框的关闭
+                                                             //return false;
+                                                             });
+                                               }, false);
+
+				});
+
+             var isPicker3 = new $.PopPicker({
+                                             layer: 2
+                                             });
+             isPicker3.setData(LoanType_Data);
+             
+             var cpzl = doc.getElementById('cpzl');
+             
+             cpzl.addEventListener('tap', function(event) {
+                                    isPicker3.show(function(items) {
+                                                  
+                                                  loantype = (items[1] || {}).value;
+                                                  cpzl.value =(items[0] || {}).text + "-"+(items[1] || {}).text;
+                                                  //返回 false 可以阻止选择框的关闭
+                                                  //return false;
+                                                  });
+                                    }, false);
+			})(mui, document);
+		</script>
+        <div class="div_fullscreen" style="display:none;">
+            
+            <div class="mui-content mui-scroll-wrapper " >
+                <div class="mui-scroll" style="margin-top:25p;">
+                    <h5 class="mui-content-padded">请选择需要统计的产品</h5>
+                    <div class="mui-card">
+                        <form class="mui-input-group">
+                            <div class="mui-input-row mui-checkbox">
+                                <label>所有产品</label>
+                                <input name="所有产品" value="8888" type="checkbox" >
+                            </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>公积金贷款</label>
+                                <input name="公积金贷款" value="8001" type="checkbox">
+                            </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>商贷贷款</label>
+                                <input name="商贷贷款" value="8002" type="checkbox">
+                            </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>组合贷款</label>
+                                <input name="组合贷款" value="8003" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>房抵贷</label>
+                                <input name="房抵贷" value="8004" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>安居贷</label>
+                                <input name="安居贷" value="8005" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>大树金融</label>
+                                <input name="大树金融" value="8006" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>友金所</label>
+                                <input name="友金所" value="8007" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>平安新一贷</label>
+                                <input name="平安新一贷" value="8008" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>赎楼贷</label>
+                                <input name="赎楼贷" value="8009" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>尾款贷</label>
+                                <input name="尾款贷" value="8010" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>湖北消费金融</label>
+                                <input name="湖北消费金融" value="8011" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>小赢优贷</label>
+                                <input name="小赢优贷" value="8012" type="checkbox">
+                                    </div>
+                            <div class="mui-input-row mui-checkbox">
+                                <label>装修贷</label>
+                                <input name="装修贷" value="8013" type="checkbox">
+                                    </div>
+                        </form>
+                    </div>
+                    <div style="margin-top:10px;text-align:center;margin-bottom: 20px;" onclick="hide_cp()" id="tj_button">
+                        <button type="button" class="mui-btn  mui-btn-primary" style="width:90%">确定</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+</body>
+</html>

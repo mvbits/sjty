@@ -1,0 +1,161 @@
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="js/lib/bootstrap3.0/bootstrap.css" rel="stylesheet">
+    <link href="css/lib/zzlcss/menu11.css" rel="stylesheet">
+    <link rel="stylesheet" href="mui/css/mui.min.css">
+    <!--App自定义的css-->
+    <link rel="stylesheet" href="mui/css/app.css" />
+  
+
+    <script src="mui/js/mui.min.js"></script>
+    <script type="text/javascript" src="js/lib/jQuery/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap3.0/bootstrap.js"></script>
+    <script type="text/javascript" src="js/lib/zzljs/menu11_com.js"></script>
+    <script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+    html, body {
+    position: relative;
+    height: 100%;
+    }
+
+    body {
+    background: #fff;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    }
+
+    .mui-slider-item img {
+    width: 100%;
+    height: 250px;
+    }
+
+    #contentTitle {
+    margin: 0 10px;
+    }
+
+    h4 {
+    line-height: 40px;
+    }
+    .mui-slider-item{
+	padding:10px;
+	
+}
+.mui-slider-item img{
+	border-radius: 5px;
+	height:50vw;
+}
+    </style>
+    <script>
+    document.addEventListener("DOMContentLoaded", initial);
+    function initial() {
+        var thisURL = document.URL;
+        var getenv = thisURL.split("?")[1];
+        var id = getenv.split("=")[1];
+        var msg=localStorage.getItem("cpjs"+id);
+        
+        var data=eval("("+msg+")");
+        $("#bt").html(data.cpbt);
+        
+       
+        $("#nr").attr("src", top.productPath+data.cpnr);
+        top.writelog("src="+top.productPath+data.cpnr);
+        $(".mui-title").html(data.cpmc);
+        
+        var level = localStorage.getItem("level");
+        if( level != 0)
+        $("#note").html(data.note);
+        
+       
+        
+/*         var img = data.cptp2.split('|');
+        var img_first = top.productPath+img[0];
+        var img_last = top.productPath+img[img.length-1];
+        
+        $("#cpxq_img").html('');
+        $("#cpxq_img").append('<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="'+img_last+'"></a></div>');
+        
+        for (var i = 0; i < img.length; i++) {
+            $("#cpxq_img").append("<div class='mui-slider-item'>"+ "<a href='#'><img src='"+top.productPath+img[i]+"'></a></div>");
+        }
+        for (var i = 1; i < img.length; i++) {
+            $("#cpxq_kaiguan").append("<div class='mui-indicator'></div>");
+        }
+        $("#cpxq_img").append('<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="'+img_first+'"></a></div>');
+         */
+        //初始化mui
+        mui.init({
+                 swipeBack : true
+        });
+        /*初始化滚动条*/
+        mui('.mui-scroll-wrapper').scroll({
+            deceleration : 0.0005
+            //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+        });
+        //返回键 tap事件监听
+        mui(document.body).on('tap', '.mui-action-back ', function(e) {
+            this.click();
+            return false;
+        });
+  /*       var slider = mui("#slider");
+        slider.slider({
+                      interval: 3000 //每隔5秒调用一次
+                      });
+                      slider.stopped = false; //关闭滑动切换 */
+    
+    }
+
+    </script>
+                            
+                            
+    </head>
+    
+    <body>
+        <header class="mui-bar mui-bar-nav head_color">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"
+                onclick="back_history();"></a>
+            <h1 class="mui-title">产品详情</h1>
+        </header>
+      <div class="container-fluid">
+        <div class="mui-content">
+            <div class="mui-scroll-wrapper">
+                <div class="mui-scroll top_head">
+                    <!--内容开始 -->
+<!--                     <div id="slider" class="mui-slider" style="padding:2px;"> -->
+<!--                         <div class="mui-slider-group mui-slider-loop" id="cpxq_img"> -->
+                            
+<!--                         </div> -->
+<!--                         <div class="mui-slider-indicator mui-text-right" id="cpxq_kaiguan"> -->
+<!--                             <div class="mui-indicator mui-active"></div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+              
+                      <div class="mui-card">
+                          <div class="mui-card-content" >
+                              <img src=""  id="nr" alt="" width="100%"/>
+                          </div>
+                          <div class="mui-card-footer">
+                              <a class="mui-card-link"></a>
+                              <a class="mui-card-link"></a>
+                              <a class="mui-card-link" onclick="top.call_server()">联系我们</a>
+                          </div>
+                      </div>
+                      
+                   
+                      <div style="height:300px;line-height:300px;color:#f4f4f4">世纪源金融</div>
+                </div>
+            </div>
+        </div>
+       </div>
+    </body>
+    
+</html>
+
