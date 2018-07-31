@@ -519,7 +519,7 @@ function show_refresh(msg){
             dz_html += '<li class="mui-table-view-cell" onclick="'+str_click+'"><div class="mui-card" style="margin-top:5px;">    <div class="mui-card-content">'
             + ' <div class="mui-card-content-inner">'
             + '<p style="font-size:1.1em;color:#333">客户姓名：'+dk[i].jkrxm+'</p>'
-            + '<p style="font-size:1em;color:#8e8e8e;margin-top:5px;">['+cpzl_map[dk[i].loantype]+']目前处于<font style="font-size:1.2em;color:#286090">'+dk[i].flowname+'</font>环节</p>'
+            + '<p style="font-size:1em;color:#8e8e8e;margin-top:5px;">['+cpzl_map[dk[i].loantype]+']目前处于[<font style="font-size:1.2em;color:#286090">'+dk[i].flowname+'</font>]环节</p>'
 /*             + '<p style="font-size:0.8em;color:#8e8e8e">当前流程：'+dk[i].flowname+'</p>'*/
            // + '<p style="font-size:0.8em;color:#8e8e8e">签单时间：'+str_time+'</p>' 
             + str_time+'<div style="height:30px;line-height:30px;"><span style="color: #2894FF;font-size:1em;" >'+mes_tishi+'</span>'
@@ -649,7 +649,7 @@ function refresh_moreinfo(msg){
         li_html += '<div class="mui-card" style="margin-top:5px;">    <div class="mui-card-content">'
         + ' <div class="mui-card-content-inner">'
         + '<p  style="font-size:1.1em;color:#333">客户姓名：'+dk[i].jkrxm+'</p>'
-        + '<p style="font-size:1em;color:#8e8e8e;margin-top:5px;">['+cpzl_map[dk[i].loantype]+']目前处于<font style="font-size:1.2em;color:#286090">'+dk[i].flowname+'</font>环节</p>'
+        + '<p style="font-size:1em;color:#8e8e8e;margin-top:5px;">['+cpzl_map[dk[i].loantype]+']目前处于[<font style="font-size:1.2em;color:#286090">'+dk[i].flowname+'</font>]环节</p>'
        // + '<p  style="font-size:14px;color:#8e8e8e">签单时间：'+str_time+'</p>'
         + str_time+'<div style="height:30px;line-height:30px;"><span style="color: #2894FF;font-size: 1em;" >'+mes_tishi+'</span>'
         + '<span style="color:red;padding-left:20px;" >'+warning+'</span></div></div></div></div>';

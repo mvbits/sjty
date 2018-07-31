@@ -331,7 +331,7 @@ select {
         $("#file_date").mobiscroll(opt_datatime);
         $("#fc_pgsj").mobiscroll(opt_datatime);
         $("input").attr("placeholder","填写内容...");
-        $("#cwyf_ds").attr("placeholder","如果有代收，此项必输");
+        $("#cwyf_ds").attr("placeholder","如果有代收，点击录入");
         
         $("#search_key").attr("placeholder","按名称搜索");
         $("#cwyf_yf").val(0.00);
@@ -421,12 +421,7 @@ select {
 		$('input[type=number]').bind('input propertychange', function() {
 			this.value=this.value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,''); 			
         });
-        /*
-		$('.num_class').bind('input propertychange', function() {  							
-			this.value=this.value.replace(/[^0-9]/g, '');
-			
-        });
-		*/
+
 		
     }
     $("input").blur(function(){
@@ -929,7 +924,7 @@ select {
                 data.mfpo_xm=$("#mfpo_xm").val();
                 data.mfpo_sfzh=$("#mfpo_sfzh").val();
                 data.mfpo_lxfs1=$("#mfpo_lxfs1").val();
-                data.mfpo_lxfs2=$("#mfpo_lxfs2").val();
+                
             }
             
             /*产权人代理人信息*/
@@ -948,13 +943,8 @@ select {
         data.jkr_sfzh=$("#jkr_sfzh").val();
         data.jkr_lxfs1=$("#jkr_lxfs1").val();
         data.jkr_lxfs2=$("#jkr_lxfs2").val();
-        data.jkr_lxfs3=$("#jkr_lxfs3").val();
-        data.jkr_lxfs4=$("#jkr_lxfs4").val();
-        data.LoanNo = $("#LoanNo").val(); //申贷编号
-        if(top.isEmpty($("#LoanNo").val())){
-        	mui.alert("借款人信息里的申贷编号不能为空，请去选择", "世纪源金融",null)
-        	return;
-        }
+ /*        data.jkr_lxfs3=$("#jkr_lxfs3").val();
+        data.jkr_lxfs4=$("#jkr_lxfs4").val(); */
         
         /*8004 判断借款人是非卖方*/
         if(data.loantype == "8004"){
@@ -963,14 +953,14 @@ select {
                 data.mf_xm=$("#jkr_xm").val();
                 data.mf_sfzh=$("#jkr_sfzh").val();
                 data.mf_lxfs1=$("#jkr_lxfs1").val();
-                data.mf_lxfs2=$("#jkr_lxfs2").val();
+                
                 /*借款人配偶信息*/
                 data.mf_haspo=$("#jkr_haspo").val();
                 if( data.mf_haspo == 1){
                     data.mfpo_xm=$("#jkrpo_xm").val();
                     data.mfpo_sfzh=$("#jkrpo_sfzh").val();
                     data.mfpo_lxfs1=$("#jkrpo_lxfs1").val();
-                    data.mfpo_lxfs2=$("#jkrpo_lxfs2").val();
+                   
                 }
  
                
@@ -984,7 +974,7 @@ select {
             data.jkrpo_xm=$("#jkrpo_xm").val();
             data.jkrpo_sfzh=$("#jkrpo_sfzh").val();
             data.jkrpo_lxfs1=$("#jkrpo_lxfs1").val();
-            data.jkrpo_lxfs2=$("#jkrpo_lxfs2").val();
+           
         }
         
         /*共同借款人信息*/
@@ -993,7 +983,6 @@ select {
             data.gtjkr_xm=$("#gtjkr_xm").val();
             data.gtjkr_sfzh=$("#gtjkr_sfzh").val();
             data.gtjkr_lxfs1=$("#gtjkr_lxfs1").val();
-            data.gtjkr_lxfs2=$("#gtjkr_lxfs2").val();
             
             /*共同借款人配偶xinxi*/
             data.gtjkr_haspo=$("#gtjkr_haspo").val();
@@ -1001,7 +990,7 @@ select {
                 data.gtjkrpo_xm=$("#gtjkrpo_xm").val();
                 data.gtjkrpo_sfzh=$("#gtjkrpo_sfzh").val();
                 data.gtjkrpo_lxfs1=$("#gtjkrpo_lxfs1").val();
-                data.gtjkrpo_lxfs2=$("#gtjkrpo_lxfs2").val();
+                
             }  
         }
         
@@ -1013,26 +1002,9 @@ select {
             data.jkr_dlr_lxfs=$("#jkr_dlr_lxfs").val();
         }
         
-        //data.dk_pz=$("#dk_pz").val();
+ 
         data.dk_pz=cpzl_map[cpzl];
-        /*
-        if( data.loantype == "8001"){
-            data.dk_gjj_sqje=$("#dk_gjj_je").val();
-            data.dk_gjj_je = "0.00";
-            data.dk_sqje ="0.00";
-            data.dk_je = "0.00";
-        } else if( data.loantype == "8003"){
-            data.dk_gjj_sqje=$("#dk_gjj_je").val();
-            data.dk_gjj_je="0.00";
-            data.dk_sqje=$("#dk_je").val();
-            data.dk_je="0.00";
-        } else {
-            data.dk_sqje=$("#dk_je").val();
-            data.dk_je="0.00";
-            data.dk_gjj_sqje = "0.00";
-            data.dk_gjj_je = "0.00";
-        }
-        */
+
         
         data.dk_sqqx=$("#dk_qx").val();
         data.dk_qx=$("#dk_qx").val();
@@ -1042,7 +1014,7 @@ select {
         }
         
         data.dk_jg=bankid_T;
-      //  data.dk_qdsj=$("#dk_qdsj").val();
+      
         
 
         if( cpzl != "8006" && cpzl != "8007" && cpzl != "8008" && cpzl != "8011" && cpzl != "8012"){
@@ -1050,7 +1022,7 @@ select {
 	        data.fc_dz=$("#fc_dz").val();
 	        
 	        data.fc_mj=$("#fc_mj").val();
-	     //   data.fc_lc=$("#fc_lc").val();
+	    
 	        data.fc_ghyt = $("#fc_ghyt").val();
 	        var bdcj_info = $("#fc_bdcj option:selected").text();
 	        if(bdcj_info.match("请选择")){
@@ -1065,7 +1037,7 @@ select {
         /*评估信息*/
         if( data.loantype == "8001" || data.loantype == "8002" || data.loantype == "8003" || data.loantype == "8004"){
         	 /*评估报告可能到行才有 20170814*/
-     //       data.fc_pgzj=$("#fc_pgzj").val();
+   
             var pggs_info = $("#fc_pggs option:selected").text();
             
             if(pggs_info.match("请选择")){
@@ -1148,12 +1120,12 @@ select {
             data.yjgs_xsjllxfs=$("#yjgs_xsjllxfs").html();
         	
         }else if(dictflag == '2'){
-        	data.hzjg_mc=$("#gdbh_mc").html();
+        	data.hzjg_mc=$("#gdbh_mc").val();
             data.hzjg_bh = bankid_T;           
-            data.hzjg_lb=$("#gdbh_lb").html();
-         //   data.hzjg_lb_bh = lb_bh;
-            data.hzjg_lblxfs=$("#gdbh_lblxfs").html();  
-          //  data.fc_pggs_jsfs=$("#fc_pggs_jsfs").html();
+            data.hzjg_lb=$("#gdbh_lb").val();
+        
+            data.hzjg_lblxfs=$("#gdbh_lblxfs").val();  
+         
         }
 
         $("#cpxq_02").attr("style", "color:#000000");
@@ -1306,43 +1278,7 @@ select {
                 }
                 
    }
-        /*评估报告，只有8001-8004有 客户要求去掉 20171121
-        if(data.loantype == "8001" || data.loantype == "8002" || data.loantype == "8003" || data.loantype == "8004" ){
-            var img_filename = localStorage.getItem("imgfilename_"+fileno+"_1_8");
-            
-            var str_label = img_map[8];
-            
-            if( img_filename == "" || img_filename == null){
-         	
-                $("#"+str_label+"_label").attr("style", "color:#007aff");
-                $("#cpxq_pg").attr("style", "color:#007aff");
-            } else {
-                data[str_label] = img_filename;
-                $("#"+str_label+"_label").attr("style", "color:#000000");
-            }
-        }
-        
-        if($("#cwyf_ds").val() != ''){
-            var img_filename = localStorage.getItem("imgfilename_"+ fileno + '_1_9');
-            
-            var str_label = img_map[9];
-            
-            if( img_filename == "" || img_filename == null){
-                //alert(str_label);
-                count++;
-                $("#"+str_label+"_label").attr("style", "color:#007aff");
-                $("#cpxq_10").attr("style", "color:#007aff");
-            } else {
-                data[str_label] = img_filename;
-                $("#"+str_label+"_label").attr("style", "color:#000000");
-            }
-            
-          
-            
-            data.cwyf_ds=$("#cwyf_ds").val();
-            data.cwyf_yf=$("#cwyf_yf").val();
-        }
-        */
+
         /*进见信息*/
         if( data.loantype == "8006" || data.loantype == "8007" || data.loantype == "8008" || data.loantype == "8009" || data.loantype == "8010" || data.loantype == "8011" || data.loantype == "8012"){
             var img_filename = localStorage.getItem("imgfilename_"+fileno+"_1_10");
@@ -1457,27 +1393,7 @@ select {
             }
         }
  
-  
-        
-        /*代收金额不为空时，必须有收据*/
-/*         if( $("#cwyf_ds").val() !='' && $("#cwyf_ds").val() > 0){
-     
-            var filename = localStorage.getItem("imgfilename_"+fileno + '_1_9');
-            if(!filename || filename =="undefined"){
-                $("#img_cwyf_tp_label").attr("style", "color:#007aff;");
-                 $("#cpxq_10").attr("style", "color:#007aff");
-                errorinfo = "代收收据图片必须上传";
-                top.alertInfo(errorinfo);
-                return;
 
-            }else{
-            	data.img_cwyf_tp = filename;
-            	$("#img_cwyf_tp_label").attr("style", "color:#000000;");
-                $("#cpxq_10").attr("style", "color:#000000");
-            }
-            data.cwyf_ds=$("#cwyf_ds").val();
-            data.cwyf_yf=$("#cwyf_yf").val();
-        } */
 
         
         
@@ -1498,15 +1414,9 @@ select {
             data.pg_enddate = nowDate;
         }
         
-       // data.fc_pgzj=$("#fc_pgzj").val(); //评估总价
-       /*
-        if(top.isEmpty($("#fc_pgzj").val())){
-            $("#fc_pgzj_label").attr("style", "color:#007aff");
-            data.fc_pgzj = "0.00";
-        }
-       */
-        data.cwys_pgf=$("#cwys_pgf").html(); //评估费
-        if(top.isEmpty($("#cwys_pgf").html())){
+
+        data.cwys_pgf=$("#cwys_pgf").val(); //评估费
+        if(top.isEmpty($("#cwys_pgf").val())){
             $("#cwys_pgf_label").attr("style", "color:#007aff");
             data.cwys_pgf = "0.00";
         }
@@ -1517,9 +1427,9 @@ select {
         }
         //合作机构名称
         
-        data.cwys_dbf=$("#cwys_dbf").html(); //担保费
+        data.cwys_dbf=$("#cwys_dbf").val(); //担保费
         
-        if(top.isEmpty($("#cwys_dbf").html()) || parseFloat($("#cwys_dbf").val()) < 0.01){
+        if(top.isEmpty($("#cwys_dbf").val()) || parseFloat($("#cwys_dbf").val()) < 0.01){
             
             $("#cwys_dbf_label").attr("style", "color:#007aff");
             
@@ -1581,8 +1491,8 @@ select {
         }
         
         data.mf_lxfs2=$("#mf_lxfs2").val();
-        data.jkr_lxfs5=$("#jkr_lxfs5").val();
-        data.jkr_lxfs6=$("#jkr_lxfs6").val();
+        data.jkr_lxfs3=$("#jkr_lxfs3").val();
+        data.jkr_lxfs4=$("#jkr_lxfs4").val();
         data.beiz=$("#beiz").val();
         data.note = note;
         
@@ -1619,35 +1529,26 @@ select {
         }else{
         	data.beiz=$("#beiz").val();
         }
+        
+        /*各种联系方式，非必输*/
         data.jkr_lxfs5=$("#jkr_lxfs5").val();
         data.jkr_lxfs6=$("#jkr_lxfs6").val();
+        data.mfpo_lxfs2=$("#mfpo_lxfs2").val();
+        data.mf_lxfs2=$("#jkr_lxfs2").val();
+        data.mfpo_lxfs2=$("#jkrpo_lxfs2").val();
+        data.jkrpo_lxfs2=$("#jkrpo_lxfs2").val();
+        data.gtjkr_lxfs2=$("#gtjkr_lxfs2").val();
+        data.gtjkrpo_lxfs2=$("#gtjkrpo_lxfs2").val();
+        
         
         data.flow = 1;
         data.number = 1;
         number = 1;
         
         data.note = note;
-        /*
-        top.writelog(JSON.stringify(data));
-    
-        top.start_process();
-        $.ajax({
-               type : "post",
-               url: "http://"+ServerUrl+"/app//6006;",
-               timeout: 3000,
-               data : data,
-               datatype : "json",
-               success : function(msg){
-               
-               },
-               error:function(msg){
-            	   top.writelog("error:"+msg);
-            	   top.stop_process();
-               top.alertInfo('通讯失败');
-               }
-               });
-         */
-           top.http_comm("6006", data, done_after_save);
+        data.LoanNo = $("#LoanNo").val(); //申贷编号
+
+        top.http_comm("6006", data, done_after_save);
     }
     var is_finish_count = 0;
     function done_after_save(msg){
@@ -1801,9 +1702,9 @@ select {
             $("#mfpo_xm").addClass("need");
             $("#mfpo_lxfs1").addClass("need");
             $("#mfpo_lxfs2").addClass("need");
-            $("#mfpo_xm").attr("placeholder","此项必输");
-            $("#mfpo_lxfs1").attr("placeholder","此项必输");
-            $("#mfpo_lxfs2").attr("placeholder","此项必输");
+            $("#mfpo_xm").attr("placeholder","点击录入");
+            $("#mfpo_lxfs1").attr("placeholder","点击录入");
+            $("#mfpo_lxfs2").attr("placeholder","点击录入");
         }
         else{
             $("#mf_po").attr("style", "display:none");
@@ -1823,9 +1724,9 @@ select {
             $("#mfdlr_sfzh").addClass("need");
             $("#mfdlr_lxfs").addClass("need");
             
-            $("#mfdlr_xm").attr("placeholder","此项必输");
-            $("#mfdlr_sfzh").attr("placeholder","此项必输");
-            $("#mfdlr_lxfs").attr("placeholder","此项必输");
+            $("#mfdlr_xm").attr("placeholder","点击录入");
+            $("#mfdlr_sfzh").attr("placeholder","点击录入");
+            $("#mfdlr_lxfs").attr("placeholder","点击录入");
         }
         else{
             $("#mf_dlr").attr("style", "display:none");
@@ -1848,10 +1749,10 @@ select {
             $("#jkrpo_lxfs1").addClass("need");
             $("#jkrpo_lxfs2").addClass("need");
             
-            $("#jkrpo_xm").attr("placeholder","此项必输");
-            $("#jkrpo_sfzh").attr("placeholder","此项必输");
-            $("#jkrpo_lxfs1").attr("placeholder","此项必输");
-            $("#jkrpo_lxfs2").attr("placeholder","此项必输");
+            $("#jkrpo_xm").attr("placeholder","点击录入");
+            $("#jkrpo_sfzh").attr("placeholder","点击录入");
+            $("#jkrpo_lxfs1").attr("placeholder","点击录入");
+            $("#jkrpo_lxfs2").attr("placeholder","点击录入");
         }
         else{
             $("#jkr_po").attr("style", "display:none");
@@ -1872,9 +1773,9 @@ select {
             $("#gtjkr_lxfs1").addClass("need");
             $("#gtjkr_lxfs2").addClass("need");
             
-            $("#gtjkr_xm").attr("placeholder","此项必输");
-            $("#gtjkr_lxfs1").attr("placeholder","此项必输");
-            $("#gtjkr_lxfs2").attr("placeholder","此项必输");
+            $("#gtjkr_xm").attr("placeholder","点击录入");
+            $("#gtjkr_lxfs1").attr("placeholder","点击录入");
+            $("#gtjkr_lxfs2").attr("placeholder","点击录入");
         }
         else{
             $("#jkr_gtjkr").attr("style", "display:none");
@@ -1895,9 +1796,9 @@ select {
             $("#gtjkrpo_lxfs1").addClass("need");
             $("#gtjkrpo_lxfs2").addClass("need");
             
-            $("#gtjkrpo_xm").attr("placeholder","此项必输");
-            $("#gtjkrpo_lxfs1").attr("placeholder","此项必输");
-            $("#gtjkrpo_lxfs2").attr("placeholder","此项必输");
+            $("#gtjkrpo_xm").attr("placeholder","点击录入");
+            $("#gtjkrpo_lxfs1").attr("placeholder","点击录入");
+            $("#gtjkrpo_lxfs2").attr("placeholder","点击录入");
         }
         else{
             $("#gtjkr_po").attr("style", "display:none");
@@ -1918,9 +1819,9 @@ select {
             $("#jkr_dlr_sfzh").addClass("need");
             $("#jkr_dlr_lxfs").addClass("need");
             
-            $("#jkr_dlr_xm").attr("placeholder","此项必输");
-            $("#jkr_dlr_sfzh").attr("placeholder","此项必输");
-            $("#jkr_dlr_lxfs").attr("placeholder","此项必输");
+            $("#jkr_dlr_xm").attr("placeholder","点击录入");
+            $("#jkr_dlr_sfzh").attr("placeholder","点击录入");
+            $("#jkr_dlr_lxfs").attr("placeholder","点击录入");
         }
         else{
             $("#jkr_dlr").attr("style", "display:none");
@@ -2067,9 +1968,9 @@ select {
             return ;
         }
         
-        var pgf = $("#cwys_pgf").html()*1.0;
+        var pgf = $("#cwys_pgf").val()*1.0;
         
-        var dbf = $("#cwys_dbf").html()*1.0;
+        var dbf = $("#cwys_dbf").val()*1.0;
         
         var fwf = $("#cwys_fwf").val()*1.0;
         
@@ -2092,11 +1993,11 @@ select {
     }
     //贷款金额输入完成后根据 财务收付模块
     function update_cwsf(){
-        $("#cwys_pgf").html('');
-        $("#cwys_dbf").html('');
+        $("#cwys_pgf").val("0.00");
+        $("#cwys_dbf").val("0.00");
     	if( cpzl == "8009" || cpzl == "8010" || cpzl == "8013" || cpzl == "8011"|| cpzl == "8012"){
-    		$("#cwys_pgf").html("0.00");
-            $("#cwys_dbf").html("0.00");
+    		$("#cwys_pgf").val("0.00");
+            $("#cwys_dbf").val("0.00");
             return;
     	}
         var dk_je;
@@ -2176,8 +2077,8 @@ select {
                               top.http_comm("6034", data, function(msg){
                                             
                                             var json=eval("("+msg+")");
-                                            $("#cwys_pgf").html(json.data.fee1);
-                                            $("#cwys_dbf").html(json.data.fee2);
+                                            $("#cwys_pgf").val(json.data.fee1);
+                                            $("#cwys_dbf").val(json.data.fee2);
                                             });
     }
     
@@ -2192,11 +2093,11 @@ select {
     	top.writelog("bankid="+bankid+";bankname="+bankname+";accountname="+accountname+";accounttel="+accounttel);
         bankid_T = bankid;
         $("#bank").html(bankname);
-        $("#gdbh_mc").html(bankname);
+        $("#gdbh_mc").val(bankname);
              
-        $("#gdbh_lb").html(accountname);
+        $("#gdbh_lb").val(accountname);
     
-        $("#gdbh_lblxfs").html(accounttel);  
+        $("#gdbh_lblxfs").val(accounttel);  
         jQuery.mobile.changePage('#p1', {transition : 'slide'});up_page();
     }
     
@@ -3163,13 +3064,7 @@ select {
                                 流转到 <span style="font-size: 20px; color: #000;" id="myTitle"></span>
                             </div>
                             <span id="xylzr" class="inp_text_s" >点击选择下一流转人</span>
-                                
-                            <!-- 
-                            <select id='xylzr'>
-                                <option value='0000'>请选择下一流转人</option>
-                                
-                            </select>
-                             -->
+               
                         </li>
                     </ul>
                     
@@ -3185,7 +3080,8 @@ select {
                 
                 <div style="margin-top:10px;text-align:center;margin-bottom: 300px;" onClick="lz_submit()" id="bnt_ajlz">
                         <button type="button" class="mui-btn mui-btn-primary" style="width:90%;">案卷流转</button>
-                    </div>
+                </div>
+                 
             </div>
         </div>
     </div></div>
@@ -3943,7 +3839,7 @@ select {
                         </li>
                         
                     </ul>
-                   <ul id="ul_gdbh" style="display:none">                       
+<!--                    <ul id="ul_gdbh" style="display:none">                       
                         <li>
                             <div class="inp_label_s" id="gdbh_mc_label">合作支行</div><span id="gdbh_mc" class="inp_show_text" ></span>                           
                         </li>                        
@@ -3955,7 +3851,25 @@ select {
                             <div class="inp_label_s" id="gdbh_lblxfs_label">联系电话</div> <span 
                                 class="inp_show_text"  id="gdbh_lblxfs" ></span>
                         </li>           
-                    </ul>
+                    </ul> -->
+                    <!-- 直客(盖担保函)信息 -->	
+					<form class="mui-input-group"  id="ul_gdbh" style="display:none">	
+						<div class="mui-input-row">										
+							<label>合作支行</label> 
+							<input data-role="none" type="text" placeholder="合作支行"
+									id="gdbh_mc"/>
+						</div>
+						<div class="mui-input-row">										
+							<label>银行经理</label> 
+							<input data-role="none" type="text"  placeholder="银行经理"
+									id="gdbh_lb" class="double" name=""/>
+						</div>			
+						<div class="mui-input-row">										
+							<label>联系方式</label> 
+							<input data-role="none" type="number"  placeholder="联系方式"
+									id="gdbh_lblxfs" readonly="readonly"/>
+						</div>
+					</form>
                 </div>		
                 <div class="form_div" style="margin-top: 5px;display:none" id="is_zk">
                 	<div class="form_div">
@@ -4035,7 +3949,7 @@ select {
             </div>
             <div class="mui-content mui-scroll-wrapper" >
 		    		<div class="mui-scroll top_head">
-                <div class="form_div"  id="div_cwys">
+              <!--   <div class="form_div"  id="div_cwys">
                     <li>
                         <div><span id="pa1_label" class="inp_label_x">应收</span></div>
                     </li>
@@ -4072,55 +3986,51 @@ select {
                                 <div class="rgt_s">元</div>	
                         </li>
                     </ul>
-                </div>
-                
-                <!-- 应付 -->
-                <div class="form_div" id="div_cwyf" style="display:none">
-                    
-                    <li>
-                        <div><span id="p22_label" class="inp_label_x">应付</span></div>
-                    </li>
-                    <ul>
-                        <li>
-                            <div class="inp_label_s" width="140px" id="cwyf_pgf_label">评估费</div> <span id="cwyf_pgf"
-                                class="inp_text_s" ></span>
-                                <div class="rgt_s">元</div>	
-                                </li>
-                        <li>
-                            <div class="inp_label_s" id="cwyf_dydjf_label">抵押登记费</div> <span id="cwyf_dydjf"
-                                class="inp_text_s"  ></span>
-                            <div class="rgt_s">元</div>	
-                        </li>					
-                        <li>
-                            <div class="inp_label_s" id="cwyf_qtfy_label">其他费用</div> <span
-                                class="inp_text_s"  id="cwyf_qtfy" ></span>
-                                <div class="rgt_s">元</div>	
-                                </li>
-                        
-                    </ul>
-                </div>
-                <!--代收应返-->
-                <div class="form_div">                  
-                    <li>
-                        <div><span id="p22_label" class="inp_label_x">代收应返</span></div>
-                    </li>
-                    <ul>
-                        <li>
-                            <div class="inp_label_s" width="140px" id="cwyf_ds_label">代收</div> <input id="cwyf_ds" type="number"
-                                class="inp_text" data-role="none" placeholder="如果有代收，此项必输" onblur="get_yf()" maxlength="10">
-                      		<div class="rgt_s">元</div>
-                       </li>                              
-          <!--              <li onClick="uploadimg(9);">
-                           <div class="inp_label" id="img_cwyf_tp_label">代收收据上传</div>
-                           <div class="rgt_c"></div>
-                       </li>    -->                                               
-                        <li>
-                            <div class="inp_label_s" id="cwyf_yf_label">应返</div> <input id="cwyf_yf" type="number"
-                                class="inp_text" data-role="none" maxlength="10"></input>
-                            <div class="rgt_s">元</div>
-                        </li>                                            
-                    </ul>
-                </div>
+                </div> -->
+                <div class="mui-content-padded"  style="margin: 5px;margin-top:10px;" id="div_cwys">								
+						<form class="mui-input-group" >		
+						<div class="mui-input-row">										
+								<label>评估费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入服务费"
+										id="cwys_pgf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>担保费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入服务费"
+										id="cwys_dbf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>服务费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入服务费"
+										id="cwys_fwf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>资料费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入资料费"
+										id="cwys_zlf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>其他费用</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入其他费用"
+										id="cwys_qtfy" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+						</form>
+					</div>
+					<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>代收金额</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入代收金额"
+										id="cwyf_ds" maxlength='9' onblur="get_yf()"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>应反金额</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入应反金额"
+										id="cwyf_yf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>							
+						</form>
+					</div>
+ 
                 
                 
                 <div style="margin-top:10px;text-align:center;margin-bottom: 300px;" onClick="jQuery.mobile.changePage('#p1', {transition : 'slide'});up_page();" >
@@ -4434,7 +4344,7 @@ select {
 			        </div>   
 	            
         	
-	        		<div class="form_div" style="margin-top:5px;">
+	        		<div  style="margin-top:5px;">
 						<ul id="context"></ul>
 						<div style="height:200px;line-height:200px;color:#ffffff">案卷创建</div>
 					</div>

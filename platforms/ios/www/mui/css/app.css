@@ -1,6 +1,6 @@
 /*
- *这是单独为hello mui准备的个性化css，可以覆盖标准mui的css定义；
- * 在实际项目开发时，建议为App单独写一个css文件，从而实现项目的自定义皮肤功能；
+ *杩欐槸鍗曠嫭涓篽ello mui鍑嗗鐨勪釜鎬у寲css锛屽彲浠ヨ鐩栨爣鍑唌ui鐨刢ss瀹氫箟锛�
+ * 鍦ㄥ疄闄呴」鐩紑鍙戞椂锛屽缓璁负App鍗曠嫭鍐欎竴涓猚ss鏂囦欢锛屼粠鑰屽疄鐜伴」鐩殑鑷畾涔夌毊鑲ゅ姛鑳斤紱
  * 
  * */
 .mui-plus header.mui-bar{
@@ -10,7 +10,7 @@
 	padding: 0;
 }
 
-/*hm开头的表示仅为 Hello MUI示例定义*/
+/*hm寮�澶寸殑琛ㄧず浠呬负 Hello MUI绀轰緥瀹氫箟*/
 .hm-description{
 	margin: .5em 0;
 }
@@ -71,7 +71,7 @@
 	margin-top:71px;
 }
 
-/*渐变式抬头*/
+/*娓愬彉寮忔姮澶�*/
 .head_color{
 	background: -webkit-linear-gradient(left, #243949 0%, #517fa4 100%);
 	background: -o-linear-gradient(right, #243949 0%, #517fa4 100%);
@@ -104,10 +104,10 @@
 
 }
 .head_base_color{	
-	background: -webkit-linear-gradient(left, #fafafa, #fafafa);
-	background: -o-linear-gradient(right, #fafafa, #fafafa);
-	background: -moz-linear-gradient(right, #fafafa, #fafafa);
-	background: linear-gradient(to right, #fafafa, #fafafa);
+	background: -webkit-linear-gradient(left, #243949 0%, #517fa4 100%);
+	background: -o-linear-gradient(right, #243949 0%, #517fa4 100%);
+	background: -moz-linear-gradient(right, #243949 0%, #517fa4 100%);
+	background: linear-gradient(to right, #243949 0%, #517fa4 100%);
 	height:70px;
 	padding-top:25px;
 
@@ -118,7 +118,7 @@
 	background: -moz-linear-gradient(right, #007aff, #007aff);
 	background: linear-gradient(to right, #007aff, #007aff);
 }
-/*首页透明抬头*/
+/*棣栭〉閫忔槑鎶ご*/
 .head_tmp_color{
 	background-color:#049FF1;
 	height:70px;
@@ -127,7 +127,7 @@
 	-webkit-box-shadow:none;
 	box-shadow:none
 }
-/*渐变式抬头*/
+/*娓愬彉寮忔姮澶�*/
 .head_color_m{
 	background: -webkit-linear-gradient(left, #007aff, #007aff);
 	background: -o-linear-gradient(right, #007aff, #007aff);
@@ -138,7 +138,7 @@
 	background-color: #007aff;box-shadow:0px 0px 0px #000;
 
 }
-/*渐变式颜色*/
+/*娓愬彉寮忛鑹�*/
 .header_jb{
 	background: -webkit-linear-gradient(left, #007aff, #007aff);
 	background: -o-linear-gradient(right, #007aff, #007aff);

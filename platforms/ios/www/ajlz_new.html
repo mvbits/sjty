@@ -663,7 +663,7 @@
                                                     data.flowno = flow;
                                                     data.flowname = flowname;
                                                     data.beiz = $("#jbrly").val();
-                                                    if( data.beiz.length < 1 ){
+                                                    if( top.isEmpty($("#jbrly").val())){
                                                     top.alertInfo('经办人留言不能为空');
                                                     return ;
                                                     }
@@ -831,7 +831,7 @@
 	            		
 	            		 var key = $("#search_key").val();
 	  	                 var next_html = '';
-	  	                // $("#context").val('');
+	  	               
 	  	                 top.writelog("key="+key);
 	  	                 if(key.length == 0){
 	  	                	 for(var i = 0; i < next_data.length; i++) {
@@ -851,9 +851,9 @@
 	  	                
 	  	                 
 	  	                $("#context").html(next_html);
-	  	              //	top.writelog("next_html="+document.getElementById('context').innerHTML);
+	  	              
 	  	                $("#context").show();
-	  	               	//	document.getElementById('context').innerHTML = next_html;
+	  	              
 	            	}
 	            	function set_next(num){
 	            		top.writelog("set_next: num="+num+"account_name="+next_data[num].account_name);

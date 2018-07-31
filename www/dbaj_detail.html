@@ -349,8 +349,8 @@
         initPage();
      //   $("#dk_qdsj").mobiscroll(opt_datatime);
         $("#fc_pgsj").mobiscroll(opt_datatime);
-        $("input").attr("placeholder","此项必填");
-        $("#cwyf_ds").attr("placeholder","如果有代收，此项必输");
+        $("input").attr("placeholder","点击录入");
+        $("#cwyf_ds").attr("placeholder","如果有代收，点击录入");
         /*初始化审贷银行*/
         get_sdyh();
         $("#cwyf_yf").val(0.00);
@@ -395,14 +395,7 @@
 		});
 		 $("#search_key").attr("placeholder","按名称搜索");
 		$('#search_key').bind('input propertychange', auto_complete);
-		/*
-		$('.cw_class').bind('input propertychange', function() {  			
-			this.value=this.value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,''); 			
-        });
-		$('.num_class').bind('input propertychange', function() {  							
-			this.value=this.value.replace(/[^0-9]/g, '');
-        });
-		*/
+
         $('input[type=number]').bind('input propertychange', function() {
                                      this.value=this.value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'');
                                      });
@@ -412,6 +405,11 @@
 			$("#LoanNo").val(e.detail.el.id);
 			$(".div_fullscreen_radio").hide();
 		});
+		
+		mui(document.body).on('tap', '.mui-table-view .mui-table-view-cell', function(e) {
+	  		this.click();
+            return false;
+	  	});
     }
     $("input").blur(function(){
                     var key = $(this).attr('id');
@@ -663,7 +661,7 @@ if(cpzl == "8002"){
         $("#jkr_lxfs5").val(data.jkr_lxfs5);
         $("#jkr_lxfs6").val(data.jkr_lxfs6);
         if(top.isEmpty(json.data.LoanNo)){
-        	$("#LoanNo").val("app");
+        //	$("#LoanNo").val("app");
         }else{
         	$("#LoanNo").val(json.data.LoanNo);
         }
@@ -807,8 +805,8 @@ if(cpzl == "8002"){
        
         $("#yjgs_xsjl").html(data.yjgs_xsjl);
         $("#yjgs_xsjllxfs").html(data.yjgs_xsjllxfs);
-        $("#cwys_pgf").html(data.cwys_pgf);
-        $("#cwys_dbf").html(data.cwys_dbf);
+        $("#cwys_pgf").val(data.cwys_pgf);
+        $("#cwys_dbf").val(data.cwys_dbf);
         $("#cwys_fwf").val(data.cwys_fwf);
         $("#cwys_zlf").val(data.cwys_zlf);
         $("#cwys_qtfy").val(data.cwys_qtfy);
@@ -930,7 +928,7 @@ if(cpzl == "8002"){
                 data.mfpo_xm=$("#mfpo_xm").val();
                 data.mfpo_sfzh=$("#mfpo_sfzh").val();
                 data.mfpo_lxfs1=$("#mfpo_lxfs1").val();
-                data.mfpo_lxfs2=$("#mfpo_lxfs2").val();
+                
             }
             
             /*产权人代理人信息*/
@@ -949,8 +947,8 @@ if(cpzl == "8002"){
         data.jkr_sfzh=$("#jkr_sfzh").val();
         data.jkr_lxfs1=$("#jkr_lxfs1").val();
         data.jkr_lxfs2=$("#jkr_lxfs2").val();
-        data.jkr_lxfs3=$("#jkr_lxfs3").val();
-        data.jkr_lxfs4=$("#jkr_lxfs4").val();
+       /*  data.jkr_lxfs3=$("#jkr_lxfs3").val();
+        data.jkr_lxfs4=$("#jkr_lxfs4").val(); */
         data.LoanNo=$("#LoanNo").val();
         
         /*8004 判断借款人是非卖方*/
@@ -961,7 +959,7 @@ if(cpzl == "8002"){
                 data.mf_xm=$("#jkr_xm").val();
                 data.mf_sfzh=$("#jkr_sfzh").val();
                 data.mf_lxfs1=$("#jkr_lxfs1").val();
-                data.mf_lxfs2=$("#jkr_lxfs2").val();
+                
                 
                 /*借款人配偶信息*/
                 data.mf_haspo=$("#jkr_haspo").val();
@@ -969,7 +967,7 @@ if(cpzl == "8002"){
                     data.mfpo_xm=$("#jkrpo_xm").val();
                     data.mfpo_sfzh=$("#jkrpo_sfzh").val();
                     data.mfpo_lxfs1=$("#jkrpo_lxfs1").val();
-                    data.mfpo_lxfs2=$("#jkrpo_lxfs2").val();
+                    
                 }
                 
                 var img_file;
@@ -988,7 +986,7 @@ if(cpzl == "8002"){
             data.jkrpo_xm=$("#jkrpo_xm").val();
             data.jkrpo_sfzh=$("#jkrpo_sfzh").val();
             data.jkrpo_lxfs1=$("#jkrpo_lxfs1").val();
-            data.jkrpo_lxfs2=$("#jkrpo_lxfs2").val();
+            
         }
         
         /*共同借款人信息*/
@@ -997,7 +995,7 @@ if(cpzl == "8002"){
             data.gtjkr_xm=$("#gtjkr_xm").val();
             data.gtjkr_sfzh=$("#gtjkr_sfzh").val();
             data.gtjkr_lxfs1=$("#gtjkr_lxfs1").val();
-            data.gtjkr_lxfs2=$("#gtjkr_lxfs2").val();
+           
             
             /*共同借款人配偶xinxi*/
             data.gtjkr_haspo=$("#gtjkr_haspo").val();
@@ -1005,7 +1003,7 @@ if(cpzl == "8002"){
                 data.gtjkrpo_xm=$("#gtjkrpo_xm").val();
                 data.gtjkrpo_sfzh=$("#gtjkrpo_sfzh").val();
                 data.gtjkrpo_lxfs1=$("#gtjkrpo_lxfs1").val();
-                data.gtjkrpo_lxfs2=$("#gtjkrpo_lxfs2").val();
+                
             }
             
 
@@ -1039,7 +1037,6 @@ if(cpzl == "8002"){
 	        
 	       
 	        data.fc_mj=$("#fc_mj").val();
-	    //    data.fc_lc=$("#fc_lc").val();
 	
 	        var bdcj_info = $("#fc_bdcj option:selected").text();
 	        if(bdcj_info.match("请选择")){
@@ -1290,7 +1287,7 @@ if(cpzl == "8002"){
             
             var str_inp = data[key];
             if( str_inp == ""){
-                alert("key="+key);
+               // alert("key="+key);
                 $("#"+key+"_label").attr("style", "color:#007aff");
                 count++;
                 if(key.match("LoanNo")){
@@ -1356,31 +1353,7 @@ if(cpzl == "8002"){
                 $("#"+key+"_label").attr("style", "color:#000000");
             }
         }
-        
-        /*代收金额不为空时，必须有收据*/
-/*         if( $("#cwyf_ds").val() !='' && $("#cwyf_ds").val() > 0 ){
-          
-            var filename = localStorage.getItem("imgfilename_"+fileno + '_1_9');
-            if(!filename || filename =="undefined"){
-                $("#img_cwyf_tp_label").attr("style", "color:#007aff;");
-                $("#cpxq_10").attr("style", "color:#007aff");
-                errorinfo = "代收收据图片必须上传";
-                top.alertInfo(errorinfo);
-                return;
-                
-            }else{
-            	data.img_cwyf_tp = filename;
-            	$("#img_cwyf_tp_label").attr("style", "color:#000000;");
-                $("#cpxq_10").attr("style", "color:#000000");
-            }
-            data.cwyf_ds=$("#cwyf_ds").val();
-            data.cwyf_yf=$("#cwyf_yf").val();
-            
-        } */
-   
-        
-        
-                        
+ 
                         var nowDate = getNowFormatDate();
                         /*判断 各种信息完成时间*/
                         if(mf_count == 0) //卖方信息统计完成
@@ -1397,8 +1370,8 @@ if(cpzl == "8002"){
                         }
                         
    
-                        data.cwys_pgf=$("#cwys_pgf").html(); //评估费
-                        if(top.isEmpty($("#cwys_pgf").html())){
+                        data.cwys_pgf=$("#cwys_pgf").val(); //评估费
+                        if(top.isEmpty($("#cwys_pgf").val())){
                             $("#cwys_pgf_label").attr("style", "color:#007aff");
                             data.cwys_pgf = "0.00";
                         }
@@ -1409,9 +1382,9 @@ if(cpzl == "8002"){
                         }
                         //合作机构名称
                         
-                        data.cwys_dbf=$("#cwys_dbf").html(); //担保费
+                        data.cwys_dbf=$("#cwys_dbf").val(); //担保费
                         
-                        if(top.isEmpty($("#cwys_dbf").html()) || parseFloat($("#cwys_dbf").val()) < 0.01){
+                        if(top.isEmpty($("#cwys_dbf").val()) || parseFloat($("#cwys_dbf").val()) < 0.01){
                             
                             $("#cwys_dbf_label").attr("style", "color:#007aff");
                             
@@ -1471,8 +1444,8 @@ if(cpzl == "8002"){
                             data.dk_gjj_sqje = "0.00";
                             data.dk_gjj_je = "0.00";
                         }
-                        data.jkr_lxfs5=$("#jkr_lxfs5").val();
-                        data.jkr_lxfs6=$("#jkr_lxfs6").val();
+                        data.jkr_lxfs3=$("#jkr_lxfs3").val();
+                        data.jkr_lxfs4=$("#jkr_lxfs4").val();
                         data.beiz=$("#beiz").val();
                         data.note = note;
                         
@@ -1499,7 +1472,14 @@ if(cpzl == "8002"){
                         data.flow = 1;
                         data.number = 1;
                         number = 1;
-                      //  data.fc_pgzj=$("#fc_pgzj").val();
+                        
+                        //各种联系方式
+                        data.mfpo_lxfs2=$("#mfpo_lxfs2").val();
+                        data.mf_lxfs2=$("#jkr_lxfs2").val();
+                        data.mfpo_lxfs2=$("#jkrpo_lxfs2").val();
+                        data.jkrpo_lxfs2=$("#jkrpo_lxfs2").val();
+                        data.gtjkr_lxfs2=$("#gtjkr_lxfs2").val();
+                        data.gtjkrpo_lxfs2=$("#gtjkrpo_lxfs2").val();
                       	data.mf_lxfs2=$("#mf_lxfs2").val();
                         data.jkr_lxfs5=$("#jkr_lxfs5").val();
                         data.jkr_lxfs6=$("#jkr_lxfs6").val();
@@ -1548,7 +1528,9 @@ if(cpzl == "8002"){
                 var next_html = '';
                 $("#context").html('');
                 for (var i = 0; i < json.data.length; i++) {
-                    next_html += '<li onclick="set_next('+i+')" style="height: 35px;line-height:35px;padding-left:10px;"><span>'+json.data[i].account_name+'</span><div class="rgt"></div></li>';
+                	next_html += '<li onclick="set_next('+i+')" class="mui-table-view-cell"><a class="mui-navigate-right">'+json.data[i].account_name+'</a></li>';
+                      
+                //	next_html += '<li onclick="set_next('+i+')" style="height: 35px;line-height:35px;padding-left:10px;"><span>'+json.data[i].account_name+'</span><div class="rgt"></div></li>';
                 }
                 $("#context").html(next_html);
                 
@@ -1813,9 +1795,9 @@ if(cpzl == "8002"){
             return ;
         }
         
-        var pgf = $("#cwys_pgf").html()*1.0;
+        var pgf = $("#cwys_pgf").val()*1.0;
         
-        var dbf = $("#cwys_dbf").html()*1.0;
+        var dbf = $("#cwys_dbf").val()*1.0;
       
         var fwf = $("#cwys_fwf").val()*1.0;
        
@@ -1839,11 +1821,11 @@ if(cpzl == "8002"){
     //贷款金额输入完成后根据 财务收付模块
     function update_cwsf(){
         
-        $("#cwys_pgf").html('');
-        $("#cwys_dbf").html('');
+        $("#cwys_pgf").val("0.00");
+        $("#cwys_dbf").val("0.00");
         if( cpzl == "8009" || cpzl == "8010" || cpzl == "8013" || cpzl == "8011"|| cpzl == "8012"){
-            $("#cwys_pgf").html("0.00");
-            $("#cwys_dbf").html("0.00");
+            $("#cwys_pgf").val("0.00");
+            $("#cwys_dbf").val("0.00");
             return;
         }
         
@@ -1869,14 +1851,7 @@ if(cpzl == "8002"){
             }
             dk_je = ((parseFloat($("#dk_je").val()))* 10000).toFixed(2);
         }
-        /*
-        var fc_pgzj;
-        if(top.isEmpty($("#fc_pgzj").val())){
-            fc_pgzj = 0.00;
-        }else{
-            fc_pgzj = ($("#fc_pgzj").val() * 10000).toFixed(2);
-        }
-        */
+
         var data = {};
         data.fc_pgzj = 0.00;
         data.loantype = cpzl;
@@ -1897,64 +1872,30 @@ if(cpzl == "8002"){
         if( data.loantype == '8002'){
             data.fc_ghyt = $("#fc_ghyt").val();
         }
-        /*
-        top.writelog("6034="+JSON.stringify(data));
-        $.ajax({
-               type : "post",
-               url: "http://"+ServerUrl+"/app/6034",
-               timeout: 3000,
-               data : data,
-               datatype : "json",
-               success : function(msg){
-               top.writelog("6034 recv:"+msg);
-               var json=eval("("+msg+")");
-               $("#cwys_pgf").html(json.data.fee1);
-               $("#cwys_dbf").html(json.data.fee2);
-               
-               },
-               error : function(msg){
-               top.alertInfo(msg);
-               }
-               });
-         */
+
                top.http_comm("6034", data, function(msg){
                              top.writelog("6034 recv:"+msg);
                              var json=eval("("+msg+")");
-                             $("#cwys_pgf").html(json.data.fee1);
-                             $("#cwys_dbf").html(json.data.fee2);
+                             $("#cwys_pgf").val(json.data.fee1);
+                             $("#cwys_dbf").val(json.data.fee2);
                              
                              });
     }
     function is_back(){
-        /*
-        if(!window.confirm("案卷正在补全资料，是否确认退出")){
-            return;
-        }else{
-            parent.hideFrame('srfade');
-        }
-       
-        top.confirmInfo("案卷正在补全资料，是否确认退出", function(msg){
-                        if(msg == 1) //确认
-                        {
-                        parent.hideFrame('srfade');
-                        }else{
-                        return;
-                        }
-                        });
-                   */
+
                         
-                        var btnArray = ['否', '是'];
-                        mui.confirm('案卷正在补全资料，是否确认退出？', '世纪源金融', btnArray, function(e) {
-                                    if (e.index == 1) {
-                                    	localStorage.setItem("back_alert", "0");
-        	                        	
-        	                        	localStorage.setItem("pagenum", 0);
-        	                        	localStorage.setItem("pageimgnum",0);
-                                    parent.hideFrame('srfade');
-                                    } else {
-                                    return;
-                                    }
-                                    });
+        var btnArray = ['否', '是'];
+        mui.confirm('案卷正在补全资料，是否确认退出？', '世纪源金融', btnArray, function(e) {
+                    if (e.index == 1) {
+                    	localStorage.setItem("back_alert", "0");
+                 	
+                 	localStorage.setItem("pagenum", 0);
+                 	localStorage.setItem("pageimgnum",0);
+                    parent.hideFrame('srfade');
+                    } else {
+                    return;
+                    }
+                    });
     }
     
     function get_sdyh(){
@@ -2263,38 +2204,7 @@ function jkr_isnotmf_fun(){
                 top.alertInfo('案卷终结时经办人留言不能为空');
                 return ;
             }
-            /*
-            top.writelog("6013 send:"+JSON.stringify(data));
-            $.ajax({
-                   type : "post",
-                   url: "http://"+ServerUrl+"/app/6013;",
-                   timeout: 3000,
-                   data : data,
-                   datatype : "json",
-                   success :   function(msg){
-                   
-                   var json=eval("("+msg+")");
-                   
-                   if( json.stat == '0') //登陆成功
-                   {
-                   top.alertInfo("流转终结成功");
-                  $(".div_fullscreen_zj").hide();
-                   parent.hideFrame('srfade');
-                   top.refresh_dbaj();
-                   
-                   } else {
-                   top.alertInfo('流转终结失败');
-                   }
-                   
-                   
-                   },
-                   error:function(msg){
-                   
-                   //top.alertInfo('通信失败');
-                   login_again();
-                   }
-                   });
-             */
+
             top.http_comm("6013", data, function(msg){
                           
                           var json=eval("("+msg+")");
@@ -2494,12 +2404,7 @@ function jkr_isnotmf_fun(){
                             <div class="inp_label_new" >
                                 流转到 <span style="font-size: 20px; color: #000;" id="myTitle"></span>
                             </div>
-                            <!-- 
-                            <select id='xylzr'>
-                                <option value='0000'>请选择下一流转人</option>
-                                
-                            </select>
-                             -->
+    
                             <span id="xylzr" class="inp_text_s" >点击选择下一流转人</span>
                         </li>
                     </ul>
@@ -2549,7 +2454,7 @@ function jkr_isnotmf_fun(){
                         </li>
                         
                         <li>
-                            <div class="inp_label_s" id="mf_lxfs1_label">联系方式1</div> <input type="text"
+                            <div class="inp_label_s" id="mf_lxfs1_label">本人手机号</div> <input type="text"
                                 class="inp_text "  id="mf_lxfs1" data-role="none" maxlength="11">
                                 </li>
                         <li>
@@ -2600,7 +2505,7 @@ function jkr_isnotmf_fun(){
                                 class="inp_text_d" data-role="none" maxlength="18" onKeyUp="value=value.replace(/[\W]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onblur="check_idno('mf_sfzh')"></input>
                         </li>
                         <li>
-                            <div class="inp_label_s" id="mfpo_lxfs1_label">联系方式1</div> <input type="text"
+                            <div class="inp_label_s" id="mfpo_lxfs1_label">本人手机号</div> <input type="text"
                                 class="inp_text"  id="mfpo_lxfs1" data-role="none"  maxlength="11" >
                                 </li>
                         <li>
@@ -2695,7 +2600,7 @@ function jkr_isnotmf_fun(){
                         </li>
                         
                         <li>
-                            <div class="inp_label_s" id="jkr_lxfs1_label">联系方式1</div> <input type="tel"
+                            <div class="inp_label_s" id="jkr_lxfs1_label">本人手机号</div> <input type="tel"
                                 class="inp_text "  id="jkr_lxfs1" data-role="none"  maxlength="11">
                                 </li>
                         <li>
@@ -2786,7 +2691,7 @@ function jkr_isnotmf_fun(){
                                 class="inp_text_d" data-role="none" maxlength="18"  onKeyUp="value=value.replace(/[\W]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onblur="check_idno('mf_sfzh')"></input>
                         </li>
                         <li>
-                            <div class="inp_label_s" id="jkrpo_lxfs1_label">联系方式1</div> <input type="text"
+                            <div class="inp_label_s" id="jkrpo_lxfs1_label">本人手机号</div> <input type="text"
                                 class="inp_text"  id="jkrpo_lxfs1" data-role="none" maxlength="11">
                                 </li>
                         <li>
@@ -2825,7 +2730,7 @@ function jkr_isnotmf_fun(){
                         </li>
                         
                         <li>
-                            <div class="inp_label_s" id="gtjkr_lxfs1_label">联系方式1</div> <input type="text"
+                            <div class="inp_label_s" id="gtjkr_lxfs1_label">本人手机号</div> <input type="text"
                                 class="inp_text"  id="gtjkr_lxfs1" data-role="none">
                                 </li>
                         <li>
@@ -2870,7 +2775,7 @@ function jkr_isnotmf_fun(){
                                     class="inp_text_d" data-role="none" maxlength="18" onKeyUp="value=value.replace(/[\W]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onblur="check_idno('mf_sfzh')"></input>
                             </li>
                             <li>
-                                <div class="inp_label_s" id="gtjkrpo_lxfs1_label">联系方式1</div> <input type="text"
+                                <div class="inp_label_s" id="gtjkrpo_lxfs1_label">本人手机号</div> <input type="text"
                                     class="inp_text"  id="gtjkrpo_lxfs1" data-role="none">
                                     </li>
                             <li>
@@ -3028,7 +2933,42 @@ function jkr_isnotmf_fun(){
             <div class="container-fluid">
             <div class="mui-content mui-scroll-wrapper" >
 		    	<div class="mui-scroll top_head">
-                <div class="form_div">
+		    		    <div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+							<form class="mui-input-group" >		
+								<div class="mui-input-row" id="gjjdk_li">										
+									<label>公贷金额</label> 
+									<input data-role="none" type="number" name="number" style="width:55%;float:left;" placeholder="请输入贷款总额"
+											id="dk_gjj_je" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">万</span>
+								</div>
+								<div class="mui-input-row" id="sd_li">										
+									<label>商贷金额</label> 
+									<input data-role="none" type="number" name="number" style="width:55%;float:left;" placeholder="请输入贷款总额"
+											id="dk_je" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">万</span>
+								</div>
+								<div class="mui-input-row">										
+									<label>贷款期限</label> 
+									<input data-role="none" type="number" name="number" style="width:55%;float:left;" placeholder="请输入贷款期限"
+											id="dk_qx" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">月</span>
+								</div>
+								<div class="mui-input-row" id="li_dk_yt">										
+									<label>贷款用途</label> 
+									<input data-role="none" type="text"   placeholder="请输入贷款用途"
+											id="dk_yt"/>
+								</div>
+							</form>
+						</div>
+						<div class="form_div">
+							<ul>
+								<li style="height:45px;" id="li_hkfs">
+	                                <div class="inp_label_s" id="dk_hkfs_label">还款方式</div> 
+	                                <select id='dk_hkfs'>
+	                                    <option value='1' selected="selected">等额本金</option>
+	                                    <option value='2'>等额本息</option>																			
+	                                </select>
+	                            </li>
+							</ul>
+						</div>
+<!--                 <div class="form_div">
                     
                     <div >
                         
@@ -3065,13 +3005,8 @@ function jkr_isnotmf_fun(){
                             </li>
                         </ul>
                     </div>
-<!--                     <ul> -->
-<!--                         <li> -->
-<!--                             <div class="inp_label_s" id="dk_qdsj_label">签单时间</div>  -->
-<!--                             <input type="text" class="inp_text"  id="dk_qdsj" data-role="none"> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-                </div>
+
+                </div> -->
                 <div style="margin-top:10px;text-align:center;margin-bottom: 300px;" onClick="aj_submit('2');" >
                         <button type="button" class="mui-btn mui-btn-primary" style="width:90%;">保存</button>
                     </div>
@@ -3182,7 +3117,7 @@ function jkr_isnotmf_fun(){
                             </select>
                         </li>
                         <li>
-                            <div class="inp_label_s" id="fc_pglxfs_label">联系方式1</div> <span id="fc_pglxfs"
+                            <div class="inp_label_s" id="fc_pglxfs_label">本人手机号</div> <span id="fc_pglxfs"
                                 class="inp_text_s"  ></span>
                         </li>
                         <li>
@@ -3350,95 +3285,52 @@ function jkr_isnotmf_fun(){
             </div>
            <div class="mui-content mui-scroll-wrapper" >
 		    	<div class="mui-scroll top_head">
-                <div class="form_div"  id="div_cwys">
-                    <li>
-                        <div><span id="pa1_label" class="inp_label_x">应收</span></div>
-                    </li>
-                    <ul>
-                        <li>
-                            <div class="inp_label_s"  id="cwys_pgf_label">评估费</div> <span id="cwys_pgf"
-                                class="inp_text_s" ></span>
-                            <div class="rgt_s">元</div>
-                        </li>
-                        <li>
-                            <div class="inp_label_s" id="cwys_dbf_label">担保费</div> <span id="cwys_dbf"
-                                class="inp_text_s" ></span>
-                            <div class="rgt_s">元</div>
-                        </li>
-                        
-                        <li>
-                            <div class="inp_label_s" id="cwys_fwf_label">服务费</div>  <input id="cwys_fwf" type="number" 
-                                class="inp_text" data-role="none" maxlength="10"></input>
-                            <div class="rgt_s">元</div>
-                        </li>
-                        <li>
-                            <div class="inp_label_s" id="cwys_zlf_label">资料费</div>
-                            <input id="cwys_zlf" type="number" 
-                                class="inp_text" data-role="none" maxlength="10"></input>
-                            <div class="rgt_s">元</div>
-                        </li>
-                        <li>
-                            <div class="inp_label_s" id="cwys_qtfy_label">其他费用</div>
-                            <input id="cwys_qtfy" type="number"
-                                class="inp_text" data-role="none" maxlength="10"></input>
-                            <div class="rgt_s">元</div>
-                        </li>
-                    </ul>
-                </div>
+
+                <div class="mui-content-padded"  style="margin: 5px;margin-top:10px;" id="div_cwys">								
+						<form class="mui-input-group" >		
+						<div class="mui-input-row">										
+								<label>评估费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入服务费"
+										id="cwys_pgf" maxlength='9'/ readonly="readonly"><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>担保费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入服务费"
+										id="cwys_dbf" maxlength='9'/ readonly="readonly"><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>服务费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入服务费"
+										id="cwys_fwf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>资料费</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入资料费"
+										id="cwys_zlf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>其他费用</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入其他费用"
+										id="cwys_qtfy" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+						</form>
+					</div>
                 
-                <!-- 应付 -->
-                <div class="form_div" id="div_cwyf" style="display:none">
-                    
-                    <li>
-                        <div><span id="p22_label" class="inp_label_x">应付</span></div>
-                    </li>
-                    <ul>
-                        <li>
-                            <div class="inp_label_s" width="140px" id="cwyf_pgf_label">评估费</div> <span id="cwyf_pgf"
-                                class="inp_text_s" ></span>
-                            <div class="rgt_s">元</div>
-                        </li>
-                        <li>
-                            <div class="inp_label_s" id="cwyf_dydjf_label">抵押登记费</div> <span id="cwyf_dydjf"
-                                class="inp_text_s"  ></span>
-                            <div class="rgt_s">元</div>
-                        </li>
-                        <li>
-                            <div class="inp_label_s" id="cwyf_qtfy_label">其他费用</div> <span
-                                class="inp_text_s"  id="cwyf_qtfy" ></span>
-                            <div class="rgt_s">元</div>
-                        </li>
-                        
-                    </ul>
-                </div>
-                <!--代收应返-->
-                <div class="form_div">
-                    
-                    <li>
-                        <div><span id="p22_label" class="inp_label_x">代收应返</span></div>
-                    </li>
-                    <ul>
-                        <li>
-                            <div class="inp_label_s" width="140px" id="cwyf_ds_label">代收</div> <input id="cwyf_ds" type="number"
-                                class="inp_text" data-role="none" onblur="get_yf()" maxlength="10">
-                                <div class="rgt_s">元</div>
-                                </li>
-                        
-                        
-         <!--                <li onClick="uploadimg(9);">
-                            <div class="inp_label" id="img_cwyf_tp_label">代收收据上传</div>
-                            <div class="rgt_c"></div></li> -->
-                        
-                        
-                        <li>
-                            <div class="inp_label_s" id="cwyf_yf_label">应返</div> <input id="cwyf_yf" type="text"
-                                class="inp_text" data-role="none" maxlength="10"></input>
-                            <div class="rgt_s">元</div>
-                        </li>
-                        
-                        
-                    </ul>
-                </div>
+    
+                	<div class="mui-content-padded"  style="margin: 5px;margin-top:0px;">								
+						<form class="mui-input-group" >		
+							<div class="mui-input-row">										
+								<label>代收金额</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入代收金额"
+										id="cwyf_ds" maxlength='9' onblur="get_yf()"/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>
+							<div class="mui-input-row">										
+								<label>应反金额</label> 
+								<input data-role="none" type="number"  style="width:55%;float:left;" placeholder="请输入应反金额"
+										id="cwyf_yf" maxlength='9'/><span style="font-size: 15px;color: #8e8e8e;line-height:40px;">元</span>
+							</div>							
+						</form>
+					</div>
                 
                 <div style="margin-top:10px;text-align:center;margin-bottom: 300px;" onClick="aj_submit('2');" >
                         <button type="button" class="mui-btn mui-btn-primary" style="width:90%;">保存</button>
@@ -3667,8 +3559,11 @@ function jkr_isnotmf_fun(){
 			            </div>
 					</div>
 	            
-				    <div class="form_div" style="margin-top:5px;">
-				    	<ul id="context"></ul>
+				    <div  style="margin-top:5px;">
+				    	
+				    	<ul class="mui-table-view" id="context" style="margin-top:5px;">
+						
+						</ul>
 				    	<div style="height:200px;line-height:200px;color:#ffffff">案卷创建</div>
 				    </div>					
 		        </div>
@@ -3709,14 +3604,16 @@ function jkr_isnotmf_fun(){
 	  	                 top.writelog("key="+key);
 	  	                 if(key.length == 0){
 	  	                	 for(var i = 0; i < next_data.length; i++) {
-		  	                	
-		  	                		next_html += '<li onclick="set_next('+i+')" style="height: 35px;line-height:35px;padding-left:10px;"><span>'+next_data[i].account_name+'</span><div class="rgt"></div></li>';
+	  	                		next_html += '<li onclick="set_next('+i+')" class="mui-table-view-cell"><a class="mui-navigate-right">'+json.data[i].account_name+'</a></li>';
+	  	                      
+		  	                	//	next_html += '<li onclick="set_next('+i+')" style="height: 35px;line-height:35px;padding-left:10px;"><span>'+next_data[i].account_name+'</span><div class="rgt"></div></li>';
 		  	                 }
 	  	                 }else{
 	  	                	 for(var i = 0; i < next_data.length; i++) {
 		  	                	 if(next_data[i].account_name.match(key)){
-		  	                		 top.writelog("i="+i);
-		  	                		next_html += '<li onclick="set_next('+i+')" style="height: 35px;line-height:35px;padding-left:10px;"><span>'+next_data[i].account_name+'</span><div class="rgt"></div></li>';
+		  	                		next_html += '<li onclick="set_next('+i+')" class="mui-table-view-cell"><a class="mui-navigate-right">'+json.data[i].account_name+'</a></li>';
+			  	                      
+		  	                	//	next_html += '<li onclick="set_next('+i+')" style="height: 35px;line-height:35px;padding-left:10px;"><span>'+next_data[i].account_name+'</span><div class="rgt"></div></li>';
 
 		  	                	 }
 		  	                 	

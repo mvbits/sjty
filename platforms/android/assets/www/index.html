@@ -179,7 +179,7 @@ div,ul{margin: 0;padding: 0;}
     var Settings={};
     var flag_mode = 0;
     var comm_url = "139.224.70.151:8888";//for test
-	//var comm_url = "139.224.70.151:9999";//for produce
+    //var comm_url = "139.224.70.151:9999";//for produce
     var imgpath="http://"+comm_url+"/static/";
     var productPath = "http://"+comm_url+"/static/product/";
     var productClassPath = "http://"+comm_url+"/static/productClass/";
@@ -1288,6 +1288,8 @@ function isJson(obj){
     var isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
     return isjson;
 }
+
+//微信支付
 function pay_of_wechat(){
 	writelog("pay_of_wechat");
 	Wechat.isInstalled(function(){

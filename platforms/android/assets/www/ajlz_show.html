@@ -117,7 +117,7 @@ function initPage(){
             //展示流转备注
 			if(json.data.length > 0){
 				//该流程经办人
-				$("#jbr").val(json.data[0].jbrname);
+				$("#jbr").html("经办人："+json.data[0].jbrname);
 				
 				var jbrly_html = '';
 				$("#jbrly").html('');
@@ -240,7 +240,7 @@ function myphone(lxfs){
         <div class="container-fluid">
         	<div class="mui-content mui-scroll-wrapper">       		
 	       		 <div class="mui-scroll  top_head" >
-					<h5 style="margin-top:10px;text-algin:center;text-indent:1em;font-weight:bold" id="jbr">经办人</h5>
+					<h5 style="margin-top:10px;text-algin:center;text-indent:1em;font-weight:bold" id="jbr"></h5>
 					<div class="main" style="border-bottom:1px solid #18b4ed">
 						<ul class="cbp_tmtimeline" id="jbrly" style="padding-left:10px;padding-right:10px;">
 		            	</ul>

@@ -130,7 +130,7 @@ body {
 			      	<div style="text-indent:2em" id="amt">总计：10000.00元</div>  
 			    </div>
 			    <div class="mui-col-xs-4">
-			       <button type="button" class="mui-btn  mui-btn-primary" style="width:100%;" onclick="()">付款</button>
+			       <button type="button" class="mui-btn  mui-btn-primary" style="width:100%;" onclick="PayForIt()">付款</button>
 			    </div>
 			</div>
 		</div>
@@ -205,6 +205,10 @@ $(function() {
   $("#gs").html(localStorage.getItem("orgnName"));
 });
 
+function PayForIt(){
+	mui.alert("在线支付暂未开放，敬请期待.", "世纪源金融", null);
+	return;
+}
 
 </script>
 </html>
